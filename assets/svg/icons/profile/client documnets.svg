@@ -1,0 +1,28 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="paint0_linear_2782_66849" x1="13.332" y1="3.937" x2="44.012" y2="61.638" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#F7AB40"/>
+            <stop offset="0.332" stop-color="#F4A73C"/>
+            <stop offset="0.844" stop-color="#ED992F"/>
+            <stop offset="1" stop-color="#E2861D"/>
+        </linearGradient>
+        <linearGradient id="paint1_linear_2782_66849" x1="1.734" y1="-35.976" x2="43.628" y2="42.815" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#EBA84B"/>
+            <stop offset="1" stop-color="#D97218"/>
+        </linearGradient>
+        <linearGradient id="paint2_linear_2782_66849" x1="3.479" y1="3.507" x2="39.576" y2="71.395" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#EBA84B"/>
+            <stop offset="1" stop-color="#D97218"/>
+        </linearGradient>
+    </defs><path d="M38 4H10C8.895 4 8 4.895 8 6V42C8 43.105 8.895 44 10 44H38C39.105 44 40 43.105 40 42V6C40 4.895 39.105 4 38 4Z" fill="url(#paint0_linear_2782_66849)"/>
+<path opacity="0.05" d="M40 6V8.24L38.43 11.37C37.93 12.37 36.92 13 35.79 13H12.21C11.08 13 10.07 12.37 9.57 11.37L8 8.24V6C8 4.9 8.9 4 10 4H38C39.1 4 40 4.9 40 6Z" fill="black"/>
+<path opacity="0.07" d="M40 6V7.12L37.99 11.14C37.57 11.98 36.73 12.5 35.79 12.5H12.21C11.27 12.5 10.43 11.98 10.01 11.14L8 7.12V6C8 4.9 8.9 4 10 4H38C39.1 4 40 4.9 40 6Z" fill="black"/>
+<path d="M40 6L37.54 10.92C37.209 11.582 36.532 12 35.792 12H12.208C11.468 12 10.791 11.582 10.46 10.92L8 6C8 4.9 8.9 4 10 4H38C39.1 4 40 4.9 40 6Z" fill="url(#paint1_linear_2782_66849)"/>
+<path opacity="0.05" d="M40 39.76V42C40 43.1 39.1 44 38 44H10C8.9 44 8 43.1 8 42V39.76L9.55 36.66C10.06 35.64 11.09 35 12.24 35H35.76C36.91 35 37.94 35.64 38.45 36.66L40 39.76Z" fill="black"/>
+<path opacity="0.07" d="M40 40.88V42C40 43.1 39.1 44 38 44H10C8.9 44 8 43.1 8 42V40.88L10 36.88C10.43 36.03 11.28 35.5 12.24 35.5H35.76C36.72 35.5 37.57 36.03 38 36.88L40 40.88Z" fill="black"/>
+<path d="M40 42L37.553 37.106C37.214 36.428 36.521 36 35.764 36H12.236C11.478 36 10.786 36.428 10.447 37.106L8 42C8 43.1 8.9 44 10 44H38C39.1 44 40 43.1 40 42Z" fill="url(#paint2_linear_2782_66849)"/>
+<path d="M25 8H23V17H25V8Z" fill="#F6ECA5"/>
+<path d="M24 10C25.1046 10 26 9.10457 26 8C26 6.89543 25.1046 6 24 6C22.8954 6 22 6.89543 22 8C22 9.10457 22.8954 10 24 10Z" fill="#BD370A"/>
+<path d="M24 19C25.1046 19 26 18.1046 26 17C26 15.8954 25.1046 15 24 15C22.8954 15 22 15.8954 22 17C22 18.1046 22.8954 19 24 19Z" fill="#BD370A"/>
+
+</svg>

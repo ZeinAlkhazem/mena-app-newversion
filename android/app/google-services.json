@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "753685502385",
+    "firebase_url": "https://mena-359010-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mena-359010",
+    "storage_bucket": "mena-359010.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753685502385:android:336d80b5ee6591c93c8590",
+        "android_client_info": {
+          "package_name": "com.brainclick.mena"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753685502385-9hah708v7l7t5si4hqtsl02pjir0l3kb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9iEhhL0v2gsL2yVnlbZ_V0TRITpCX23o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753685502385-9hah708v7l7t5si4hqtsl02pjir0l3kb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,33 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="paint0_linear_2895_66817" x1="20" y1="8.979" x2="20" y2="6.308" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#B33F20"/>
+            <stop offset="0.129" stop-color="#C74724"/>
+            <stop offset="0.295" stop-color="#D94F29"/>
+            <stop offset="0.469" stop-color="#E4532B"/>
+            <stop offset="0.659" stop-color="#E8552C"/>
+        </linearGradient>
+        <radialGradient id="paint1_radial_2895_66817" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(19.832 5.99197) scale(45.74 36.7933)">
+            <stop stop-color="#40150B"/>
+            <stop offset="0.156" stop-color="#622110"/>
+            <stop offset="0.417" stop-color="#953218"/>
+            <stop offset="0.645" stop-color="#BA3F1E"/>
+            <stop offset="0.828" stop-color="#D14722"/>
+            <stop offset="0.944" stop-color="#D94A23"/>
+        </radialGradient>
+        <linearGradient id="paint2_linear_2895_66817" x1="20" y1="9.028" x2="20" y2="26.927" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FC7D5B"/>
+            <stop offset="0.06" stop-color="#F8734F"/>
+            <stop offset="0.18" stop-color="#F3653D"/>
+            <stop offset="0.326" stop-color="#F05B31"/>
+            <stop offset="0.523" stop-color="#EE552A"/>
+            <stop offset="1" stop-color="#ED5328"/>
+        </linearGradient>
+    </defs>
+<path d="M24.5 6H15.5C14.672 6 14 6.672 14 7.5V9H26V7.5C26 6.672 25.328 6 24.5 6Z" fill="url(#paint0_linear_2895_66817)"/>
+<path d="M38 41H2C0.9 41 0 40.1 0 39V13C0 10.8 1.8 9 4 9H36C38.2 9 40 10.8 40 13V39C40 40.1 39.1 41 38 41Z" fill="url(#paint1_radial_2895_66817)"/>
+<path d="M38.297 25.255L20 28L1.703 25.255C0.724 25.109 0 24.268 0 23.278V13C0 10.8 1.8 9 4 9H36C38.2 9 40 10.8 40 13V23.278C40 24.268 39.276 25.109 38.297 25.255Z" fill="url(#paint2_linear_2895_66817)"/>
+<path d="M21.5 21H18.5C18.224 21 18 21.224 18 21.5V24.5C18 24.776 18.224 25 18.5 25H21.5C21.776 25 22 24.776 22 24.5V21.5C22 21.224 21.776 21 21.5 21Z" fill="#F6ECA5"/>
+<path d="M37.3811 40V40.5H37.8811H42.1189H42.6189V40V35.6189H47H47.5V35.1189V30.8811V30.3811H47H42.6189V26V25.5H42.1189H37.8811H37.3811V26V30.3811H33H32.5V30.8811V35.1189V35.6189H33H37.3811V40Z" fill="#C04120" stroke="white"/>
+
+</svg>

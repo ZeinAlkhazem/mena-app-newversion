@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>753685502385-iu00f40brog6ij1r398l9e68tkc3ksob.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.753685502385-iu00f40brog6ij1r398l9e68tkc3ksob</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDnEbas_Tz-WBJA8_2iTyCymPsAdU9_Ikk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>753685502385</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.brainclick.mena</string>
+	<key>PROJECT_ID</key>
+	<string>mena-359010</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mena-359010.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:753685502385:ios:428d0694dce7139d3c8590</string>
+	<key>DATABASE_URL</key>
+	<string>https://mena-359010-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

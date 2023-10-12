@@ -1,1 +1,7 @@
-# menaApplication
+# mena
+
+Mena platform
+
+## Getting Started
+
+

@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,6 +20,7 @@ import '../../../models/api_model/categories_model.dart';
 import '../../../models/api_model/provider_types.dart';
 import '../../../models/api_model/register_model.dart';
 import '../../home_screen/cubit/home_screen_cubit.dart';
+import '../../home_screen/home_screen.dart';
 import '../../splash_screen/route_engine.dart';
 import '../sign_in_screen.dart';
 import 'auth_state.dart';
@@ -39,7 +38,6 @@ class AuthCubit extends Cubit<AuthState> {
   MenaCategory selectedSubMenaCategory = MenaCategory(id: -1);
   ProviderTypeItem selectedProviderType = ProviderTypeItem(id: -1);
   String selectedSignupUserType = 'provider';
-
   String? phone;
   String? resetPassPhone;
   String otpText = '';
@@ -179,31 +177,40 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ChangeAutoValidateModeState());
   }
 
-  Future<void> userRegister({
+  Future<bool> userRegister({
     required String fullName,
     required String email,
     required String userName,
-    required String? registrationNumCont,
+    required String phone,
+    required String? dateOfBirth,
     required String pass,
-    required String? providerType,
+    required int? platformId,
+    required List<int>? specialitiesList,
     required BuildContext context,
   }) async {
     emit(AuthLoadingState());
+
+    bool result = false;
+
     MainDioHelper.postData(url: registerEnd, data: {
       'full_name': fullName,
-      'email': email,
       'user_name': userName,
+      'email': email,
+      'phone': phone,
       'password': pass,
       'password_confirmation': pass,
-      'user_type': providerType ?? '-1',
-      'phone': phone,
-      'specialities':
-          selectedSpecialities!.map((e) => e.id).toList().toString(),
-      'platform_id': selectedPlatform!.id.toString(),
-      'registration_number': registrationNumCont.toString(),
+      // 'user_type': providerType ?? '-1',
+      'specialities': specialitiesList.toString(),
+      'platform_id': platformId,
+      'date_of_birth': dateOfBirth,
     }).then((value) async {
-      logg('sign up response: $value');
-      registerModel = RegisterModel.fromJson(value.data);
+      logg('#### sign up response: $value');
+      // registerModel = RegisterModel.fromJson(value.data);
+      if (value.statusCode.toString() == "200") {
+        result = true;
+      } else {
+        result = false;
+      }
       // if (userSignUpModel != null) {
       //   userCacheProcess(userSignUpModel!).then((value) => checkUserAuth().then(
       //           (value) =>
@@ -214,21 +221,26 @@ class AuthCubit extends Cubit<AuthState> {
       ///
       /// cache process and navigate due to status
       ///
-      await HomeScreenCubit.get(context)
-        ..changeSelectedHomePlatform(registerModel?.data.user.platform?.id ??
-            mainCubit.MainCubit.get(context)
-                .configModel!
-                .data
-                .platforms[0]
-                .id!);
-      userCacheProcessAndNavigate(context);
-
-      userCacheProcessAndNavigate(context);
-      emit(SignUpSuccessState());
+      // await HomeScreenCubit.get(context)
+      //   ..changeSelectedHomePlatform(registerModel?.data.user.platform?.id ??
+      //       mainCubit.MainCubit.get(context)
+      //           .configModel!
+      //           .data
+      //           .platforms[0]
+      //           .id!);
+      // userCacheProcessAndNavigate(context);
+      //
+      // userCacheProcessAndNavigate(context);
+      // emit(SignUpSuccessState());
+      // return result;
     }).catchError((error) {
+      showMessageDialog(context: context, message: error.response.toString());
       logg(error.response.toString());
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
+      result = false;
+      // return result;
     });
+    return result;
   }
 
   Future<void> getPlatformCategories(String platformId) async {
@@ -285,7 +297,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     MainDioHelper.postData(url: loginEnd, data: body).then((value) async {
-      logg('login response: $value');
+      logg('### login response: $value');
       registerModel = RegisterModel.fromJson(value.data);
       if (registerModel != null) {
         final prefs = await SharedPreferences.getInstance();
@@ -304,15 +316,18 @@ class AuthCubit extends Cubit<AuthState> {
       /// cache process and navigate due to status
       ///
       ///
-      await HomeScreenCubit.get(context)
-        ..changeSelectedHomePlatform(registerModel?.data.user.platform?.id ??
-            mainCubit.MainCubit.get(context)
-                .configModel!
-                .data
-                .platforms[0]
-                .id!);
-      userCacheProcessAndNavigate(context);
-      emit(SignUpSuccessState());
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen()), // Replace current screen
+      );
+      // await HomeScreenCubit.get(context)
+      //   ..changeSelectedHomePlatform(registerModel?.data.user.platform?.id ??
+      //       mainCubit.MainCubit.get(context)
+      //           .configModel!
+      //           .data
+      //           .platforms[0]
+      //           .id!);
+      // userCacheProcessAndNavigate(context);
+      // emit(SignUpSuccessState());
     }).catchError((error, stack) {
       logg("# Error : ${error.toString()}");
       logg("# Error : ${stack.toString()}");
@@ -334,13 +349,13 @@ class AuthCubit extends Cubit<AuthState> {
 
     bool finalStatue = false;
 
-    MainDioHelper.postData(url: submitResetPassEnd, data: {
+    await MainDioHelper.postData(url: submitResetPassEnd, data: {
       'phone': phone,
       'code': code,
       'password': pass,
       'password_confirmation': pass,
     }).then((value) {
-      logg('Password reset successfuly: ${value}');
+      logg('Password reset successfully: ${value}');
       logg('Password status code: ${value.statusCode}');
 
       /// cache process and navigate due to status
@@ -348,26 +363,9 @@ class AuthCubit extends Cubit<AuthState> {
       ///
       if (value.statusCode.toString() == '200') {
         finalStatue = true;
-        // Navigator.pop(context);
-        // showMyAlertDialog(context, getTranslatedStrings(context).done,
-        //     isTitleBold: true,
-        //     alertDialogContent: Text(
-        //       getTranslatedStrings(context).yourPassChangedSuccessfully,
-        //       style: mainStyle(context, 13,
-        //           color: newDarkGreyColor, weight: FontWeight.w700),
-        //       textAlign: TextAlign.center,
-        //     ));
       } else {
         finalStatue = false;
       }
-      // else {
-      //   showMyAlertDialog(context, getTranslatedStrings(context).doneSuccess,
-      //       alertDialogContent: Text(
-      //         getTranslatedStrings(context).someThingWentWrong,
-      //         style: mainStyle(context, 13, color: mainBlueColor),
-      //         textAlign: TextAlign.center,
-      //       ));
-      // }
       emit(SignUpSuccessState());
     }).catchError((error) {
       logg(error.response.toString());
@@ -382,7 +380,6 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     var formKey = GlobalKey<FormState>();
     var inController = TextEditingController();
-
 
     showDialog(
       context: context,
@@ -420,6 +417,7 @@ class AuthCubit extends Cubit<AuthState> {
             body: BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
                 // TODO: implement listener
+                log("# new state : $state");
               },
               builder: (context, state) {
                 return SingleChildScrollView(
@@ -499,51 +497,47 @@ class AuthCubit extends Cubit<AuthState> {
                               : Row(
                                   children: [
                                     Expanded(
-                                            child: DefaultButton(
-                                              text: "Find Account",
-                                              onClick: () {
-                                                FocusManager
-                                                    .instance.primaryFocus
-                                                    ?.unfocus();
-                                                if (formKey.currentState!
-                                                    .validate()) {
-                                                  resetPassRequest(
-                                                          inController.text)
-                                                      .then((value) {
-                                                    log("#value of reset :$value");
-                                                    if (value == false) {
-                                                      showConfirmationDialog(
-                                                          context);
-
-                                                    } else {
-
-                                                      pinCode(
-                                                          context: context,
-                                                          phone: inController
-                                                              .text);
-                                                    }
-                                                  });
-                                                } else {}
-                                              },
-                                            ),
-                                          )
-                                        // : Expanded(
-                                        //     child: DefaultButton(
-                                        //       text: "Send",
-                                        //       onClick: () {
-                                        //         FocusManager
-                                        //             .instance.primaryFocus
-                                        //             ?.unfocus();
-                                        //         if (formKey.currentState!
-                                        //             .validate()) {
-                                        //           pinCode(
-                                        //               context: context,
-                                        //               phone: inController
-                                        //                   .text);
-                                        //         } else {}
-                                        //       },
-                                        //     ),
-                                        //   ),
+                                      child: DefaultButton(
+                                        text: "Find Account",
+                                        onClick: () {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            resetPassRequest(inController.text)
+                                                .then((value) {
+                                              log("#value of reset :$value");
+                                              if (value == false) {
+                                                showUserNameErrorDialog(
+                                                    context);
+                                              } else {
+                                                showConfirmationDialog(context);
+                                                pinCode(
+                                                    context: context,
+                                                    phone: inController.text);
+                                              }
+                                            });
+                                          } else {}
+                                        },
+                                      ),
+                                    )
+                                    // : Expanded(
+                                    //     child: DefaultButton(
+                                    //       text: "Send",
+                                    //       onClick: () {
+                                    //         FocusManager
+                                    //             .instance.primaryFocus
+                                    //             ?.unfocus();
+                                    //         if (formKey.currentState!
+                                    //             .validate()) {
+                                    //           pinCode(
+                                    //               context: context,
+                                    //               phone: inController
+                                    //                   .text);
+                                    //         } else {}
+                                    //       },
+                                    //     ),
+                                    //   ),
                                   ],
                                 ),
                           state is VerifyingNumErrorState
@@ -721,6 +715,29 @@ class AuthCubit extends Cubit<AuthState> {
       return true;
     }).catchError((error) {
       logg("# Error  : ${error.response.toString()}");
+      resultState = false;
+      emit(VerifyingNumErrorState(getErrorMessageFromErrorJsonResponse(error)));
+      return false;
+    });
+    return resultState;
+  }
+
+  //// check if code is correct
+  Future<bool?> checkCodeValidateRequest(String email, String code) async {
+    log("# code is : $code");
+    log("# email is : $email");
+    Map<String, dynamic> body = {
+      'email': email,
+      'code': code,
+    };
+    bool resultState = false;
+    await MainDioHelper.postData(url: verifyCodeResetPassword, data: body)
+        .then((value) {
+      logg('Verify num response Reset Password: $value');
+      resultState = true;
+      return true;
+    }).catchError((error) {
+      logg("# Error  : ${error.response.toString()}");
       emit(VerifyingNumErrorState(getErrorMessageFromErrorJsonResponse(error)));
       resultState = false;
       return false;
@@ -734,6 +751,7 @@ class AuthCubit extends Cubit<AuthState> {
         TextEditingController();
     var formKey = GlobalKey<FormState>();
     var newPassCont = TextEditingController();
+    var newPassConfirmCont = TextEditingController();
     toggleResetPassAutoValidate(false);
 
     return showDialog(
@@ -751,14 +769,14 @@ class AuthCubit extends Cubit<AuthState> {
                   'assets/back.png', // Replace with your image path
                   scale: 4,
                   alignment:
-                  Alignment.centerRight, // Adjust the height as needed
+                      Alignment.centerRight, // Adjust the height as needed
                 ),
               ),
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 25, top: 18, right: 120),
+                  padding: const EdgeInsets.only(left: 25, top: 18, right: 90),
                   child: Text(
-                    'Confirm your account',
+                    'Create a new Password',
                     style: TextStyle(
                       fontSize: 22.0,
                       fontWeight: FontWeight.w600,
@@ -808,6 +826,7 @@ class AuthCubit extends Cubit<AuthState> {
                                 : Color(0xff0077FF),
                             unFocusedBorderColor: Color(0xffC9CBCD),
                             label: 'New password',
+                            controller: newPassCont,
                             labelTextStyle: TextStyle(
                                 fontSize: 13.0,
                                 fontWeight: FontWeight.w500,
@@ -820,6 +839,7 @@ class AuthCubit extends Cubit<AuthState> {
                             fillColor: Color(0xffF2F2F2),
                             focusedBorderColor: Color(0xff0077FF),
                             unFocusedBorderColor: Color(0xffC9CBCD),
+                            controller: newPassConfirmCont,
                             label: 'Confirm new password',
                             labelTextStyle: TextStyle(
                                 fontSize: 13.0,
@@ -832,15 +852,59 @@ class AuthCubit extends Cubit<AuthState> {
                           state is ProceedingToResetPass
                               ? const DefaultLoaderGrey()
                               : Row(
-                            children: [
-                              Expanded(
-                                child: DefaultButton(
-                                  text: "Done",
-                                  onClick: () {}
+                                  children: [
+                                    Expanded(
+                                      child: DefaultButton(
+                                          text: "Done",
+                                          onClick: () async {
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+
+                                            toggleResetPassAutoValidate(true);
+
+                                            toggleResetPassAutoValidate(true);
+                                            log("# password : ${newPassCont.text}");
+                                            log("# password confirm : ${newPassConfirmCont.text}");
+                                            if (newPassCont.text !=
+                                                newPassConfirmCont.text) {
+                                              showMessageDialog(
+                                                  context: context,
+                                                  message:
+                                                      "The two passwords do not match");
+                                            } else if (newPassCont.text.length <
+                                                6) {
+                                              logg('password must be 6 digits');
+                                              showMessageDialog(
+                                                  context: context,
+                                                  message:
+                                                      "password must be 6 digits");
+                                            } else {
+                                              if (formKey.currentState!
+                                                  .validate()) {
+                                                log("# code : $identity");
+                                                var result =
+                                                    await submitResetPass(
+                                                        pass: newPassCont.text,
+                                                        context: context,
+                                                        phone: phone,
+                                                        code: identity);
+
+                                                if (result) {
+                                                  showMessageDialog(
+                                                      context: context,
+                                                      message:
+                                                          "Password reset Successfully");
+                                                  navigateTo(
+                                                      context, SignInScreen());
+                                                } else {
+                                                  pinCodeAlertDialog(context);
+                                                }
+                                              }
+                                            }
+                                          }),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
@@ -1102,11 +1166,20 @@ class AuthCubit extends Cubit<AuthState> {
                                           } else {
                                             if (formKey.currentState!
                                                 .validate()) {
-                                              showResetPassPopUp(
-                                                context,
-                                                phone,
-                                                inController.text,
-                                              );
+                                              checkCodeValidateRequest(
+                                                      phone, inController.text)
+                                                  .then((value) {
+                                                log("# code :$value");
+                                                if (value == false) {
+                                                  pinCodeAlertDialog(context);
+                                                } else {
+                                                  showResetPassPopUp(
+                                                    context,
+                                                    phone,
+                                                    inController.text,
+                                                  );
+                                                }
+                                              });
                                             }
                                           }
                                         },

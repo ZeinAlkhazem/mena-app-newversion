@@ -622,7 +622,7 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
 //             //     ? Text(_isBroadcaster
 //             //     ? 'You are the broadcaster.'
 //             //     : (_isViewer ? 'You are a viewer.' : 'Connecting...'))
-//             //     : CircularProgressIndicator(),
+//             //     : const DefaultLoaderGrey(),
 //             if (_isConnected)
 //               ElevatedButton(
 //                 onPressed: () {

@@ -234,10 +234,10 @@ class RadioData {
   factory RadioData.fromJson(Map<String, dynamic> json) {
     return RadioData(
       id: json['id'],
-      name: json['name'],
-      code: json['code'],
-      direction: json['direction'],
-      isDefault: json['is_default'] == 1, // Convert 1 to true, 0 to false
+      name: json.containsKey("name")? json['name']:"",
+      code: json.containsKey("code")? json['code']:"",
+      direction: json.containsKey("direction")? json['direction']:"",
+      isDefault:json.containsKey("is_default")? json['is_default']== 1:false,// Convert 1 to true, 0 to false
     );
   }
 }

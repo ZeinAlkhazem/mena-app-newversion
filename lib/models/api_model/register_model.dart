@@ -82,18 +82,32 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     id: json["id"],
-    personalPicture: json["personal_picture"],
-    fullName: json["full_name"],
-    roleName: json["role_name"],
-    userName: json["user_name"],
-    email: json["email"],
-    phone: json["phone"],
-    platform: MenaPlatform.fromJson(json["platform"]),
-    phoneVerifiedAt: json["phone_verified_at"]==null?null:DateTime.parse(json["phone_verified_at"]),
-    emailVerifiedAt: json["email_verified_at"]==null?null:DateTime.parse(json["email_verified_at"]),
+    personalPicture: json["personal_picture"] ?? "",
+    fullName: json["full_name"] ?? "",
+    roleName: json["role_name"] ?? "",
+    userName: json["user_name"] ?? "",
+    email: json["email"] ?? "",
+    phone: json["phone"] ?? "",
+    platform: MenaPlatform.fromJson(json["platform"]) ?? MenaPlatform(id: '', name: '', image: ''), // Assuming MenaPlatform constructor with default values.
+    phoneVerifiedAt: json["phone_verified_at"] == null ? null : DateTime.parse(json["phone_verified_at"]),
+    emailVerifiedAt: json["email_verified_at"] == null ? null : DateTime.parse(json["email_verified_at"]),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
+  // factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  //   id: json["id"],
+  //   personalPicture: json["personal_picture"],
+  //   fullName: json["full_name"],
+  //   roleName: json["role_name"],
+  //   userName: json["user_name"],
+  //   email: json["email"],
+  //   phone: json["phone"],
+  //   platform: MenaPlatform.fromJson(json["platform"]),
+  //   phoneVerifiedAt: json["phone_verified_at"]==null?null:DateTime.parse(json["phone_verified_at"]),
+  //   emailVerifiedAt: json["email_verified_at"]==null?null:DateTime.parse(json["email_verified_at"]),
+  //   createdAt: DateTime.parse(json["created_at"]),
+  //   updatedAt: DateTime.parse(json["updated_at"]),
+  // );
 
   Map<String, dynamic> toJson() => {
     "id": id,

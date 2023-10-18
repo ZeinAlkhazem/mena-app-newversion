@@ -167,16 +167,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:http/http.dart' as http;
+import 'package:mena/modules/auth_screens/sign_in_screen.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/constants/constants.dart';
+import '../../core/shared_widgets/shared_widgets.dart';
 import '../../models/api_model/config_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 
 class InitialChooseLang extends StatefulWidget {
-  const InitialChooseLang({Key? key}) : super(key: key);
+  final bool isFromMain;
+
+  const InitialChooseLang({Key? key, required this.isFromMain})
+      : super(key: key);
   static String routeName = 'signInScreen';
 
   @override
@@ -188,6 +193,65 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
   late double height, width;
 
   String selectedLanguage = "";
+
+  String? selectedOption; // Stores the selected radio button value
+  List<RadioData> radioDataList = []; // List to store data from the API
+
+  bool isLoading = false;
+
+  // Fetch data from the API
+  Future<void> fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response =
+        await http.get(Uri.parse('http://menaaii.com/api/v1/languages'));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      final List<dynamic>? languagesData = responseData['data']['languages'];
+
+      if (languagesData != null) {
+        setState(() {
+          radioDataList =
+              languagesData.map((data) => RadioData.fromJson(data)).toList();
+        });
+      } else {
+        throw Exception('No "languages" data found in the API response');
+      }
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      throw Exception('Failed to load data from the API');
+    }
+  }
+
+  void getLastLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String lastLanguage = prefs.getString('selectedLanguage') ?? "";
+    String currentLanguage = Localizations.localeOf(context).languageCode;
+    log("# current language : $currentLanguage");
+    log("# last language : $lastLanguage");
+
+    if (currentLanguage == "en") {
+      currentLanguage = "English";
+    }
+
+    if (lastLanguage.isNotEmpty) {
+      setState(() {
+        selectedOption = lastLanguage;
+      });
+    } else {
+      setState(() {
+        selectedOption = currentLanguage;
+      });
+    }
+  }
 
   void saveData(Map<String, dynamic> jsonData) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -209,15 +273,14 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
     }
   }
 
+  void getSelectedLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
 
- void  getSelectedLanguage() async{
-   final prefs = await SharedPreferences.getInstance();
+    String lastLanguage = prefs.getString(Keys.keyLanguage) ?? "";
 
-   String lastLanguage  = prefs.getString(Keys.keyLanguage)??"";
-
-   setState(() {
-     selectedLanguage = lastLanguage;
-   });
+    setState(() {
+      selectedLanguage = lastLanguage;
+    });
   }
 
   @override
@@ -225,6 +288,8 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
     // TODO: implement initState
     super.initState();
     getSelectedLanguage();
+    getLastLanguage();
+    fetchData();
   }
 
   @override
@@ -262,7 +327,7 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
                         },
                         child: Text(
                           // "English (US)",
-                            selectedLanguage,
+                          selectedLanguage,
                           style: TextStyle(
                               fontSize: 13.0,
                               fontWeight: FontWeight.w500,
@@ -270,7 +335,6 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
                               color: Color(0xff999B9D)),
                         ),
                       ),
-
                       heightBox(0.09.sh),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -281,18 +345,13 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
                           ),
                         ],
                       ),
-                      // heightBox(33.h),
-                      // heightBox(22.h),
                     ],
                   ),
                 ),
                 Container(
                   padding:
                       EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 20),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 10
-                  ),
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color: Color(0xffF2F2F2),
@@ -323,10 +382,14 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
                               ),
                               color: Color(0xff303840),
                               onPressed: () {
-                                Navigator.pop(context);
+                                if (widget.isFromMain) {
+                                  navigateTo(
+                                      context, SignInScreen());
+                                } else {
+                                  Navigator.pop(context);
+                                }
                               },
                             ),
-
                             // Image.asset("assets/close.png",scale: 4,),
                             SizedBox(
                               height: 8,
@@ -343,28 +406,69 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
                         ),
                       ),
                       Container(
-                          padding:
-                              EdgeInsets.only(left: 20, right: 20, top: 40,bottom: 40),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.white,
-                          ),
-                          child: RadioGroup()
-                          // Row(
-                          //   // mainAxisAlignment: MainAxisAlignment.start,
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     Text("English (US)",
-                          //       style: TextStyle(
-                          //           fontSize: 16.0,
-                          //           fontWeight: FontWeight.w600,
-                          //           fontFamily: 'PNfont',
-                          //           color: Color(0xff303840)),),
-                          //     widthBox(0.45.sw),
-                          //     Icon(Icons.circle_outlined, size: 18,)
-                          //   ],
-                          // ),
-                          ),
+                        padding: EdgeInsets.only(
+                            left: 20, right: 20, top: 40, bottom: 40),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white,
+                        ),
+                        child: isLoading
+                            ? Center(child: const DefaultLoaderGrey())
+                            : Column(
+                                children:
+                                    radioDataList.map((RadioData radioData) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedOption = radioData.name;
+                                        _updateLanguage(
+                                            selectedOption!, radioData.code);
+                                        if (widget.isFromMain) {
+                                          navigateTo(
+                                              context, SignInScreen());
+                                        } else {
+                                          Navigator.pop(context);
+                                        }
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          radioData.name,
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'PNfont',
+                                              color: Color(0xff303840)),
+                                        ),
+                                        // widthBox(0.50.sw),
+                                        Spacer(
+                                          flex: 2,
+                                        ),
+                                        Radio(
+                                          value: radioData.name,
+                                          groupValue: selectedOption,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedOption = value as String?;
+                                              log("# selected language :$selectedOption");
+                                              _updateLanguage(selectedOption!,
+                                                  radioData.code);
+                                              if (widget.isFromMain) {
+                                                navigateTo(
+                                                    context, SignInScreen());
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                      ),
                     ],
                   ),
                 ),
@@ -375,139 +479,145 @@ class _InitialChooseLangState extends State<InitialChooseLang> {
       ),
     );
   }
-}
 
-class RadioGroup extends StatefulWidget {
-  @override
-  _RadioGroupState createState() => _RadioGroupState();
-}
-
-class _RadioGroupState extends State<RadioGroup> {
-  String? selectedOption; // Stores the selected radio button value
-  List<RadioData> radioDataList = []; // List to store data from the API
-
-  bool isLoading = false;
-
-
-  // Fetch data from the API
-  Future<void> fetchData() async {
-    setState(() {
-      isLoading = true;
-    });
-    final response =
-        await http.get(Uri.parse('http://menaaii.com/api/v1/languages'));
-
-    if (response.statusCode == 200) {
-
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      final List<dynamic>? languagesData = responseData['data']['languages'];
-
-
-      if (languagesData != null) {
-        setState(() {
-          radioDataList =
-              languagesData.map((data) => RadioData.fromJson(data)).toList();
-        });
-      } else {
-        throw Exception('No "languages" data found in the API response');
-      }
-      setState(() {
-        isLoading = false;
-      });
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      throw Exception('Failed to load data from the API');
-    }
-  }
-
-  void getLastLanguage() async{
-    final prefs = await SharedPreferences.getInstance();
-
-    String lastLanguage  = prefs.getString('selectedLanguage')??"";
-    String currentLanguage =   Localizations.localeOf(context).languageCode;
-    log("# current language : $currentLanguage");
-    log("# last language : $lastLanguage");
-
-    if(currentLanguage == "en"){
-      currentLanguage = "English";
-    }
-
-
-    if(lastLanguage.isNotEmpty){
-      setState(() {
-        selectedOption = lastLanguage;
-      });
-    }else{
-      setState(() {
-        selectedOption = currentLanguage;
-      });
-    }
-
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getLastLanguage();
-    fetchData();// Fetch data when the widget is initialized
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return isLoading
-        ? Center(child: CircularProgressIndicator())
-        : Column(
-            children: radioDataList.map((RadioData radioData) {
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedOption = radioData.name;
-                    _updateLanguage(selectedOption!,radioData.code);
-                    Navigator.pop(context);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      radioData.name,
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'PNfont',
-                          color: Color(0xff303840)),
-                    ),
-                    // widthBox(0.50.sw),
-                    Spacer(
-                      flex: 2,
-                    ),
-                    Radio(
-                      value: radioData.name,
-                      groupValue: selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOption = value as String?;
-                          log("# selected language :$selectedOption");
-                          _updateLanguage(selectedOption!,radioData.code);
-                          Navigator.pop(context);
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          );
-  }
-
-  Future<void> _updateLanguage(String selectedLanguage,String langCode) async {
+  Future<void> _updateLanguage(String selectedLanguage, String langCode) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('selectedLanguage', selectedLanguage);
     setState(() {
-      Locale(langCode,langCode.toUpperCase());
+      Locale(langCode, langCode.toUpperCase());
     });
   }
 }
-
-
+//
+// class RadioGroup extends StatefulWidget {
+//   @override
+//   _RadioGroupState createState() => _RadioGroupState();
+// }
+//
+// class _RadioGroupState extends State<RadioGroup> {
+//   String? selectedOption; // Stores the selected radio button value
+//   List<RadioData> radioDataList = []; // List to store data from the API
+//
+//   bool isLoading = false;
+//
+//
+//   // Fetch data from the API
+//   Future<void> fetchData() async {
+//     setState(() {
+//       isLoading = true;
+//     });
+//     final response =
+//         await http.get(Uri.parse('http://menaaii.com/api/v1/languages'));
+//
+//     if (response.statusCode == 200) {
+//
+//       final Map<String, dynamic> responseData = json.decode(response.body);
+//       final List<dynamic>? languagesData = responseData['data']['languages'];
+//
+//
+//       if (languagesData != null) {
+//         setState(() {
+//           radioDataList =
+//               languagesData.map((data) => RadioData.fromJson(data)).toList();
+//         });
+//       } else {
+//         throw Exception('No "languages" data found in the API response');
+//       }
+//       setState(() {
+//         isLoading = false;
+//       });
+//     } else {
+//       setState(() {
+//         isLoading = false;
+//       });
+//       throw Exception('Failed to load data from the API');
+//     }
+//   }
+//
+//   void getLastLanguage() async{
+//     final prefs = await SharedPreferences.getInstance();
+//
+//     String lastLanguage  = prefs.getString('selectedLanguage')??"";
+//     String currentLanguage =   Localizations.localeOf(context).languageCode;
+//     log("# current language : $currentLanguage");
+//     log("# last language : $lastLanguage");
+//
+//     if(currentLanguage == "en"){
+//       currentLanguage = "English";
+//     }
+//
+//
+//     if(lastLanguage.isNotEmpty){
+//       setState(() {
+//         selectedOption = lastLanguage;
+//       });
+//     }else{
+//       setState(() {
+//         selectedOption = currentLanguage;
+//       });
+//     }
+//
+//   }
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     getLastLanguage();
+//     fetchData();// Fetch data when the widget is initialized
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return isLoading
+//         ? Center(child: const DefaultLoaderGrey())
+//         : Column(
+//             children: radioDataList.map((RadioData radioData) {
+//               return GestureDetector(
+//                 onTap: () {
+//                   setState(() {
+//                     selectedOption = radioData.name;
+//                     _updateLanguage(selectedOption!,radioData.code);
+//                     Navigator.pop(context);
+//                   });
+//                 },
+//                 child: Row(
+//                   children: [
+//                     Text(
+//                       radioData.name,
+//                       style: TextStyle(
+//                           fontSize: 16.0,
+//                           fontWeight: FontWeight.w600,
+//                           fontFamily: 'PNfont',
+//                           color: Color(0xff303840)),
+//                     ),
+//                     // widthBox(0.50.sw),
+//                     Spacer(
+//                       flex: 2,
+//                     ),
+//                     Radio(
+//                       value: radioData.name,
+//                       groupValue: selectedOption,
+//                       onChanged: (value) {
+//                         setState(() {
+//                           selectedOption = value as String?;
+//                           log("# selected language :$selectedOption");
+//                           _updateLanguage(selectedOption!,radioData.code);
+//                           Navigator.pop(context);
+//                         });
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               );
+//             }).toList(),
+//           );
+//   }
+//
+//   Future<void> _updateLanguage(String selectedLanguage,String langCode) async {
+//     final prefs = await SharedPreferences.getInstance();
+//     await prefs.setString('selectedLanguage', selectedLanguage);
+//     setState(() {
+//       Locale(langCode,langCode.toUpperCase());
+//     });
+//   }
+// }

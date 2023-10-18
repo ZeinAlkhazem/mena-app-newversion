@@ -29,7 +29,7 @@ class RouteEngine extends StatelessWidget {
             if (getCachedFirstApplicationRun() == null) {
               ///Todo: change this to ==, != is for testing purpose
               logg('mainCubit.firstRun null');
-              return const InitialChooseLang();
+              return const InitialChooseLang(isFromMain: true,);
             }
             ///Todo: decide about default return
             else {

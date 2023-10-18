@@ -287,8 +287,8 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           //   );
           //   return widget!;
           // },
-          // home: SplashScreen(),
-          home: SignInScreen(),
+          home: SplashScreen(),
+          // home: SignInScreen(),
           // home: const JobsLayout(),
         ),
       ),

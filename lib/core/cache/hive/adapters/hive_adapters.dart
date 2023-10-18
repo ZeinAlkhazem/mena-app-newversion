@@ -1,6 +1,6 @@
 // import 'package:hive_flutter/hive_flutter.dart';
 //
-// import '../../../../models/api_model/register_model.dart';
+// import '../../../../models/api_model/create_user_model.dart';
 // import '../../../../models/api_model/user_info_model.dart';
 // import '../../../functions/main_funcs.dart';
 // //

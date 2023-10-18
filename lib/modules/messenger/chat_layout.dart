@@ -32,7 +32,7 @@ import '../../core/shared_widgets/pdf_view_layout.dart';
 import '../../models/api_model/chat_messages_model.dart';
 import '../../models/api_model/my_messages_model.dart';
 
-// import '../../models/api_model/register_model.dart';
+// import '../../models/api_model/create_user_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatLayout extends StatefulWidget {

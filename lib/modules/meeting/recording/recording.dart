@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
+import '../../../core/shared_widgets/shared_widgets.dart';
+
 class RecordingPage extends StatefulWidget {
   const RecordingPage({
     Key? key,
@@ -29,7 +31,7 @@ class _RecordingPageState extends State<RecordingPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               if (_exporting)
-                const Center(child: CircularProgressIndicator())
+                const Center(child: const DefaultLoaderGrey())
               else ...[
                 ScreenRecorder(
                   height: 500,

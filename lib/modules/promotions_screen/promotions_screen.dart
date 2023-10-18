@@ -290,7 +290,7 @@ class AllPromotionsView extends StatelessWidget {
             } else {
               return const Center(
                   child:
-                      CircularProgressIndicator()); // If there are no data show this
+                      const DefaultLoaderGrey()); // If there are no data show this
             }
           }),
 

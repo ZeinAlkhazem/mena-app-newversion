@@ -319,17 +319,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                         userName: userNameCont.text,
                                                       ));
                                                 } else {
-                                                  authCubit.userRegister(
-                                                    fullName: fullNameCont.text,
-                                                    email: emailCont.text,
-                                                    pass: passCont.text,
-                                                    registrationNumCont: null,
-                                                    userName: userNameCont.text,
-                                                    providerType: widget.type,
-
-                                                    /// -1 is client
-                                                    context: context,
-                                                  );
+                                                  // authCubit.userRegister(
+                                                  //   fullName: fullNameCont.text,
+                                                  //   email: emailCont.text,
+                                                  //   pass: passCont.text,
+                                                  //   registrationNumCont: null,
+                                                  //   userName: userNameCont.text,
+                                                  //   providerType: widget.type,
+                                                  //
+                                                  //   /// -1 is client
+                                                  //   context: context,
+                                                  // );
                                                 }
                                               }
                                               // authCubit.register();

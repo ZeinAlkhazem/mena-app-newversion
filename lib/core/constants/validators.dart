@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:mena/core/constants/constants.dart';
-
-import '../../modules/auth_screens/sign_in_screen.dart';
-import '../dialogs/dialogs_page.dart';
 import '../functions/main_funcs.dart';
 bool hasError = false;
+
+
 String? Function(String?)? emailValidate(BuildContext context) => (String? val) {
   if (val!.isEmpty) {
     hasError = true;
@@ -24,16 +22,48 @@ String? Function(String?)? passwordValidate(BuildContext context) {
   return (String? val) {
     if (val!.isEmpty) {
       hasError = true;
-      // logInAlertDialog(context); // Call the logInAlertDialog if the password field is empty
-      return "Invalid password";
+      return "Password cannot be empty";
     }
     if (val.length < 8) {
       hasError = true;
-      return "Invalid password";
+      return "This password is too short.";
     }
     return null;
   };
 }
+
+String? Function(String?)? codeValidate(BuildContext context) {
+  return (String? val) {
+    if (val!.isEmpty) {
+      hasError = true;
+      return "Code cannot be empty";
+    }
+    if (val.length < 6) {
+      hasError = true;
+      return "The code is too short. Please double-check your entry for accuracy and try again";
+    }
+    return null;
+  };
+}
+
+String? Function(String?)? passwordValidateSignUp(BuildContext context) {
+  return (String? val) {
+    if (val!.isEmpty) {
+      hasError = true;
+      return "Password cannot be empty";
+    }
+    if (val.length < 8) {
+      hasError = true;
+      return "This password is too short. Create a longer password with at least 8 letters and numbers";
+    }
+    if (val == "12345678" || val == "87654321") {
+      hasError = true;
+      return "This password is too easy to guess. Please create a new one";
+    }
+    return null;
+  };
+}
+
 
 // String? Function(String?)? retypePasswordValidate(BuildContext context,String passwordEntered) {
 //   return (String? val) {
@@ -50,6 +80,13 @@ String? Function(String?)? passwordValidate(BuildContext context) {
 String? normalInputValidate(String? fieldContent) {
   if (fieldContent == null || fieldContent.isEmpty) {
     return "Check your username, mobile or email address  and try again";
+  }
+  return null;
+}
+
+String? emptyValueValidate(String? fieldContent) {
+  if (fieldContent == null || fieldContent.isEmpty) {
+    return "Please fill this field";
   }
   return null;
 }
@@ -93,6 +130,26 @@ String? Function(String?)? isNumberValidate(BuildContext context,{String? custom
     //   return 'Enter a valid year';
     // }
     return null;
-  }
-  ;
+  };
+
+}
+
+
+String? Function(String?)? userNameValidateSignUp(BuildContext context) {
+  return (String? val) {
+
+    if (val!.isEmpty) {
+      hasError = true;
+      return "UserName cannot be empty";
+    }
+    if (!RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(val)) {
+      hasError = true;
+      return "Username can only include numbers, letters, underscores and periods. Try again";
+    }
+    if (val.length > 30 ) {
+      hasError = true;
+      return "Choose a username that’s under 30 characters.";
+    }
+    return null;
+  };
 }

@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -141,7 +139,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(
                                         builder: (context) =>
-                                            InitialChooseLang()))
+                                            InitialChooseLang(isFromMain: false,)))
                                     .then((value) => getSelectedLanguage());
                               },
                               child: Text(
@@ -170,6 +168,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   horizontal: defaultHorizontalPadding * 2),
                               child: Form(
                                   key: formKey,
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
                                   child: Column(
                                     children: [
                                       DefaultInputField(
@@ -181,11 +180,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                             fontFamily: 'PNfont',
                                             color: Color(0xff999B9D)),
                                         unFocusedBorderColor: Color(0xffC9CBCD),
-                                        focusedBorderColor: hasError
-                                            ? Color(0xffE72B1C)
-                                            : Color(0xff0077FF),
+                                        focusedBorderColor: Color(0xff0077FF),
                                         autoValidateMode:
-                                            authCubit.autoValidateMode,
+                                        AutovalidateMode.onUserInteraction,
                                         controller: emailCont,
                                         validate: normalInputValidate,
                                       ),
@@ -198,12 +195,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                             fontFamily: 'PNfont',
                                             color: Color(0xff999B9D)),
                                         unFocusedBorderColor: Color(0xffC9CBCD),
-                                        focusedBorderColor: hasError
-                                            ? Color(0xffE72B1C)
-                                            : Color(0xff0077FF),
+                                        focusedBorderColor:  Color(0xff0077FF),
                                         obscureText: !authCubit.passVisible,
                                         autoValidateMode:
-                                            authCubit.autoValidateMode,
+                                        AutovalidateMode.onUserInteraction,
                                         controller: passCont,
                                         validate: passwordValidate(context),
                                       ),
@@ -245,7 +240,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                   .resetPasswordRequestOtp(
                                                       context: context);
                                             },
-                                            child: Text(
+                                            child:  Text(
                                               getTranslatedStrings(context)
                                                   .forgotPassword,
                                               style: TextStyle(

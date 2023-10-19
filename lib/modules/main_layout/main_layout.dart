@@ -49,7 +49,7 @@ class _MainLayoutState extends State<MainLayout> {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
 
-    if (getCachedToken() != null) {
+    if (getCachedToken() == null) {
       checkPhoneVerified();
     }
     _hideNavBar = false;
@@ -555,7 +555,7 @@ class _MainLayoutState extends State<MainLayout> {
                               //   c
                               // ),
                               onItemSelected: (index) {
-                                // mainCubit.changeHeaderVisibility(true);
+                                mainCubit.changeHeaderVisibility(true);
                                 if (index == 2) {
                                   MainCubit.get(context).updateMenaViewedLogo('assets/svg/icons/menalive.svg');
                                 } else if (index == 4) {

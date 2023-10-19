@@ -202,6 +202,7 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
   @override
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
+    print('token isssssssss : ${CacheHelper.getData(key: 'token')}');
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

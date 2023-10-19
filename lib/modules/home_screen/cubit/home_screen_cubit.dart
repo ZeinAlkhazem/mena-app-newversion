@@ -41,6 +41,9 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       logg('home sections data got');
       logg(value.toString());
       homeSectionModel = HomeSectionModel.fromJson(value.data);
+      print('data in home : ${value.data}');
+      print(value.data);
+      
       /// save local db
       // await jsonStore.setItem('homeSections', homeSectionModel!.toJson());
       /// end local db

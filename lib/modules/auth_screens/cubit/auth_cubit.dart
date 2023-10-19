@@ -8,6 +8,7 @@ import 'package:mena/core/main_cubit/main_cubit.dart' as mainCubit;
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/config_model.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
+import 'package:mena/modules/main_layout/main_layout.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/constants.dart';
@@ -301,9 +302,11 @@ class AuthCubit extends Cubit<AuthState> {
       registerModel = RegisterModel.fromJson(value.data);
       if (registerModel != null) {
         final prefs = await SharedPreferences.getInstance();
+        print('token : ${registerModel!.data.token}');
         prefs.setString(Keys.keyToken, registerModel!.data.token);
         prefs.setString(
             Keys.keyUser, registerModel!.data.user.toJson().toString());
+            
       }
 
       // if (userSignUpModel != null) {
@@ -316,9 +319,8 @@ class AuthCubit extends Cubit<AuthState> {
       /// cache process and navigate due to status
       ///
       ///
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen()), // Replace current screen
-      );
+      userCacheProcessAndNavigate(context);
+      // navigateToAndFinishUntil(context , MainLayout()), // Replace current screen
       // await HomeScreenCubit.get(context)
       //   ..changeSelectedHomePlatform(registerModel?.data.user.platform?.id ??
       //       mainCubit.MainCubit.get(context)
@@ -331,6 +333,7 @@ class AuthCubit extends Cubit<AuthState> {
     }).catchError((error, stack) {
       logg("# Error : ${error.toString()}");
       logg("# Error : ${stack.toString()}");
+      print("# Error : ${stack.toString()}");
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });
   }
@@ -573,6 +576,8 @@ class AuthCubit extends Cubit<AuthState> {
       if (registerModel!.data.user.phoneVerifiedAt == null) {
         ///show otp alert dialog
         showConfirmationDialog(context);
+
+        
 
         /// send code api service
         // showMyBottomSheet(

@@ -48,12 +48,12 @@ class _MainLayoutState extends State<MainLayout> {
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
-
+   
     if (getCachedToken() == null) {
       checkPhoneVerified();
     }
     _hideNavBar = false;
-
+  
     // MainCubit.socketInitial();
   }
 

@@ -30,6 +30,7 @@ class CacheHelper
     required String key,
   }) {
     logg('cacheGetting: $key');
+    logg('cache value : ${sharedPreferences!.get(key)}');
     return sharedPreferences!.get(key);
   }
 
@@ -38,6 +39,7 @@ class CacheHelper
     required dynamic value,
   }) async {
     logg('cacheSaving: $key');
+    logg('cacheSaving: $value');
     if (value is String) return await sharedPreferences!.setString(key, value);
     if (value is int) return await sharedPreferences!.setInt(key, value);
     if (value is bool) return await sharedPreferences!.setBool(key, value);
@@ -85,6 +87,8 @@ bool? getCachedFirstApplicationRun() {
 }
 
 Future<bool>? saveCachedFirstApplicationRun(bool value) async {
+
+  print('saved First Run');
   return CacheHelper.putBoolean(key: 'isFirstApplicationRun', value: value);
 }
 

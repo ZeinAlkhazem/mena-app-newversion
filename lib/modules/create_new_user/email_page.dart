@@ -1,10 +1,19 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mena/modules/create_new_user/phone_page.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mena/core/cache/cache.dart';
+import 'package:mena/core/constants/constants.dart';
+import 'package:mena/models/api_model/register_model.dart';
+import 'package:mena/models/api_model/user_info_model.dart';
+import 'package:mena/modules/create_new_user/phone_page.dart';
+import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
+import 'package:mena/modules/splash_screen/route_engine.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mena/core/main_cubit/main_cubit.dart' as mainCubit;
 import '../../core/constants/validators.dart';
 import '../../core/functions/main_funcs.dart';
 import '../../core/network/dio_helper.dart';
@@ -22,6 +31,7 @@ class EmailVer extends StatefulWidget {
 
   const EmailVer({super.key, required this.userInfo});
 
+ static EmailVer get(context) => BlocProvider.of(context);
   @override
   State<EmailVer> createState() => _EmailVerState();
 }
@@ -30,7 +40,8 @@ class _EmailVerState extends State<EmailVer> {
   final emailController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   CreateUserModel? newUserModel;
-
+  RegisterModel? registerModel;
+  UserInfoModel? userinfoModel;
   Future<bool?> resetPassRequest(String input) async {
     log("# input is : $input");
     // Map<String, dynamic> body = {
@@ -52,8 +63,24 @@ class _EmailVerState extends State<EmailVer> {
     });
     return resultState;
   }
+Future<void> userCacheProcessAndNavigate(BuildContext context) async {
+    final TextEditingController smsCodeEditingController =
+        TextEditingController();
+    mainCubit.MainCubit.get(context).getUserInfo();
+    if (registerModel != null) {
+      saveCacheToken(registerModel!.data.token);
+      print('the token isssssssssssss : ${registerModel!.data.token}');
+      if (registerModel!.data.user.phoneVerifiedAt == null) {
+        ///show otp alert dialog
 
-  Future<bool> userRegister({
+        
+
+      } else {
+        navigateToAndFinishUntil(context, const RouteEngine());
+      }
+    }
+  }
+  Future<void> userRegister({
     required String fullName,
     required String email,
     required String userName,
@@ -80,8 +107,32 @@ class _EmailVerState extends State<EmailVer> {
       'country_id': countryId,
     }).then((value) async {
       logg('#### sign up response: $value');
-      // registerModel = RegisterModel.fromJson(value.data);
-      result = true;
+      registerModel = RegisterModel.fromJson(value.data);
+      userinfoModel = UserInfoModel.fromJson(value.data);
+      mainCubit.MainCubit.get(context).userInfoModel = userinfoModel;
+      print('userinfoModallllllll : ${userinfoModel}');
+      
+      await HomeScreenCubit.get(context)
+        ..changeSelectedHomePlatform(
+            registerModel?.data.user.platform?.id ??
+                mainCubit.MainCubit.get(context).configModel!.data.platforms[0].id!
+        );      userCacheProcessAndNavigate(context);
+      // emit(SignUpSuccessState());
+      // logg('#### sssssssssssssssssssssss: ${registerModel!.token}');
+      // if (registerModel != null) {
+      //   final prefs = await SharedPreferences.getInstance();
+      //   print('token : ${registerModel!.data.token}');
+      //   prefs.setString(Keys.keyToken, registerModel!.data.token);
+      //   prefs.setString(
+      //       Keys.keyUser, registerModel!.data.user.toJson().toString());
+      // }
+      // mainCubit.MainCubit.get(context).getUserInfo();
+      // saveCacheToken(registerModel!.data.token);
+      // if (value.statusCode.toString() == "200") {
+      //   result = true;
+      // } else {
+      //   result = false;
+      // }
       // if (value.statusCode.toString() == "200") {
       //   result = true;
       // } else {
@@ -108,12 +159,10 @@ class _EmailVerState extends State<EmailVer> {
       //
       // userCacheProcessAndNavigate(context);
       // emit(SignUpSuccessState());
-      // return result;
     }).catchError((error) {
-      logg(error.response.toString());
-      result = false;
+      logg(error.toString());
+      // emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });
-    return result;
   }
 
   @override
@@ -219,8 +268,6 @@ class _EmailVerState extends State<EmailVer> {
                                 countryId: userModel.countryId!,
                                 context: context,
                               ).then((value) {
-                                log("# create user : $value");
-                                if (value) {
                                   resetPassRequest(emailController.text)
                                       .then((value) {
 
@@ -238,7 +285,7 @@ class _EmailVerState extends State<EmailVer> {
                                     }
 
                                   });
-                                } else {}
+                                
                               });
                             }
                           }),

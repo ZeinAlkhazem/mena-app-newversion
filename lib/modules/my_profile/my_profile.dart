@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -256,7 +258,8 @@ class _ProviderProfileDashboardState extends State<ProviderProfileDashboard> {
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
     User user = mainCubit.userInfoModel!.data.user;
-
+    var userstring = user.fullName;
+  print('usersssssssssss : ${userstring}');
     return Container(
       color: newLightGreyColor,
       child: BlocConsumer<MainCubit, MainState>(

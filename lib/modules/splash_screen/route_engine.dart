@@ -4,6 +4,7 @@ import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/modules/auth_screens/sign_in_screen.dart';
+import 'package:mena/modules/initial_onboarding/initial_choose_country.dart';
 
 import '../../core/functions/main_funcs.dart';
 import '../complete_info_subscribe/complete_info_subscribe.dart';
@@ -29,7 +30,7 @@ class RouteEngine extends StatelessWidget {
             if (getCachedFirstApplicationRun() == null) {
               ///Todo: change this to ==, != is for testing purpose
               logg('mainCubit.firstRun null');
-              return const InitialChooseLang(isFromMain: true,);
+              return const InitialChooseCountry();
             }
             ///Todo: decide about default return
             else {

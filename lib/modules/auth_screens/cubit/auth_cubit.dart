@@ -8,6 +8,7 @@ import 'package:mena/core/main_cubit/main_cubit.dart' as mainCubit;
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/config_model.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
+import 'package:mena/models/api_model/user_info_model.dart';
 import 'package:mena/modules/main_layout/main_layout.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,6 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
   String otpText = '';
   String passOtpText = '';
   RegisterModel? registerModel;
+  UserInfoModel? userinfoModel;
   AutovalidateMode? autoValidateMode = AutovalidateMode.disabled;
   AutovalidateMode? resetPassAutoValidateMode = AutovalidateMode.disabled;
 
@@ -206,12 +208,20 @@ class AuthCubit extends Cubit<AuthState> {
       'date_of_birth': dateOfBirth,
     }).then((value) async {
       logg('#### sign up response: $value');
-      // registerModel = RegisterModel.fromJson(value.data);
+      // registerModel = RegisterModel.fromJson(value);
+      saveCacheToken(value.data.token);
+      logg('#### sssssssssssssssssssssss: ${value.data.token}');
+      
+      logg('registerModel is  : $value');
+      logg('dddddddddddddddddddddd : $value');
+      
       if (value.statusCode.toString() == "200") {
         result = true;
       } else {
         result = false;
       }
+
+      
       // if (userSignUpModel != null) {
       //   userCacheProcess(userSignUpModel!).then((value) => checkUserAuth().then(
       //           (value) =>
@@ -300,36 +310,16 @@ class AuthCubit extends Cubit<AuthState> {
     MainDioHelper.postData(url: loginEnd, data: body).then((value) async {
       logg('### login response: $value');
       registerModel = RegisterModel.fromJson(value.data);
-      if (registerModel != null) {
-        final prefs = await SharedPreferences.getInstance();
-        print('token : ${registerModel!.data.token}');
-        prefs.setString(Keys.keyToken, registerModel!.data.token);
-        prefs.setString(
-            Keys.keyUser, registerModel!.data.user.toJson().toString());
-            
-      }
-
-      // if (userSignUpModel != null) {
-      //   userCacheProcess(userSignUpModel!).then((value) => checkUserAuth().then(
-      //           (value) =>
-      //           navigateToAndFinishUntil(context, const MainAppMaterialApp())));
-      //   // navigateToAndFinishUntil(context, MainAppMaterialApp());
-      //
-      // }
-      /// cache process and navigate due to status
-      ///
-      ///
-      userCacheProcessAndNavigate(context);
-      // navigateToAndFinishUntil(context , MainLayout()), // Replace current screen
-      // await HomeScreenCubit.get(context)
-      //   ..changeSelectedHomePlatform(registerModel?.data.user.platform?.id ??
-      //       mainCubit.MainCubit.get(context)
-      //           .configModel!
-      //           .data
-      //           .platforms[0]
-      //           .id!);
-      // userCacheProcessAndNavigate(context);
-      // emit(SignUpSuccessState());
+      userinfoModel = UserInfoModel.fromJson(value.data);
+      mainCubit.MainCubit.get(context).userInfoModel = userinfoModel;
+      print('userinfoModallllllll : ${userinfoModel}');
+      
+      await HomeScreenCubit.get(context)
+        ..changeSelectedHomePlatform(
+            registerModel?.data.user.platform?.id ??
+                mainCubit.MainCubit.get(context).configModel!.data.platforms[0].id!
+        );      userCacheProcessAndNavigate(context);
+      emit(SignUpSuccessState());
     }).catchError((error, stack) {
       logg("# Error : ${error.toString()}");
       logg("# Error : ${stack.toString()}");
@@ -572,119 +562,15 @@ class AuthCubit extends Cubit<AuthState> {
         TextEditingController();
     mainCubit.MainCubit.get(context).getUserInfo();
     if (registerModel != null) {
+      print('token in userCacheProcess : ${registerModel!.data.token}');
       saveCacheToken(registerModel!.data.token);
+      print('the token isssssssssssss : ${registerModel!.data.user.fullName}');
       if (registerModel!.data.user.phoneVerifiedAt == null) {
         ///show otp alert dialog
         showConfirmationDialog(context);
 
         
 
-        /// send code api service
-        // showMyBottomSheet(
-        //     context: context,
-        //     title: getTranslatedStrings(context).enterCode,
-        //     body: Padding(
-        //       padding: EdgeInsets.symmetric(vertical: defaultHorizontalPadding, horizontal: defaultHorizontalPadding),
-        //       child: BlocConsumer<AuthCubit, AuthState>(
-        //         listener: (context, state) {
-        //           // TODO: implement listener
-        //           if (state is VerifyingNumErrorState) {
-        //             showMyAlertDialog(context, 'Error Message',
-        //                 alertDialogContent: Text(
-        //             "Check your username, mobile or email address  and try again",
-        //             style: TextStyle(fontSize: 13.0,
-        //                 fontWeight: FontWeight.w500,
-        //                 fontFamily: 'PNfont',
-        //                 color: Color(0xffE72B1C)),
-        //           textAlign: TextAlign.center,
-        //           ));
-        //           }
-        //         },
-        //         builder: (context, state) {
-        //           return Column(
-        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //             crossAxisAlignment: CrossAxisAlignment.center,
-        //             mainAxisSize: MainAxisSize.min,
-        //             children: [
-        //               // Text(
-        //               //   getTranslatedStrings(context).enterCode,
-        //               //   style: mainStyle(context, 14, weight: FontWeight.w800),
-        //               // ),
-        //               // heightBox(10.h),
-        //               // Text(
-        //               //   '${getTranslatedStrings(context).enterCodeReceivedPhone} ${registerModel!.data.user.phone}',
-        //               //   style: mainStyle(context, 13.0),
-        //               //   textAlign: TextAlign.center,
-        //               // ),
-        //               Text(
-        //                 'Please enter the 6-digit code you received on your mobile or email.',
-        //                 style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
-        //                 // textAlign: TextAlign.center,
-        //               ),
-        //               heightBox(10.h),
-        //               PinCodeTextField(
-        //                 onChanged: (value) {
-        //                   otpText = value;
-        //                 },
-        //                 keyboardType: TextInputType.number,
-        //                 appContext: context,
-        //                 length: 6,
-        //                 obscureText: false,
-        //                 textStyle: const TextStyle(
-        //                   color: Colors.white,
-        //                 ),
-        //                 pinTheme: PinTheme(
-        //                   selectedFillColor: softBlueColor,
-        //                   inactiveColor: mainBlueColor,
-        //                   activeColor: mainBlueColor,
-        //                   inactiveFillColor: Colors.white,
-        //                   selectedColor: mainBlueColor.withOpacity(0.5),
-        //                   shape: PinCodeFieldShape.box,
-        //                   borderRadius: BorderRadius.circular(5),
-        //                   fieldHeight: 50,
-        //                   fieldWidth: 40,
-        //                   activeFillColor: Theme.of(context).backgroundColor,
-        //                 ),
-        //                 cursorColor: Theme.of(context).backgroundColor,
-        //                 animationDuration: const Duration(milliseconds: 300),
-        //                 //backgroundColor:  Theme.of(context).backgroundColor,
-        //                 enableActiveFill: true,
-        //                 controller: smsCodeEditingController,
-        //               ),
-        //               heightBox(10.h),
-        //               state is VerifyingNumState
-        //                   ? const DefaultLoaderGrey()
-        //                   : DefaultButton(
-        //                       text: getTranslatedStrings(context).submit,
-        //                       onClick: () {
-        //                         if (otpText.length < 6) {
-        //                           logg('otp must be 6 digits');
-        //                         } else {
-        //                           verifyPhoneNumber(registerModel!.data.user.phone!).then((value) {
-        //                             ///
-        //                             ///
-        //                             ///     navigateTo(
-        //                             ///      context, const CompleteInfoSubscribe());
-        //                             ///    Todo: if data completed go to main
-        //                             ///    Todo: else go to complete data
-        //                             ///
-        //                             return navigateToAndFinishUntil(context, const RouteEngine());
-        //                           });
-        //                         }
-        //                       }),
-        //               heightBox(10.h),
-        //               // state is VerifyingNumErrorState
-        //               //     ? Text(
-        //               //         state.error.toString(),
-        //               //         style: mainStyle(context, 11, color: Colors.red),
-        //               //         textAlign: TextAlign.center,
-        //               //       )
-        //               //     : const SizedBox()
-        //             ],
-        //           );
-        //         },
-        //       ),
-        //     ));
       } else {
         navigateToAndFinishUntil(context, const RouteEngine());
       }

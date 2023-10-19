@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mena/modules/main_layout/main_layout.dart';
 
 import '../../core/functions/main_funcs.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
@@ -167,7 +168,10 @@ class _MenaTermsState extends State<MenaTerms> {
                     DefaultButton(
                         text: "I agree",
                         onClick: () {
-                          navigateTo(context, HomeScreen());
+                          // navigateTo(context, MainLayout());
+                          // navigateToAndFinishUntil(context, MainLayout());
+                          
+                          navigateToAndFinishUntil(context, MainLayout());
                         }),
                     heightBox(360.h),
                     Padding(

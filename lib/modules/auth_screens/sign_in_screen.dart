@@ -52,7 +52,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void initState() {
     super.initState();
     getSelectedLanguage();
-
+    print('user before logins : ${MainCubit.get(context).userInfoModel?.data.user.fullName}');
     MainCubit.get(context).checkPermAndSaveLatLng(context).then((value) {
       MainCubit.get(context).getConfigData().then((value) async {
         MainCubit.get(context).getCountersData();

@@ -631,8 +631,8 @@ class ExpandedColoredContainer extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key, this.onFieldChanged}) : super(key: key);
+class SearchBarWidget extends StatelessWidget {
+  const SearchBarWidget({Key? key, this.onFieldChanged}) : super(key: key);
 
   final Function(String)? onFieldChanged;
 

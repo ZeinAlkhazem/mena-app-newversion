@@ -445,7 +445,7 @@ class TestMaterialApp extends StatelessWidget {
       supportedLocales: L10n.all,
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(
-        appBarTheme: Theme.of(context).appBarTheme.copyWith(brightness: Brightness.dark),
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
         textTheme: Theme.of(context).textTheme.apply(
           bodyColor: Colors.black,
           displayColor: Colors.blue,

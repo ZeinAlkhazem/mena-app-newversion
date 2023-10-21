@@ -67,6 +67,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void logout(BuildContext context) {
     removeToken();
+    
     mainCubit.MainCubit.get(context).removeUserModel();
     navigateToAndFinishUntil(context, SignInScreen());
   }

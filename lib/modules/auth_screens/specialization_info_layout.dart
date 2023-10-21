@@ -604,17 +604,17 @@ class _SpecializationInformationLayoutState extends State<SpecializationInformat
                                           text: 'Register',
                                           onClick: () {
                                             if (true) {
-                                              // authCubit.userRegister(
-                                              //   fullName: widget.fullName,
-                                              //   email: widget.email,
-                                              //   pass: widget.pass,
-                                              //   userName: widget.userName,
-                                              //   providerType: widget.type,
-                                              //   registrationNumCont: registrationNumCont.text,
-                                              //
-                                              //   /// -1 is client
-                                              //   context: context,
-                                              // );
+                                              authCubit.userRegister(
+                                                fullName: widget.fullName,
+                                                email: widget.email,
+                                                pass: widget.pass,
+                                                userName: widget.userName,
+                                                providerType: widget.type,
+                                                registrationNumCont: registrationNumCont.text,
+
+                                                /// -1 is client
+                                                context: context,
+                                              );
                                             } else {
                                               logg('selected specialities empty');
                                               showMyAlertDialog(context, 'ALert',

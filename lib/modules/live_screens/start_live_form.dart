@@ -191,13 +191,13 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                             heightBox(10.h),
                             DefaultInputField(
                               label: 'Title',
-                              validate: normalInputValidate,
+                              validate: normalInputValidate(context),
                               controller: titleController,
                             ),
                             heightBox(10.h),
                             DefaultInputField(
                               label: 'Target',
-                              validate: normalInputValidate,
+                              validate: normalInputValidate(context),
                               controller: goalController,
                             ),
                             // heightBox(10.h),
@@ -208,7 +208,7 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                             // ),
                             heightBox(10.h),
                             DefaultInputField(
-                              validate: normalInputValidate,
+                              validate: normalInputValidate(context),
                               label: 'Select date',
                               // labelWidget: Text(
                               //   'Date of birth',
@@ -228,7 +228,7 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                             ),
                             heightBox(10.h),
                             DefaultInputField(
-                              validate: normalInputValidate,
+                              validate: normalInputValidate(context),
                               label: 'Select time',
                               // labelWidget: Text(
                               //   'Date of birth',
@@ -265,7 +265,7 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                             ),
                             heightBox(10.h),
                             DefaultInputField(
-                              validate: normalInputValidate,
+                              validate: normalInputValidate(context),
                               label: 'Upload live cover',
                               // labelWidget: Text(
                               //   'Date of birth',

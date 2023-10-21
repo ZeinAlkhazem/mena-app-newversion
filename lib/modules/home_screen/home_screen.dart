@@ -639,8 +639,8 @@ class HomeSectionBlock extends StatelessWidget {
                 return TalkSection(talks: sectionData.talk!, title: homeSectionBlockModel.title);
               case 'cme':
                 return CmeSection(cmeItems: sectionData.cme!, title: homeSectionBlockModel.title);
-              // case 'banner':
-              //   return BannerSection(banners: sectionData.banner!, style: homeSectionBlockModel.style ?? '1_1');
+              case 'banner':
+                return BannerSection(banners: sectionData.banner!, style: homeSectionBlockModel.style ?? '1_1');
               case 'partner':
                 return PartnerSection(partners: sectionData.partner!, title: homeSectionBlockModel.title);
               case 'providers':

@@ -26,8 +26,7 @@ dependencies:
 #    git:
 #      url: https://github.com/MozafarAlali93/mena_live_webrtc.git
 #      ref: master # branch name
-  flutter_holo_date_picker: ^1.1.2+1
-  flutter_cupertino_date_picker_fork: 1.0.7
+
   intl: ^0.18.0
   cupertino_icons: ^1.0.2
   cloud_firestore: ^4.3.1
@@ -175,7 +174,3 @@ flutter:
     - family: LatoBold
       fonts:
         - asset: assets/fonts/lato/Lato-Bold.ttf
-
-    - family: PNfont
-      fonts:
-        - asset: assets/fonts/PN-Font.otf

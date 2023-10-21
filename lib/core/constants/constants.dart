@@ -91,14 +91,3 @@ String privacyAudienceTranslatedText(BuildContext context, String textInEnglish)
   }
   return textInEnglish;
 }
-
-
-/*
-    keys name for sharedPreferences
- */
-
-class Keys{
-  static const keyToken= "PREF_KEY_TOKEN";
-  static const keyUser= "PREF_KEY_USER";
-  static const keyLanguage= "PREF_KEY_LANGUAGE";
-}

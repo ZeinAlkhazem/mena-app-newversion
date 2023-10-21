@@ -110,7 +110,7 @@ class _AppointmentInformationLayoutState extends State<AppointmentInformationLay
                               heightBox(25.h),
                               DefaultInputField(
                                 controller: fullNameCont,
-                                validate: normalInputValidate,
+                                validate: normalInputValidate(context),
                                 label:  'Full name',
                                 // labelWidget: Text(
                                 //   'Full name',
@@ -119,7 +119,7 @@ class _AppointmentInformationLayoutState extends State<AppointmentInformationLay
                               ),
                               heightBox(20.h),
                               DefaultInputField(
-                                validate: normalInputValidate,
+                                validate: normalInputValidate(context),
                                 label:  'Date of birth',
                                 // labelWidget: Text(
                                 //   'Date of birth',
@@ -136,7 +136,7 @@ class _AppointmentInformationLayoutState extends State<AppointmentInformationLay
                               heightBox(20.h),
                               DefaultInputField(
                                 controller: idNumCont,
-                                validate: normalInputValidate,
+                                validate: normalInputValidate(context),
                                 label:  'ID number',
                                 // labelWidget: Text(
                                 //   'ID number',
@@ -146,7 +146,7 @@ class _AppointmentInformationLayoutState extends State<AppointmentInformationLay
                               heightBox(20.h),
                               DefaultInputField(
                                 controller: mobileNumCont,
-                                validate: normalInputValidate,
+                                validate: normalInputValidate(context),
                                 label:      'Mobile Number',
                                 // labelWidget: Text(
                                 //   'Mobile Number',
@@ -156,7 +156,7 @@ class _AppointmentInformationLayoutState extends State<AppointmentInformationLay
                               heightBox(20.h),
                               DefaultInputField(
                                 controller: emailCont,
-                                validate: normalInputValidate,
+                                validate: normalInputValidate(context),
                                 label: 'Email',
                                 // labelWidget: Text(
                                 //   'Email',

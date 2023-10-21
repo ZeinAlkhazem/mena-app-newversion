@@ -99,7 +99,7 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                             ],
                           ),
                         ),
-                        SearchBarWidget(
+                        SearchBar(
                           onFieldChanged: (val) {
                             mainCubit.updateCountrySearchQuery(val);
                           },

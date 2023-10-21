@@ -750,7 +750,7 @@ class SimpleUserCard extends StatelessWidget {
                                                       DefaultInputField(
                                                         controller: entityTitleCont,
                                                         label: 'Give title of this entity',
-                                                        validate: normalInputValidate,
+                                                        validate: normalInputValidate(context),
                                                       ),
                                                       heightBox(10.h),
                                                       MyPullDownButton(
@@ -807,7 +807,7 @@ class SimpleUserCard extends StatelessWidget {
                                                       DefaultInputField(
                                                         controller: accreditedByCont,
                                                         label: 'CME Accredited by',
-                                                        validate: normalInputValidate,
+                                                        validate: normalInputValidate(context),
                                                       ),
                                                       // heightBox(10.h),
                                                       // DefaultInputField(

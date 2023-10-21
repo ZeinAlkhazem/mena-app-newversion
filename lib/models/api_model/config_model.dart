@@ -215,29 +215,3 @@ class MenaPlatform {
         "name": name,
       };
 }
-
-class RadioData {
-  final int id;
-  final String name;
-  final String code;
-  final String direction;
-  final bool isDefault;
-
-  RadioData({
-    required this.id,
-    required this.name,
-    required this.code,
-    required this.direction,
-    required this.isDefault,
-  });
-
-  factory RadioData.fromJson(Map<String, dynamic> json) {
-    return RadioData(
-      id: json['id'],
-      name: json.containsKey("name")? json['name']:"",
-      code: json.containsKey("code")? json['code']:"",
-      direction: json.containsKey("direction")? json['direction']:"",
-      isDefault:json.containsKey("is_default")? json['is_default']== 1:false,// Convert 1 to true, 0 to false
-    );
-  }
-}

@@ -7,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mena/modules/meeting/widget/appbar_for_meeting.dart';
 import 'package:mena/modules/meeting/widget/option_item.dart';
 
-import '../../core/shared_widgets/shared_widgets.dart';
 import 'cubit/meeting_cubit.dart';
 
 class MeetingPage extends StatefulWidget {
@@ -95,7 +94,7 @@ class _MeetingPageState extends State<MeetingPage> {
                 if (state is OnloadingState)
                   const Expanded(
                     child: Center(
-                      child: const DefaultLoaderGrey(),
+                      child: CircularProgressIndicator(),
                     ),
                   ),
                 Expanded(

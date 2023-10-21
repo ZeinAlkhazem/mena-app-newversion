@@ -1,5 +1,5 @@
 // const String baseUrl='https://test.menaplatforms.com/api/v1';
-const String baseUrl = 'https://menaaii.com/api/v1';
+const String baseUrl = 'https://backend.menaplatforms.com/api/v1';
 
 ///zego appId
 int zegoAppId = 1810631269;
@@ -8,7 +8,6 @@ String zegoAppSign = '3439f7f8cb0ac4a7083534e3bb826ef1ccacfe889941bd2943475f30e1
 ///config
 const String configEnd = '/start';
 const String countersEnd = '/users/counters';
-const String platforms  = '/platformsList';
 
 ///Users
 const String loginEnd = '/users/login';
@@ -19,9 +18,6 @@ const String getProviderTypesEnd = '/provider-types';
 const String requestResetPassOtpEnd = '/users/forget-password';
 const String submitResetPassEnd = '/users/reset-password';
 const String verifyCodeEnd = '/users/register/verify-code';
-const String verifyCodeResetPassword = '/users/verify-code';
-const String setNewPassword = '/users/reset-password';
-const String sendCodeNewUser = '/users/send_code/';
 
 /// user info
 const String userInfoEnd = '/users/info';

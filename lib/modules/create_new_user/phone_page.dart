@@ -74,7 +74,7 @@ class _PhoneNumberVerState extends State<PhoneNumberVer> {
                     heightBox(30.h),
                     DefaultInputField(
                       onFieldChanged: (text) {
-                        phoneConfirmation = text;
+                        // phoneConfirmation = text;
                       },
                       fillColor: Color(0xffF2F2F2),
                       focusedBorderColor: Color(0xff0077FF),
@@ -103,7 +103,7 @@ class _PhoneNumberVerState extends State<PhoneNumberVer> {
                           navigateTo(context, ConfirmationCodePhone());
                         }),
                     heightBox(15.h),
-                    DefaultButton1(
+                    DefaultButton(
                         backColor: Colors.white,
                         borderColor: Color(0xff999B9D),
                         text: "Sign up with email",

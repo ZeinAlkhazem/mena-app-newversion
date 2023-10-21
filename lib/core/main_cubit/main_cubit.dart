@@ -32,7 +32,7 @@ class MainCubit extends Cubit<MainState> {
   static MainCubit get(context) => BlocProvider.of(context);
 
   IO.Socket socket = IO.io(
-      'https://menaaii.com:3000',
+      'https://menaplatforms.com:3002',
       IO.OptionBuilder().setTransports(['websocket'])
           // for Flutter or Dart VM
           .setExtraHeaders({
@@ -426,14 +426,13 @@ class MainCubit extends Cubit<MainState> {
     ///
     ///
     ///
-    ///
+
     await MainDioHelper.getData(url: userInfoEnd, query: {}).then((value) async {
       logg('got user info ');
-      logg(value.data.toString());
-      logg('value.data');
+      logg(value.toString());
       userInfoModel = UserInfoModel.fromJson(value.data);
       requireDataCompleted = userInfoModel!.data.dataCompleted.completed;
-      print('ussssss : ${userInfoModel?.data.user.fullName}');
+
       socketInitial();
 
       calcCompletionPercentage();
@@ -458,7 +457,7 @@ class MainCubit extends Cubit<MainState> {
     /// Socket connect
     print('establishing socket connection');
     socket = await IO.io(
-        'https://menaaii.com:3000',
+        'https://menaplatforms.com:3002',
         IO.OptionBuilder().setTransports(['websocket'])
             // for Flutter or Dart VM
             .setExtraHeaders({
@@ -529,7 +528,7 @@ class MainCubit extends Cubit<MainState> {
 
   Future<void> getConfigData() async {
     /// get local db
-    logg('----------getting config-------');
+    logg('getting config');
     JsonStore jsonStore = JsonStore();
     // if(!kIsWeb){
     //   Map<String, dynamic>? json = await jsonStore.getItem('config');
@@ -549,11 +548,10 @@ class MainCubit extends Cubit<MainState> {
     ///    /// end local db
     logg('getting config data');
     await MainDioHelper.getData(url: configEnd, query: {}).then((value) async {
-      logg('------config data got----------');
+      logg('config data got');
       logg(value.toString());
       // logg(value.toString());
       configModel = ConfigModel.fromJson(value.data);
-      logg('# configModel : ${configModel!.data.platforms[0].name}');
       selectedLocalesIsoInDashboard = configModel!.data.languages.map((e) => e.code!.split('_')[0]).toList();
       selectedLocalesInDashboard =
           L10n.all.where((element) => selectedLocalesIsoInDashboard.contains(element.languageCode)).toList();

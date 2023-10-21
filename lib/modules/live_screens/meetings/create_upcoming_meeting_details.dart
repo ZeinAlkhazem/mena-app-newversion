@@ -144,7 +144,7 @@ class _CreateUpcomingMeetingSelectDetailsState extends State<CreateUpcomingMeeti
                             controller: meetingTitleCont,
                             borderRadius: 0,
                             fillColor: Colors.white,
-                            validate: normalInputValidate,
+                            validate: normalInputValidate(context),
                             focusedBorderColor: newDarkGreyColor,
                             unFocusedBorderColor: newDarkGreyColor,
                             label: 'Meeting title',
@@ -158,7 +158,7 @@ class _CreateUpcomingMeetingSelectDetailsState extends State<CreateUpcomingMeeti
                           MeetingPickerRow(
                             title: 'Date',
                             controller: dateCont,
-                            validator: normalInputValidate,
+                            validator: normalInputValidate(context, customText: 'Please pick a date'),
                             val: liveCubit.pickedMeetingDate == null
                                 ? 'Pick a date'
                                 : getFormattedDateOnlyDate(liveCubit.pickedMeetingDate!),
@@ -178,7 +178,7 @@ class _CreateUpcomingMeetingSelectDetailsState extends State<CreateUpcomingMeeti
                           MeetingPickerRow(
                             title: 'From',
                             controller: fromCont,
-                            validator: normalInputValidate,
+                            validator: normalInputValidate(context, customText: 'Please pick a time'),
                             val: liveCubit.pickedMeetingFromTime == null
                                 ? 'Pick a time'
                                 : getFormattedDateOnlyTime(liveCubit.pickedMeetingFromTime!),
@@ -208,7 +208,7 @@ class _CreateUpcomingMeetingSelectDetailsState extends State<CreateUpcomingMeeti
                           MeetingPickerRow(
                             title: 'To',
                             controller: toCont,
-                            validator: normalInputValidate,
+                            validator: normalInputValidate(context, customText: 'Please pick a time'),
                             val: liveCubit.pickedMeetingToTime == null
                                 ? 'Pick a time'
                                 : getFormattedDateOnlyTime(liveCubit.pickedMeetingToTime!),

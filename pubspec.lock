@@ -1810,14 +1810,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
-  zego_express_engine:
-    dependency: "direct overridden"
-    description:
-      name: zego_express_engine
-      sha256: "16c19ff3374811fc0a3993fd231e402ef68d92e86e600e8d1d024034c3c5fa05"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
 sdks:
   dart: ">=3.0.0 <4.0.0"
   flutter: ">=3.10.0"

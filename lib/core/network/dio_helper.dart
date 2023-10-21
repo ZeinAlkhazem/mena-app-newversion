@@ -107,7 +107,7 @@ class MainDioHelper {
   }) async {
     String? cachedLocal = getCachedLocal();
     String? token = getCachedToken();
-
+    
     if (cachedLocal == null) {
       lang = 'en';
     } else if (cachedLocal == 'ar') {

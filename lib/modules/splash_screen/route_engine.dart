@@ -35,15 +35,9 @@ class RouteEngine extends StatelessWidget {
             else {
               if (mainCubit.isUserLoggedIn) {
                 ///Todo: remove !, ! is for testing purpose
-                if (mainCubit.requireDataCompleted) {
                   ///Todo: remove !, ! is for testing purpose
                   return const MainLayout();
-                } else {
-                  return const CompleteInfoSubscribe(
-                    fromRouteEngineSoNoBackButton: true,
-                  );
-                }
-                // return tablet;
+                                // return tablet;
               } else {
                 ///user not logged in
                 return const SignInScreen();

@@ -37,8 +37,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    print(" ===== Splash Screen ===== ");
-
     // animation();
     ///
     ///
@@ -46,20 +44,15 @@ class _SplashScreenState extends State<SplashScreen> {
     MainCubit.get(context).checkPermAndSaveLatLng(context).then((value) {
       MainCubit.get(context).getConfigData().then((value) async {
         MainCubit.get(context).getCountersData();
-
         /// commented for now
         MainCubit.get(context).checkConnectivity().then((value) async {
           if (value == true) {
             await HomeScreenCubit.get(context)
-              ..changeSelectedHomePlatform(
-                      MainCubit.get(context).configModel!.data.platforms[0].id!)
-                  .then((value) async {
-                await MainCubit.get(context)
-                    .checkSetUpData()
-                    .then((value) async {
-                  await Future.delayed(Duration(milliseconds: 2000));
-                  moveToRouteEngine(context);
-                });
+              ..changeSelectedHomePlatform(MainCubit.get(context).configModel!.data.platforms[0].id!).then((value) async{
+            await    MainCubit.get(context).checkSetUpData().then((value) async{
+              await Future.delayed(Duration(milliseconds: 2000));
+              moveToRouteEngine(context);
+            });
               });
           } else
           // not connected
@@ -230,8 +223,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
 /// test it
 class _ControlsOverlay extends StatelessWidget {
-  const _ControlsOverlay({Key? key, required this.controller})
-      : super(key: key);
+  const _ControlsOverlay({Key? key, required this.controller}) : super(key: key);
 
   static const List<Duration> _exampleCaptionOffsets = <Duration>[
     Duration(seconds: -10),

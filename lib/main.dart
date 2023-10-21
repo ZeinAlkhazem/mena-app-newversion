@@ -9,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/date_symbol_data_file.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
@@ -18,7 +17,6 @@ import 'package:mena/modules/auth_screens/cubit/auth_cubit.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
@@ -28,14 +26,11 @@ import 'firebase_options.dart';
 import 'modules/add_people_to_live/cubit/add_people_to_live_cubit.dart';
 import 'modules/appointments/appointments_layouts/pick_appointment_slot_type.dart';
 import 'modules/appointments/cubit/appointments_cubit.dart';
-import 'modules/auth_screens/error-message.dart';
-import 'modules/auth_screens/sign_in_screen.dart';
 import 'modules/category_childs_screen/cubit/childs_cubit.dart';
 import 'modules/community_space/cubit/community_cubit.dart';
 import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
-import 'modules/initial_onboarding/initial_choose_lang.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
 import 'modules/messenger/msngr_cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
@@ -49,6 +44,10 @@ import 'modules/tools/cubit/tools_cubit.dart';
 import 'modules/tools/e_services/e-services.dart';
 import 'modules/tools/jobs/jobs.dart';
 
+
+
+
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -61,23 +60,25 @@ class MyHttpOverrides extends HttpOverrides {
 //
 // late Box userBox;
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // await initializeDateFormatting();
-  final prefs = await SharedPreferences.getInstance();
-  String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
-
-  // Get the default phone language and set it as the default language
-  Locale myLocale = WidgetsBinding.instance!.window.locale;
-  if (myLocale.languageCode == 'ar') {
-    selectedLanguage = 'Arabic';
-  } else {
-    selectedLanguage =
-        'English'; // You can set other default languages if needed
-  }
-  await prefs.setString('selectedLanguage', selectedLanguage);
 
   HttpOverrides.global = MyHttpOverrides();
 
+
+  /// handle error best way
+  /// init hive
+  // await Hive.initFlutter();
+// saveCacheLocal('ar');
+  /// Register adapters
+  ///
+  // Hive.registerAdapter(UserInfoModelAdapter());
+  // logg('opened box name: '+box.name);
+  // logg('opened box name: '+box.keys.toString());
+  // // await box.close();
+  // var box2 = await Hive.openBox('myBox');
+  // await box2.put('hello22', 'world');
+  // logg('2opened box name: '+box.keys.toString());
+  /// register hive adapter
+  // Hive.registerAdapter(UserInfoAdapter());
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   await MainDioHelper.init();
@@ -86,6 +87,16 @@ void main() async {
   /// now web options is not initialized yet so ignore web for now
   if (!kIsWeb) {
     ErrorWidget.builder = (FlutterErrorDetails details) {
+
+      // bool inDebug = false;
+      // assert(() {
+      //   inDebug = true;
+      //   return true;
+      // }());
+      // if (inDebug) {
+      //   return ErrorWidget(details.exception);
+      // }
+
       return SafeArea(
         child: Container(
           alignment: Alignment.center,
@@ -120,9 +131,9 @@ void main() async {
   }
   // runApp(const MainAppProvider());
   BlocOverrides.runZoned(
-    () {
+        () {
       // Use cubits...
-      runApp(MainAppProvider(selectedLanguage));
+      runApp(const MainAppProvider());
       //
     },
     blocObserver: MyBlocObserver(),
@@ -133,7 +144,7 @@ void main() async {
 }
 
 class MainAppProvider extends StatelessWidget {
-  const MainAppProvider(String? selectedLanguage, {Key? key}) : super(key: key);
+  const MainAppProvider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +213,6 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
   @override
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
-    print('token isssssssss : ${CacheHelper.getData(key: 'token')}');
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -246,27 +256,25 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           debugShowCheckedModeBanner: false,
 
           theme: Theme.of(context).copyWith(
-            appBarTheme: Theme.of(context)
-                .appBarTheme
-                .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+            appBarTheme: Theme.of(context).appBarTheme.copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
             // drawerTheme: DrawerThemeData(
             //   scrimColor: Colors.green,
             //   shadowColor: Colors.blue,
             //
             // ),
             textTheme: Theme.of(context).textTheme.apply(
-                  bodyColor: Colors.black,
-                  displayColor: Colors.blue,
-                  fontSizeFactor: 1,
-                  fontSizeDelta: 1,
-                  fontFamily:
+              bodyColor: Colors.black,
+              displayColor: Colors.blue,
+              fontSizeFactor: 1,
+              fontSizeDelta: 1,
+              fontFamily:
 
-                      ///
-                      /// getCachedLocale is arabic? Tajawal else english Visby
-                      /// else another language add custom font family
-                      ///
-                      getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
-                ),
+              ///
+              /// getCachedLocale is arabic? Tajawal else english Visby
+              /// else another language add custom font family
+              ///
+              getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
+            ),
             // useMaterial3: true,
             // This is the theme of your application.
             //xx
@@ -288,8 +296,7 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           //   );
           //   return widget!;
           // },
-          home: SplashScreen(),
-          // home: SignInScreen(),
+          home: const SplashScreen(),
           // home: const JobsLayout(),
         ),
       ),
@@ -438,25 +445,23 @@ class TestMaterialApp extends StatelessWidget {
       supportedLocales: L10n.all,
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(
-        appBarTheme: Theme.of(context)
-            .appBarTheme
-            .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(brightness: Brightness.dark),
         textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.black,
-              displayColor: Colors.blue,
-              fontSizeFactor: 1.1,
-              fontSizeDelta: 2.0,
-              fontFamily:
+          bodyColor: Colors.black,
+          displayColor: Colors.blue,
+          fontSizeFactor: 1.1,
+          fontSizeDelta: 2.0,
+          fontFamily:
 
-                  /// getCachedLocale is arabic? Tajawal else english Visby
-                  /// else another language add custom font family
-                  ///
-                  getCachedLocal() == null
-                      ? 'Roboto'
-                      : getCachedLocal() == 'en'
-                          ? 'Roboto'
-                          : 'Tajawal',
-            ),
+          /// getCachedLocale is arabic? Tajawal else english Visby
+          /// else another language add custom font family
+          ///
+          getCachedLocal() == null
+              ? 'Roboto'
+              : getCachedLocal() == 'en'
+              ? 'Roboto'
+              : 'Tajawal',
+        ),
         // useMaterial3: true,
         // This is the theme of your application.
         //

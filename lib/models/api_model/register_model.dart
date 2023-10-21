@@ -38,89 +38,72 @@ class Data {
   });
 
   String token;
-  UserModel user;
+  User user;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     token: json["token"],
-    user: UserModel.fromJson(json["user"]),
+    user: User.fromJson(json["user"]),
   );
 
   Map<String, dynamic> toJson() => {
     "token": token,
-    "user": user.toJson(),
+    // "user": user.toJson(),
   };
 }
 
-class UserModel {
-  UserModel({
-    required this.id,
-    required this.personalPicture,
-    required this.fullName,
-    required this.userName,
-    required this.email,
-    required this.phone,
-    required this.platform,
-    required this.roleName,
-    required this.phoneVerifiedAt,
-    required this.emailVerifiedAt,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  int id;
-  String personalPicture;
-  String fullName;
-  String userName;
-  String roleName;
-  String email;
-  String phone;
-  MenaPlatform platform;
-  DateTime? phoneVerifiedAt;
-  DateTime? emailVerifiedAt;
-  DateTime createdAt;
-  DateTime updatedAt;
-
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    id: json["id"],
-    personalPicture: json["personal_picture"] ?? "",
-    fullName: json["full_name"] ?? "",
-    roleName: json["role_name"] ?? "",
-    userName: json["user_name"] ?? "",
-    email: json["email"] ?? "",
-    phone: json["phone"] ?? "",
-    platform: MenaPlatform.fromJson(json["platform"]) ?? MenaPlatform(id: '', name: '', image: ''), // Assuming MenaPlatform constructor with default values.
-    phoneVerifiedAt: json["phone_verified_at"] == null ? null : DateTime.parse(json["phone_verified_at"]),
-    emailVerifiedAt: json["email_verified_at"] == null ? null : DateTime.parse(json["email_verified_at"]),
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-  );
-  // factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-  //   id: json["id"],
-  //   personalPicture: json["personal_picture"],
-  //   fullName: json["full_name"],
-  //   roleName: json["role_name"],
-  //   userName: json["user_name"],
-  //   email: json["email"],
-  //   phone: json["phone"],
-  //   platform: MenaPlatform.fromJson(json["platform"]),
-  //   phoneVerifiedAt: json["phone_verified_at"]==null?null:DateTime.parse(json["phone_verified_at"]),
-  //   emailVerifiedAt: json["email_verified_at"]==null?null:DateTime.parse(json["email_verified_at"]),
-  //   createdAt: DateTime.parse(json["created_at"]),
-  //   updatedAt: DateTime.parse(json["updated_at"]),
-  // );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "personal_picture": personalPicture,
-    "full_name": fullName,
-    "email": email,
-    "phone": phone,
-    "platform": platform.toJson(),
-    "phone_verified_at": phoneVerifiedAt,
-    "email_verified_at": emailVerifiedAt,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
-  };
-}
+// class User {
+//   User({
+//     required this.id,
+//     required this.personalPicture,
+//     required this.fullName,
+//     required this.email,
+//     required this.phone,
+//     required this.platform,
+//     required this.roleName,
+//     required this.phoneVerifiedAt,
+//     required this.emailVerifiedAt,
+//     required this.createdAt,
+//     required this.updatedAt,
+//   });
+//
+//   int id;
+//   String personalPicture;
+//   String fullName;
+//   String roleName;
+//   String email;
+//   String phone;
+//   MenaPlatform platform;
+//   DateTime? phoneVerifiedAt;
+//   DateTime? emailVerifiedAt;
+//   DateTime createdAt;
+//   DateTime updatedAt;
+//
+//   factory User.fromJson(Map<String, dynamic> json) => User(
+//     id: json["id"],
+//     personalPicture: json["personal_picture"],
+//     fullName: json["full_name"],
+//     roleName: json["role_name"],
+//     email: json["email"],
+//     phone: json["phone"],
+//     platform: MenaPlatform.fromJson(json["platform"]),
+//     phoneVerifiedAt: json["phone_verified_at"]==null?null:DateTime.parse(json["phone_verified_at"]),
+//     emailVerifiedAt: json["email_verified_at"]==null?null:DateTime.parse(json["email_verified_at"]),
+//     createdAt: DateTime.parse(json["created_at"]),
+//     updatedAt: DateTime.parse(json["updated_at"]),
+//   );
+//
+//   // Map<String, dynamic> toJson() => {
+//   //   "id": id,
+//   //   "personal_picture": personalPicture,
+//   //   "full_name": fullName,
+//   //   "email": email,
+//   //   "phone": phone,
+//   //   "platform": platform.toJson(),
+//   //   "phone_verified_at": phoneVerifiedAt,
+//   //   "email_verified_at": emailVerifiedAt,
+//   //   "created_at": createdAt.toIso8601String(),
+//   //   "updated_at": updatedAt.toIso8601String(),
+//   // };
+// }
 
 

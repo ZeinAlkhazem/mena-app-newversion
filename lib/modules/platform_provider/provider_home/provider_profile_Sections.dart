@@ -1026,13 +1026,13 @@ Future<void> viewRewardsModalAddUpdateBottom(
                 DefaultInputField(
                   label: 'Name of Reward',
                   controller: nameOfRewardCont,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 DefaultInputField(
                   label: 'Year',
                   controller: nameOfRewardYearCont,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 // DefaultInputField(
                 //   validate: normalInputValidate(context),
@@ -1290,13 +1290,13 @@ Future<void> viewEducationModalAddUpdateBottom(
                 DefaultInputField(
                   label: 'Name of university',
                   controller: nameOfUnCont,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 DefaultInputField(
                   label: 'Enter Degree name',
                   controller: degreeCont,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 Row(
@@ -1695,7 +1695,7 @@ class ProfileCompletionSection extends StatelessWidget {
                     label: 'About',
                     controller: aboutCont,
                     maxLines: 4,
-                    validate: normalInputValidate,
+                    validate: normalInputValidate(context),
                   ),
                   heightBox(7.h),
                   state is UpdatingDataState
@@ -2036,13 +2036,13 @@ Future<void> viewExperiencesModalAddUpdateBottom(
                 DefaultInputField(
                   label: 'Designation',
                   controller: designation,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 DefaultInputField(
                   label: 'Place Of Work',
                   controller: placeOfWork,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 Row(
@@ -2278,13 +2278,13 @@ Future<void> viewMembershipsModalAddUpdateBottom(
                 DefaultInputField(
                   label: 'Name of Membership',
                   controller: nameOfMembershipCont,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 DefaultInputField(
                   label: 'Name of Authority',
                   controller: nameOfMembershipAuthCont,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 // DefaultInputField(
                 //   validate: normalInputValidate(context),
@@ -2585,26 +2585,26 @@ Future<void> viewPublicationsModalAddUpdateBottom(
                 DefaultInputField(
                   label: 'Paper Title',
                   controller: paperTitle,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 DefaultInputField(
                   label: 'Summary',
                   controller: summary,
                   maxLines: 4,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 DefaultInputField(
                   label: 'Publisher',
                   controller: publisher,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 DefaultInputField(
                   label: 'Published Url',
                   controller: publishedUrl,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 // Row(
                 //         children: [
@@ -2640,7 +2640,7 @@ Future<void> viewPublicationsModalAddUpdateBottom(
                 // ),
                 heightBox(7.h),
                 DefaultInputField(
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                   label: 'Date of published',
                   // labelWidget: Text(
                   //   'Date of birth',
@@ -2969,11 +2969,11 @@ Future<void> viewCertificationsModalAddUpdateBottom(
                 DefaultInputField(
                   label: 'Name of certificate',
                   controller: nameOfUnCertificateCont,
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                 ),
                 heightBox(7.h),
                 DefaultInputField(
-                  validate: normalInputValidate,
+                  validate: normalInputValidate(context),
                   label: 'Date of published',
                   // labelWidget: Text(
                   //   'Date of birth',
@@ -2990,7 +2990,7 @@ Future<void> viewCertificationsModalAddUpdateBottom(
                 // DefaultInputField(
                 //   label: 'Date of issuing',
                 //   controller: issuingDateCont,
-                //   validate: normalInputValidate(,
+                //   validate: normalInputValidate(context),
                 // ),
                 // heightBox(7.h),
                 // Row(

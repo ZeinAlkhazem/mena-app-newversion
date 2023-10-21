@@ -1,5 +1,5 @@
 // const String baseUrl='https://test.menaplatforms.com/api/v1';
-const String baseUrl = 'https://backend.menaplatforms.com/api/v1';
+const String baseUrl = 'https://menaaii.com/api/v1';
 
 ///zego appId
 int zegoAppId = 1810631269;

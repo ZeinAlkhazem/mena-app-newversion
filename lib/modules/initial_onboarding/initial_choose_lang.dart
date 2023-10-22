@@ -34,7 +34,7 @@ class InitialChooseLang extends StatelessWidget {
       mainCubit.setLocale(deviceLocale, context, false);
     }
     return Scaffold(
-
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56.0.h),
         child: const DefaultOnlyLogoAppbar(

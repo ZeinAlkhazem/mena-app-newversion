@@ -8,16 +8,13 @@ bool hasError = false;
 String? Function(String?)? emailValidate(BuildContext context) => (String? val) {
   if (val!.isEmpty) {
     return getTranslatedStrings(context).thisFieldIsRequired;
-  } else
-  // if (!val.contains('@')) {
-  //   return 'Email address not correct';
-  // }
-  if (val.contains('.') &&
+  } else if (val.contains('.') &&
       val.split('.').last.isNotEmpty &&
       val.contains('@') &&
       val.split('@')[1].isNotEmpty) {
     return null; // null is ok 'valid'
   } else {
+    hasError = true;
     return getTranslatedStrings(context).invalidEmail;
   }
 };
@@ -25,11 +22,13 @@ String? Function(String?)? passwordValidate(BuildContext context) {
   return (String? val) {
   if (val!.isEmpty) {
     return getTranslatedStrings(context).pleaseEnterPassword;
-  }
+  } else
   if (val.length < 8) {
     return getTranslatedStrings(context).passwordShouldBeMoreThan8Characters;
+  } else{
+    hasError = true;
+  return getTranslatedStrings(context).invalidPassword;
   }
-  return null;
 };
 }
 // String? Function(String?)? retypePasswordValidate(BuildContext context,String passwordEntered) {

@@ -171,3 +171,7 @@ flutter:
     - family: LatoBold
       fonts:
         - asset: assets/fonts/lato/Lato-Bold.ttf
+
+    - family: PNfont
+      fonts:
+        - asset: assets/fonts/PN-Font.otf

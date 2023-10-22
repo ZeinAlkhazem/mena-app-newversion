@@ -8,9 +8,11 @@ import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/modules/auth_screens/pick_user_type_layout.dart';
 import 'package:mena/modules/auth_screens/sign_up_screen.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/constants/validators.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
+import '../home_screen/cubit/home_screen_cubit.dart';
 import '../main_layout/main_layout.dart';
 
 import 'cubit/auth_cubit.dart';
@@ -25,25 +27,86 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    logg('sign in screen init');
-    super.initState();
+
+  bool showContainer = false;
+  late double height, width;
+  var formKey = GlobalKey<FormState>();
+  var emailCont = TextEditingController();
+  var passCont = TextEditingController();
+  String selectedLanguage = "";
+
+  void getSelectedLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String lastLanguage = prefs.getString('selectedLanguage') ?? "";
+
+    setState(() {
+      selectedLanguage = lastLanguage;
+    });
   }
 
   @override
+  void initState() {
+    super.initState();
+    getSelectedLanguage();
+    print('user before logins : ${MainCubit.get(context).userInfoModel?.data.user.fullName}');
+    MainCubit.get(context).checkPermAndSaveLatLng(context).then((value) {
+      MainCubit.get(context).getConfigData().then((value) async {
+        MainCubit.get(context).getCountersData();
+
+        /// commented for now
+        MainCubit.get(context).checkConnectivity().then((value) async {
+          if (value == true) {
+            await HomeScreenCubit.get(context)
+              ..changeSelectedHomePlatform(
+                  MainCubit.get(context).configModel!.data.platforms[0].id!)
+                  .then((value) async {
+                await MainCubit.get(context)
+                    .checkSetUpData()
+                    .then((value) async {
+                  await Future.delayed(Duration(milliseconds: 2000));
+                  // moveToRouteEngine(context);
+                });
+              });
+          } else{}
+        });
+      });
+    });
+  }
+  bool isAnimationPlaying = false;
+
+  void playAnimation() {
+    setState(() {
+      isAnimationPlaying = true;
+    });
+  }
+  @override
   Widget build(BuildContext context) {
-    var formKey = GlobalKey<FormState>();
-    var emailCont = TextEditingController();
-    var passCont = TextEditingController();
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+
     var authCubit = AuthCubit.get(context)
       ..toggleAutoValidate(false)
       ..togglePassVisibilityFalse();
-
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Image.asset(
+              'assets/addedbyzein/back.png', // Replace with your image path
+              scale: 3,
+              alignment: Alignment.centerRight, // Adjust the height as needed
+            ),
+            // SvgPicture.asset(
+            //   'assets/svg/back_icon.svg',
+            //   color: mainBlueColor,
+            // ),
+          ),
+        ),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -52,17 +115,14 @@ class _SignInScreenState extends State<SignInScreen> {
                 listener: (context, state) {
                   // TODO: implement listener
                   if (state is AuthErrorState) {
-                    // showMyAlertDialog(context, getTranslatedStrings(context).alert,
-                    //     alertDialogContent: Text(
-                    //       getTranslatedStrings(context).someThingWentWrong,
-                    //       textAlign: TextAlign.center,
-                    //     ));
+
                   }
                 },
                 builder: (context, state) {
                   return Column(
                     children: [
                       Container(
+                        padding: EdgeInsets.only(top: 18),
                         constraints: BoxConstraints(maxHeight: 0.7.sh),
                         child: Column(
                           children: [
@@ -71,128 +131,14 @@ class _SignInScreenState extends State<SignInScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 // const Expanded(child: SizedBox()),
-                                SvgPicture.asset(
-                                  'assets/svg/mena8.svg',
-                                  height: 30.h,
-                                  // cacheColorFilter: false,
-                                  // color: Colors.blue,
+                                Image.asset(
+                                  'assets/menalogoblack.png',
+                                  scale: 2,
                                 ),
-                                // Expanded(
-                                //     child: Row(
-                                //   mainAxisAlignment: MainAxisAlignment.end,
-                                //   children: [
-                                //     DefaultButtonOutline(
-                                //       text: getTranslatedStrings(context).signUp,
-                                //       onClick: () {
-                                //         showMyAlertDialog(context, getTranslatedStrings(context).signUp,
-                                //             alertDialogContent: Column(
-                                //               mainAxisSize: MainAxisSize.min,
-                                //               children: [
-                                //                 Padding(
-                                //                   padding: const EdgeInsets.all(14.0),
-                                //                   child: Column(
-                                //                     children: [
-                                //                       heightBox(20.h),
-                                //                       DefaultButton(
-                                //                         text: getTranslatedStrings(context).asProvider,
-                                //                         width: double.maxFinite,
-                                //                         height: 40.h,
-                                //                         fontSize: 12,
-                                //                         onClick: () {
-                                //                           navigateTo(
-                                //                               context,
-                                //                               SignUpScreen(
-                                //                                 type: 'provider',
-                                //                               ));
-                                //                         },
-                                //                         radius: 10.r,
-                                //                       ),
-                                //                       heightBox(7.h),
-                                //                       Text(
-                                //                         getTranslatedStrings(context).providerDescription,
-                                //                         style: mainStyle(context, 12, color: mainBlueColor),
-                                //                         textAlign: TextAlign.center,
-                                //                       )
-                                //                     ],
-                                //                   ),
-                                //                 ),
-                                //
-                                //                 /// sign up as student commented for now
-                                //                 // heightBox(2.h),
-                                //                 // Padding(
-                                //                 //   padding:
-                                //                 //   const EdgeInsets.all(8.0),
-                                //                 //   child: Column(
-                                //                 //     children: [
-                                //                 //       DefaultButton(
-                                //                 //           text: getTranslatedStrings(
-                                //                 //               context)
-                                //                 //               .asStudent,
-                                //                 //           width: double.maxFinite,
-                                //                 //           height: 40.h,
-                                //                 //           radius: 10.r,
-                                //                 //           fontSize: 12,
-                                //                 //           onClick: () {
-                                //                 //             navigateTo(
-                                //                 //                 context,
-                                //                 //                 SignUpScreen(
-                                //                 //                   type: 'student',
-                                //                 //                 ));
-                                //                 //           }),
-                                //                 //       heightBox(7.h),
-                                //                 //       Text(getTranslatedStrings(context).studentDescription,
-                                //                 //         style: mainStyle(context, 12,color: mainBlueColor),)
-                                //                 //     ],
-                                //                 //   ),
-                                //                 // ),
-                                //                 heightBox(2.h),
-                                //                 Padding(
-                                //                   padding: const EdgeInsets.all(8.0),
-                                //                   child: Column(
-                                //                     children: [
-                                //                       DefaultButton(
-                                //                           text: getTranslatedStrings(context).asClient,
-                                //                           width: double.maxFinite,
-                                //                           height: 40.h,
-                                //                           radius: 10.r,
-                                //                           fontSize: 12,
-                                //                           onClick: () {
-                                //                             navigateTo(
-                                //                                 context,
-                                //                                 SignUpScreen(
-                                //                                   type: 'client',
-                                //                                 ));
-                                //                           }),
-                                //                       heightBox(7.h),
-                                //                       Text(
-                                //                         getTranslatedStrings(context).clientDescription,
-                                //                         style: mainStyle(context, 12, color: mainBlueColor),
-                                //                         textAlign: TextAlign.center,
-                                //                       )
-                                //                     ],
-                                //                   ),
-                                //                 ),
-                                //               ],
-                                //             ));
-                                //       },
-                                //     ),
-                                //     widthBox(12.w)
-                                //   ],
-                                // ))
                               ],
                             ),
                             heightBox(33.h),
-                            Text(getTranslatedStrings(context).signInToMena,
-                                // textAlign: TextAlign.left,
-                                style: mainStyle(context, 13, isBold: true)),
                             heightBox(22.h),
-                            // Text(
-                            //     'Doctors, Providers, professional license, Universities...',
-                            //     // textAlign: TextAlign.left,
-                            //     style: mainStyle(context,
-                            //       14,
-                            //     )),
-                            // heightBox(30.h),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
                               child: Form(
@@ -200,45 +146,29 @@ class _SignInScreenState extends State<SignInScreen> {
                                   child: Column(
                                     children: [
                                       DefaultInputField(
-                                        label:
-                                        '${getTranslatedStrings(context).email} or ${getTranslatedStrings(context).userName}',                                        autoValidateMode: authCubit.autoValidateMode,
+                                        label: '${getTranslatedStrings(context).userLogin}',
+                                        labelTextStyle: TextStyle(
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'PNfont',
+                                          color: Color(0xff999B9D)),
+                                        autoValidateMode: authCubit.autoValidateMode,
                                         controller: emailCont,
                                         validate: normalInputValidate(context,customText: 'Email address or phone number is not valid.'),
-                                        //     (String? val) {
-                                        //   if (val!.isEmpty) {
-                                        //     return 'Please enter your Email';
-                                        //   }else
-                                        //     // if (!val.contains('@')) {
-                                        //     //   return 'Email address not correct';
-                                        //     // }
-                                        //   if(        val.contains('.')&&
-                                        //       val.split('.').last.isNotEmpty&&
-                                        //       val.contains('@')&&
-                                        //       val.split('@')[1].isNotEmpty){
-                                        //     return null;// null is ok 'valid'
-                                        //   }else{
-                                        //     return 'invalid email';
-                                        //   }
-                                        //
-                                        // },
 
-                                        // labelWidget: IconLabelInputWidget(
-                                        //   svgAssetLink: 'assets/svg/icons/email.svg',
-                                        //   labelText:
-                                        //       '${getTranslatedStrings(context).email} or ${getTranslatedStrings(context).userName}',
-                                        // ),
                                       ),
                                       heightBox(10.h),
                                       DefaultInputField(
-                                        label: getTranslatedStrings(context).enterPassword,
+                                        label: getTranslatedStrings(context).passwordLogin,
+                                        labelTextStyle: TextStyle(
+                                            fontSize: 13.0,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'PNfont',
+                                            color: Color(0xff999B9D)),
                                         obscureText: !authCubit.passVisible,
                                         autoValidateMode: authCubit.autoValidateMode,
                                         controller: passCont,
                                         validate: passwordValidate(context),
-                                        // labelWidget: IconLabelInputWidget(
-                                        //   svgAssetLink: 'assets/svg/icons/password key.svg',
-                                        //   labelText: getTranslatedStrings(context).enterPassword,
-                                        // ),
                                         suffixIcon: GestureDetector(
                                           onTap: () {
                                             authCubit.toggleVisibility('pass');
@@ -246,8 +176,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                           child: SvgPicture.asset(
                                             /// HERE ADD CONDITION IF VISIBLE ASSET LINK WILL BE DEIFFERENT
                                             authCubit.passVisible
-                                                ? 'assets/svg/icons/open_eye.svg'
-                                                : 'assets/svg/icons/closed eye.svg',
+                                                ? 'assets/open_eyes_icon.svg'
+                                                : 'assets/close_eye.svg',
                                             width: 18.sp,
                                             height: 18.sp,
                                           ),
@@ -257,36 +187,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          // Row(
-                                          //   mainAxisAlignment: MainAxisAlignment.start,
-                                          //   crossAxisAlignment:
-                                          //       CrossAxisAlignment.center,
-                                          //   children: [
-                                          //     Checkbox(
-                                          //       value: false,
-                                          //       onChanged: (val) {},
-                                          //       shape: const CircleBorder(),
-                                          //       checkColor: mainBlueColor,
-                                          //     ),
-                                          //     Text(
-                                          //       'Remember me',
-                                          //       style: mainStyle(context,13),
-                                          //     ),
-                                          //   ],
-                                          // ),
                                           TextButton(
                                             onPressed: () {
                                               authCubit.resetPasswordRequestOtp(context: context);
                                             },
                                             child: Text(
                                               getTranslatedStrings(context).forgotPassword,
-                                              style:
-                                                  mainStyle(context, 12, color: mainBlueColor, weight: FontWeight.w700),
+                                              style: mainStyle(context, 14, color: newDarkGreyColor, weight: FontWeight.w700),
                                             ),
                                           ),
                                         ],
-                                        //test
-                                        // main
                                       ),
                                       heightBox(35.h),
                                       state is AuthLoadingState
@@ -304,11 +214,15 @@ class _SignInScreenState extends State<SignInScreen> {
                                                   );
                                                 }
                                               },
-                                              text: getTranslatedStrings(context).login,
-                                            ),
-                                      // heightBox(20.h),
-                                      // AgreeTerms(),
-                                      // heightBox(40.h),
+                                        onAnimationStart: () {
+                                          // Trigger the SVG animation when the button is clicked
+                                          setState(() {
+                                            playAnimation(); // Implement your animation logic here
+                                          });
+                                        },
+                                        text: getTranslatedStrings(context).login,
+                                      ),
+                                      // SVGAnimationWidget(),
                                     ],
                                   )),
                             ),
@@ -325,96 +239,6 @@ class _SignInScreenState extends State<SignInScreen> {
                           borderColor: Colors.transparent,
                           onClick: () {
                             navigateTo(context, PickUserTypeLayout());
-                            // showMyAlertDialog(context, getTranslatedStrings(context).signUp,
-                            //     alertDialogContent: Column(
-                            //       mainAxisSize: MainAxisSize.min,
-                            //       children: [
-                            //         Padding(
-                            //           padding: const EdgeInsets.all(14.0),
-                            //           child: Column(
-                            //             children: [
-                            //               heightBox(20.h),
-                            //               DefaultButton(
-                            //                 text: getTranslatedStrings(context).asProvider,
-                            //                 width: double.maxFinite,
-                            //                 height: 40.h,
-                            //                 fontSize: 12,
-                            //                 onClick: () {
-                            //                   navigateTo(
-                            //                       context,
-                            //                       SignUpScreen(
-                            //                         type: 'provider',
-                            //                       ));
-                            //                 },
-                            //                 radius: 10.r,
-                            //               ),
-                            //               heightBox(7.h),
-                            //               Text(
-                            //                 getTranslatedStrings(context).providerDescription,
-                            //                 style: mainStyle(context, 12, color: mainBlueColor),
-                            //                 textAlign: TextAlign.center,
-                            //               )
-                            //             ],
-                            //           ),
-                            //         ),
-                            //
-                            //         /// sign up as student commented for now
-                            //         // heightBox(2.h),
-                            //         // Padding(
-                            //         //   padding:
-                            //         //   const EdgeInsets.all(8.0),
-                            //         //   child: Column(
-                            //         //     children: [
-                            //         //       DefaultButton(
-                            //         //           text: getTranslatedStrings(
-                            //         //               context)
-                            //         //               .asStudent,
-                            //         //           width: double.maxFinite,
-                            //         //           height: 40.h,
-                            //         //           radius: 10.r,
-                            //         //           fontSize: 12,
-                            //         //           onClick: () {
-                            //         //             navigateTo(
-                            //         //                 context,
-                            //         //                 SignUpScreen(
-                            //         //                   type: 'student',
-                            //         //                 ));
-                            //         //           }),
-                            //         //       heightBox(7.h),
-                            //         //       Text(getTranslatedStrings(context).studentDescription,
-                            //         //         style: mainStyle(context, 12,color: mainBlueColor),)
-                            //         //     ],
-                            //         //   ),
-                            //         // ),
-                            //         heightBox(2.h),
-                            //         Padding(
-                            //           padding: const EdgeInsets.all(8.0),
-                            //           child: Column(
-                            //             children: [
-                            //               DefaultButton(
-                            //                   text: getTranslatedStrings(context).asClient,
-                            //                   width: double.maxFinite,
-                            //                   height: 40.h,
-                            //                   radius: 10.r,
-                            //                   fontSize: 12,
-                            //                   onClick: () {
-                            //                     navigateTo(
-                            //                         context,
-                            //                         SignUpScreen(
-                            //                           type: 'client',
-                            //                         ));
-                            //                   }),
-                            //               heightBox(7.h),
-                            //               Text(
-                            //                 getTranslatedStrings(context).clientDescription,
-                            //                 style: mainStyle(context, 12, color: mainBlueColor),
-                            //                 textAlign: TextAlign.center,
-                            //               )
-                            //             ],
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     ));
                           },
                         ),
                       ),
@@ -509,3 +333,23 @@ class ContinueGuestButton extends StatelessWidget {
     );
   }
 }
+
+
+// class SVGAnimationWidget extends StatefulWidget {
+//   @override
+//   _SVGAnimationWidgetState createState() => _SVGAnimationWidgetState();
+// }
+//
+// class _SVGAnimationWidgetState extends State<SVGAnimationWidget> {
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SvgPicture.asset(
+//       'assets/your_animation.svg', // Replace with your SVG file path
+//       controller: controllerKey, // Use controller instead of key
+//       onReadyState: (state) {
+//         controllerKey.currentState?.animationController.repeat();
+//       },
+//     );
+//   }
+// }

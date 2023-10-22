@@ -34,8 +34,10 @@ import '../../modules/main_layout/main_layout.dart';
 import '../../modules/messenger/messenger_layout.dart';
 import '../../modules/messenger/msngr_cubit/messenger_cubit.dart';
 import '../constants/constants.dart';
+import '../constants/validators.dart';
 import '../functions/main_funcs.dart';
 import 'mena_shared_widgets/custom_containers.dart';
+
 
 class DefaultContainer extends StatelessWidget {
   const DefaultContainer(
@@ -655,10 +657,13 @@ class SearchBar extends StatelessWidget {
             // ),
             onFieldChanged: onFieldChanged,
             customHintText: 'Search by country name',
-            suffixIcon: SvgPicture.asset(
-              'assets/svg/search.svg',
-              width: 20.w,
-            ),
+            suffixIcon: Icon(Icons.search,color: mainBlueColor,size: 25,),
+            // SvgPicture.asset(
+            //   'assets/svg/search_icon.svg',
+            //   color: mainBlueColor,
+            //   alignment: Alignment.centerRight,
+            //   fit: BoxFit.cover,
+            // ),
           )),
           // SvgPicture.asset('assets/svg/search.svg'),
         ],
@@ -1072,53 +1077,31 @@ class DefaultInputField extends StatelessWidget {
         //   padding: EdgeInsets.symmetric(horizontal: withoutLabelPadding ? 0.0 : 2.0),
         //   child: labelWidget,
         // ),
-        fillColor: fillColor ?? newLightGreyColor,
+        // fillColor: fillColor ?? newLightGreyColor,
+        fillColor: hasError? Color(0xffF2D5D5): fillColor,
         focusColor: fillColor ?? newLightGreyColor,
 
         focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: unFocusedBorderColor ?? Colors.red, width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
         errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: unFocusedBorderColor ?? Colors.red.withOpacity(0.6), width: 1),
+            borderSide: BorderSide(color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
 
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor ?? mainBlueColor, width: 1.0),
+            borderSide: BorderSide(color: focusedBorderColor ?? Color(0xff0077FF), width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
 
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: unFocusedBorderColor ?? mainBlueColor.withOpacity(0.7), width: 1),
+            borderSide: BorderSide(color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
         disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: unFocusedBorderColor ?? mainBlueColor.withOpacity(0.7), width: 1),
+            borderSide: BorderSide(color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
       ),
-      // decoration: InputDecoration(
-      //   contentPadding: EdgeInsets.all(10.h),
-      //   // icon: Icon(Icons.send),
-      //   // hintText: 'Hint Text',
-      //   // helperText: 'Helper Text',
-      //   // counterText: '0 characters',
-      //
-      //   focusedBorder: OutlineInputBorder(
-      //       borderSide:
-      //       const BorderSide(color: Color(0xffa4c4f4), width: 2.0),
-      //       borderRadius: BorderRadius.all(Radius.circular(11.0.sp))),
-      //
-      //   enabledBorder: OutlineInputBorder(
-      //       borderSide:
-      //       const BorderSide(color: Color(0xffa4c4f4), width: 1.0),
-      //       borderRadius: BorderRadius.all(Radius.circular(11.0.sp))),
-      // ),
       validator: validate,
       minLines: 1,
       maxLines: maxLines ?? 1,
-      // height: 41.h,
-      // decoration: BoxDecoration(
-      //   color: const Color(0xffffffff),
-      //   borderRadius: BorderRadius.circular(10.0),
-      //   border: Border.all(width: 1.0, color: const Color(0xffa4c4f4)),
-      // ),
     );
   }
 }
@@ -1242,6 +1225,7 @@ class DefaultButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onClick,
+    this.onAnimationStart,
     this.height,
     this.width,
     this.radius,
@@ -1255,6 +1239,7 @@ class DefaultButton extends StatelessWidget {
   }) : super(key: key);
   final String text;
   final Function() onClick;
+  final Function()? onAnimationStart;
   final double? height;
   final double? width;
   final double? radius;
@@ -1269,7 +1254,14 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isEnabled ? onClick : null,
+      onTap: isEnabled
+          ? () {
+        if (onAnimationStart != null) {
+          onAnimationStart!(); // Trigger animation start callback
+        }
+        onClick();
+      }
+          : null,
       child: Container(
         width: width,
         height: height ?? null,
@@ -2950,7 +2942,7 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
                   color: Colors.transparent,
                   child: Center(
                     child: SvgPicture.asset(
-                      'assets/svg/icons/back.svg',
+                      'assets/svg/back_icon.svg',
                       color: mainBlueColor,
                     ),
                   ),
@@ -2960,13 +2952,11 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
-                // height: 30.h,
-                // width: 30.w,
                 color: Colors.transparent,
                 child: Center(
-                  child: SvgPicture.asset(
-                  logo ??  'assets/svg/mena8.svg',
-                    height: 20.h,
+                  child: Image.asset(
+                  logo ??  'assets/Menalogo.png',
+                    scale: 3,
                     // color: mainBlueColor,
                   ),
                 ),

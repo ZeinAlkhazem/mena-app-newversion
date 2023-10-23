@@ -256,7 +256,7 @@ class _ProviderProfileDashboardState extends State<ProviderProfileDashboard> {
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
     User user = mainCubit.userInfoModel!.data.user;
-
+    logg('user : ${user.fullName}');
     return Container(
       color: newLightGreyColor,
       child: BlocConsumer<MainCubit, MainState>(

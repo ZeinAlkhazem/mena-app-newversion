@@ -60,6 +60,7 @@ class CompleteInfoSubscribe extends StatelessWidget {
               // TODO: implement listener
             },
             builder: (context, state) {
+              logg('sss ${completeInfoCubit.additionalRequiredDataModel}');
               return completeInfoCubit.additionalRequiredDataModel == null
                   ? const Center(child: DefaultLoaderGrey())
                   : Column(

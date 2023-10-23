@@ -9,7 +9,6 @@ environment:
   sdk: ">=2.17.6 <3.0.0"
 
 dependency_overrides:
-  zego_express_engine: '3.2.0'
   intl: ^0.18.0
 dependencies:
   flutter:
@@ -19,8 +18,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-#  zego_uikit_prebuilt_live_streaming:
-#    path: ../zego_uikit_prebuilt_live_streaming-1.4.4
 
 #  mena_live_webrtc:
 #    git:
@@ -93,14 +90,13 @@ dependencies:
   dropdown_button2: ^2.1.2
   flutter_switch: ^0.3.2
   add_2_calendar: ^2.2.3
-#  flutter_super_html_viewer: ^0.0.2
-  socket_io_client: ^2.0.2
+  socket_io_client: ^1.0.2
+  flutter_html:
 #  html: ^0.15.4
 #  flutter_html: ^2.2.1
 #  flutter_html: ^3.0.0-beta.2
 #  maps_launcher: ^2.2.0
 #  place_picker: ^0.10.0
-#  zego_uikit_prebuilt_live_streaming: ^1.4.4
   keyboard_emoji_picker: ^1.0.1
   whiteboard: ^0.0.2
   webview_flutter: ^4.2.2
@@ -133,6 +129,7 @@ flutter:
   generate: true
   assets:
     - assets/
+    - assets/addedbyzein/
     - assets/images/
     - assets/icons/messenger/
     - assets/images/public/

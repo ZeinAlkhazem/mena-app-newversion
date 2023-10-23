@@ -18,7 +18,7 @@ class CompleteInfoCubit extends Cubit<CompleteInfoState> {
 
   /// from api
   AdditionalRequiredDataModel? additionalRequiredDataModel;
-
+  
   List<AdditionalItem> requiredDataList = [
     // AdditionalItem(id: 4, name: 'name', title: 'title', description: 'description', required: '1', extensions: ['pdf'], type: 'string', value: 'value')
   ];
@@ -34,12 +34,13 @@ class CompleteInfoCubit extends Cubit<CompleteInfoState> {
     await MainDioHelper.getData(
             url: requiredFieldsDataEnd, query: {})
         .then((value) {
-      logg('got required fields');
-      logg(value.toString());
+      logg('`got required fields` ${value.toString()}');
       // getSelectedVariationDetails(sku);
       additionalRequiredDataModel =
           AdditionalRequiredDataModel.fromJson(value.data);
 
+
+      logg('dddddddddd ${additionalRequiredDataModel}');
 
       /// uncomment this
       ///

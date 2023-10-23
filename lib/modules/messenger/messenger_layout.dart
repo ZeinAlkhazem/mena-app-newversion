@@ -68,15 +68,7 @@ class _MessengerLayoutState extends State<MessengerLayout> {
             : kBottomNavigationBarHeight * 0,
       ),
       child: Scaffold(
-        // key: scaffoldKey,
         backgroundColor: Colors.white,
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {},
-        //   child: SvgPicture.asset(
-        //     'assets/svg/icons/addcircled.svg',
-        //     height: 30.h,
-        //   ),
-        // ),
         body: BlocConsumer<MessengerCubit, MessengerState>(
           listener: (context, state) {
             // TODO: implement listener

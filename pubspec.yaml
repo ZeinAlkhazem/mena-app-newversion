@@ -90,8 +90,8 @@ dependencies:
   dropdown_button2: ^2.1.2
   flutter_switch: ^0.3.2
   add_2_calendar: ^2.2.3
-#  flutter_super_html_viewer: ^0.0.2
   socket_io_client: ^1.0.2
+  flutter_html:
 #  html: ^0.15.4
 #  flutter_html: ^2.2.1
 #  flutter_html: ^3.0.0-beta.2

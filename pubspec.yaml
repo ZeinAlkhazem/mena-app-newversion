@@ -24,12 +24,12 @@ dependencies:
 #      url: https://github.com/MozafarAlali93/mena_live_webrtc.git
 #      ref: master # branch name
 
-  intl: ^0.18.0
+  intl: ^0.18.1
   cupertino_icons: ^1.0.2
   cloud_firestore: ^4.3.1
   intl_phone_number_input: ^0.7.0+2
   firebase_core: ^2.4.1
-  flutter_svg: ^1.1.4
+  flutter_svg: ^1.0.1
   flutter_screenutil: ^5.9.0
   persistent_bottom_nav_bar_v2: ^4.2.4
   page_transition: ^2.0.9
@@ -131,6 +131,7 @@ flutter:
     - assets/
     - assets/addedbyzein/
     - assets/images/
+    - assets/icons/messenger/
     - assets/images/public/
     - assets/svg/
     - assets/json/

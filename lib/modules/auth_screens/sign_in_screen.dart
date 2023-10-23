@@ -122,11 +122,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   return Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(top: 18),
+                        padding: EdgeInsets.only(top: 8),
                         constraints: BoxConstraints(maxHeight: 0.7.sh),
                         child: Column(
                           children: [
-                            heightBox(0.1.sh),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -137,8 +136,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                               ],
                             ),
-                            heightBox(33.h),
-                            heightBox(22.h),
+                            heightBox(110.h),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
                               child: Form(
@@ -154,8 +152,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           color: Color(0xff999B9D)),
                                         autoValidateMode: authCubit.autoValidateMode,
                                         controller: emailCont,
-                                        validate: normalInputValidate(context,customText: 'Email address or phone number is not valid.'),
-
+                                        validate: normalInputValidate(context),
                                       ),
                                       heightBox(10.h),
                                       DefaultInputField(
@@ -178,8 +175,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                             authCubit.passVisible
                                                 ? 'assets/open_eyes_icon.svg'
                                                 : 'assets/close_eye.svg',
-                                            width: 18.sp,
-                                            height: 18.sp,
+                                            fit: BoxFit.contain,
+                                            color: Color(0xff999B9D),
+                                            theme: SvgTheme(
+                                              currentColor: Color(0xff999B9D),
+                                              fontSize: 13,
+                                            ),
                                           ),
                                         ),
                                       ),

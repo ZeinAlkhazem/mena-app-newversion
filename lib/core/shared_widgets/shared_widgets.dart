@@ -1002,11 +1002,12 @@ class DefaultInputField extends StatelessWidget {
     this.autoValidateMode = AutovalidateMode.disabled,
     this.edgeInsetsGeometry,
     this.labelTextStyle,
+    this.hasError1 = false,
   }) : super(key: key);
 
   final String? label;
   final String? customHintText;
-
+  final bool hasError1;
   final TextStyle? labelTextStyle;
   // final Widget? labelWidget;
   final bool withoutLabelPadding;
@@ -1035,6 +1036,13 @@ class DefaultInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool hasError = hasError1 ?? false; // Use hasError1 if provided, default to false
+    String? errorText;
+
+    if (validate != null) {
+      errorText = validate!(controller?.text);
+      hasError = errorText != null;
+    }
     return TextFormField(
       controller: controller,
       focusNode: focusNode,
@@ -1069,7 +1077,7 @@ class DefaultInputField extends StatelessWidget {
                 child: prefixWidget,
               )
             : null,
-        suffixIconConstraints: BoxConstraints(maxHeight: 30.w),
+        suffixIconConstraints: BoxConstraints(maxHeight: 50.h,maxWidth: 50.w),
         labelStyle: labelTextStyle ?? mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
         // labelText: label,
         label: Text(label ?? ''),
@@ -1099,7 +1107,12 @@ class DefaultInputField extends StatelessWidget {
             borderSide: BorderSide(color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
       ),
-      validator: validate,
+      validator: (val) {
+        if (validate != null) {
+          return errorText;
+        }
+        return null;
+      },
       minLines: 1,
       maxLines: maxLines ?? 1,
     );
@@ -1254,14 +1267,6 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isEnabled
-          ? () {
-        if (onAnimationStart != null) {
-          onAnimationStart!(); // Trigger animation start callback
-        }
-        onClick();
-      }
-          : null,
       child: Container(
         width: width,
         height: height ?? null,
@@ -1275,7 +1280,8 @@ class DefaultButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: withoutPadding ? 0 : 5, vertical: withoutPadding ? 0 : 10),
         child: customChild ??
             Center(
-              child: Text(
+              child:
+              Text(
                 text,
                 textAlign: TextAlign.center,
                 style: mainStyle(context, isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
@@ -1285,6 +1291,77 @@ class DefaultButton extends StatelessWidget {
     );
   }
 }
+
+class ButtonWithLoader extends StatefulWidget {
+  final String text;
+  // final VoidCallback onPressed;
+  final bool isLoading;
+  final Function() onClick;
+  final Function()? onAnimationStart;
+  final double? height;
+  final double? width;
+  final double? radius;
+  final bool withoutPadding;
+  final double? fontSize;
+  final Widget? customChild;
+  final Color? backColor;
+  final Color? borderColor;
+  final Color? titleColor;
+  final bool isEnabled;
+
+  ButtonWithLoader({
+    this.isLoading = false,
+    required this.text,
+    required this.onClick,
+    // required this.onPressed,
+    this.onAnimationStart,
+    this.height,
+    this.width,
+    this.radius,
+    this.fontSize,
+    this.backColor,
+    this.borderColor,
+    this.customChild,
+    this.titleColor,
+    this.withoutPadding = false,
+    this.isEnabled = true,
+  });
+
+  @override
+  _ButtonWithLoaderState createState() => _ButtonWithLoaderState();
+}
+
+class _ButtonWithLoaderState extends State<ButtonWithLoader> {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ButtonStyle(
+
+      ),
+      onPressed: widget.isLoading ? null : widget.onClick,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Text(widget.text, style: TextStyle(fontSize: 16.0)),
+          if (widget.isLoading)
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+        ],
+      ),
+    );
+  }
+}
+// Stack(
+// alignment: Alignment.center,
+// children: [
+// Text(widget.text, style: TextStyle(fontSize: 16.0)),
+// if (widget.isLoading)
+// CircularProgressIndicator(
+// valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+// ),
+// ],
+// ),
 
 class DefaultLoaderGrey extends StatelessWidget {
   const DefaultLoaderGrey({Key? key, this.customHeight}) : super(key: key);
@@ -2956,7 +3033,7 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
                 child: Center(
                   child: Image.asset(
                   logo ??  'assets/Menalogo.png',
-                    scale: 3,
+                    scale: 5,
                     // color: mainBlueColor,
                   ),
                 ),

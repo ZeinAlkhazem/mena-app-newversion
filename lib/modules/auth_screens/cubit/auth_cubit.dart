@@ -173,6 +173,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void toggleAutoValidate(bool val) {
+
     if (val == true) {
       autoValidateMode = AutovalidateMode.always;
     } else {
@@ -263,6 +264,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String pass,
     required BuildContext context,
   }) async {
+    bool hasError1 = false;
     emit(AuthLoadingState());
     MainDioHelper.postData(url: loginEnd, data: {
       'email': email,
@@ -289,8 +291,10 @@ class AuthCubit extends Cubit<AuthState> {
     }).catchError((error, stack) {
       logg(error.toString());
       logg(stack.response.toString());
+      hasError = true;
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });
+    DefaultInputField(hasError1: hasError1,);
   }
 
   Future<void> submitResetPass({
@@ -431,7 +435,7 @@ class AuthCubit extends Cubit<AuthState> {
                             suffixIcon: IconButton(
                               icon: SvgPicture.asset(
                                 'assets/grayX.svg',
-                                color: mainBlueColor,
+                                color: Color(0xff999B9D),
                                 width: 30.w,
                                 height: 30.h,
                                 alignment: Alignment.centerRight,

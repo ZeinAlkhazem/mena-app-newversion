@@ -37,6 +37,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   CategoriesModel? platformCategory;
   MenaPlatform? selectedPlatform;
+  String? emailConfirmation;
 
   List<MenaCategory>? selectedSpecialities;
   MenaCategory selectedMenaCategory = MenaCategory(id: -1);
@@ -172,6 +173,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void toggleAutoValidate(bool val) {
+
     if (val == true) {
       autoValidateMode = AutovalidateMode.always;
     } else {
@@ -262,6 +264,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String pass,
     required BuildContext context,
   }) async {
+    bool hasError1 = false;
     emit(AuthLoadingState());
     MainDioHelper.postData(url: loginEnd, data: {
       'email': email,
@@ -288,8 +291,10 @@ class AuthCubit extends Cubit<AuthState> {
     }).catchError((error, stack) {
       logg(error.toString());
       logg(stack.response.toString());
+      hasError = true;
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });
+    DefaultInputField(hasError1: hasError1,);
   }
 
   Future<void> submitResetPass({
@@ -352,12 +357,17 @@ class AuthCubit extends Cubit<AuthState> {
               elevation: 0,
               leading: InkWell(
                 onTap: () => Navigator.pop(context),
-                child: Image.asset(
+                child:Image.asset(
                   'assets/addedbyzein/back.png', // Replace with your image path
                   scale: 3,
-                  alignment:
-                  Alignment.centerRight, // Adjust the height as needed
+                  alignment: Alignment.centerRight, // Adjust the height as needed
                 ),
+                // SvgPicture.asset(
+                //   'assets/svg/back_icon.svg',
+                //   color: mainBlueColor,
+                //
+                //   alignment: Alignment.centerRight,
+                // ),
               ),
               actions: [
                 Padding(
@@ -415,18 +425,20 @@ class AuthCubit extends Cubit<AuthState> {
                           ),
                           heightBox(10.h),
                           DefaultInputField(
-                            fillColor: hasError
-                                ? Color(0xffF2D5D5)
-                                : Color(0xffF2F2F2),
-                            focusedBorderColor: hasError
-                                ? Color(0xffE72B1C)
-                                : Color(0xff0077FF),
+                            fillColor: Color(0xffF2F2F2),
+                            focusedBorderColor:  Color(0xff0077FF),
                             unFocusedBorderColor: Color(0xffC9CBCD),
                             label: 'Username, email or mobile number',
+                            onFieldChanged: (text) {
+                               emailConfirmation = text;
+                            },
                             suffixIcon: IconButton(
-                              icon: Icon(
-                                Icons.close,
-                                color: Color(0xff152026),
+                              icon: SvgPicture.asset(
+                                'assets/grayX.svg',
+                                color: Color(0xff999B9D),
+                                width: 30.w,
+                                height: 30.h,
+                                alignment: Alignment.centerRight,
                               ),
                               onPressed: () {
                                 inController.clear();
@@ -441,16 +453,16 @@ class AuthCubit extends Cubit<AuthState> {
                             validate: normalInputValidate1,
                           ),
                           heightBox(10.h),
-                          Text(
-                            hasError
-                                ? "Check your username, mobile or email address  and try again"
-                                : "",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'PNfont',
-                                color: Color(0xffE72B1C)),
-                          ),
+                          // Text(
+                          //   hasError
+                          //       ? "Check your username, mobile or email address  and try again"
+                          //       : "",
+                          //   style: TextStyle(
+                          //       fontSize: 13.0,
+                          //       fontWeight: FontWeight.w500,
+                          //       fontFamily: 'PNfont',
+                          //       color: Color(0xffE72B1C)),
+                          // ),
                           heightBox(450.h),
                           state is ProceedingToResetPass
                               ? const DefaultLoaderGrey()

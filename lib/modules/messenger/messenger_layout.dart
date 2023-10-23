@@ -82,10 +82,7 @@ class _MessengerLayoutState extends State<MessengerLayout> {
             // TODO: implement listener
           },
           builder: (context, state) {
-            return
-              MessengerEmptyWidget();
-
-              messengerCubit.myMessagesModel == null
+            return  messengerCubit.myMessagesModel == null
                 ? DefaultLoaderGrey()
                 : messengerCubit.myMessagesModel!.data.myChats == null
                     ? DefaultLoaderGrey()

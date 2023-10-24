@@ -71,7 +71,7 @@ class _ChatLayoutState extends State<ChatLayout> {
       );
     }
 
-    socket = MainCubit.get(context).socket;
+    socket = MainCubit.get(context).messageSocket;
     socket?.on('message', (data) {
       logg('new message socket: $data');
       if (widget.chatId == null) {

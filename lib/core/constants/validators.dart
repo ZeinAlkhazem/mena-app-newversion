@@ -3,8 +3,6 @@ import 'package:mena/core/constants/constants.dart';
 
 import '../functions/main_funcs.dart';
 
-bool hasError = false;
-
 String? Function(String?)? emailValidate(BuildContext context) => (String? val) {
   if (val!.isEmpty) {
     return getTranslatedStrings(context).thisFieldIsRequired;
@@ -45,21 +43,8 @@ String? Function(String?)? passwordValidate(BuildContext context) {
 //   return null;
 // };
 // }
-String? normalInputValidate1(String? fieldContent) {
-  if (fieldContent == null || fieldContent.isEmpty) {
-    hasError = true;
-    return "Check your username, mobile or email address  and try again";
-  }
-  hasError = false;
-  return null;
-}
 
-String? emptyValueValidate(String? fieldContent) {
-  if (fieldContent == null || fieldContent.isEmpty) {
-    return "Please fill this field";
-  }
-  return null;
-}
+
 String? Function(String?)? normalInputValidate(BuildContext context,{String? customText}) {
   return  (String? val) {
     if (val!.isEmpty) {

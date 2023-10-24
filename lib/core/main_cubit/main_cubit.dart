@@ -30,6 +30,7 @@ class MainCubit extends Cubit<MainState> {
   MainCubit() : super(MainInitial());
 
   static MainCubit get(context) => BlocProvider.of(context);
+
       
   IO.Socket messageSocket = IO.io(
       'https://chat.menaaii.com:3000',
@@ -48,9 +49,7 @@ class MainCubit extends Cubit<MainState> {
           .setExtraHeaders({
         'foo': 'bar',
       }) // optional
-          .build()
-  );
- 
+          .build());
 
   String currentLogo = 'assets/svg/mena8.svg';
 
@@ -440,7 +439,8 @@ class MainCubit extends Cubit<MainState> {
     ///
 
     await MainDioHelper.getData(url: userInfoEnd, query: {}).then((value) async {
-      logg('got user info ${value.toString()}');
+      logg('got user info ');
+      logg(value.toString());
       userInfoModel = UserInfoModel.fromJson(value.data);
       requireDataCompleted = userInfoModel!.data.dataCompleted.completed;
 
@@ -466,10 +466,9 @@ class MainCubit extends Cubit<MainState> {
 
   void socketInitial() async {
     /// Socket connect
-
-    
     print('establishing socket connection');
     socket = await IO.io(
+
         'https://live.menaaii.com:3000',
         IO.OptionBuilder().setTransports(['websocket'])
             // for Flutter or Dart VM
@@ -492,7 +491,6 @@ class MainCubit extends Cubit<MainState> {
     logg(socket.json.connected.toString());
     socket.onConnect((_) {
       print('socket connection established');
-
 
       if (userInfoModel != null) {
         socket.emit('join', [
@@ -532,12 +530,12 @@ class MainCubit extends Cubit<MainState> {
       getCountersData();
     });
     // socket.on('new-message', (data) => print('socket: ' + data));
-    // socket.onAny((event, data) {
-    //   print('socket: event: ' + event);
-    //   print('socket: data:  ${data ?? 'Null data'}');
-    // });
+    socket.onAny((event, data) {
+      print('socket: event: ' + event);
+      print('socket: data:  ${data ?? 'Null data'}');
+    });
 
-    // socket.onerror((err) => {logg('Socket error : $err')});
+    socket.onerror((err) => {logg('Socket error : $err')});
 
     messageSocket.onConnectError((data) => logg(data.toString()));
 

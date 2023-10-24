@@ -79,7 +79,16 @@ class _MessengerLayoutState extends State<MessengerLayout> {
                 : messengerCubit.myMessagesModel!.data.myChats == null
                     ? DefaultLoaderGrey()
                     : messengerCubit.myMessagesModel!.data.myChats!.isEmpty
-                        ? MessengerEmptyWidget()
+                        ? MessengerEmptyWidget(
+                            title: getTranslatedStrings(context)
+                                .welcomeToMenaMessenger,
+                            description: getTranslatedStrings(context)
+                                .startMessagingWithProvidersClients,
+                            btn_title:
+                                getTranslatedStrings(context).startMessaging,
+                            imageUrl:
+                                "assets/icons/messenger/mena_messenger_logo.svg",
+                          )
                         : SafeArea(
                             child: Container(
                               color: newLightGreyColor,

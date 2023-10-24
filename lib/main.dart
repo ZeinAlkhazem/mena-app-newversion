@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -57,24 +58,6 @@ class MyHttpOverrides extends HttpOverrides {
 //
 // late Box userBox;
 void main() async {
-
-  HttpOverrides.global = MyHttpOverrides();
-
-  WidgetsFlutterBinding.ensureInitialized();
-  // await initializeDateFormatting();
-  final prefs = await SharedPreferences.getInstance();
-  String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
-
-  // Get the default phone language and set it as the default language
-  Locale myLocale = WidgetsBinding.instance!.window.locale;
-  if (myLocale.languageCode == 'ar') {
-    selectedLanguage = 'Arabic';
-  } else {
-    selectedLanguage =
-    'English'; // You can set other default languages if needed
-  }
-  await prefs.setString('selectedLanguage', selectedLanguage);
-
   HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -202,7 +185,6 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
   @override
   void initState() {
     super.initState();
-
     /// to get databases location for stored json
     // preCacheProcesses(context);
 

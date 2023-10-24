@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +29,7 @@ class MainCubit extends Cubit<MainState> {
   MainCubit() : super(MainInitial());
 
   static MainCubit get(context) => BlocProvider.of(context);
-      
-      
-  
+
   IO.Socket socket = IO.io(
       'https://live.menaaii.com:3001',
       IO.OptionBuilder().setTransports(['websocket'])
@@ -40,12 +37,9 @@ class MainCubit extends Cubit<MainState> {
           .setExtraHeaders({
         'foo': 'bar',
       }) // optional
-          .build()
-  );
- 
+          .build());
 
   String currentLogo = 'assets/svg/mena8.svg';
-
 
   List<String?> selectedLocalesIsoInDashboard = [];
 
@@ -64,15 +58,18 @@ class MainCubit extends Cubit<MainState> {
   UserInfoModel? userInfoModel;
   List<ItemWithTitleAndCallback> uncompletedSections = [];
   double completionPercentage = 0.0;
-  List<MayyaCountry> mayyaCountries = MayyaCountryProvider.getCountriesData(countries: []);
+  List<MayyaCountry> mayyaCountries =
+      MayyaCountryProvider.getCountriesData(countries: []);
   String countrySearchQuery = '';
-  Locale? appLocale =
-      L10n.all.firstWhere((element) => element.languageCode == getCachedLocal().toString(), orElse: () => L10n.all[0]);
+  Locale? appLocale = L10n.all.firstWhere(
+      (element) => element.languageCode == getCachedLocal().toString(),
+      orElse: () => Locale(Platform.localeName.substring(0, 2)));
   String? defaultLang = getCachedLocal().toString();
 
   ///
   bool isHeaderVisible = true;
-  bool? firstRun = getCachedFirstApplicationRun(); //initial values(lang and location) saved?
+  bool? firstRun =
+      getCachedFirstApplicationRun(); //initial values(lang and location) saved?
 
   bool setUpChecked = false;
   bool isUserLoggedIn = false;
@@ -211,7 +208,8 @@ class MainCubit extends Cubit<MainState> {
           onClickCallback: () {},
         ));
       }
-      if (moreData.certifications != null && moreData.certifications!.isNotEmpty) {
+      if (moreData.certifications != null &&
+          moreData.certifications!.isNotEmpty) {
         completedSections += 1;
       } else {
         uncompletedSections.add(ItemWithTitleAndCallback(
@@ -258,21 +256,24 @@ class MainCubit extends Cubit<MainState> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
       return false;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
       return false;
     }
 
@@ -335,7 +336,8 @@ class MainCubit extends Cubit<MainState> {
 
   Future<void> checkPermAndSaveLatLng(context) async {
     if (await handleLocationPermission(context)) {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
       saveCacheLat(position.latitude.toString());
       saveCacheLng(position.longitude.toString());
     }
@@ -358,8 +360,10 @@ class MainCubit extends Cubit<MainState> {
       mayyaCountries = MayyaCountryProvider.getCountriesData(countries: []);
     } else {
       mayyaCountries = MayyaCountryProvider.getCountriesData(countries: [])
-          .where((element) =>
-              element.nameTranslations![appLocale!.languageCode]!.toLowerCase().contains(query.toLowerCase()))
+          .where((element) => element
+              .nameTranslations![appLocale!.languageCode]!
+              .toLowerCase()
+              .contains(query.toLowerCase()))
           .toList();
     }
     emit(CountrySearchQueryUpdated());
@@ -431,7 +435,8 @@ class MainCubit extends Cubit<MainState> {
     ///
     ///
 
-    await MainDioHelper.getData(url: userInfoEnd, query: {}).then((value) async {
+    await MainDioHelper.getData(url: userInfoEnd, query: {})
+        .then((value) async {
       logg('got user info ${value.toString()}');
       userInfoModel = UserInfoModel.fromJson(value.data);
       requireDataCompleted = userInfoModel!.data.dataCompleted.completed;
@@ -459,7 +464,6 @@ class MainCubit extends Cubit<MainState> {
   void socketInitial() async {
     /// Socket connect
 
-    
     print('establishing socket connection');
     socket = await IO.io(
         'https://live.menaaii.com:3001',
@@ -477,10 +481,12 @@ class MainCubit extends Cubit<MainState> {
     socket.onConnect((_) {
       print('socket connection established');
 
-
       if (userInfoModel != null) {
         socket.emit('join', [
-          {'user_id': '${userInfoModel!.data.user.id}', 'type': '${isUserProvider() ? 'provider' : 'client'}'},
+          {
+            'user_id': '${userInfoModel!.data.user.id}',
+            'type': '${isUserProvider() ? 'provider' : 'client'}'
+          },
         ]);
 
         logg('emitted');
@@ -558,9 +564,13 @@ class MainCubit extends Cubit<MainState> {
       logg(value.toString());
       // logg(value.toString());
       configModel = ConfigModel.fromJson(value.data);
-      selectedLocalesIsoInDashboard = configModel!.data.languages.map((e) => e.code!.split('_')[0]).toList();
-      selectedLocalesInDashboard =
-          L10n.all.where((element) => selectedLocalesIsoInDashboard.contains(element.languageCode)).toList();
+      selectedLocalesIsoInDashboard = configModel!.data.languages
+          .map((e) => e.code!.split('_')[0])
+          .toList();
+      selectedLocalesInDashboard = L10n.all
+          .where((element) =>
+              selectedLocalesIsoInDashboard.contains(element.languageCode))
+          .toList();
 
       /// save local db
       if (!kIsWeb) {
@@ -610,13 +620,15 @@ class MainCubit extends Cubit<MainState> {
       emit(ErrorLoadingDataState());
     });
   }
+
   Future<void> getCountersData() async {
     logg('getting counters');
-    await MainDioHelper.getData(url: countersEnd, query: {}).then((value) async {
+    await MainDioHelper.getData(url: countersEnd, query: {})
+        .then((value) async {
       logg('counters data got');
       logg(value.toString());
       // logg(value.toString());
-      countersModel=CountersModel.fromJson(value.data);
+      countersModel = CountersModel.fromJson(value.data);
       emit(DataLoadedSuccessState());
     }).catchError((error, stack) {
       logg('an error occurred');
@@ -629,7 +641,8 @@ class MainCubit extends Cubit<MainState> {
   Future<void> getPlans() async {
     /// get
     logg('getting plans data');
-    await MainDioHelper.getData(url: getPlansEnd, query: {}).then((value) async {
+    await MainDioHelper.getData(url: getPlansEnd, query: {})
+        .then((value) async {
       logg('plans data got');
       logg('value: ${value.toString()}');
       // logg(value.toString());

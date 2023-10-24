@@ -276,7 +276,8 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           debugShowCheckedModeBanner: false,
 
           theme: Theme.of(context).copyWith(
-            appBarTheme: Theme.of(context).appBarTheme.copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+            appBarTheme: Theme.of(context).appBarTheme.
+            copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
             // drawerTheme: DrawerThemeData(
             //   scrimColor: Colors.green,
             //   shadowColor: Colors.blue,

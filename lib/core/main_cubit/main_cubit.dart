@@ -89,6 +89,8 @@ class MainCubit extends Cubit<MainState> {
     List<ItemWithTitleAndCallback> list = [];
     if (isUserProvider()) {
       list = [
+
+        
         ItemWithTitleAndCallback(
           title: 'New Post',
           thumbnailLink: 'assets/svg/icons/profile/New post.svg',
@@ -102,6 +104,14 @@ class MainCubit extends Cubit<MainState> {
           thumbnailLink: 'assets/svg/icons/profile/go live.svg',
           onClickCallback: () {
             logg('dshjfjkh');
+          },
+        ),
+          ItemWithTitleAndCallback(
+          title: 'Create Article',
+          thumbnailLink: 'assets/svg/icons/profile/addarticle.svg',
+          onClickCallback: () {
+            logg('create article');
+            navigateToWithoutNavBar(context, PostAFeedLayout(), 'routeName');
           },
         ),
         ItemWithTitleAndCallback(

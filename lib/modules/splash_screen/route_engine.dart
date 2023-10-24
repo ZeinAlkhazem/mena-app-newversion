@@ -62,40 +62,4 @@ class RouteEngine extends StatelessWidget {
   }
 }
 
-// class RouteEngine extends StatefulWidget {
-//   const RouteEngine({Key? key}) : super(key: key);
-//
-//   @override
-//   State<RouteEngine> createState() => _RouteEngineState();
-// }
-//
-// class _RouteEngineState extends State<RouteEngine> {
-//
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//
-//     super.initState();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     var mainCubit=MainCubit.get(context);
-//     logg('_RouteEngineState build');
-//     return BlocConsumer<MainCubit, MainState>(
-//       listener: (context, state) {},
-//       builder: (context, state) {
-//         if (mainCubit.firstRun == null) {
-//           logg('mainCubit.firstRun null');
-//           return const InitialOnBoarding();
-//         }
-//         // else if ('') {
-//         //   // return tablet;
-//         // }
-//         else {
-//           return const MainLayout();
-//         }
-//       },
-//     );
-//   }
-// }
+

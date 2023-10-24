@@ -26,7 +26,7 @@ class InitialChooseLang extends StatelessWidget {
     var mainCubit = MainCubit.get(context);
     var localizationStrings = AppLocalizations.of(context);
     return Scaffold(
-
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56.0.h),
         child: const DefaultOnlyLogoAppbar(

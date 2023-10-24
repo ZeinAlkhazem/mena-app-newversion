@@ -34,6 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   CategoriesModel? platformCategory;
   MenaPlatform? selectedPlatform;
+  String? emailConfirmation;
 
   List<MenaCategory>? selectedSpecialities;
   MenaCategory selectedMenaCategory = MenaCategory(id: -1);
@@ -169,6 +170,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void toggleAutoValidate(bool val) {
+
     if (val == true) {
       autoValidateMode = AutovalidateMode.always;
     } else {
@@ -259,6 +261,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String pass,
     required BuildContext context,
   }) async {
+    bool hasError1 = false;
     emit(AuthLoadingState());
     MainDioHelper.postData(url: loginEnd, data: {
       'email': email,
@@ -285,8 +288,10 @@ class AuthCubit extends Cubit<AuthState> {
     }).catchError((error, stack) {
       logg(error.toString());
       logg(stack.response.toString());
+      hasError = true;
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });
+    DefaultInputField(hasError1: hasError1,);
   }
 
   Future<void> submitResetPass({
@@ -364,6 +369,7 @@ class AuthCubit extends Cubit<AuthState> {
                       '${getTranslatedStrings(context).userName}\n',
                       style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
                       textAlign: TextAlign.center,
+
                     ),
                     // heightBox(10.h),
                     DefaultInputField(
@@ -445,6 +451,7 @@ class AuthCubit extends Cubit<AuthState> {
                     state is ProceedingToResetPass
                         ? const DefaultLoaderGrey()
                         : Row(
+
                             children: [
                               Expanded(
                                 child: DefaultButton(

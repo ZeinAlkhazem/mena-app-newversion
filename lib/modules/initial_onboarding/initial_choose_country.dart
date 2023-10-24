@@ -61,26 +61,6 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     Navigator.pop(context);
-                        //   },
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Transform(
-                        //       alignment: Alignment.center,
-                        //       transform:
-                        //           mainCubit.appLocale!.languageCode == 'ar'
-                        //               ? Matrix4.rotationY(pi)
-                        //               : Matrix4.rotationY(0),
-                        //       child: SvgPicture.asset(
-                        //         'assets/svg/icons/back.svg',
-                        //         color: mainBlueColor,
-                        //         height: 20.h,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                         Center(
                           child: Column(
                             children: [

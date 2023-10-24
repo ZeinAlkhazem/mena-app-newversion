@@ -20,6 +20,7 @@ import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
 import 'core/constants/constants.dart';
+import 'core/constants/validators.dart';
 import 'core/network/dio_helper.dart';
 import 'firebase_options.dart';
 import 'modules/add_people_to_live/cubit/add_people_to_live_cubit.dart';
@@ -165,11 +166,14 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => StartLiveCubit()),
         BlocProvider(create: (BuildContext context) => AddPeopleToLiveCubit()),
         BlocProvider(create: (BuildContext context) => MeetingCubit()),
+        // ChangeNotifierProvider(create: (context) => ErrorNotifier()),
       ],
       child: const MainMaterialApp(),
     );
   }
 }
+
+
 
 class MainMaterialApp extends StatefulWidget {
   const MainMaterialApp({Key? key}) : super(key: key);

@@ -34,8 +34,10 @@ import '../../modules/main_layout/main_layout.dart';
 import '../../modules/messenger/messenger_layout.dart';
 import '../../modules/messenger/cubit/messenger_cubit.dart';
 import '../constants/constants.dart';
+import '../constants/validators.dart';
 import '../functions/main_funcs.dart';
 import 'mena_shared_widgets/custom_containers.dart';
+
 
 class DefaultContainer extends StatelessWidget {
   const DefaultContainer(
@@ -655,10 +657,13 @@ class SearchBarWidget extends StatelessWidget {
             // ),
             onFieldChanged: onFieldChanged,
             customHintText: 'Search by country name',
-            suffixIcon: SvgPicture.asset(
-              'assets/svg/search.svg',
-              width: 20.w,
-            ),
+            suffixIcon: Icon(Icons.search,color: mainBlueColor,size: 25,),
+            // SvgPicture.asset(
+            //   'assets/svg/search_icon.svg',
+            //   color: mainBlueColor,
+            //   alignment: Alignment.centerRight,
+            //   fit: BoxFit.cover,
+            // ),
           )),
           // SvgPicture.asset('assets/svg/search.svg'),
         ],
@@ -997,11 +1002,12 @@ class DefaultInputField extends StatelessWidget {
     this.autoValidateMode = AutovalidateMode.disabled,
     this.edgeInsetsGeometry,
     this.labelTextStyle,
+    this.hasError1 = false,
   }) : super(key: key);
 
   final String? label;
   final String? customHintText;
-
+  final bool hasError1;
   final TextStyle? labelTextStyle;
   // final Widget? labelWidget;
   final bool withoutLabelPadding;
@@ -1030,6 +1036,13 @@ class DefaultInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool hasError = hasError1 ?? false; // Use hasError1 if provided, default to false
+    String? errorText;
+
+    if (validate != null) {
+      errorText = validate!(controller?.text);
+      hasError = errorText != null;
+    }
     return TextFormField(
       controller: controller,
       focusNode: focusNode,
@@ -1064,7 +1077,7 @@ class DefaultInputField extends StatelessWidget {
                 child: prefixWidget,
               )
             : null,
-        suffixIconConstraints: BoxConstraints(maxHeight: 30.w),
+        suffixIconConstraints: BoxConstraints(maxHeight: 50.h,maxWidth: 50.w),
         labelStyle: labelTextStyle ?? mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
         // labelText: label,
         label: Text(label ?? ''),
@@ -1072,53 +1085,36 @@ class DefaultInputField extends StatelessWidget {
         //   padding: EdgeInsets.symmetric(horizontal: withoutLabelPadding ? 0.0 : 2.0),
         //   child: labelWidget,
         // ),
-        fillColor: fillColor ?? newLightGreyColor,
+        // fillColor: fillColor ?? newLightGreyColor,
+        fillColor: hasError? Color(0xffF2D5D5): fillColor,
         focusColor: fillColor ?? newLightGreyColor,
 
         focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: unFocusedBorderColor ?? Colors.red, width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
         errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: unFocusedBorderColor ?? Colors.red.withOpacity(0.6), width: 1),
+            borderSide: BorderSide(color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
 
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor ?? mainBlueColor, width: 1.0),
+            borderSide: BorderSide(color: focusedBorderColor ?? Color(0xff0077FF), width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
 
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: unFocusedBorderColor ?? mainBlueColor.withOpacity(0.7), width: 1),
+            borderSide: BorderSide(color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
         disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: unFocusedBorderColor ?? mainBlueColor.withOpacity(0.7), width: 1),
+            borderSide: BorderSide(color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? defaultRadiusVal))),
       ),
-      // decoration: InputDecoration(
-      //   contentPadding: EdgeInsets.all(10.h),
-      //   // icon: Icon(Icons.send),
-      //   // hintText: 'Hint Text',
-      //   // helperText: 'Helper Text',
-      //   // counterText: '0 characters',
-      //
-      //   focusedBorder: OutlineInputBorder(
-      //       borderSide:
-      //       const BorderSide(color: Color(0xffa4c4f4), width: 2.0),
-      //       borderRadius: BorderRadius.all(Radius.circular(11.0.sp))),
-      //
-      //   enabledBorder: OutlineInputBorder(
-      //       borderSide:
-      //       const BorderSide(color: Color(0xffa4c4f4), width: 1.0),
-      //       borderRadius: BorderRadius.all(Radius.circular(11.0.sp))),
-      // ),
-      validator: validate,
+      validator: (val) {
+        if (validate != null) {
+          return errorText;
+        }
+        return null;
+      },
       minLines: 1,
       maxLines: maxLines ?? 1,
-      // height: 41.h,
-      // decoration: BoxDecoration(
-      //   color: const Color(0xffffffff),
-      //   borderRadius: BorderRadius.circular(10.0),
-      //   border: Border.all(width: 1.0, color: const Color(0xffa4c4f4)),
-      // ),
     );
   }
 }
@@ -1242,6 +1238,7 @@ class DefaultButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onClick,
+    this.onAnimationStart,
     this.height,
     this.width,
     this.radius,
@@ -1255,6 +1252,7 @@ class DefaultButton extends StatelessWidget {
   }) : super(key: key);
   final String text;
   final Function() onClick;
+  final Function()? onAnimationStart;
   final double? height;
   final double? width;
   final double? radius;
@@ -1269,7 +1267,6 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isEnabled ? onClick : null,
       child: Container(
         width: width,
         height: height ?? null,
@@ -1283,7 +1280,8 @@ class DefaultButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: withoutPadding ? 0 : 5, vertical: withoutPadding ? 0 : 10),
         child: customChild ??
             Center(
-              child: Text(
+              child:
+              Text(
                 text,
                 textAlign: TextAlign.center,
                 style: mainStyle(context, isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
@@ -1293,6 +1291,77 @@ class DefaultButton extends StatelessWidget {
     );
   }
 }
+
+class ButtonWithLoader extends StatefulWidget {
+  final String text;
+  // final VoidCallback onPressed;
+  final bool isLoading;
+  final Function() onClick;
+  final Function()? onAnimationStart;
+  final double? height;
+  final double? width;
+  final double? radius;
+  final bool withoutPadding;
+  final double? fontSize;
+  final Widget? customChild;
+  final Color? backColor;
+  final Color? borderColor;
+  final Color? titleColor;
+  final bool isEnabled;
+
+  ButtonWithLoader({
+    this.isLoading = false,
+    required this.text,
+    required this.onClick,
+    // required this.onPressed,
+    this.onAnimationStart,
+    this.height,
+    this.width,
+    this.radius,
+    this.fontSize,
+    this.backColor,
+    this.borderColor,
+    this.customChild,
+    this.titleColor,
+    this.withoutPadding = false,
+    this.isEnabled = true,
+  });
+
+  @override
+  _ButtonWithLoaderState createState() => _ButtonWithLoaderState();
+}
+
+class _ButtonWithLoaderState extends State<ButtonWithLoader> {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ButtonStyle(
+
+      ),
+      onPressed: widget.isLoading ? null : widget.onClick,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Text(widget.text, style: TextStyle(fontSize: 16.0)),
+          if (widget.isLoading)
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+        ],
+      ),
+    );
+  }
+}
+// Stack(
+// alignment: Alignment.center,
+// children: [
+// Text(widget.text, style: TextStyle(fontSize: 16.0)),
+// if (widget.isLoading)
+// CircularProgressIndicator(
+// valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+// ),
+// ],
+// ),
 
 class DefaultLoaderGrey extends StatelessWidget {
   const DefaultLoaderGrey({Key? key, this.customHeight}) : super(key: key);
@@ -2950,7 +3019,7 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
                   color: Colors.transparent,
                   child: Center(
                     child: SvgPicture.asset(
-                      'assets/svg/icons/back.svg',
+                      'assets/svg/back_icon.svg',
                       color: mainBlueColor,
                     ),
                   ),
@@ -2960,13 +3029,11 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
-                // height: 30.h,
-                // width: 30.w,
                 color: Colors.transparent,
                 child: Center(
-                  child: SvgPicture.asset(
-                  logo ??  'assets/svg/mena8.svg',
-                    height: 20.h,
+                  child: Image.asset(
+                  logo ??  'assets/Menalogo.png',
+                    scale: 5,
                     // color: mainBlueColor,
                   ),
                 ),

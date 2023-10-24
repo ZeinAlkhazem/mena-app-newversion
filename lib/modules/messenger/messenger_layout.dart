@@ -68,27 +68,29 @@ class _MessengerLayoutState extends State<MessengerLayout> {
             : kBottomNavigationBarHeight * 0,
       ),
       child: Scaffold(
+        // key: scaffoldKey,
         backgroundColor: Colors.white,
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {},
+        //   child: SvgPicture.asset(
+        //     'assets/svg/icons/addcircled.svg',
+        //     height: 30.h,
+        //   ),
+        // ),
         body: BlocConsumer<MessengerCubit, MessengerState>(
           listener: (context, state) {
             // TODO: implement listener
           },
           builder: (context, state) {
-            return messengerCubit.myMessagesModel == null
+            return
+              MessengerEmptyWidget();
+
+              messengerCubit.myMessagesModel == null
                 ? DefaultLoaderGrey()
                 : messengerCubit.myMessagesModel!.data.myChats == null
                     ? DefaultLoaderGrey()
                     : messengerCubit.myMessagesModel!.data.myChats!.isEmpty
-                        ? MessengerEmptyWidget(
-                            title: getTranslatedStrings(context)
-                                .welcomeToMenaMessenger,
-                            description: getTranslatedStrings(context)
-                                .startMessagingWithProvidersClients,
-                            btn_title:
-                                getTranslatedStrings(context).startMessaging,
-                            imageUrl:
-                                "assets/icons/messenger/mena_messenger_logo.svg",
-                          )
+                        ? MessengerEmptyWidget()
                         : SafeArea(
                             child: Container(
                               color: newLightGreyColor,

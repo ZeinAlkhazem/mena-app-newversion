@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 // import 'package:flutter_super_html_viewer/flutter_super_html_viewer.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
@@ -64,7 +62,7 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ArticleCard(article: feedsCubit.menaArticleDetails! , isDetails:false),
+                              ArticleCard(article: feedsCubit.menaArticleDetails!),
                               heightBox(10.h),
                               SimpleUserCard(
                                 provider: feedsCubit.menaArticleDetails!.provider,
@@ -76,7 +74,6 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
                                 style: mainStyle(context, 14, isBold: true),
                               ),
                               heightBox(10.h),
-                              Html(data: feedsCubit.menaArticleDetails!.content,)
                               // HtmlContentViewer(
                               //   htmlContent: feedsCubit.menaArticleDetails!.content,
                               // ),

@@ -25,14 +25,6 @@ class InitialChooseLang extends StatelessWidget {
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
     var localizationStrings = AppLocalizations.of(context);
-
-    // Get the device's locale
-    Locale deviceLocale = WidgetsBinding.instance!.window.locale;
-
-    // Set the app's locale to the device's locale
-    if (mainCubit.appLocale == null) {
-      mainCubit.setLocale(deviceLocale, context, false);
-    }
     return Scaffold(
 
       appBar: PreferredSize(
@@ -102,29 +94,29 @@ class InitialChooseLang extends StatelessWidget {
                                       mainCubit.selectedLocalesInDashboard[index].languageCode == 'ar'
                                           ? 'العربية'
                                           : mainCubit.selectedLocalesInDashboard[index].languageCode == 'en'
-                                          ? 'English'
-                                          : mainCubit.selectedLocalesInDashboard[index].languageCode == 'hi'
-                                          ? 'हिन्दी'
-                                          : mainCubit.selectedLocalesInDashboard[index].languageCode ==
-                                          'fil'
-                                          ? 'Filipino'
-                                          : mainCubit.selectedLocalesInDashboard[index]
-                                          .languageCode ==
-                                          'ru'
-                                          ? 'русский'
-                                          : mainCubit.selectedLocalesInDashboard[index]
-                                          .languageCode ==
-                                          'zh'
-                                          ? '中國人'
-                                          : mainCubit.selectedLocalesInDashboard[index]
-                                          .languageCode ==
-                                          'tr'
-                                          ? 'Türkçe'
-                                          : mainCubit.selectedLocalesInDashboard[index]
-                                          .languageCode ==
-                                          'es'
-                                          ? 'española'
-                                          :mainCubit.selectedLocalesInDashboard[index]
+                                              ? 'English'
+                                              : mainCubit.selectedLocalesInDashboard[index].languageCode == 'hi'
+                                                  ? 'हिन्दी'
+                                                  : mainCubit.selectedLocalesInDashboard[index].languageCode ==
+                                                          'fil'
+                                                      ? 'Filipino'
+                                                      : mainCubit.selectedLocalesInDashboard[index]
+                                                                  .languageCode ==
+                                                              'ru'
+                                                          ? 'русский'
+                                                          : mainCubit.selectedLocalesInDashboard[index]
+                                                                      .languageCode ==
+                                                                  'zh'
+                                                              ? '中國人'
+                                                              : mainCubit.selectedLocalesInDashboard[index]
+                                                                          .languageCode ==
+                                                                      'tr'
+                                                                  ? 'Türkçe'
+                                                                  : mainCubit.selectedLocalesInDashboard[index]
+                                                                              .languageCode ==
+                                                                          'es'
+                                                                      ? 'española'
+                                                                      :mainCubit.selectedLocalesInDashboard[index]
                                           .languageCode ==
                                           'fr'
                                           ? 'Français'
@@ -133,8 +125,8 @@ class InitialChooseLang extends StatelessWidget {
                                           weight: FontWeight.w400,
                                           fontFamily:
                                           mainCubit.selectedLocalesInDashboard[index].languageCode == 'ar'
-                                              ? 'Tajawal'
-                                              : null),
+                                                  ? 'Tajawal'
+                                                  : null),
                                     ),
                                   ),
                                 ),
@@ -163,29 +155,5 @@ class InitialChooseLang extends StatelessWidget {
         ),
       ),
     );
-  }
-  String _getLanguageName(String languageCode) {
-    switch (languageCode) {
-      case 'ar':
-        return 'العربية';
-      case 'en':
-        return 'English';
-      case 'hi':
-        return 'हिन्दी';
-      case 'fil':
-        return 'Filipino';
-      case 'ru':
-        return 'русский';
-      case 'zh':
-        return '中國人';
-      case 'tr':
-        return 'Türkçe';
-      case 'es':
-        return 'española';
-      case 'fr':
-        return 'Français';
-      default:
-        return languageCode;
-    }
   }
 }

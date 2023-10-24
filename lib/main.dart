@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -17,7 +16,6 @@ import 'package:mena/modules/auth_screens/cubit/auth_cubit.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
@@ -58,11 +56,10 @@ class MyHttpOverrides extends HttpOverrides {
 //
 // late Box userBox;
 void main() async {
+
   HttpOverrides.global = MyHttpOverrides();
 
-  WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelper.init();
-  await MainDioHelper.init();
+
   /// handle error best way
   /// init hive
   // await Hive.initFlutter();
@@ -185,6 +182,7 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
   @override
   void initState() {
     super.initState();
+
     /// to get databases location for stored json
     // preCacheProcesses(context);
 

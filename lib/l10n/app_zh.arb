@@ -187,8 +187,7 @@
   "showMore": "",
   "hidePost" : "",
   "reportPost" : "",
-  "confirmDeletion" : "",
-  "messenger" : "",
-  "chatGroups" : "",
-   "chatChannels" : ""
+  "confirmDeletion" : ""
+,
+  "messenger" : ""
 }

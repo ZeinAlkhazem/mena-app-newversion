@@ -204,9 +204,6 @@
   "hidePost" : "Hide Post",
   "reportPost" : "Report Post",
   "confirmDeletion" : "Confirm Deletion",
-  "messenger" : "Messenger",
-  "chatGroups" : "Chat Groups",
-  "chatChannels" : "Chat Channels"
-
+  "messenger" : "Messenger"
 
 }

@@ -1,6 +1,4 @@
 
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -290,7 +288,6 @@ class MessengerCubit extends Cubit<MessengerState> {
   }) async {
     emit(GettingUsersData());
     ////
-    log("# user messenger  url:$getChatUsersEnd/$usersType?search=${searchQuery ?? ''} ");
     await MainDioHelper.getData(
       url: '$getChatUsersEnd/$usersType?search=${searchQuery ?? ''}',
       query: {
@@ -300,7 +297,6 @@ class MessengerCubit extends Cubit<MessengerState> {
       },
     ).then((value) {
       logg('users fetched...');
-      logg('# user all : $value');
       usersChatModel = UsersToChatModel.fromJson(value.data);
       logg(value.toString());
       emit(SuccessGettingUsersDataState());

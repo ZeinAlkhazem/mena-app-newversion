@@ -1,7 +1,7 @@
 {
   "@@locale": "ar",
   "language": "العربية",
-"signInToMena": "تسجيل الدخول الى مينا",
+
   "currentLanguageDirection": "rtl",
 
   "validationSection":"",
@@ -188,7 +188,5 @@
   "hidePost" : "",
   "reportPost" : "",
   "confirmDeletion" : "",
-  "messenger" : "",
-  "chatGroups" : "مجموعات الدردشة",
-  "chatChannels" : "قنوات الدردشة"
+  "messenger" : ""
 }

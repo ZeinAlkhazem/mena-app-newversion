@@ -7,15 +7,7 @@ import '../../../core/shared_widgets/shared_widgets.dart';
 import '../users_to_start_chat.dart';
 
 class MessengerEmptyWidget extends StatelessWidget {
-  final String imageUrl, title, description, btn_title;
-
-  const MessengerEmptyWidget({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.btn_title,
-    required this.imageUrl,
-  });
+  const MessengerEmptyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +21,10 @@ class MessengerEmptyWidget extends StatelessWidget {
             child: Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 25.w, horizontal: 25.w),
+                padding: EdgeInsets.symmetric(
+                  vertical: 25.w,
+                  horizontal: 25.w
+                ),
                 child: SvgPicture.asset(
                   'assets/icons/messenger/back_icon.svg',
                   color: Color(0xFF4273B8),
@@ -43,14 +38,14 @@ class MessengerEmptyWidget extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: SvgPicture.asset(imageUrl
-                    ),
+                child:
+                SvgPicture.asset("assets/icons/messenger/mena_messenger_logo.svg"),
               ),
               heightBox(
                 5.h,
               ),
               Text(
-                title,
+                getTranslatedStrings(context).welcomeToMenaMessenger,
                 style: mainStyle(context, 13,
                     weight: FontWeight.w700,
                     color: newDarkGreyColor,
@@ -62,7 +57,8 @@ class MessengerEmptyWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: Text(
-                  description,
+                  getTranslatedStrings(context)
+                      .startMessagingWithProvidersClients,
                   style: mainStyle(context, 10,
                       weight: FontWeight.w700,
                       color: newLightTextGreyColor,
@@ -78,7 +74,7 @@ class MessengerEmptyWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DefaultButton(
-                text: btn_title,
+                text: getTranslatedStrings(context).startMessaging,
                 height: 45.h,
                 onClick: () {
                   navigateTo(context, UsersToStartChatLayout());

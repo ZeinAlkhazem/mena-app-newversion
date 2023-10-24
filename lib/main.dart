@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +21,7 @@ import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
 import 'core/constants/constants.dart';
+import 'core/constants/validators.dart';
 import 'core/network/dio_helper.dart';
 import 'firebase_options.dart';
 import 'modules/add_people_to_live/cubit/add_people_to_live_cubit.dart';
@@ -33,17 +33,14 @@ import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
-import 'modules/messenger/msngr_cubit/messenger_cubit.dart';
+import 'modules/messenger/cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
 import 'modules/nearby_screen/cubit/nearby_cubit.dart';
 import 'modules/platform_provider/cubit/provider_cubit.dart';
 import 'modules/promotions_screen/cubit/promotions_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'modules/start_live/cubit/start_live_cubit.dart';
 import 'modules/tools/cubit/tools_cubit.dart';
-import 'modules/tools/e_services/e-services.dart';
-import 'modules/tools/jobs/jobs.dart';
 
 
 
@@ -189,11 +186,14 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => StartLiveCubit()),
         BlocProvider(create: (BuildContext context) => AddPeopleToLiveCubit()),
         BlocProvider(create: (BuildContext context) => MeetingCubit()),
+        // ChangeNotifierProvider(create: (context) => ErrorNotifier()),
       ],
       child: const MainMaterialApp(),
     );
   }
 }
+
+
 
 class MainMaterialApp extends StatefulWidget {
   const MainMaterialApp({Key? key}) : super(key: key);

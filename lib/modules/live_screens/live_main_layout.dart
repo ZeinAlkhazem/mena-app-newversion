@@ -222,30 +222,30 @@ class _LiveNowViewState extends State<LiveNowView> {
                 ],
               ),
             ),
-            if(getCachedToken() != null)
-            Positioned(
-                bottom: 10,
-                right: 10,
-                child: GestureDetector(
-                  onTap: () async {
-                    // navigateToWithoutNavBar(context, StartLiveFormLayout(), 'routeName');
-                    navigateToWithoutNavBar(context, CreateLivePage(), 'routeName');
-                    logg('go live');
+            // if(getCachedToken() != null)
+            // Positioned(
+            //     bottom: 10,
+            //     right: 10,
+            //     child: GestureDetector(
+            //       onTap: () async {
+            //         // navigateToWithoutNavBar(context, StartLive  FormLayout(), 'routeName');
+            //         navigateToWithoutNavBar(context, CreateLivePage(), 'routeName');
+            //         logg('go live');
 
 
-                  },
-                  child: DefaultContainer(
-                    radius: 35.sp,
-                    backColor: mainBlueColor,
-                    childWidget: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: defaultHorizontalPadding),
-                      child: Text(
-                        'Create',
-                        style: mainStyle(context, 11, color: Colors.white, isBold: true),
-                      ),
-                    ),
-                  ),
-                ))
+            //       },
+            //       child: DefaultContainer(
+            //         radius: 35.sp,
+            //         backColor: mainBlueColor,
+            //         childWidget: Padding(
+            //           padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: defaultHorizontalPadding),
+            //           child: Text(
+            //             'Create',
+            //             style: mainStyle(context, 11, color: Colors.white, isBold: true),
+            //           ),
+            //         ),
+            //       ),
+            //     ))
           ],
         );
       },

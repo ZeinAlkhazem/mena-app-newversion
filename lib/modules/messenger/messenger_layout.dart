@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
-import 'package:mena/modules/messenger/msngr_cubit/messenger_cubit.dart';
+import 'package:mena/modules/messenger/cubit/messenger_cubit.dart';
 import 'package:mena/modules/messenger/users_to_start_chat.dart';
 
 import '../../core/constants/constants.dart';
@@ -18,6 +18,8 @@ import '../../models/api_model/my_messages_model.dart';
 import '../../models/api_model/online_users.dart';
 import 'chat_layout.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import 'widget/messenger_empty_widget.dart';
 
 class MessengerLayout extends StatefulWidget {
   const MessengerLayout({Key? key}) : super(key: key);
@@ -61,18 +63,12 @@ class _MessengerLayoutState extends State<MessengerLayout> {
 
     return Padding(
       padding: EdgeInsets.only(
-        bottom: Responsive.isMobile(context) ? kBottomNavigationBarHeight * 0 : kBottomNavigationBarHeight * 0,
+        bottom: Responsive.isMobile(context)
+            ? kBottomNavigationBarHeight * 0
+            : kBottomNavigationBarHeight * 0,
       ),
       child: Scaffold(
-        // key: scaffoldKey,
         backgroundColor: Colors.white,
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {},
-        //   child: SvgPicture.asset(
-        //     'assets/svg/icons/addcircled.svg',
-        //     height: 30.h,
-        //   ),
-        // ),
         body: BlocConsumer<MessengerCubit, MessengerState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -83,56 +79,7 @@ class _MessengerLayoutState extends State<MessengerLayout> {
                 : messengerCubit.myMessagesModel!.data.myChats == null
                     ? DefaultLoaderGrey()
                     : messengerCubit.myMessagesModel!.data.myChats!.isEmpty
-                        ? SafeArea(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DefaultBackTitleAppBar(
-                                  title: getTranslatedStrings(context).newMessage,
-                                ),
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(18.0),
-                                      child: Lottie.asset('assets/json/startnewchatmessage.json', width: 0.5.sw),
-                                    ),
-                                    heightBox(
-                                      5.h,
-                                    ),
-                                    Text(
-                                      getTranslatedStrings(context).welcomeToMenaMessenger,
-                                      style: mainStyle(context, 13,
-                                          weight: FontWeight.w700, color: newDarkGreyColor, isBold: true),
-                                    ),
-                                    heightBox(
-                                      10.h,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                                      child: Text(
-                                        getTranslatedStrings(context).startMessagingWithProvidersClients,
-                                        style: mainStyle(context, 13,
-                                            weight: FontWeight.w700, color: newLightTextGreyColor, textHeight: 1.5),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    heightBox(
-                                      10.h,
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: DefaultButton(
-                                      text: getTranslatedStrings(context).startMessaging,
-                                      height: 45.h,
-                                      onClick: () {
-                                        navigateTo(context, UsersToStartChatLayout());
-                                      }),
-                                )
-                              ],
-                            ),
-                          )
+                        ? MessengerEmptyWidget()
                         : SafeArea(
                             child: Container(
                               color: newLightGreyColor,
@@ -147,8 +94,10 @@ class _MessengerLayoutState extends State<MessengerLayout> {
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(defaultRadiusVal),
-                                        bottomLeft: Radius.circular(defaultRadiusVal),
+                                        bottomRight:
+                                            Radius.circular(defaultRadiusVal),
+                                        bottomLeft:
+                                            Radius.circular(defaultRadiusVal),
                                       ),
                                       // border: Border.all(width: 3,color: Colors.green,style: BorderStyle.solid)
                                     ),
@@ -158,42 +107,63 @@ class _MessengerLayoutState extends State<MessengerLayout> {
                                         heightBox(10.h),
                                         messengerCubit.onlineUsersModel == null
                                             ? DefaultLoaderGrey()
-                                            : messengerCubit.onlineUsersModel!.data!.onlineUsers!.isEmpty
+                                            : messengerCubit.onlineUsersModel!
+                                                    .data!.onlineUsers!.isEmpty
                                                 ? Text('No one online')
                                                 : SizedBox(
                                                     height: 66.h,
                                                     child: ListView.separated(
-                                                      physics: BouncingScrollPhysics(),
-                                                      scrollDirection: Axis.horizontal,
+                                                      physics:
+                                                          BouncingScrollPhysics(),
+                                                      scrollDirection:
+                                                          Axis.horizontal,
                                                       padding: EdgeInsets.symmetric(
-                                                          vertical: defaultHorizontalPadding / 24,
-                                                          horizontal: defaultHorizontalPadding),
-                                                      itemBuilder: (context, index) {
-                                                        List<OnlineUser?>? onlineUsers =
-                                                            messengerCubit.onlineUsersModel!.data!.onlineUsers;
+                                                          vertical:
+                                                              defaultHorizontalPadding /
+                                                                  24,
+                                                          horizontal:
+                                                              defaultHorizontalPadding),
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        List<OnlineUser?>?
+                                                            onlineUsers =
+                                                            messengerCubit
+                                                                .onlineUsersModel!
+                                                                .data!
+                                                                .onlineUsers;
                                                         return GestureDetector(
                                                           onTap: () {
                                                             navigateTo(
                                                                 context,
                                                                 ChatLayout(
-                                                                  user: onlineUsers![index]!.user,
+                                                                  user: onlineUsers![
+                                                                          index]!
+                                                                      .user,
                                                                 ));
                                                             logg('chat layout');
                                                           },
-                                                          child: ProfileBubbleWithName(
+                                                          child:
+                                                              ProfileBubbleWithName(
                                                             isOnline: true,
                                                             radius: 22.sp,
-                                                            pictureUrl: onlineUsers![index]!.personalPicture!,
+                                                            pictureUrl:
+                                                                onlineUsers![
+                                                                        index]!
+                                                                    .personalPicture!,
                                                             name:
                                                                 '${onlineUsers[index]!.abbreviation ?? ''}${onlineUsers[index]!.fullName!.split(' ')[0]}',
                                                           ),
                                                         );
                                                       },
-                                                      separatorBuilder: (_, i) => SizedBox(
+                                                      separatorBuilder:
+                                                          (_, i) => SizedBox(
                                                         width: 12.w,
                                                       ),
-                                                      itemCount:
-                                                          messengerCubit.onlineUsersModel!.data!.onlineUsers!.length,
+                                                      itemCount: messengerCubit
+                                                          .onlineUsersModel!
+                                                          .data!
+                                                          .onlineUsers!
+                                                          .length,
                                                     ),
                                                   ),
                                       ],
@@ -217,7 +187,8 @@ class _MessengerLayoutState extends State<MessengerLayout> {
                                       children: [
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               // Padding(
                                               //   padding: EdgeInsets.symmetric(
@@ -233,14 +204,27 @@ class _MessengerLayoutState extends State<MessengerLayout> {
                                                 child: ListView.separated(
                                                   shrinkWrap: true,
                                                   padding: EdgeInsets.zero,
-                                                  itemBuilder: (context, index) {
+                                                  itemBuilder:
+                                                      (context, index) {
                                                     return MsgSummaryItem(
-                                                      chat: messengerCubit.myMessagesModel!.data.myChats![index],
-                                                      user: messengerCubit.myMessagesModel!.data.myChats![index].user,
+                                                      chat: messengerCubit
+                                                          .myMessagesModel!
+                                                          .data
+                                                          .myChats![index],
+                                                      user: messengerCubit
+                                                          .myMessagesModel!
+                                                          .data
+                                                          .myChats![index]
+                                                          .user,
                                                     );
                                                   },
-                                                  separatorBuilder: (_, i) => heightBox(5.h),
-                                                  itemCount: messengerCubit.myMessagesModel!.data.myChats!.length,
+                                                  separatorBuilder: (_, i) =>
+                                                      heightBox(5.h),
+                                                  itemCount: messengerCubit
+                                                      .myMessagesModel!
+                                                      .data
+                                                      .myChats!
+                                                      .length,
                                                 ),
                                               ),
                                               heightBox(15.h),
@@ -471,7 +455,8 @@ class WelcomeToMenaChatLayout extends StatelessWidget {
                     children: [
                       Text(
                         getTranslatedStrings(context).welcomeToMEnaChat,
-                        style: mainStyle(context, 14, weight: FontWeight.w600, color: mainBlueColor),
+                        style: mainStyle(context, 14,
+                            weight: FontWeight.w600, color: mainBlueColor),
                       ),
                       heightBox(33.h),
                       Text(
@@ -551,8 +536,10 @@ class _MsgSummaryItemState extends State<MsgSummaryItem> {
                       fn: () {
                         logg('delete');
                         showAlertConfirmDialog(context,
-                            customTitle: getTranslatedStrings(context).confirmChatDelete,
-                            customSubTitle: getTranslatedStrings(context).youAreAboutDeletingChat, confirmCallBack: () {
+                            customTitle:
+                                getTranslatedStrings(context).confirmChatDelete,
+                            customSubTitle: getTranslatedStrings(context)
+                                .youAreAboutDeletingChat, confirmCallBack: () {
                           messengerCubit
                               .deleteChat(
                             chatId: widget.chat.id.toString(),
@@ -571,8 +558,10 @@ class _MsgSummaryItemState extends State<MsgSummaryItem> {
                       fn: () {
                         logg('As read');
                         showAlertConfirmDialog(context,
-                            customTitle: getTranslatedStrings(context).markAsRead,
-                            customSubTitle: getTranslatedStrings(context).youAboutMarkREad, confirmCallBack: () {
+                            customTitle:
+                                getTranslatedStrings(context).markAsRead,
+                            customSubTitle: getTranslatedStrings(context)
+                                .youAboutMarkREad, confirmCallBack: () {
                           messengerCubit
                               .markAsRead(
                             chatId: widget.chat.id.toString(),
@@ -636,11 +625,13 @@ class _MsgSummaryItemState extends State<MsgSummaryItem> {
                   ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding / 10),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: defaultHorizontalPadding / 10),
                   child: Container(
                     /// to be clickable
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 12),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 18.0, horizontal: 12),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -660,19 +651,22 @@ class _MsgSummaryItemState extends State<MsgSummaryItem> {
                                 children: [
                                   Container(
                                     // color: Colors.red,
-                                    constraints: BoxConstraints(maxWidth: 200.w),
+                                    constraints:
+                                        BoxConstraints(maxWidth: 200.w),
                                     child: Text(
                                       getFormattedUserName(widget.chat.user!),
                                       // '${widget.chat.user!.abbreviation == null ? '' : widget.chat.user!.abbreviation!.name == '' ? '' : widget.chat.user!.abbreviation!.name! + ' '}${widget.chat.user!.fullName}',
                                       maxLines: 1,
                                       softWrap: true,
                                       overflow: TextOverflow.ellipsis,
-                                      style: mainStyle(context, 12, isBold: true),
+                                      style:
+                                          mainStyle(context, 12, isBold: true),
                                     ),
                                   ),
                                   (widget.chat.user!.verified == '1')
                                       ? Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4.0),
                                           child: Icon(
                                             Icons.verified,
                                             color: Color(0xff01BC62),
@@ -722,7 +716,9 @@ class _MsgSummaryItemState extends State<MsgSummaryItem> {
                                         : widget.chat.lastMessage!
                                     : 'last message',
                                 style: mainStyle(context, 12,
-                                    weight: widget.isNotRead! ? FontWeight.w900 : FontWeight.normal,
+                                    weight: widget.isNotRead!
+                                        ? FontWeight.w900
+                                        : FontWeight.normal,
                                     textHeight: 1.2,
                                     color: newLightTextGreyColor),
                                 maxLines: 2,
@@ -740,8 +736,8 @@ class _MsgSummaryItemState extends State<MsgSummaryItem> {
                               ),
                             ],
                           )),
-                          if (widget.chat.numOfUnread!>0) widthBox(5.w),
-                          if (widget.chat.numOfUnread!>0)
+                          if (widget.chat.numOfUnread! > 0) widthBox(5.w),
+                          if (widget.chat.numOfUnread! > 0)
                             Center(
                                 child: CircleAvatar(
                               radius: 5.sp,
@@ -901,7 +897,8 @@ class NewMessengerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding, vertical: 7),
+      padding: EdgeInsets.symmetric(
+          horizontal: defaultHorizontalPadding, vertical: 7),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -928,7 +925,11 @@ class NewMessengerHeader extends StatelessWidget {
               // widthBox(0.02.sw),
               ProfileBubble(
                 isOnline: true,
-                pictureUrl: MainCubit.get(context).userInfoModel!.data.user.personalPicture,
+                pictureUrl: MainCubit.get(context)
+                    .userInfoModel!
+                    .data
+                    .user
+                    .personalPicture,
                 radius: 17.sp,
               ),
               widthBox(7.w),
@@ -965,8 +966,11 @@ class NewMessengerHeader extends StatelessWidget {
 }
 
 Future<void> showAlertConfirmDialog(BuildContext context,
-    {String? customTitle, String? customSubTitle, Function()? confirmCallBack}) {
-  return showMyAlertDialog(context, customTitle ?? getTranslatedStrings(context).areYouSure,
+    {String? customTitle,
+    String? customSubTitle,
+    Function()? confirmCallBack}) {
+  return showMyAlertDialog(
+      context, customTitle ?? getTranslatedStrings(context).areYouSure,
       alertDialogContent: Text(
         customSubTitle ?? getTranslatedStrings(context).confirmAction,
         textAlign: TextAlign.center,

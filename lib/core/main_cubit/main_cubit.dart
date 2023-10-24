@@ -30,15 +30,19 @@ class MainCubit extends Cubit<MainState> {
   MainCubit() : super(MainInitial());
 
   static MainCubit get(context) => BlocProvider.of(context);
-
+      
+      
+  
   IO.Socket socket = IO.io(
-      'https://menaaii.com:3000',
+      'https://live.menaaii.com:3001',
       IO.OptionBuilder().setTransports(['websocket'])
           // for Flutter or Dart VM
           .setExtraHeaders({
         'foo': 'bar',
       }) // optional
-          .build());
+          .build()
+  );
+ 
 
   String currentLogo = 'assets/svg/mena8.svg';
 
@@ -464,9 +468,11 @@ class MainCubit extends Cubit<MainState> {
 
   void socketInitial() async {
     /// Socket connect
+
+    
     print('establishing socket connection');
     socket = await IO.io(
-        'https://live.menaaii.com:3000',
+        'https://live.menaaii.com:3001',
         IO.OptionBuilder().setTransports(['websocket'])
             // for Flutter or Dart VM
             .setExtraHeaders({
@@ -480,6 +486,7 @@ class MainCubit extends Cubit<MainState> {
     logg(socket.json.connected.toString());
     socket.onConnect((_) {
       print('socket connection established');
+
 
       if (userInfoModel != null) {
         socket.emit('join', [
@@ -497,12 +504,12 @@ class MainCubit extends Cubit<MainState> {
       getCountersData();
     });
     // socket.on('new-message', (data) => print('socket: ' + data));
-    socket.onAny((event, data) {
-      print('socket: event: ' + event);
-      print('socket: data:  ${data ?? 'Null data'}');
-    });
+    // socket.onAny((event, data) {
+    //   print('socket: event: ' + event);
+    //   print('socket: data:  ${data ?? 'Null data'}');
+    // });
 
-    socket.onerror((err) => {logg('Socket error : $err')});
+    // socket.onerror((err) => {logg('Socket error : $err')});
 
     socket.onConnectError((data) => logg(data.toString()));
 

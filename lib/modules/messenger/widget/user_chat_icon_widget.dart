@@ -85,7 +85,8 @@ class UserChatIconWidget extends StatelessWidget {
             widthBox(2.w),
             InkWell(
                 onTap: (){},
-                child: SvgPicture.asset("assets/icons/messenger/icon_video_call.svg",width: 30.w,),),
+                // child: SvgPicture.asset("assets/icons/messenger/icon_video_call.svg",width: 30.w,),),
+                child:Icon(Icons.video_call_outlined,color: Color(0xFF0077FF),size: 35.w,),),
 
             widthBox(15.w),
             InkWell(

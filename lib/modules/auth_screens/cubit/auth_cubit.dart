@@ -288,7 +288,7 @@ class AuthCubit extends Cubit<AuthState> {
     }).catchError((error, stack) {
       logg(error.toString());
       logg(stack.response.toString());
-      hasError = true;
+      hasError1 = true;
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });
     DefaultInputField(hasError1: hasError1,);

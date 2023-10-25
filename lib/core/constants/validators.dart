@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mena/core/constants/constants.dart';
 
 import '../functions/main_funcs.dart';
-
+bool hasError = false;
 String? Function(String?)? emailValidate(BuildContext context) => (String? val) {
   if (val!.isEmpty) {
     return getTranslatedStrings(context).thisFieldIsRequired;

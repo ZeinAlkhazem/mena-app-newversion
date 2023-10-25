@@ -145,6 +145,7 @@
   "newMessage": "New message",
   "message": "Message",
   "welcomeToMenaMessenger": "Welcome to Mena Messenger",
+  "welcomeToMenaBlogs": "Welcome to Mena Blogs",
   "welcomeToMEnaChat": "Welcome to MENA Chat",
   "startByTapping": "Start messaging by tapping the pencil button in the bottom corner",
   "confirmChatDelete": "Confirm chat deletion",
@@ -162,7 +163,7 @@
   "startMessagingWithProvidersClients": "Discover MENA Messenger's features: One-to-One Chat, Create Chat Groups ( Up to 250000 Members ) and join chat groups , Create Channel for unlimited audiences and find channels, enabling seamless communication",
   "startMessaging": "Get started",
   "whyNotStartChat": "Why not start a chat and send a message now?",
-
+  "welcomeToBlogs":"Welcome to Mena Blogs, your platform for sharing and discovering articles. Here, you can write and publish your own articles, create your blog, and engage with articles from fellow users through likes, comments, and shares. Start writing and reading today",
   "feeds": "Feeds",
 
   "addPost": "Add post",

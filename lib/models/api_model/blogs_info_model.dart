@@ -57,8 +57,8 @@ class Data {
 class BlogBanner {
   int id;
   String image;
-  String platformId;
-  String? articleBlogId;
+  int platformId;
+  int? articleBlogId;
   String? title;
 
   BlogBanner({
@@ -90,8 +90,8 @@ class MenaArticle {
   String banner;
   String title;
   String content;
-  String categoryId;
-  String providerId;
+  int categoryId;
+  int providerId;
   BlogBanner category;
   User provider;
   DateTime createdAt;

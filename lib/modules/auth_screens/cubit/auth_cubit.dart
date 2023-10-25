@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +15,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/validators.dart';
-import '../../../core/dialogs/dialogs_page.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
@@ -345,195 +342,193 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     var formKey = GlobalKey<FormState>();
     var inController = TextEditingController();
+    showMyAlertDialog(context, getTranslatedStrings(context).forgotPassword,
+        isTitleBold: true,
+        alertDialogContent: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            return SizedBox(
+              width: double.maxFinite,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Text(,
+                    //   style: mainStyle(context, 14, weight: FontWeight.w800),
+                    // ),
+                    // heightBox(10.h),
+                    Text(
+                      '${getTranslatedStrings(context).enterYourPhone},\n'
+                      '${getTranslatedStrings(context).email}, '
+                      '${getTranslatedStrings(context).or} '
+                      '${getTranslatedStrings(context).userName}\n',
+                      style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
+                      textAlign: TextAlign.center,
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Form(
-          key: formKey,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              leading: InkWell(
-                onTap: () => Navigator.pop(context),
-                child:Image.asset(
-                  'assets/addedbyzein/back.png', // Replace with your image path
-                  scale: 3,
-                  alignment: Alignment.centerRight, // Adjust the height as needed
-                ),
-                // SvgPicture.asset(
-                //   'assets/svg/back_icon.svg',
-                //   color: mainBlueColor,
-                //
-                //   alignment: Alignment.centerRight,
-                // ),
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 25, top: 18, right: 160),
-                  child: Text(
-                    'Forget Password',
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'PNfont',
-                      color: Color(0xff152026),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            body: BlocConsumer<AuthCubit, AuthState>(
-              listener: (context, state) {
-                // TODO: implement listener
-                log("# new state : $state");
-              },
-              builder: (context, state) {
-                return SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
+                    // heightBox(10.h),
+                    DefaultInputField(
+
+                      // labelWidget: Text(
+                      //   '${getTranslatedStrings(context).email}, '
+                      //   '${getTranslatedStrings(context).phone}, '
+                      //   '${getTranslatedStrings(context).or} '
+                      //   '${getTranslatedStrings(context).userName}',
+                      //   style: mainStyle(context, 10, color: softGreyColor),
+                      // ),
+                      label: '${getTranslatedStrings(context).email}, '
+            '${getTranslatedStrings(context).phone}, '
+            '${getTranslatedStrings(context).or} '
+            '${getTranslatedStrings(context).userName}',
+                      controller: inController,
+                      validate: normalInputValidate(context),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25, top: 5, right: 30),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Divider(),
-                          heightBox(15.h),
-                          Text(
-                            'Enter phone number or email or username',
-                            style: TextStyle(
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'PNfont',
-                              color: Color(0xff303840),
-                            ),
-                            // textAlign: TextAlign.center,
-                          ),
-                          heightBox(5.h),
-                          Text(
-                            textAlign: TextAlign.start,
-                            "Can't reset your password?",
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: 'PNfont',
-                                color: Color(0xff0077FF),
-                                fontWeight: FontWeight.w900),
-                          ),
-                          heightBox(10.h),
-                          DefaultInputField(
-                            fillColor: Color(0xffF2F2F2),
-                            focusedBorderColor:  Color(0xff0077FF),
-                            unFocusedBorderColor: Color(0xffC9CBCD),
-                            label: 'Username, email or mobile number',
-                            onFieldChanged: (text) {
-                               emailConfirmation = text;
-                            },
-                            suffixIcon: IconButton(
-                              icon: SvgPicture.asset(
-                                'assets/grayX.svg',
-                                color: Color(0xff999B9D),
-                                width: 30.w,
-                                height: 30.h,
-                                alignment: Alignment.centerRight,
-                              ),
-                              onPressed: () {
-                                inController.clear();
-                              },
-                            ),
-                            labelTextStyle: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'PNfont',
-                                color: Color(0xff999B9D)),
-                            controller: inController,
-                            validate: normalInputValidate1,
-                          ),
-                          heightBox(10.h),
-                          // Text(
-                          //   hasError
-                          //       ? "Check your username, mobile or email address  and try again"
-                          //       : "",
-                          //   style: TextStyle(
-                          //       fontSize: 13.0,
-                          //       fontWeight: FontWeight.w500,
-                          //       fontFamily: 'PNfont',
-                          //       color: Color(0xffE72B1C)),
-                          // ),
-                          heightBox(450.h),
-                          state is ProceedingToResetPass
-                              ? const DefaultLoaderGrey()
-                              : Row(
+                    // SizedBox(
+                    //   width: double.infinity,
+                    //   child: Stack(
+                    //     children: [
+                    //       Padding(
+                    //         padding: const EdgeInsets.symmetric(
+                    //             vertical: 8.0),
+                    //         child: Container(
+                    //           width: double.maxFinite,
+                    //           decoration: BoxDecoration(
+                    //             borderRadius:
+                    //             BorderRadius.circular(
+                    //                 5.0.sp),
+                    //             border: Border.all(
+                    //                 width: 0.5,
+                    //                 color: mainBlueColor),
+                    //           ),
+                    //           child: Padding(
+                    //             padding: EdgeInsets.symmetric(
+                    //                 vertical:
+                    //                 defaultHorizontalPadding *
+                    //                     0.3,
+                    //                 horizontal:
+                    //                 defaultHorizontalPadding *
+                    //                     2),
+                    //             child:
+                    //             DefaultInputField(
+                    //               label: '${getTranslatedStrings(context).enterYourPhone},'
+                    //                   '${getTranslatedStrings(context).email}, '
+                    //                   '${getTranslatedStrings(context).or} '
+                    //
+                    //                   '${getTranslatedStrings(context).userName}',
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       Positioned(
+                    //           top: 0,
+                    //           left: defaultHorizontalPadding *
+                    //               0.7,
+                    //           child: Container(
+                    //             height: 16,
+                    //             color: Colors.white,
+                    //             child:
+                    //             const IconLabelInputWidget(
+                    //               svgAssetLink:
+                    //               'assets/svg/icons/phone.svg',
+                    //               labelText: 'Phone',
+                    //             ),
+                    //           ))
+                    //     ],
+                    //   ),
+                    // ),
+                    // heightBox(10.h),
+                    // Text(
+                    //   '${getTranslatedStrings(context).weWilSendYouAnOtp}',
+                    //   style: mainStyle(context, 13.0, textHeight: 1.55),
+                    //   textAlign: TextAlign.center,
+                    // ),
+                    heightBox(20.h),
+                    state is ProceedingToResetPass
+                        ? const DefaultLoaderGrey()
+                        : Row(
+
                             children: [
                               Expanded(
                                 child: DefaultButton(
-                                  text: "Find Account",
-                                  onClick: () {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    if (formKey.currentState!
-                                        .validate()) {
-                                      resetPassRequest(inController.text)
-                                          .then((value) {
-                                        log("#value of reset :$value");
-                                        if (value == false) {
-                                          showUserNameErrorDialog(
-                                              context);
-                                        } else {
-                                          showConfirmationDialog(context);
-                                          pinCode(
-                                              context: context,
-                                              phone: inController.text);
-                                        }
-                                      });
-                                    } else {}
-                                  },
+                                  text: getTranslatedStrings(context).needMoreHelp,
+                                  onClick: () {},
+                                  backColor: newLightGreyColor,
+                                  titleColor: newDarkGreyColor,
+                                  borderColor: newLightGreyColor,
                                 ),
-                              )
-                              // : Expanded(
-                              //     child: DefaultButton(
-                              //       text: "Send",
-                              //       onClick: () {
-                              //         FocusManager
-                              //             .instance.primaryFocus
-                              //             ?.unfocus();
-                              //         if (formKey.currentState!
-                              //             .validate()) {
-                              //           pinCode(
-                              //               context: context,
-                              //               phone: inController
-                              //                   .text);
-                              //         } else {}
-                              //       },
-                              //     ),
-                              //   ),
+                              ),
+                              widthBox(5.w),
+                              Expanded(
+                                child: DefaultButton(
+                                    text: getTranslatedStrings(context).next,
+                                    onClick: () {
+                                      if (formKey.currentState!.validate()) {
+                                        resetPassRequest(inController.text).then((value) {
+                                          ///
+                                          ///
+                                          ///     navigateTo(
+                                          ///      context, const CompleteInfoSubscribe());
+                                          ///    Todo: if data completed go to main
+                                          ///    Todo: else go to complete data
+                                          ///
+                                          Navigator.pop(context);
+                                          showResetPassPopUp(context, inController.text);
+                                        });
+                                      }
+                                    }),
+                              ),
                             ],
                           ),
-                          state is VerifyingNumErrorState
-                              ? Text(
-                            "Check your username, mobile or email address  and try again",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'PNfont',
-                                color: Color(0xffE72B1C)),
+                    heightBox(10.h),
+                    state is VerifyingNumErrorState
+                        ? Text(
+                            state.error.toString(),
+                            style: mainStyle(context, 11, color: Colors.red),
                             textAlign: TextAlign.center,
                           )
-                              : const SizedBox(),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        );
-      },
-    );
+                        : const SizedBox(),
+                    // heightBox(15.h),
+                    // Text(
+                    //   '${getTranslatedStrings(context).needMoreHelp}',
+                    //   style: mainStyle(context, 12, color: mainBlueColor),
+                    // )
+                  ],
+                ),
+              ),
+            );
+          },
+        ));
+    // emit(AuthLoadingState());
+    //
+    //
+    //
+    // MainDioHelper.postData(url: loginEnd, data: {
+    //   'email': email,
+    //   'password': pass,
+    // }).then((value) {
+    //   logg('sign up response: $value');
+    //   registerModel = RegisterModel.fromJson(value.data);
+    //   // if (userSignUpModel != null) {
+    //   //   userCacheProcess(userSignUpModel!).then((value) => checkUserAuth().then(
+    //   //           (value) =>
+    //   //           navigateToAndFinishUntil(context, const MainAppMaterialApp())));
+    //   //   // navigateToAndFinishUntil(context, MainAppMaterialApp());
+    //   //
+    //   // }
+    //   /// cache process and navigate due to status
+    //   ///
+    //   userCacheProcessAndNavigate(context);
+    //
+    //   emit(SignUpSuccessState());
+    // }).catchError((error) {
+    //   logg(error.response.toString());
+    //   emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
+    // });
   }
 
   Future<void> userCacheProcessAndNavigate(BuildContext context) async {
@@ -687,7 +682,7 @@ class AuthCubit extends Cubit<AuthState> {
     return false;
   }
 
-  void showResetPassPopUp(BuildContext context, String identity, String phone) {
+  void showResetPassPopUp(BuildContext context, String identity) {
     final TextEditingController smsPassCodeEditingController = TextEditingController();
     var formKey = GlobalKey<FormState>();
     var newPassCont = TextEditingController();
@@ -824,190 +819,5 @@ class AuthCubit extends Cubit<AuthState> {
             );
           },
         ));
-  }
-
-  Future<void> pinCode(
-      {required BuildContext context, required String phone}) async {
-    var formKey = GlobalKey<FormState>();
-    var inController = TextEditingController();
-
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Form(
-          key: formKey,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              leading: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: Image.asset(
-                  'assets/addedbyzein/test.png', // Replace with your image path
-                  scale: 3,
-                  alignment:
-                  Alignment.centerRight, // Adjust the height as needed
-                ),
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 25, top: 18, right: 120),
-                  child: Text(
-                    'Confirm your account',
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'PNfont',
-                      color: Color(0xff152026),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            body: BlocConsumer<AuthCubit, AuthState>(
-              listener: (context, state) {
-                // TODO: implement listener
-              },
-              builder: (context, state) {
-                return SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25, top: 5, right: 30),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Divider(),
-                          heightBox(15.h),
-                          Text(
-                            'We sent a code to your email. Enter that code to confirm your account',
-                            style: TextStyle(
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'PNfont',
-                              color: Color(0xff303840),
-                            ),
-                            // textAlign: TextAlign.center,
-                          ),
-                          heightBox(5.h),
-                          heightBox(10.h),
-                          DefaultInputField(
-                            fillColor: Color(0xffF2F2F2),
-                            focusedBorderColor: Color(0xff0077FF),
-                            unFocusedBorderColor: Color(0xffC9CBCD),
-                            label: 'Enter code',
-                            labelTextStyle: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'PNfont',
-                                color: Color(0xff999B9D)),
-                            controller: inController,
-                            validate: normalInputValidate1,
-                          ),
-                          heightBox(10.h),
-                          heightBox(470.h),
-                          state is ProceedingToResetPass
-                              ? const DefaultLoaderGrey()
-                              : Row(
-                            children: [
-                              Expanded(
-                                child: DefaultButton(
-                                  text: "Continue",
-                                  onClick: () {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-
-                                    toggleResetPassAutoValidate(true);
-
-                                    if (inController.text.length < 6) {
-                                      logg('otp must be 6 digits');
-                                    } else {
-                                      if (formKey.currentState!
-                                          .validate()) {
-                                        checkCodeValidateRequest(
-                                            phone, inController.text)
-                                            .then((value) {
-                                          log("# code :$value");
-                                          if (value == false) {
-                                            pinCodeAlertDialog(context);
-                                          } else {
-                                            showResetPassPopUp(
-                                              context,
-                                              phone,
-                                              inController.text,
-                                            );
-                                          }
-                                        });
-                                      }
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          state is VerifyingNumErrorState
-                              ? Text(
-                            "Check your username, mobile or email address  and try again",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'PNfont',
-                                color: Color(0xffE72B1C)),
-                            textAlign: TextAlign.center,
-                          )
-                              : const SizedBox(),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        );
-      },
-    );
-  }
-  Future<bool?> checkCodeValidateRequest(String email, String code) async {
-    log("# code is : $code");
-    log("# email is : $email");
-    Map<String, dynamic> body = {
-      'email': email,
-      'code': code,
-    };
-    bool resultState = false;
-    await MainDioHelper.postData(url: verifyCodeResetPassword, data: body)
-        .then((value) {
-      logg('Verify num response Reset Password: $value');
-      resultState = true;
-      return true;
-    }).catchError((error) {
-      logg("# Error  : ${error.response.toString()}");
-      emit(VerifyingNumErrorState(getErrorMessageFromErrorJsonResponse(error)));
-      resultState = false;
-      return false;
-    });
-    return resultState;
-  }
-
-  Future<void> _showSuccessDialog(BuildContext context) async {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      duration: const Duration(seconds: 5),
-      content: Container(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          margin: EdgeInsets.symmetric(vertical: 100, horizontal: 0),
-          decoration: BoxDecoration(
-              color: Colors.grey.shade700,
-              borderRadius: BorderRadius.circular(5)),
-          child: const Text(
-            'Code was sent',
-            style: TextStyle(color: Colors.white, fontSize: 14),
-          )),
-    ));
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -286,8 +288,8 @@ class AuthCubit extends Cubit<AuthState> {
         );      userCacheProcessAndNavigate(context);
       emit(SignUpSuccessState());
     }).catchError((error, stack) {
-      logg(error.toString());
-      logg(stack.response.toString());
+      log("# error : ${error.toString()}");
+      log("# stack : ${stack.response.toString()}");
       hasError = true;
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });

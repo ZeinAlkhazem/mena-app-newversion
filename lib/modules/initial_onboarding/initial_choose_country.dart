@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,17 +64,21 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                         Center(
                           child: Column(
                             children: [
-                              Lottie.asset('assets/json/world.json', height: 75.sp),
+                              Lottie.asset('assets/json/world.json',
+                                  height: 75.sp),
                               heightBox(12.h),
                               Text(
                                 'Select your country',
-                                style: mainStyle(context, 14, weight: FontWeight.w700),
+                                style: mainStyle(context, 14,
+                                    weight: FontWeight.w700),
                               ),
                               heightBox(12.h),
                               Text(
                                 'Select your current country,\nand you can update it later from within the app.',
                                 textAlign: TextAlign.center,
-                                style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+                                style: mainStyle(context, 13,
+                                    color: newDarkGreyColor,
+                                    weight: FontWeight.w700),
                               ),
                             ],
                           ),
@@ -90,7 +94,8 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                     Expanded(
                       flex: 4,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: defaultHorizontalPadding),
                         child: ListView.separated(
                           physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
@@ -98,20 +103,25 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                             logg('list countries builder');
                             return GestureDetector(
                               onTap: () {
-                                mainCubit.updateSelectedCountry(mainCubit.mayyaCountries[index].alpha3Code.toString());
+                                mainCubit.updateSelectedCountry(mainCubit
+                                    .mayyaCountries[index].alpha3Code
+                                    .toString());
                               },
                               child: Container(
                                 color: Colors.white,
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: defaultHorizontalPadding / 3),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: defaultHorizontalPadding / 3),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Row(
                                           children: [
                                             Image.asset(
-                                              mainCubit.mayyaCountries[index].flagUri,
+                                              mainCubit.mayyaCountries[index]
+                                                  .flagUri,
                                               width: 25.w,
                                               fit: BoxFit.contain,
                                             ),
@@ -121,29 +131,47 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                                                 // MayyaCountries.countryList[index]['nameTranslations']
                                                 // [mainCubit.appLocale!.languageCode],
                                                 mainCubit.mayyaCountries[index]
-                                                            .nameTranslations![mainCubit.appLocale!.languageCode] ==
+                                                                .nameTranslations![
+                                                            mainCubit.appLocale!
+                                                                .languageCode] ==
                                                         null
-                                                    ? mainCubit.mayyaCountries[index].nameTranslations!['en']!
-                                                    : mainCubit.mayyaCountries[index]
-                                                        .nameTranslations![mainCubit.appLocale!.languageCode]!,
-                                                style: mainStyle(context, 12, weight: FontWeight.w600),
+                                                    ? mainCubit
+                                                            .mayyaCountries[index]
+                                                            .nameTranslations![
+                                                        'en']!
+                                                    : mainCubit
+                                                            .mayyaCountries[index]
+                                                            .nameTranslations![
+                                                        mainCubit.appLocale!
+                                                            .languageCode]!,
+                                                style: mainStyle(context, 12,
+                                                    weight: FontWeight.w600),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
                                         child: CircleAvatar(
                                           radius: 8.sp,
-                                          backgroundColor: mainCubit.mayyaCountries[index].alpha3Code.toString() ==
-                                                  mainCubit.selectedCountryAlpha3Code
+                                          backgroundColor: mainCubit
+                                                      .mayyaCountries[index]
+                                                      .alpha3Code
+                                                      .toString() ==
+                                                  mainCubit
+                                                      .selectedCountryAlpha3Code
                                               ? mainBlueColor
                                               : softGreyColor,
                                           child: CircleAvatar(
                                             radius: defaultRadiusVal,
-                                            backgroundColor: mainCubit.mayyaCountries[index].alpha3Code.toString() ==
-                                                    mainCubit.selectedCountryAlpha3Code
+                                            backgroundColor: mainCubit
+                                                        .mayyaCountries[index]
+                                                        .alpha3Code
+                                                        .toString() ==
+                                                    mainCubit
+                                                        .selectedCountryAlpha3Code
                                                 ? mainBlueColor
                                                 : Colors.white,
                                           ),
@@ -166,7 +194,8 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                     ),
                     heightBox(35.h),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 4),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: defaultHorizontalPadding * 4),
                       child: Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -177,14 +206,19 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                                     height: 40.h,
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
                                           child: Center(
                                             child: Image.asset(
-                                              MayyaCountryProvider.getCountriesData(countries: [])
+                                              MayyaCountryProvider
+                                                      .getCountriesData(
+                                                          countries: [])
                                                   .firstWhere((element) =>
-                                                      element.alpha3Code == mainCubit.selectedCountryAlpha3Code)
+                                                      element.alpha3Code ==
+                                                      mainCubit
+                                                          .selectedCountryAlpha3Code)
                                                   .flagUri,
                                               width: 25.w,
                                               fit: BoxFit.contain,
@@ -198,11 +232,19 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                                               child: Text(
                                                 // MayyaCountries.countryList[index]['nameTranslations']
                                                 // [mainCubit.appLocale!.languageCode],
-                                                MayyaCountryProvider.getCountriesData(countries: [])
-                                                    .firstWhere((element) =>
-                                                        element.alpha3Code == mainCubit.selectedCountryAlpha3Code)
-                                                    .nameTranslations![mainCubit.appLocale!.languageCode]!,
-                                                style: mainStyle(context, 12, weight: FontWeight.w600),
+                                                MayyaCountryProvider
+                                                            .getCountriesData(
+                                                                countries: [])
+                                                        .firstWhere((element) =>
+                                                            element
+                                                                .alpha3Code ==
+                                                            mainCubit
+                                                                .selectedCountryAlpha3Code)
+                                                        .nameTranslations![
+                                                    mainCubit.appLocale!
+                                                        .languageCode]!,
+                                                style: mainStyle(context, 12,
+                                                    weight: FontWeight.w600),
                                               ),
                                             ),
                                           ),
@@ -215,19 +257,25 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                                 // height: 50.h,
                                 text: localizationStrings!.save,
                                 onClick: () {
-                                  if (mainCubit.selectedCountryAlpha3Code == '') {
+                                  log("==== click ");
+                                  if (mainCubit.selectedCountryAlpha3Code ==
+                                      '') {
                                     logg('please select a country');
-                                    showMyAlertDialog(context, 'Select your country',
+                                    showMyAlertDialog(
+                                        context, 'Select your country',
                                         alertDialogContent: Text(
                                           'Kindly pick a country from the list',
-                                          style:
-                                              mainStyle(context, 14, color: newDarkGreyColor, weight: FontWeight.w700),
+                                          style: mainStyle(context, 14,
+                                              color: newDarkGreyColor,
+                                              weight: FontWeight.w700),
                                           textAlign: TextAlign.center,
                                         ));
                                   } else {
                                     saveCachedFirstApplicationRun(false);
-                                    saveCachedSelectedCountry(mainCubit.selectedCountryAlpha3Code);
-                                    navigateToAndFinishUntil(context, const RouteEngine());
+                                    saveCachedSelectedCountry(
+                                        mainCubit.selectedCountryAlpha3Code);
+                                    navigateToAndFinishUntil(
+                                        context, const RouteEngine());
                                   }
                                 }),
                           ],

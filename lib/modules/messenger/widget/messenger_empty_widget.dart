@@ -78,6 +78,7 @@ class MessengerEmptyWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DefaultButton(
+                radius: 50.h,
                 text: getTranslatedStrings(context).startMessaging,
                 height: 45.h,
                 onClick: btnClick),

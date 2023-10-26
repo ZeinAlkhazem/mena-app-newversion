@@ -10,24 +10,24 @@ String? Function(String?)? emailValidate(BuildContext context) => (String? val) 
       val.split('.').last.isNotEmpty &&
       val.contains('@') &&
       val.split('@')[1].isNotEmpty) {
-    hasError = false;
+    // hasError = false;
     return null; // null is ok 'valid'
   } else {
-    hasError = false;
+    // hasError = false;
     return getTranslatedStrings(context).invalidEmail;
   }
 };
 String? Function(String?)? passwordValidate(BuildContext context) {
   return (String? val) {
   if (val!.isEmpty) {
-    hasError = true;
+    // hasError = true;
     return getTranslatedStrings(context).pleaseEnterPassword;
   } else
   if (val.length < 8) {
-    hasError = true;
+    // hasError = true;
     return getTranslatedStrings(context).passwordShouldBeMoreThan8Characters;
   } else{
-    hasError = false;
+    // hasError = false;
   return getTranslatedStrings(context).invalidPassword;
   }
 };

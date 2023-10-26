@@ -10,6 +10,7 @@ import 'package:mena/models/api_model/counters_model.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
 import 'package:mena/models/api_model/plans_model.dart';
 import 'package:mena/models/api_model/user_info_model.dart';
+import 'package:mena/modules/create_articles/create_article_screen.dart';
 import 'package:mena/modules/feeds_screen/blogs/add_articles.dart';
 import 'package:mena/modules/feeds_screen/post_a_feed.dart';
 import 'package:mena/modules/messenger/widget/messenger_empty_widget.dart';
@@ -125,7 +126,7 @@ class MainCubit extends Cubit<MainState> {
           onClickCallback: () {
             logg('create article');
             
-            navigateToWithoutNavBar(context, AddArticlesPage(), 'routeName');
+            navigateToWithoutNavBar(context,  CreateArticleScreen(), 'routeName');
           },
         ),
         ItemWithTitleAndCallback(

@@ -1267,6 +1267,7 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap:onClick,
       child: Container(
         width: width,
         height: height ?? null,

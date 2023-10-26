@@ -209,15 +209,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         // })
 
                         ///
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     navigateToWithoutNavBar(context, BlogsLayout(), 'routeName');
-                        //   },
-                        //   child: CircleAvatar(
-                        //     radius: 33.h,
-                        //     child: Text('Blogs'),
-                        //   ),
-                        // ),
+                        GestureDetector(
+                          onTap: () {
+                            navigateToWithoutNavBar(context, BlogsLayout(), 'routeName');
+                          },
+                          child: CircleAvatar(
+                            radius: 24.h,
+                            child: Text('Blogs'),
+                          ),
+                        ),
                         // widthBox(7.w),
                         // GestureDetector(
                         //   onTap: () {

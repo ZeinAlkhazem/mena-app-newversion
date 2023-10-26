@@ -1,18 +1,14 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart' as mainCubit;
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/config_model.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
-import 'package:mena/modules/home_screen/sections_widgets/sections_widgets.dart';
-import 'package:mena/modules/main_layout/main_layout.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../core/constants/constants.dart';
@@ -21,7 +17,6 @@ import '../../../core/functions/main_funcs.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
 import '../../../models/api_model/categories_model.dart';
-import '../../../models/api_model/plans_model.dart';
 import '../../../models/api_model/provider_types.dart';
 import '../../../models/api_model/register_model.dart';
 import '../../home_screen/cubit/home_screen_cubit.dart';

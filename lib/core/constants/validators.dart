@@ -19,6 +19,23 @@ String? Function(String?)? emailValidate(BuildContext context) =>
         return getTranslatedStrings(context).invalidEmail;
       }
     };
+// =======
+// bool hasError = false;
+// String? Function(String?)? emailValidate(BuildContext context) => (String? val) {
+//   if (val!.isEmpty) {
+//     return getTranslatedStrings(context).thisFieldIsRequired;
+//   } else if (val.contains('.') &&
+//       val.split('.').last.isNotEmpty &&
+//       val.contains('@') &&
+//       val.split('@')[1].isNotEmpty) {
+//     hasError = false;
+//     return null; // null is ok 'valid'
+//   } else {
+//     hasError = false;
+//     return getTranslatedStrings(context).invalidEmail;
+//   }
+// };
+// >>>>>>> d272136368f815f19c08ab033dbaf422f903fd5a
 String? Function(String?)? passwordValidate(BuildContext context) {
   return (String? val) {
     if (val!.isEmpty) {

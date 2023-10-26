@@ -105,7 +105,7 @@ class PlatformField {
     name: json["name"],
     title: json["title"],
     description: json["description"],
-    required: json["required"],
+  required: json["required"],
     extensions: List<String>.from(json["extensions"].map((x) => x)),
     type: json["type"],
     value: json["value"],

@@ -208,17 +208,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         //   // logg( MainCubit.get(context).socket..toString() );
                         // })
 
-                        ///
-                        GestureDetector(
-                          onTap: () {
-                            navigateToWithoutNavBar(context, BlogsLayout(), 'routeName');
-                          },
-                          child: CircleAvatar(
-                            radius: 24.h,
-                            child: Text('Blogs'),
-                          ),
-                        ),
+//                         ///
+// <<<<<<< HEAD
+//                         GestureDetector(
+// =======
+//                          GestureDetector(
+// >>>>>>> d272136368f815f19c08ab033dbaf422f903fd5a
+//                           onTap: () {
+//                             navigateToWithoutNavBar(context, BlogsLayout(), 'routeName');
+//                           },
+//                           child: CircleAvatar(
+//                             radius: 24.h,
+//                             child: Text('Blogs'),
+//                           ),
+//                         ),
+// <<<<<<< HEAD
                         // widthBox(7.w),
+
+                        widthBox(7.w),
+
                         // GestureDetector(
                         //   onTap: () {
                         //     navigateToWithoutNavBar(context, EServicesLayout(), 'routeName');

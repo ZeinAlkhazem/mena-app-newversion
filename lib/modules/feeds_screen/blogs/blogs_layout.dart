@@ -126,14 +126,19 @@ class ArticleCard extends StatelessWidget {
   const ArticleCard({
     super.key,
     required this.article,
+    this.isDetails
   });
 
   final MenaArticle article;
+  final bool? isDetails;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        isDetails ==false ?
+            SizedBox()
+            :
         navigateToWithoutNavBar(
             context,
             ArticleDetailsLayout(
@@ -151,27 +156,28 @@ class ArticleCard extends StatelessWidget {
                 borderColor: mainBlueColor,
               ),
               heightBox(7.h),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    article.title,
+                    style: mainStyle(context, 12, isBold: true),
+                  ),
+                  heightBox(7.h),
+
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        article.title,
-                        style: mainStyle(context, 14, isBold: true),
-                      ),
-                      heightBox(7.h),
-                      DefaultSoftButton(
-                        label: article.category.title ?? '',
-                      ),
-                    ],
+
+                  DefaultSoftButton(
+                    label: article.category.title ?? '',
                   ),
                   Text(
                     getFormattedDateWithDayName(article.createdAt),
-                    style: mainStyle(context, 13, weight: FontWeight.w400),
-                  )
+                    style: mainStyle(context, 12, weight: FontWeight.w300),
+                  ),
                 ],
               ),
             ],
@@ -223,7 +229,10 @@ class BlogsCategoriesSection extends StatelessWidget {
                       child: Column(
                         children: [
                           Expanded(child: DefaultImageFadeInOrSvg(backGroundImageUrl: e.image)),
-                          Text(e.title ?? ''),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            child: Text(e.title ?? ''),
+                          ),
                         ],
                       ),
                     ))
@@ -245,38 +254,41 @@ class BannersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: (9 / 16).sw,
-      width: double.maxFinite,
-      child: CarouselSlider.builder(
-        itemCount: banners.length,
-        // carouselController: carouselController,
-        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
-          onTap: () {
-            navigateToWithoutNavBar(
-                context,
-                ArticleDetailsLayout(
-                  menaArticleId: banners[itemIndex].articleBlogId.toString(),
-                ),
-                'routeName');
-          },
-          child: DefaultImageFadeInOrSvg(
-            backGroundImageUrl: banners[itemIndex].image,
-            boxFit: BoxFit.cover,
-            width: double.maxFinite,
-            borderColor: mainBlueColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: SizedBox(
+        height: (9 / 16).sw,
+        width: double.maxFinite,
+        child: CarouselSlider.builder(
+          itemCount: banners.length,
+          // carouselController: carouselController,
+          itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
+            onTap: () {
+              navigateToWithoutNavBar(
+                  context,
+                  ArticleDetailsLayout(
+                    menaArticleId: banners[itemIndex].articleBlogId.toString(),
+                  ),
+                  'routeName');
+            },
+            child: DefaultImageFadeInOrSvg(
+              backGroundImageUrl: banners[itemIndex].image,
+              boxFit: BoxFit.cover,
+              width: double.maxFinite,
+              borderColor: mainBlueColor,
+            ),
           ),
-        ),
-        options: CarouselOptions(
-          autoPlay: false,
-          reverse: false,
-          height: double.maxFinite,
-          enableInfiniteScroll: false,
-          enlargeCenterPage: true,
-          viewportFraction: Responsive.isMobile(context) ? 1 : 1,
-          aspectRatio: 1,
-          initialPage: 1,
-          scrollPhysics: ClampingScrollPhysics(),
+          options: CarouselOptions(
+            autoPlay: false,
+            reverse: false,
+            height: double.maxFinite,
+            enableInfiniteScroll: false,
+            enlargeCenterPage: true,
+            viewportFraction: Responsive.isMobile(context) ? 1 : 1,
+            aspectRatio: 1,
+            initialPage: 1,
+            scrollPhysics: ClampingScrollPhysics(),
+          ),
         ),
       ),
     );

@@ -47,7 +47,7 @@ class AdditionalItem {
   String name;
   String title;
   String description;
-  String required;
+  int required;
   List<String> extensions;
   String type;
   dynamic value;

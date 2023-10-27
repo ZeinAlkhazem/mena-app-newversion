@@ -12,6 +12,7 @@ const String countersEnd = '/users/counters';
 ///Users
 const String loginEnd = '/users/login';
 const String registerEnd = '/users/register';
+const String publishArticleEnd = '/blogs/add';
 const String followUserEnd = '/users/follow';
 const String unfollowUserEnd = '/users/unfollow';
 const String getProviderTypesEnd = '/provider-types';

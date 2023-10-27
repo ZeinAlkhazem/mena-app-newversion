@@ -92,12 +92,14 @@ dependencies:
   add_2_calendar: ^2.2.3
   socket_io_client: ^2.0.3+1
   flutter_html:
+  flutter_summernote: ^1.1.1
 #  html: ^0.15.4
 #  flutter_html: ^2.2.1
 #  flutter_html: ^3.0.0-beta.2
 #  maps_launcher: ^2.2.0
 #  place_picker: ^0.10.0
   keyboard_emoji_picker: ^1.0.1
+  html_editor_enhanced: ^2.5.1
   whiteboard: ^0.0.2
   webview_flutter: ^4.2.2
   screen_recorder: ^0.2.0
@@ -106,6 +108,8 @@ dependencies:
   share_plus: ^6.0.0
   flutter_webrtc: ^0.9.34
   package_info_plus: ^3.1.2
+  quill_html_editor:
+  fluttertoast: ^8.2.2
 
 
 dev_dependencies:
@@ -132,6 +136,7 @@ flutter:
     - assets/
     - assets/addedbyzein/
     - assets/images/
+    - assets/icons/
     - assets/icons/messenger/
     - assets/images/public/
     - assets/svg/

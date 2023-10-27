@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -29,21 +30,28 @@ class EditorScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        actions: [ IconButton(
-          icon: Icon(Icons.save,color: mainBlueColor,),
-          onPressed: () async {
-            createArticleCubit.content.text= await createArticleCubit.keyEditor.currentState?.getText()??'';
+        actions: [
+          IconButton(
+            icon:Image.asset('assets/icons/save.png'),
+            onPressed: () async {
+              createArticleCubit.content.text =
+                  await createArticleCubit.keyEditor.currentState!.getText();
+             createArticleCubit.content.text =
+                  await createArticleCubit.keyEditor.currentState!.getText();
+                     createArticleCubit.content.text =
+                  await createArticleCubit.keyEditor.currentState!.getText();
             Navigator.pop(context);
-          },
-        )],
-
+              logg(createArticleCubit.content.text);
+            },
+          )
+        ],
       ),
       body: SafeArea(
         child: FlutterSummernote(
-          hint: 'Start creating your article...',
-
-          key: createArticleCubit.keyEditor,
+          hint: createArticleCubit.content.text.isEmpty ?'Start creating your article...' : '',
+          key: createArticleCubit.keyEditor ,
           hasAttachment: true,
+          value:  createArticleCubit.content.text,
           customToolbar: """
           [
             ['style', ['bold', 'italic', 'underline',]],

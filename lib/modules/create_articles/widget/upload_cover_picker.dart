@@ -29,11 +29,11 @@ class AddServiceImagePicker extends StatelessWidget {
                 children: [
                   Text(
                     'Upload article header cover',
-                    style: mainStyle(context, 14,
-                        color: newDarkGreyColor, weight: FontWeight.w700),
+                    style: mainStyle(context, 13,
+                        color: newDarkGreyColor, weight: FontWeight.w600),
                   ),
                   Spacer(),
-                  Icon(Icons.add)
+                 Image.asset('assets/icons/Gallery - Gray.png',height: 20,),
                 ],
               ),
             ),
@@ -48,7 +48,7 @@ class AddServiceImagePicker extends StatelessWidget {
           ),
           BlocBuilder<CreateArticleCubit, CreateArticleState>(
               builder: (context, state) {
-            return state is ImageUploaded
+            return state is ImageUploaded || state is ArticleLoadingState
                 ? Container(
                     height: 200,
                     width: double.maxFinite,

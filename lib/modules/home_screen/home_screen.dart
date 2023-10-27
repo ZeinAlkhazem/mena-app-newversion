@@ -209,20 +209,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         // })
 
 //                         ///
-// <<<<<<< HEAD
-//                         GestureDetector(
-// =======
-//                          GestureDetector(
-// >>>>>>> d272136368f815f19c08ab033dbaf422f903fd5a
-//                           onTap: () {
-//                             navigateToWithoutNavBar(context, BlogsLayout(), 'routeName');
-//                           },
-//                           child: CircleAvatar(
-//                             radius: 24.h,
-//                             child: Text('Blogs'),
-//                           ),
-//                         ),
-// <<<<<<< HEAD
+
+                  
+
+                         GestureDetector(
+
+                          onTap: () {
+                            navigateToWithoutNavBar(context, BlogsLayout(), 'routeName');
+                          },
+                          child: CircleAvatar(
+                            radius: 24.h,
+                            child: Text('Blogs'),
+                          ),
+                        ),
+
                         // widthBox(7.w),
 
                         widthBox(7.w),

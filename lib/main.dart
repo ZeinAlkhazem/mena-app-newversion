@@ -300,8 +300,8 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           //   );
           //   return widget!;
           // },
-          home: const CreateArticleScreen(),
-          // home: const JobsLayout(),
+          // home: const CreateArticleScreen(),
+          home: const SplashScreen(),
         ),
       ),
     );

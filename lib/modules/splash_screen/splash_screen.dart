@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
             await HomeScreenCubit.get(context)
               ..changeSelectedHomePlatform(MainCubit.get(context).configModel!.data.platforms[0].id!).then((value) async{
             await    MainCubit.get(context).checkSetUpData().then((value) async{
-              await Future.delayed(Duration(milliseconds: 1000));
+              await Future.delayed(Duration(milliseconds: 2000));
               moveToRouteEngine(context);
               // Future.delayed(const Duration(seconds: 4), () {
               //   moveToRouteEngine(context);

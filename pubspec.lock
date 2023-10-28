@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.0"
+  auto_size_text:
+    dependency: transitive
+    description:
+      name: auto_size_text
+      sha256: "3f5261cd3fb5f2a9ab4e2fc3fba84fd9fcaac8821f20a1d4e71f557521b22599"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   bloc:
     dependency: "direct main"
     description:
@@ -333,18 +341,18 @@ packages:
     dependency: "direct main"
     description:
       name: extended_text
-      sha256: "02260234da409916f56add1dd470bc17f4b3359e94c93bf4b8e44c7439dcd536"
+      sha256: "3f555a60f63ff51d5080f5eed89e65bc18f17b69e01f4e16cadfd0cb3b49f42a"
       url: "https://pub.dev"
     source: hosted
-    version: "11.1.0"
+    version: "10.0.1"
   extended_text_library:
     dependency: transitive
     description:
       name: extended_text_library
-      sha256: f6ae456324ff6ba3f9fe560a5c12f51ec02c5f463ef5a02bf165b678f049d547
+      sha256: "6d06b0ac53a09989e9864549f133c19c676d1456c5ee9470e2483f3cb1900f6e"
       url: "https://pub.dev"
     source: hosted
-    version: "11.1.0"
+    version: "10.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -446,22 +454,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
-  flutter_datetime_picker_plus:
+  flutter_cupertino_date_picker_fork:
     dependency: "direct main"
     description:
-      name: flutter_datetime_picker_plus
-      sha256: "3b2ebcd7b4d2c253171dc6ba78a850af7dcb68fd965b9133dd254ff662a9023b"
+      name: flutter_cupertino_date_picker_fork
+      sha256: edc20d4045a7cb8c75503a73b103ba30d52e1a2c7bc1bff5b4f39dc356b67ee8
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
-  flutter_html:
+    version: "1.0.7"
+  flutter_datetime_picker:
     dependency: "direct main"
     description:
-      name: flutter_html
-      sha256: "02ad69e813ecfc0728a455e4bf892b9379983e050722b1dce00192ee2e41d1ee"
+      name: flutter_datetime_picker
+      sha256: "8e695c63c769350e541951227c2775190ec73ceda774a315b1dc9a99d5facfe5"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0-beta.2"
+    version: "1.5.1"
+  flutter_holo_date_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_holo_date_picker
+      sha256: "839ac788e468c8c51a280b3847e4d56e6286bef3a823ba2e81a304564ec59822"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -877,14 +893,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
-  list_counter:
-    dependency: transitive
-    description:
-      name: list_counter
-      sha256: c447ae3dfcd1c55f0152867090e67e219d42fe6d4f2807db4bbe8b8d69912237
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   logger:
     dependency: transitive
     description:
@@ -998,7 +1006,7 @@ packages:
     source: hosted
     version: "2.0.1+1"
   package_info_plus:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: package_info_plus
       sha256: "10259b111176fba5c505b102e3a5b022b51dd97e30522e906d6922c745584745"
@@ -1201,10 +1209,10 @@ packages:
     dependency: "direct main"
     description:
       name: preload_page_view
-      sha256: "488a10c158c5c2e9ba9d77e5dbc09b1e49e37a20df2301e5ba02992eac802b7a"
+      sha256: "698e4d6eb1fa3489768c9d2d8c8322ed686015af633d04cc537c57e38566834a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.1.6"
   process:
     dependency: transitive
     description:
@@ -1836,4 +1844,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=3.1.0-185.0.dev <4.0.0"
-  flutter: ">=3.13.0"
+  flutter: ">=3.10.0"

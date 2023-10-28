@@ -319,7 +319,6 @@ class MessengerCubit extends Cubit<MessengerState> {
         'offset': '1',
       },
     ).then((value) {
-    logg('sssssssssssssssssssssss ${value}');
       logg('My Messages fetched...');
       logg(value.toString());
       myMessagesModel = MyMessagesModel.fromJson(value.data);
@@ -327,7 +326,7 @@ class MessengerCubit extends Cubit<MessengerState> {
       // logg(value.toString());
       emit(SuccessGettingMyMessagesDataState());
     }).catchError((error) {
-      logg('ssss ${error.toString()}');
+      logg('an error occurred');
       logg(error.toString());
       emit(ErrorGettingMessagesDataState());
     });

@@ -35,7 +35,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
     var createArticleCubit = CreateArticleCubit.get(context);
 
     createArticleCubit.getBlogsInfo();
-    // feedsCubit.getBlogs();
+    createArticleCubit.content.clear();
 
     super.initState();
   }
@@ -136,7 +136,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                                       minLines: 5,
                                       maxLines: 50,
                                       controller:
-                                          createArticleCubit.content != ''
+                                          createArticleCubit.content.text != ''
                                               ? TextEditingController(
                                                   text: "your article is here")
                                               : createArticleCubit.content,
@@ -148,8 +148,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                                 SelectBlogCategoryDropDown(),
                                 AddServiceImagePicker(),
                                 PrivacyText(),
-                                heightBox(35.h),
-                                // Expanded(child: SizedBox()),
+                                heightBox(250.h),
                                 state is ArticleLoadingState
                                     ? DefaultLoaderGrey()
                                     : Container(

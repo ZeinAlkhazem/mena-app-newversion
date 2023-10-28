@@ -87,7 +87,7 @@ class ArticleInputField extends StatelessWidget {
         ),
         suffixIconConstraints: BoxConstraints(maxHeight: 30.w),
         labelStyle: mainStyle(context, 13,
-            color: newDarkGreyColor, weight: FontWeight.w700),
+            color: newDarkGreyColor, weight: FontWeight.w600),
         label: Text(label ?? ''),
         fillColor: Colors.white,
 

@@ -42,8 +42,8 @@ class _SelectBlogCategoryDropDownState
                 ),
               ),
               hint: Text('Select Blog Category',
-                  style: mainStyle(context, 14,
-                      color: newDarkGreyColor, weight: FontWeight.w700)),
+                  style: mainStyle(context, 13,
+                      color: newDarkGreyColor, weight: FontWeight.w600)),
               borderRadius: BorderRadius.circular(10),
               elevation: 0,
               

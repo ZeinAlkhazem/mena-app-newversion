@@ -69,27 +69,27 @@ class ArticleUnderLineInputField extends StatelessWidget {
         hintText: customHintText ?? label ?? '...',
         floatingLabelAlignment: floatingLabelAlignment,
         floatingLabelBehavior:
-        floatingLabelBehavior ?? FloatingLabelBehavior.never,
+            floatingLabelBehavior ?? FloatingLabelBehavior.never,
         hintStyle: mainStyle(context, 12,
             color: newDarkGreyColor, weight: FontWeight.w400),
         contentPadding: edgeInsetsGeometry ??
             EdgeInsets.symmetric(
                 vertical: Responsive.isMobile(context) ? 15 : 20.0,
                 horizontal: 10.0),
-        border:  UnderlineInputBorder(borderSide: BorderSide(color: newDarkGreyColor)),
+        border: UnderlineInputBorder(
+            borderSide: BorderSide(color: newDarkGreyColor)),
         suffixIcon: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
           child: suffixIcon,
         ),
         suffixIconConstraints: BoxConstraints(maxHeight: 30.w),
         labelStyle: mainStyle(context, 13,
-            color: newDarkGreyColor, weight: FontWeight.w700),
+            color: newDarkGreyColor, weight: FontWeight.w600),
         label: Text(label ?? ''),
-
         focusColor: newLightGreyColor,
         focusedErrorBorder: UnderlineInputBorder(
             borderSide:
-            BorderSide(color: unFocusedBorderColor ?? Colors.red, width: 1),
+                BorderSide(color: unFocusedBorderColor ?? Colors.red, width: 1),
             borderRadius: BorderRadius.all(
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
         errorBorder: UnderlineInputBorder(
@@ -105,8 +105,7 @@ class ArticleUnderLineInputField extends StatelessWidget {
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
         enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-                color: unFocusedBorderColor ?? newDarkGreyColor,
-                width: 1),
+                color: unFocusedBorderColor ?? newDarkGreyColor, width: 1),
             borderRadius: BorderRadius.all(
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
       ),
@@ -116,5 +115,3 @@ class ArticleUnderLineInputField extends StatelessWidget {
     );
   }
 }
-
-

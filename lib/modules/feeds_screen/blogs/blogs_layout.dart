@@ -264,12 +264,12 @@ class BannersSection extends StatelessWidget {
           // carouselController: carouselController,
           itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
             onTap: () {
-              navigateToWithoutNavBar(
-                  context,
-                  ArticleDetailsLayout(
-                    menaArticleId: banners[itemIndex].articleBlogId.toString(),
-                  ),
-                  'routeName');
+              // navigateToWithoutNavBar(
+              //     context,
+              //     ArticleDetailsLayout(
+              //       menaArticleId: banners[itemIndex].articleBlogId.toString(),
+              //     ),
+              //     'routeName');
             },
             child: DefaultImageFadeInOrSvg(
               backGroundImageUrl: banners[itemIndex].image,

@@ -28,7 +28,7 @@ String? Function(String?)? passwordValidate(BuildContext context) {
     return getTranslatedStrings(context).passwordShouldBeMoreThan8Characters;
   } else{
     hasError = false;
-  return getTranslatedStrings(context).invalidPassword;
+  return null;
   }
 };
 }

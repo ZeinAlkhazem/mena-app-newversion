@@ -197,6 +197,14 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: statusBarColor, // navigation bar color
+      statusBarColor: statusBarColor, // status bar color
+    ));
+
+
     return Listener(
       /// listener for un focus text form field on all application
       child: ScreenUtilInit(

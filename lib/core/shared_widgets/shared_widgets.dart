@@ -31,6 +31,7 @@ import '../../modules/create_live/widget/radius_20_container.dart';
 import '../../modules/feeds_screen/post_a_feed.dart';
 import '../../modules/live_screens/start_live_form.dart';
 import '../../modules/main_layout/main_layout.dart';
+import '../../modules/main_layout/widget/messenger_icon_bubble_widget.dart';
 import '../../modules/messenger/messenger_layout.dart';
 import '../../modules/messenger/cubit/messenger_cubit.dart';
 import '../constants/constants.dart';
@@ -142,7 +143,7 @@ class NotificationCounterBubble extends StatelessWidget {
                           counter,
                           style: mainStyle(
                             context,
-                            8,
+                            8.sp,
                             isBold: true,
                             color: Colors.white,
                           ),

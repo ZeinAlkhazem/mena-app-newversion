@@ -82,8 +82,6 @@ class _MessengerLayoutState extends State<MessengerLayout> {
             // TODO: implement listener
           },
           builder: (context, state) {
-          
-
             return messengerCubit.myMessagesModel == null
                 ? DefaultLoaderGrey()
                 : messengerCubit.myMessagesModel!.data.myChats == null
@@ -95,7 +93,7 @@ class _MessengerLayoutState extends State<MessengerLayout> {
                             description: getTranslatedStrings(context)
                                 .startMessagingWithProvidersClients,
                             imageUrl:
-                                "assets/icons/messenger/mena_messenger_logo.svg",
+                                "assets/icons/messenger/icon_mena_messenger_colors.svg",
                             btnClick: () {
                               navigateTo(context, UsersToStartChatLayout());
                             },

@@ -16,6 +16,7 @@ import '../../core/responsive/responsive.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
 import '../../models/api_model/home_section_model.dart';
 import '../../models/local_models.dart';
+import '../main_layout/widget/notification_icon_bubble_widget.dart';
 
 class MyProfile extends StatelessWidget {
   const MyProfile({Key? key}) : super(key: key);

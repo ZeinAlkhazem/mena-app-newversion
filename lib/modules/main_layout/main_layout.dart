@@ -13,6 +13,7 @@ import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/responsive/responsive.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
+import 'package:mena/modules/messenger/messenger_home_page.dart';
 
 // import 'package:mena/modules/test/test_layout.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -32,6 +33,7 @@ import '../live_screens/meetings/meetings_layout.dart';
 import '../messenger/messenger_layout.dart';
 import '../my_profile/my_profile.dart';
 import '../splash_screen/route_engine.dart';
+import 'widget/messenger_icon_bubble_widget.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({Key? key}) : super(key: key);
@@ -635,101 +637,6 @@ class _MainLayoutState extends State<MainLayout> {
   }
 }
 
-class MessengerIconBubble extends StatelessWidget {
-  const MessengerIconBubble({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    var mainCubit = MainCubit.get(context);
-    return GestureDetector(
-      onTap: () {
-        getCachedToken() == null
-            ? viewMessengerLoginAlertDialog(context)
-            : navigateToWithoutNavBar(context, const MessengerLayout(), '');
-      },
-      child: SizedBox(
-        height: Responsive.isMobile(context) ? 30.w : 12.w,
-        width: Responsive.isMobile(context) ? 30.w : 12.w,
-        child: BlocConsumer<MainCubit, MainState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            return Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svg/icons/msngrFilled.svg',
-                      height: Responsive.isMobile(context) ? 29.w : 12.w,
-                      width: Responsive.isMobile(context) ? 29.w : 12.w,
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: NotificationCounterBubble(
-                      counter:
-                          mainCubit.countersModel == null ? '0' : mainCubit.countersModel!.data.messages.toString()),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
 
-class NotificationIconBubble extends StatelessWidget {
-  const NotificationIconBubble({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // viewComingSoonAlertDialog(context);
-        // getCachedToken() == null
-        //     ? viewMessengerLoginAlertDialog(context)
-        //     : navigateToWithoutNavBar(context, const MessengerLayout(), '');
-      },
-      child: SizedBox(
-        height: Responsive.isMobile(context) ? 30.w : 12.w,
-        width: Responsive.isMobile(context) ? 30.w : 12.w,
-        child: BlocConsumer<MainCubit, MainState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            return Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svg/icons/notification.svg',
-                      height: Responsive.isMobile(context) ? 25.w : 12.w,
-                      width: Responsive.isMobile(context) ? 25.w : 12.w,
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: NotificationCounterBubble(
-                      counter: MainCubit.get(context).countersModel == null
-                          ? '0'
-                          : MainCubit.get(context).countersModel!.data.notifications.toString()),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}

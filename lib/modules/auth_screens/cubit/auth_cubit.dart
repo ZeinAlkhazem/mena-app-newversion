@@ -1,16 +1,14 @@
-import 'package:flutter/foundation.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart' as mainCubit;
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/config_model.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
-import 'package:mena/modules/home_screen/sections_widgets/sections_widgets.dart';
-import 'package:mena/modules/main_layout/main_layout.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../core/constants/constants.dart';
@@ -19,7 +17,6 @@ import '../../../core/functions/main_funcs.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
 import '../../../models/api_model/categories_model.dart';
-import '../../../models/api_model/plans_model.dart';
 import '../../../models/api_model/provider_types.dart';
 import '../../../models/api_model/register_model.dart';
 import '../../home_screen/cubit/home_screen_cubit.dart';
@@ -62,11 +59,9 @@ class AuthCubit extends Cubit<AuthState> {
     updateSelectedSubMenaCategory(MenaCategory(id: -1));
   }
 
-  void updateOtpVal(String val){
-    otpText=val;
+  void updateOtpVal(String val) {
+    otpText = val;
   }
-
-
 
   void logout(BuildContext context) {
     removeToken();
@@ -170,7 +165,6 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void toggleAutoValidate(bool val) {
-
     if (val == true) {
       autoValidateMode = AutovalidateMode.always;
     } else {
@@ -202,7 +196,8 @@ class AuthCubit extends Cubit<AuthState> {
       'password_confirmation': pass,
       'user_type': providerType ?? '-1',
       'phone': phone,
-      'specialities': selectedSpecialities!.map((e) => e.id).toList().toString(),
+      'specialities':
+          selectedSpecialities!.map((e) => e.id).toList().toString(),
       'platform_id': selectedPlatform!.id.toString(),
       'registration_number': registrationNumCont.toString(),
     }).then((value) async {
@@ -219,10 +214,13 @@ class AuthCubit extends Cubit<AuthState> {
       /// cache process and navigate due to status
       ///
       await HomeScreenCubit.get(context)
-        ..changeSelectedHomePlatform(
-            registerModel?.data.user.platform?.id ??
-                mainCubit.MainCubit.get(context).configModel!.data.platforms[0].id!
-        );      userCacheProcessAndNavigate(context);
+        ..changeSelectedHomePlatform(registerModel?.data.user.platform?.id ??
+            mainCubit.MainCubit.get(context)
+                .configModel!
+                .data
+                .platforms[0]
+                .id!);
+      userCacheProcessAndNavigate(context);
 
       userCacheProcessAndNavigate(context);
       emit(SignUpSuccessState());
@@ -235,8 +233,9 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> getPlatformCategories(String platformId) async {
     platformCategory = null;
     emit(AuthGetPlatformCategoriesLoadingState());
-    await MainDioHelper.getData(url: '${platformCategoriesEnd}/${platformId.toString()}', query: {})
-        .then((value) async {
+    await MainDioHelper.getData(
+        url: '${platformCategoriesEnd}/${platformId.toString()}',
+        query: {}).then((value) async {
       logg('getProviderTypes response: $value');
       platformCategory = CategoriesModel.fromJson(value.data);
 
@@ -280,18 +279,23 @@ class AuthCubit extends Cubit<AuthState> {
       ///
       ///
       await HomeScreenCubit.get(context)
-        ..changeSelectedHomePlatform(
-            registerModel?.data.user.platform?.id ??
-                mainCubit.MainCubit.get(context).configModel!.data.platforms[0].id!
-        );      userCacheProcessAndNavigate(context);
+        ..changeSelectedHomePlatform(registerModel?.data.user.platform?.id ??
+            mainCubit.MainCubit.get(context)
+                .configModel!
+                .data
+                .platforms[0]
+                .id!);
+      userCacheProcessAndNavigate(context);
       emit(SignUpSuccessState());
     }).catchError((error, stack) {
-      logg(error.toString());
-      logg(stack.response.toString());
+      log("# error : ${error.toString()}");
+      log("# stack : ${stack.response.toString()}");
       hasError = true;
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });
-    DefaultInputField(hasError1: hasError1,);
+    DefaultInputField(
+      hasError1: hasError1,
+    );
   }
 
   Future<void> submitResetPass({
@@ -318,7 +322,8 @@ class AuthCubit extends Cubit<AuthState> {
             isTitleBold: true,
             alertDialogContent: Text(
               getTranslatedStrings(context).yourPassChangedSuccessfully,
-              style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+              style: mainStyle(context, 13,
+                  color: newDarkGreyColor, weight: FontWeight.w700),
               textAlign: TextAlign.center,
             ));
       }
@@ -367,13 +372,12 @@ class AuthCubit extends Cubit<AuthState> {
                       '${getTranslatedStrings(context).email}, '
                       '${getTranslatedStrings(context).or} '
                       '${getTranslatedStrings(context).userName}\n',
-                      style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
+                      style: mainStyle(context, 13.0,
+                          color: newDarkGreyColor, weight: FontWeight.w700),
                       textAlign: TextAlign.center,
-
                     ),
                     // heightBox(10.h),
                     DefaultInputField(
-
                       // labelWidget: Text(
                       //   '${getTranslatedStrings(context).email}, '
                       //   '${getTranslatedStrings(context).phone}, '
@@ -382,9 +386,9 @@ class AuthCubit extends Cubit<AuthState> {
                       //   style: mainStyle(context, 10, color: softGreyColor),
                       // ),
                       label: '${getTranslatedStrings(context).email}, '
-            '${getTranslatedStrings(context).phone}, '
-            '${getTranslatedStrings(context).or} '
-            '${getTranslatedStrings(context).userName}',
+                          '${getTranslatedStrings(context).phone}, '
+                          '${getTranslatedStrings(context).or} '
+                          '${getTranslatedStrings(context).userName}',
                       controller: inController,
                       validate: normalInputValidate(context),
                     ),
@@ -451,11 +455,11 @@ class AuthCubit extends Cubit<AuthState> {
                     state is ProceedingToResetPass
                         ? const DefaultLoaderGrey()
                         : Row(
-
                             children: [
                               Expanded(
                                 child: DefaultButton(
-                                  text: getTranslatedStrings(context).needMoreHelp,
+                                  text: getTranslatedStrings(context)
+                                      .needMoreHelp,
                                   onClick: () {},
                                   backColor: newLightGreyColor,
                                   titleColor: newDarkGreyColor,
@@ -468,7 +472,8 @@ class AuthCubit extends Cubit<AuthState> {
                                     text: getTranslatedStrings(context).next,
                                     onClick: () {
                                       if (formKey.currentState!.validate()) {
-                                        resetPassRequest(inController.text).then((value) {
+                                        resetPassRequest(inController.text)
+                                            .then((value) {
                                           ///
                                           ///
                                           ///     navigateTo(
@@ -477,7 +482,8 @@ class AuthCubit extends Cubit<AuthState> {
                                           ///    Todo: else go to complete data
                                           ///
                                           Navigator.pop(context);
-                                          showResetPassPopUp(context, inController.text);
+                                          showResetPassPopUp(
+                                              context, inController.text);
                                         });
                                       }
                                     }),
@@ -532,8 +538,12 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> userCacheProcessAndNavigate(BuildContext context) async {
-    final TextEditingController smsCodeEditingController = TextEditingController();
+    final TextEditingController smsCodeEditingController =
+        TextEditingController();
     mainCubit.MainCubit.get(context).getUserInfo();
+    saveCacheUserId(registerModel!.data.user.id);
+    log("# user information :${registerModel!.data.user}");
+    log("# user information :${registerModel!.data.user.id}");
     if (registerModel != null) {
       saveCacheToken(registerModel!.data.token);
       if (registerModel!.data.user.phoneVerifiedAt == null) {
@@ -545,7 +555,9 @@ class AuthCubit extends Cubit<AuthState> {
             context: context,
             title: getTranslatedStrings(context).enterCode,
             body: Padding(
-              padding: EdgeInsets.symmetric(vertical: defaultHorizontalPadding, horizontal: defaultHorizontalPadding),
+              padding: EdgeInsets.symmetric(
+                  vertical: defaultHorizontalPadding,
+                  horizontal: defaultHorizontalPadding),
               child: BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   // TODO: implement listener
@@ -553,7 +565,8 @@ class AuthCubit extends Cubit<AuthState> {
                     showMyAlertDialog(context, 'Error Message',
                         alertDialogContent: Text(
                           'The digits you entered are incorrect. Please double-check the 6 digits that were sent to you.',
-                          style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+                          style: mainStyle(context, 13,
+                              color: newDarkGreyColor, weight: FontWeight.w700),
                           textAlign: TextAlign.center,
                         ));
                   }
@@ -576,7 +589,8 @@ class AuthCubit extends Cubit<AuthState> {
                       // ),
                       Text(
                         'Please enter the 6-digit code you received on your mobile or email.',
-                        style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
+                        style: mainStyle(context, 13.0,
+                            color: newDarkGreyColor, weight: FontWeight.w700),
                         // textAlign: TextAlign.center,
                       ),
                       heightBox(10.h),
@@ -618,7 +632,9 @@ class AuthCubit extends Cubit<AuthState> {
                                 if (otpText.length < 6) {
                                   logg('otp must be 6 digits');
                                 } else {
-                                  verifyPhoneNumber(registerModel!.data.user.phone!).then((value) {
+                                  verifyPhoneNumber(
+                                          registerModel!.data.user.phone!)
+                                      .then((value) {
                                     ///
                                     ///
                                     ///     navigateTo(
@@ -626,7 +642,8 @@ class AuthCubit extends Cubit<AuthState> {
                                     ///    Todo: if data completed go to main
                                     ///    Todo: else go to complete data
                                     ///
-                                    return navigateToAndFinishUntil(context, const RouteEngine());
+                                    return navigateToAndFinishUntil(
+                                        context, const RouteEngine());
                                   });
                                 }
                               }),
@@ -683,11 +700,13 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void showResetPassPopUp(BuildContext context, String identity) {
-    final TextEditingController smsPassCodeEditingController = TextEditingController();
+    final TextEditingController smsPassCodeEditingController =
+        TextEditingController();
     var formKey = GlobalKey<FormState>();
     var newPassCont = TextEditingController();
     toggleResetPassAutoValidate(false);
-    showMyAlertDialog(context, getTranslatedStrings(context).enterConfirmationCode,
+    showMyAlertDialog(
+        context, getTranslatedStrings(context).enterConfirmationCode,
         alertDialogContent: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -703,8 +722,10 @@ class AuthCubit extends Cubit<AuthState> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      getTranslatedStrings(context).enterConfirmationCodeWeSentTYourEmailPhone,
-                      style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
+                      getTranslatedStrings(context)
+                          .enterConfirmationCodeWeSentTYourEmailPhone,
+                      style: mainStyle(context, 13.0,
+                          color: newDarkGreyColor, weight: FontWeight.w700),
                       textAlign: TextAlign.center,
                     ),
                     heightBox(10.h),
@@ -754,7 +775,9 @@ class AuthCubit extends Cubit<AuthState> {
                         },
                         child: SvgPicture.asset(
                           /// HERE ADD CONDITION IF VISIBLE ASSET LINK WILL BE DEIFFERENT
-                          passVisible ? 'assets/svg/icons/open_eye.svg' : 'assets/svg/icons/closed eye.svg',
+                          passVisible
+                              ? 'assets/svg/icons/open_eye.svg'
+                              : 'assets/svg/icons/closed eye.svg',
                           width: 18.w,
                           height: 18.w,
                         ),
@@ -784,7 +807,9 @@ class AuthCubit extends Cubit<AuthState> {
                         },
                         child: SvgPicture.asset(
                           /// HERE ADD CONDITION IF VISIBLE ASSET LINK WILL BE DIFFERENT
-                          confirmPassVisible ? 'assets/svg/icons/open_eye.svg' : 'assets/svg/icons/closed eye.svg',
+                          confirmPassVisible
+                              ? 'assets/svg/icons/open_eye.svg'
+                              : 'assets/svg/icons/closed eye.svg',
                           width: 18.w,
                           height: 18.w,
                         ),
@@ -801,7 +826,10 @@ class AuthCubit extends Cubit<AuthState> {
                                 logg('otp must be 6 digits');
                               } else {
                                 if (formKey.currentState!.validate()) {
-                                  submitResetPass(pass: newPassCont.text, context: context, identity: identity);
+                                  submitResetPass(
+                                      pass: newPassCont.text,
+                                      context: context,
+                                      identity: identity);
                                 }
                               }
                             }),

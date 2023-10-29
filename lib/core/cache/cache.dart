@@ -145,6 +145,17 @@ removeCachedSelectedCountry(){
   CacheHelper.removeData(key: 'CachedSelectedCountry');
 }
 
+//user id
+Future<void> saveCacheUserId(int? userId) async {
+  CacheHelper.saveData(key: 'UserId', value: userId);
+}
+int? getCacheUserId() {
+  return CacheHelper.getData(key: 'UserId');
+}
+removeUserId(){
+  CacheHelper.removeData(key: 'UserId');
+}
+
 
 /// clear cache
 Future<void> clearAllCache()async{

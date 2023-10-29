@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -416,6 +417,13 @@ class NewProviderCardActionPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //// check if provider same user sign in
+    log("Provider id :${provider.id}");
+    log("User id :${getCacheUserId()}");
+    int providerId = provider.id;
+    int userId = getCacheUserId()??0;
+    bool isSameUser = providerId == userId? true:false;
+
     // var grad=new Gradient(
     //     colors: [
     //       Colors.red,
@@ -494,7 +502,7 @@ class NewProviderCardActionPanel extends StatelessWidget {
         ActionItem(
           customHeight: 70.sp,
           title: 'Chat',
-          subTitle: 'Now',
+          subTitle: isSameUser ?  "Yourself":'Now' ,
           actionItemHead: isJson
               ? Lottie.asset(
                   'assets/json/WXHfftq4mv.json',
@@ -513,7 +521,7 @@ class NewProviderCardActionPanel extends StatelessWidget {
                     context,
                     ChatLayout(
                       user: provider,
-                    ));
+                    ),);
           },
         ),
       ],

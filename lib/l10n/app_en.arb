@@ -207,6 +207,10 @@
   "hidePost" : "Hide Post",
   "reportPost" : "Report Post",
   "confirmDeletion" : "Confirm Deletion",
-  "messenger" : "Messenger"
+  "messenger" : "Messenger",
+  "chat":"Chat",
+  "chatGroup":"Chat Groups",
+  "channels":"Channels",
+  "calls":"Calls"
 
 }

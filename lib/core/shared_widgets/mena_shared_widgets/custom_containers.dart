@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -595,6 +596,7 @@ class ProfileBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("# image url : $pictureUrl");
     return GestureDetector(
       onTap: onlyView
           ? null

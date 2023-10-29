@@ -71,7 +71,6 @@ dependencies:
   google_maps_place_picker_mb: ^3.0.1
   flutter_cache_manager: ^3.3.0
   flutter_slidable: ^2.0.0
-  #  extended_text: ^9.1.2
   easy_image_viewer: ^1.2.0
   just_audio: ^0.9.31
   audio_video_progress_bar: ^0.11.0
@@ -80,7 +79,6 @@ dependencies:
   table_calendar: ^3.0.9
   spinner_date_time_picker: ^0.0.8
   flutter_datetime_picker_plus: ^2.1.0
-#  gallery_picker: ^0.4.5
   preload_page_view: ^0.2.0
   syncfusion_flutter_pdfviewer: ^21.1.38
   http: ^0.13.5
@@ -92,11 +90,6 @@ dependencies:
   add_2_calendar: ^2.2.3
   socket_io_client: ^2.0.3+1
   flutter_html:
-#  html: ^0.15.4
-#  flutter_html: ^2.2.1
-#  flutter_html: ^3.0.0-beta.2
-#  maps_launcher: ^2.2.0
-#  place_picker: ^0.10.0
   keyboard_emoji_picker: ^1.0.1
   whiteboard: ^0.0.2
   webview_flutter: ^4.2.2

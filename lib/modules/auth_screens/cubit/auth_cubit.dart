@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +15,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/validators.dart';
-import '../../../core/dialogs/dialogs_page.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
@@ -336,6 +333,34 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     var formKey = GlobalKey<FormState>();
     var inController = TextEditingController();
+    showMyAlertDialog(context, getTranslatedStrings(context).forgotPassword,
+        isTitleBold: true,
+        alertDialogContent: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            return SizedBox(
+              width: double.maxFinite,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Text(,
+                    //   style: mainStyle(context, 14, weight: FontWeight.w800),
+                    // ),
+                    // heightBox(10.h),
+                    Text(
+                      '${getTranslatedStrings(context).enterYourPhone},\n'
+                      '${getTranslatedStrings(context).email}, '
+                      '${getTranslatedStrings(context).or} '
+                      '${getTranslatedStrings(context).userName}\n',
+                      style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
+                      textAlign: TextAlign.center,
+
 
     showDialog(
       context: context,
@@ -420,16 +445,7 @@ class AuthCubit extends Cubit<AuthState> {
                             validate: normalInputValidate1,
                           ),
                           heightBox(10.h),
-                          // Text(
-                          //   hasError
-                          //       ? "Check your username, mobile or email address  and try again"
-                          //       : "",
-                          //   style: TextStyle(
-                          //       fontSize: 13.0,
-                          //       fontWeight: FontWeight.w500,
-                          //       fontFamily: 'PNfont',
-                          //       color: Color(0xffE72B1C)),
-                          // ),
+                         
                           heightBox(480.h),
                           state is ProceedingToResetPass
                               ? const DefaultLoaderGrey()
@@ -461,30 +477,103 @@ class AuthCubit extends Cubit<AuthState> {
                                 ),
                               )
 
+
+                    ),
+                    
+                    DefaultInputField(
+
+                      
+                      label: '${getTranslatedStrings(context).email}, '
+            '${getTranslatedStrings(context).phone}, '
+            '${getTranslatedStrings(context).or} '
+            '${getTranslatedStrings(context).userName}',
+                      controller: inController,
+                      validate: normalInputValidate(context),
+                    ),
+                  
+                    heightBox(20.h),
+                    state is ProceedingToResetPass
+                        ? const DefaultLoaderGrey()
+                        : Row(
+
+                            children: [
+                              Expanded(
+                                child: DefaultButton(
+                                  text: getTranslatedStrings(context).needMoreHelp,
+                                  onClick: () {},
+                                  backColor: newLightGreyColor,
+                                  titleColor: newDarkGreyColor,
+                                  borderColor: newLightGreyColor,
+                                ),
+                              ),
+                              widthBox(5.w),
+                              Expanded(
+                                child: DefaultButton(
+                                    text: getTranslatedStrings(context).next,
+                                    onClick: () {
+                                      if (formKey.currentState!.validate()) {
+                                        resetPassRequest(inController.text).then((value) {
+                                          ///
+                                          ///
+                                          ///     navigateTo(
+                                          ///      context, const CompleteInfoSubscribe());
+                                          ///    Todo: if data completed go to main
+                                          ///    Todo: else go to complete data
+                                          ///
+                                          Navigator.pop(context);
+                                          showResetPassPopUp(context, inController.text);
+                                        });
+                                      }
+                                    }),
+                              ),
+
                             ],
                           ),
-                          state is VerifyingNumErrorState
-                              ? Text(
-                            "Check your username, mobile or email address  and try again",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'PNfont',
-                                color: Color(0xffE72B1C)),
+                    heightBox(10.h),
+                    state is VerifyingNumErrorState
+                        ? Text(
+                            state.error.toString(),
+                            style: mainStyle(context, 11, color: Colors.red),
                             textAlign: TextAlign.center,
                           )
-                              : const SizedBox(),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        );
-      },
-    );
+                        : const SizedBox(),
+                    // heightBox(15.h),
+                    // Text(
+                    //   '${getTranslatedStrings(context).needMoreHelp}',
+                    //   style: mainStyle(context, 12, color: mainBlueColor),
+                    // )
+                  ],
+                ),
+              ),
+            );
+          },
+        ));
+    // emit(AuthLoadingState());
+    //
+    //
+    //
+    // MainDioHelper.postData(url: loginEnd, data: {
+    //   'email': email,
+    //   'password': pass,
+    // }).then((value) {
+    //   logg('sign up response: $value');
+    //   registerModel = RegisterModel.fromJson(value.data);
+    //   // if (userSignUpModel != null) {
+    //   //   userCacheProcess(userSignUpModel!).then((value) => checkUserAuth().then(
+    //   //           (value) =>
+    //   //           navigateToAndFinishUntil(context, const MainAppMaterialApp())));
+    //   //   // navigateToAndFinishUntil(context, MainAppMaterialApp());
+    //   //
+    //   // }
+    //   /// cache process and navigate due to status
+    //   ///
+    //   userCacheProcessAndNavigate(context);
+    //
+    //   emit(SignUpSuccessState());
+    // }).catchError((error) {
+    //   logg(error.response.toString());
+    //   emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
+    // });
   }
 
   Future<void> userCacheProcessAndNavigate(BuildContext context) async {
@@ -542,10 +631,13 @@ class AuthCubit extends Cubit<AuthState> {
     return result;
   }
 
+
   Future showResetPassPopUp(
       BuildContext context, String phone, String identity) {
     final TextEditingController smsPassCodeEditingController =
     TextEditingController();
+
+  
     var formKey = GlobalKey<FormState>();
     var newPassCont = TextEditingController();
     var newPassConfirmCont = TextEditingController();
@@ -694,6 +786,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+
   Future<void> pinCode(
       {required BuildContext context, required String phone}) async {
     var formKey = GlobalKey<FormState>();
@@ -797,17 +890,7 @@ class AuthCubit extends Cubit<AuthState> {
                               ),
                             ],
                           ),
-                          // state is VerifyingNumErrorState
-                          //     ? Text(
-                          //   "Check your username, mobile or email address  and try again",
-                          //   style: TextStyle(
-                          //       fontSize: 13.0,
-                          //       fontWeight: FontWeight.w500,
-                          //       fontFamily: 'PNfont',
-                          //       color: Color(0xffE72B1C)),
-                          //   textAlign: TextAlign.center,
-                          // )
-                          //     : const SizedBox(),
+                            : const SizedBox(),
                         ],
                       ),
                     ),
@@ -859,4 +942,5 @@ class AuthCubit extends Cubit<AuthState> {
           )),
     ));
   }
+
 }

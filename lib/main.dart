@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ import 'package:mena/modules/auth_screens/cubit/auth_cubit.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
@@ -34,17 +32,14 @@ import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
-import 'modules/messenger/msngr_cubit/messenger_cubit.dart';
+import 'modules/messenger/cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
 import 'modules/nearby_screen/cubit/nearby_cubit.dart';
 import 'modules/platform_provider/cubit/provider_cubit.dart';
 import 'modules/promotions_screen/cubit/promotions_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'modules/start_live/cubit/start_live_cubit.dart';
 import 'modules/tools/cubit/tools_cubit.dart';
-import 'modules/tools/e_services/e-services.dart';
-import 'modules/tools/jobs/jobs.dart';
 
 
 
@@ -65,26 +60,7 @@ void main() async {
 
   HttpOverrides.global = MyHttpOverrides();
 
-  WidgetsFlutterBinding.ensureInitialized();
-  // await initializeDateFormatting();
-  final prefs = await SharedPreferences.getInstance();
-  String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
 
-  // Get the default phone language and set it as the default language
-  Locale myLocale = WidgetsBinding.instance!.window.locale;
-  if (myLocale.languageCode == 'ar') {
-    selectedLanguage = 'Arabic';
-  } else {
-    selectedLanguage =
-    'English'; // You can set other default languages if needed
-  }
-  await prefs.setString('selectedLanguage', selectedLanguage);
-
-  HttpOverrides.global = MyHttpOverrides();
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelper.init();
-  await MainDioHelper.init();
   /// handle error best way
   /// init hive
   // await Hive.initFlutter();
@@ -469,7 +445,7 @@ class TestMaterialApp extends StatelessWidget {
       supportedLocales: L10n.all,
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(
-        appBarTheme: Theme.of(context).appBarTheme.copyWith(brightness: Brightness.dark),
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
         textTheme: Theme.of(context).textTheme.apply(
           bodyColor: Colors.black,
           displayColor: Colors.blue,

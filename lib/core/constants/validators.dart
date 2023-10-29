@@ -6,8 +6,8 @@ import 'package:mena/core/constants/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:mena/modules/create_new_user/username_page.dart';
 import '../functions/main_funcs.dart';
-
 bool hasError = false;
+
 String? Function(String?)? emailValidate(BuildContext context) =>
         (String? val) {
       if (val!.isEmpty) {
@@ -38,6 +38,7 @@ String? Function(String?)? emailValidateSignUp(BuildContext context) =>
         return getTranslatedStrings(context).invalidEmailSignUp;
       }
     };
+
 String? Function(String?)? passwordValidate(BuildContext context) {
   return (String? val) {
     if (val!.isEmpty) {
@@ -250,21 +251,8 @@ bool isValidEmail(String email) {
 //   return null;
 // };
 // }
-String? normalInputValidate1(String? fieldContent) {
-  if (fieldContent == null || fieldContent.isEmpty) {
-    hasError = true;
-    return "Check your username, mobile or email address  and try again";
-  }
-  hasError = false;
-  return null;
-}
 
-String? emptyValueValidate(String? fieldContent) {
-  if (fieldContent == null || fieldContent.isEmpty) {
-    return "Please fill this field";
-  }
-  return null;
-}
+
 String? Function(String?)? normalInputValidate(BuildContext context,{String? customText}) {
   return  (String? val) {
     if (val!.isEmpty) {

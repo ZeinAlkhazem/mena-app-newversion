@@ -33,7 +33,7 @@ import '../../modules/feeds_screen/post_a_feed.dart';
 import '../../modules/live_screens/start_live_form.dart';
 import '../../modules/main_layout/main_layout.dart';
 import '../../modules/messenger/messenger_layout.dart';
-import '../../modules/messenger/msngr_cubit/messenger_cubit.dart';
+import '../../modules/messenger/cubit/messenger_cubit.dart';
 import '../constants/constants.dart';
 import '../constants/validators.dart';
 import '../functions/main_funcs.dart';
@@ -634,8 +634,8 @@ class ExpandedColoredContainer extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key, this.onFieldChanged}) : super(key: key);
+class SearchBarWidget extends StatelessWidget {
+  const SearchBarWidget({Key? key, this.onFieldChanged}) : super(key: key);
 
   final Function(String)? onFieldChanged;
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
@@ -12,11 +13,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
-import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/feeds_model.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
-import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 
 import '../../models/api_model/home_section_model.dart';
 import '../messenger/chat_layout.dart';
@@ -39,7 +38,6 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
 
   @override
   void initState() {
-    // TODO: implement initState
     if (widget.feed == null) {
       /// new feed
       feedInputController.text = '';
@@ -89,7 +87,6 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
 
     return BlocConsumer<FeedsCubit, FeedsState>(
       listener: (context, state) {
-        // TODO: implement listener
         if (state is NoDataToSendState) {
           showMyAlertDialog(context, 'Please add a content to share');
         }
@@ -130,7 +127,12 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
               appBar: PreferredSize(
                 preferredSize: Size.fromHeight(56.0.h),
                 child: DefaultBackTitleAppBar(
-                  title: getTranslatedStrings(context).newPost,
+                  // title: getTranslatedStrings(context).newPost,
+                  customTitleWidget: Padding(
+                    padding: const EdgeInsets.only (left:8.0),
+                    child: Text(getTranslatedStrings(context).newPost, style:mainStyle(context, 22, weight: FontWeight.w500, color: Colors.black, isBold: true, letterSpacing: 0.2)),
+                  ),
+                  customIcon: SvgPicture.asset("assets/svg/icons/close.svg", color: nesWecBlueColor,),
                   suffix: Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                     child: state is SendingFeedState
@@ -138,9 +140,12 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                         : DefaultButton(
                             width: 0.2.sw,
                             height: 25.h,
-                            fontSize: 10,
+                            fontSize: 18,
+                            backColor: newLightGreyColor,
+                            borderColor: newLightGreyColor,
                             withoutPadding: true,
-                            text: getTranslatedStrings(context).share.toUpperCase(),
+                            titleColor: nesWecBlueColor,
+                            text: getTranslatedStrings(context).create,
                             onClick: () {
                               // if (feedInputController.text.isNotEmpty || feedsCubit.attachedFiles.isNotEmpty) {
                                 feedsCubit.postFeed(feed: widget.feed, feedText: feedInputController.text);
@@ -185,186 +190,116 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                   padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: defaultHorizontalPadding),
                   child: Column(
                     children: [
-                      Divider(
-                        thickness: 1.3,
-                      ),
+
                       heightBox(10.h),
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  ProfileBubble(
-                                    isOnline: false,
-                                    pictureUrl: currentUser.personalPicture,
-                                    radius: 15.h,
-                                  ),
-                                  widthBox(20.w),
+                              // Row(
+                              //   children: [
+                              //     ProfileBubble(
+                              //       isOnline: false,
+                              //       pictureUrl: currentUser.personalPicture,
+                              //       radius: 15.h,
+                              //     ),
 
-                                  GestureDetector(
-                                      onTap: () {
-                                        showMyAlertDialog(context, getTranslatedStrings(context).privacy,
-                                            alertDialogContent: BlocConsumer<FeedsCubit, FeedsState>(
-                                              listener: (context, state) {
-                                                // TODO: implement listener
-                                              },
-                                              builder: (context, state) {
-                                                return Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      getTranslatedStrings(context).whoCanViewPost,
-                                                      style: mainStyle(context, 12,
-                                                          color: newDarkGreyColor, weight: FontWeight.w700),
-                                                    ),
-                                                    heightBox(7.h),
-                                                    Column(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: ['Everyone', 'Providers', 'Only me']
-                                                          .map((e) => Padding(
-                                                                padding: const EdgeInsets.all(4.0),
-                                                                child: GestureDetector(
-                                                                  onTap: () {
-                                                                    feedsCubit.updateFeedAudience(e);
-                                                                  },
-                                                                  child: AlertDialogSelectorItem(
-                                                                    label: privacyAudienceTranslatedText(context, e),
-                                                                    isSelected: feedsCubit.currentAudience == e,
-                                                                    customFontColor: feedsCubit.currentAudience == e
-                                                                        ? Colors.white
-                                                                        : mainBlueColor,
-                                                                    customColor: feedsCubit.currentAudience == e
-                                                                        ? mainBlueColor
-                                                                        : softBlueColor,
-                                                                  ),
-                                                                ),
-                                                              ))
-                                                          .toList(),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            ));
-                                      },
-                                      child: DefaultContainer(
-                                        radius: 5,
-                                        backColor: Colors.transparent,
-                                        borderColor: newDarkGreyColor,
-                                        childWidget: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                'assets/svg/icons/profile face.svg',
-                                                color: mainBlueColor,
-                                                height: 15.h,
-                                              ),
-                                              widthBox(10.w),
-                                              Text(
-                                                feedsCubit.currentAudience,
-                                                style: mainStyle(context, 10,
-                                                    color: newDarkGreyColor, weight: FontWeight.w700),
-                                              ),
-                                              widthBox(10.w),
-                                              SvgPicture.asset(
-                                                'assets/svg/icons/arrow_down_base.svg',
-                                                color: newDarkGreyColor,
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      )),
-                                  widthBox(10.w),
-                                  // GestureDetector(
-                                  //     onTap: () {
-                                  //       showMyAlertDialog(context, 'Privacy',
-                                  //           alertDialogContent: BlocConsumer<FeedsCubit, FeedsState>(
-                                  //             listener: (context, state) {
-                                  //               // TODO: implement listener
-                                  //             },
-                                  //             builder: (context, state) {
-                                  //               return Column(
-                                  //                 mainAxisSize: MainAxisSize.min,
-                                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                                  //                 children: [
-                                  //                   Text(
-                                  //                     'Who can view this post',
-                                  //                     style: mainStyle(context, 12, color: newDarkGreyColor),
-                                  //                   ),
-                                  //                   heightBox(7.h),
-                                  //                   Column(
-                                  //                     mainAxisSize: MainAxisSize.min,
-                                  //                     children: ['Everyone', 'Providers', 'Only me']
-                                  //                         .map((e) => Padding(
-                                  //                               padding: const EdgeInsets.all(4.0),
-                                  //                               child: GestureDetector(
-                                  //                                 onTap: () {
-                                  //                                   feedsCubit.updateFeedAudience(e);
-                                  //                                 },
-                                  //                                 child: AlertDialogSelectorItem(
-                                  //                                   label: e,
-                                  //                                   isSelected: feedsCubit.currentAudience == e,
-                                  //                                   customFontColor: feedsCubit.currentAudience == e
-                                  //                                       ? Colors.white
-                                  //                                       : mainBlueColor,
-                                  //                                   customColor: feedsCubit.currentAudience == e
-                                  //                                       ? mainBlueColor
-                                  //                                       : softBlueColor,
-                                  //                                 ),
-                                  //                               ),
-                                  //                             ))
-                                  //                         .toList(),
-                                  //                   ),
-                                  //                 ],
-                                  //               );
-                                  //             },
-                                  //           ));
-                                  //     },
-                                  //     child: DefaultContainer(
-                                  //       radius: 5,
-                                  //       backColor: Colors.transparent,
-                                  //       borderColor: newDarkGreyColor,
-                                  //       childWidget: Padding(
-                                  //         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
-                                  //         child: Row(
-                                  //           children: [
-                                  //             // SvgPicture.asset(
-                                  //             //   'assets/svg/icons/profile face.svg',
-                                  //             //   color: mainBlueColor,
-                                  //             //   height: 15.h,
-                                  //             // ),
-                                  //             // widthBox(10.w),
-                                  //             Text(
-                                  //               feedsCubit.currentAudience,
-                                  //               style: mainStyle(context, 10),
-                                  //             ),
-                                  //             widthBox(10.w),
-                                  //             SvgPicture.asset('assets/svg/icons/arrow_down_base.svg')
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //     )),
-                                ],
-                              ),
+                                  
+                              //     widthBox(10.w),
+                              //     // GestureDetector(
+                              //     //     onTap: () {
+                              //     //       showMyAlertDialog(context, 'Privacy',
+                              //     //           alertDialogContent: BlocConsumer<FeedsCubit, FeedsState>(
+                              //     //             listener: (context, state) {
+                              //     //               // TODO: implement listener
+                              //     //             },
+                              //     //             builder: (context, state) {
+                              //     //               return Column(
+                              //     //                 mainAxisSize: MainAxisSize.min,
+                              //     //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //     //                 children: [
+                              //     //                   Text(
+                              //     //                     'Who can view this post',
+                              //     //                     style: mainStyle(context, 12, color: newDarkGreyColor),
+                              //     //                   ),
+                              //     //                   heightBox(7.h),
+                              //     //                   Column(
+                              //     //                     mainAxisSize: MainAxisSize.min,
+                              //     //                     children: ['Everyone', 'Providers', 'Only me']
+                              //     //                         .map((e) => Padding(
+                              //     //                               padding: const EdgeInsets.all(4.0),
+                              //     //                               child: GestureDetector(
+                              //     //                                 onTap: () {
+                              //     //                                   feedsCubit.updateFeedAudience(e);
+                              //     //                                 },
+                              //     //                                 child: AlertDialogSelectorItem(
+                              //     //                                   label: e,
+                              //     //                                   isSelected: feedsCubit.currentAudience == e,
+                              //     //                                   customFontColor: feedsCubit.currentAudience == e
+                              //     //                                       ? Colors.white
+                              //     //                                       : mainBlueColor,
+                              //     //                                   customColor: feedsCubit.currentAudience == e
+                              //     //                                       ? mainBlueColor
+                              //     //                                       : softBlueColor,
+                              //     //                                 ),
+                              //     //                               ),
+                              //     //                             ))
+                              //     //                         .toList(),
+                              //     //                   ),
+                              //     //                 ],
+                              //     //               );
+                              //     //             },
+                              //     //           ));
+                              //     //     },
+                              //     //     child: DefaultContainer(
+                              //     //       radius: 5,
+                              //     //       backColor: Colors.transparent,
+                              //     //       borderColor: newDarkGreyColor,
+                              //     //       childWidget: Padding(
+                              //     //         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
+                              //     //         child: Row(
+                              //     //           children: [
+                              //     //             // SvgPicture.asset(
+                              //     //             //   'assets/svg/icons/profile face.svg',
+                              //     //             //   color: mainBlueColor,
+                              //     //             //   height: 15.h,
+                              //     //             // ),
+                              //     //             // widthBox(10.w),
+                              //     //             Text(
+                              //     //               feedsCubit.currentAudience,
+                              //     //               style: mainStyle(context, 10),
+                              //     //             ),
+                              //     //             widthBox(10.w),
+                              //     //             SvgPicture.asset('assets/svg/icons/arrow_down_base.svg')
+                              //     //           ],
+                              //     //         ),
+                              //     //       ),
+                              //     //     )),
+                              //   ],
+                              // ),
                               heightBox(12.h),
-                              DefaultInputField(
-                                maxLines: 6,
-                                withoutLabelPadding: true,
-                                controller: feedInputController,
-                                unFocusedBorderColor: Colors.transparent,
-                                focusedBorderColor: Colors.transparent,
-                                label: getTranslatedStrings(context).shareYourThoughts,
-                                // labelWidget: Text(
-                                //   getTranslatedStrings(context).shareYourThoughts,
-                                //   style: mainStyle(context, 14, isBold: true, color: newDarkGreyColor),
-                                // ),
-                                customTextInputType: TextInputType.multiline,
+                              SizedBox(
+                                height: 300,
+                                child:
+                              
+                                 TextFormField(
+                                  decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: getTranslatedStrings(context).whatIsNew
+                                  ),
+                                  
+                                  expands: true,
+                                  maxLines: null,
+                                  minLines: null,
+                                
+                                  controller: feedInputController,
+                                  // labelWidget: Text(
+                                  //   getTranslatedStrings(context).shareYourThoughts,
+                                  //   style: mainStyle(context, 14, isBold: true, color: newDarkGreyColor),
+                                  // ),
+                                ),
                               ),
-                              Divider(),
-                              heightBox(15.h),
                               if (feedsCubit.attachedFiles.isNotEmpty)
                                 ListView.separated(
                                   physics: NeverScrollableScrollPhysics(),
@@ -435,16 +370,13 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                   ],
                                 ),
                           Divider(
-                            color: Colors.greenAccent,
+                            color: Colors.black38,
                             thickness: 0.2,
                           ),
 
                           PostAFeedActionItem(
                             label: getTranslatedStrings(context).photoVideo,
-                            icon: Icon(
-                              Icons.image_rounded,
-                              color: Colors.green,
-                            ),
+                            customIcon: SvgPicture.asset('assets/svg/icons/photo_colored.svg', height: 35,),
                             fn: () async {
                               showModalBottomSheet(
                                   context: context,
@@ -559,15 +491,12 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                           //   },
                           // ),
                           Divider(
-                            color: Colors.greenAccent,
+                            color: Colors.black38,
                             thickness: 0.2,
                           ),
                           PostAFeedActionItem(
                             label: getTranslatedStrings(context).camera,
-                            icon: Icon(
-                              Icons.camera,
-                              color: mainBlueColor,
-                            ),
+                            customIcon: SvgPicture.asset('assets/svg/icons/camera_colored.svg', height: 35,),
                             fn: () async {
                               logg('picking file');
                               showModalBottomSheet(
@@ -661,15 +590,13 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                             },
                           ),
                           Divider(
-                            color: Colors.greenAccent,
+                            color: Colors.black38,
                             thickness: 0.2,
                           ),
                           PostAFeedActionItem(
-                            label: getTranslatedStrings(context).document,
-                            icon: Icon(
-                              Icons.file_copy_rounded,
-                              color: Colors.blueGrey,
-                            ),
+                            label: getTranslatedStrings(context).file,
+                            customIcon: SvgPicture.asset('assets/svg/icons/file_colored.svg', height: 35,),
+
                             fn: () async {
                               logg('picking file');
                               FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -692,9 +619,92 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                             },
                           ),
                           Divider(
-                            color: Colors.greenAccent,
+                            color: Colors.black38,
                             thickness: 0.2,
                           ),
+                        heightBox(7.h),
+
+                          Row(children: [
+                            GestureDetector(
+                                      onTap: () {
+                                        showMyAlertDialog(context, getTranslatedStrings(context).privacy,
+                                            alertDialogContent: BlocConsumer<FeedsCubit, FeedsState>(
+                                              listener: (context, state) {
+                                                // TODO: implement listener
+                                              },
+                                              builder: (context, state) {
+                                                return Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      getTranslatedStrings(context).whoCanViewPost,
+                                                      style: mainStyle(context, 12,
+                                                          color: newDarkGreyColor, weight: FontWeight.w700),
+                                                    ),
+                                                    heightBox(15.h),
+                                                    Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: ['Everyone', 'Providers', 'Only me']
+                                                          .map((e) => Padding(
+                                                                padding: const EdgeInsets.all(4.0),
+                                                                child: GestureDetector(
+                                                                  onTap: () {
+                                                                    feedsCubit.updateFeedAudience(e);
+                                                                  },
+                                                                  child: AlertDialogSelectorItem(
+                                                                    label: privacyAudienceTranslatedText(context, e),
+                                                                    isSelected: feedsCubit.currentAudience == e,
+                                                                    customFontColor: feedsCubit.currentAudience == e
+                                                                        ? Colors.white
+                                                                        : mainBlueColor,
+                                                                    customColor: feedsCubit.currentAudience == e
+                                                                        ? mainBlueColor
+                                                                        : softBlueColor,
+                                                                  ),
+                                                                ),
+                                                              ))
+                                                          .toList(),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ));
+                                      },
+                                      child: Row(
+                                            children: [
+                                              Icon(Icons.lock, size: 30,color: disabledGreyColor,),
+                                              widthBox(10.w),
+                                              Text(
+                                                feedsCubit.currentAudience,
+                                                style: mainStyle(context, 14,
+                                                    color: newDarkGreyColor, weight: FontWeight.w700),
+                                              ),
+                                              // widthBox(10.w),
+                                              // SvgPicture.asset(
+                                              //   'assets/svg/icons/arrow_down_base.svg',
+                                              //   color: newDarkGreyColor,
+                                              // )
+                                            ],
+                                          ),
+                                      ),
+                                      Expanded(child: Container()),
+                                      Row(
+                                        children: [
+                                          GestureDetector(
+                                               onTap: () {
+                                                                      },
+                                                                      child: SvgPicture.asset("assets/svg/icons/setting_with_border.svg", width: 30,),
+                                                                    ), 
+                                                                    widthBox(4.w),
+                                                                    Text(
+                                                getTranslatedStrings(context).setting,
+                                                style: mainStyle(context, 14,
+                                                    color: newDarkGreyColor, weight: FontWeight.w700),
+                                              ),
+                                        ],
+                                      )
+                          ],)
                         ],
                       ),
                     ],
@@ -713,10 +723,12 @@ class PostAFeedActionItem extends StatelessWidget {
     required this.fn,
     this.icon,
     this.label,
-  }) : super(key: key);
+    this.customIcon
+  }) :  assert(icon == null || customIcon == null, "you can not provide both icon and custom icon"),super(key: key);
 
   final Function() fn;
   final Icon? icon;
+  final Widget? customIcon;
   final String? label;
 
   @override
@@ -729,15 +741,16 @@ class PostAFeedActionItem extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              icon == null ? SizedBox() : icon!,
-              widthBox(5.w),
+              icon ?? customIcon ?? SizedBox(),
+              widthBox(10.w),
               label == null
                   ? SizedBox()
                   : Text(
                       label!,
                       style: mainStyle(
                         context,
-                        12,
+                        16,
+                      weight: FontWeight.w600
                       ),
                     ),
             ],

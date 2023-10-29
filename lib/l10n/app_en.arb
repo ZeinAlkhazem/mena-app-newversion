@@ -193,9 +193,12 @@
   "everyOne": "Every one",
   "onlyMe": "Only me",
   "shareYourThoughts": "Share your thoughts....",
-  "photoVideo": "Photo/video",
+  "photoVideo": "Photo / Video",
   "camera": "Camera",
   "document": "Document",
+  "create": "Create",
+  "whatIsNew": "What's new ?",
+  "file":"File",
 
   "by": "by",
   "signInToMena": "Sign in to MENA",

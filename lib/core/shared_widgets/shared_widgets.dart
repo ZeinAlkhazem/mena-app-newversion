@@ -1036,7 +1036,7 @@ class DefaultInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool hasError = hasError1 ?? false; // Use hasError1 if provided, default to false
+    bool hasError = hasError1; // Use hasError1 if provided, default to false
     String? errorText;
 
     if (validate != null) {
@@ -1109,7 +1109,7 @@ class DefaultInputField extends StatelessWidget {
       ),
       validator: (val) {
         if (validate != null) {
-          return errorText;
+                   return errorText;
         }
         return null;
       },
@@ -1267,6 +1267,7 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: this.onClick,
       child: Container(
         width: width,
         height: height ?? null,
@@ -2941,11 +2942,13 @@ class DefaultBackTitleAppBar extends StatelessWidget {
     this.title,
     this.customTitleWidget,
     this.suffix,
+    this.customIcon
   }) : super(key: key);
 
   final String? title;
   final Widget? customTitleWidget;
   final Widget? suffix;
+  final Widget? customIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -2958,12 +2961,12 @@ class DefaultBackTitleAppBar extends StatelessWidget {
             widthBox(0.02.sw),
             GestureDetector(
               onTap: () => Navigator.pop(context),
-              child: Container(
+              child:  Container(
                 height: 30.h,
                 width: 30.w,
                 color: Colors.transparent,
                 child: Center(
-                  child: SvgPicture.asset(
+                  child: customIcon ?? SvgPicture.asset(
                     'assets/svg/icons/back.svg',
                     color: mainBlueColor,
                   ),

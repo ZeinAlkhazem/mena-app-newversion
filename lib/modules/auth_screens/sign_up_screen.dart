@@ -42,6 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var emailCont = TextEditingController();
   var userNameCont = TextEditingController();
   var passCont = TextEditingController();
+  var reEnterPasswordController = TextEditingController();
 
   @override
   void initState() {
@@ -446,6 +447,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       label: getTranslatedStrings(context).confirmPassword,
                                       obscureText: !authCubit.confirmPassVisible,
                                       autoValidateMode: authCubit.autoValidateMode,
+                                      controller: reEnterPasswordController,
                                       validate: (String? val) {
                                         if (val !=null &&  val.isEmpty) {
                                           return getTranslatedStrings(context).thisFieldIsRequired;

@@ -660,6 +660,7 @@ class AuthCubit extends Cubit<AuthState> {
     }).catchError((error) {
       logg(error.response.toString());
       emit(VerifyingNumErrorState(getErrorMessageFromErrorJsonResponse(error)));
+      return false;
     });
     return false;
   }

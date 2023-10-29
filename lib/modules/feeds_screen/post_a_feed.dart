@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
@@ -144,7 +145,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                             backColor: newLightGreyColor,
                             borderColor: newLightGreyColor,
                             withoutPadding: true,
-                            titleColor: nesWecBlueColor,
+                            titleColor: nesWecBlueColor.withOpacity(0.7),
                             text: getTranslatedStrings(context).create,
                             onClick: () {
                               // if (feedInputController.text.isNotEmpty || feedsCubit.attachedFiles.isNotEmpty) {
@@ -286,6 +287,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                  TextFormField(
                                   decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  hintStyle: mainStyle(context, 22, color: newDarkGreyColor),
                                   hintText: getTranslatedStrings(context).whatIsNew
                                   ),
                                   
@@ -370,7 +372,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                   ],
                                 ),
                           Divider(
-                            color: Colors.black38,
+                            color: Colors.black45,
                             thickness: 0.2,
                           ),
 
@@ -491,7 +493,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                           //   },
                           // ),
                           Divider(
-                            color: Colors.black38,
+                            color: Colors.black45,
                             thickness: 0.2,
                           ),
                           PostAFeedActionItem(
@@ -590,7 +592,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                             },
                           ),
                           Divider(
-                            color: Colors.black38,
+                            color: Colors.black45,
                             thickness: 0.2,
                           ),
                           PostAFeedActionItem(
@@ -619,7 +621,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                             },
                           ),
                           Divider(
-                            color: Colors.black38,
+                            color: Colors.black45,
                             thickness: 0.2,
                           ),
                         heightBox(7.h),

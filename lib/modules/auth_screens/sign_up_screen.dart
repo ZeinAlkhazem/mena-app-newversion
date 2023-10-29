@@ -447,7 +447,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       obscureText: !authCubit.confirmPassVisible,
                                       autoValidateMode: authCubit.autoValidateMode,
                                       validate: (String? val) {
-                                        if (val!.isEmpty) {
+                                        if (val !=null &&  val.isEmpty) {
                                           return getTranslatedStrings(context).thisFieldIsRequired;
                                         }
                                         if (val != passCont.text) {

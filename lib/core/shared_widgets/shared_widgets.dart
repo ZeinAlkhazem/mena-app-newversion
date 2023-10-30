@@ -3414,7 +3414,8 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
                 child: Center(
                   child: SvgPicture.asset(
                   logo ??  'assets/new_icons/mena_main_logo.svg',
-                    // color: mainBlueColor,
+                    fit: BoxFit.cover,
+                    width: 100.w,
                   ),
                 ),
               ),
@@ -3474,7 +3475,7 @@ class DefaultOnlyLogoAppbar1 extends StatelessWidget {
                   child: Center(
                     child: SvgPicture.asset(
                       logo ??'assets/new_icons/back.svg',
-                      color: Color(0xff0077FF),
+                      color: Color(0xff4273B8),
                     ),
                   ),
                 ),

@@ -116,7 +116,7 @@ class _SelectExpertiseState extends State<SelectExpertise> {
                           child: SvgPicture.asset(
                             'assets/new_icons/new_menu.svg',
                             fit: BoxFit.contain,
-                            color: Color(0xff999B9D),
+                            // color: Color(0xff999B9D),
                             theme: SvgTheme(
                               // currentColor: Color(0xff999B9D),
                               fontSize: 13,
@@ -159,7 +159,7 @@ class _SelectExpertiseState extends State<SelectExpertise> {
                           child: SvgPicture.asset(
                             'assets/new_icons/new_menu.svg',
                             fit: BoxFit.contain,
-                            color: Color(0xff999B9D),
+                            // color: Color(0xff999B9D),
                             theme: SvgTheme(
                               // currentColor: Color(0xff999B9D),
                               fontSize: 13,
@@ -206,7 +206,7 @@ class _SelectExpertiseState extends State<SelectExpertise> {
                           child: SvgPicture.asset(
                             'assets/new_icons/new_menu.svg',
                             fit: BoxFit.contain,
-                            color: Color(0xff999B9D),
+                            // color: Color(0xff999B9D),
                             theme: SvgTheme(
                               // currentColor: Color(0xff999B9D),
                               fontSize: 13,
@@ -344,10 +344,10 @@ class _MainSelectionPageState extends State<MainSelectionPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/menalogoblack.png',
+                          SvgPicture.asset(
+                            'assets/new_icons/mena_black.svg',
                             width: 70.w,
-                            height: 70.h,
+
                           ),
                         ],
                       ),
@@ -389,9 +389,9 @@ class _MainSelectionPageState extends State<MainSelectionPage> {
                                     children: [
                                       IconButton(
                                         icon: SvgPicture.asset(
-                                          "assets/close.svg",
-                                          width: 40.w,
-                                          height: 40.h,
+                                          "assets/new_icons/close.svg",
+                                          width: 20.w,
+
                                         ),
 
                                         // color: Color(0xff303840),

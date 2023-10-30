@@ -124,10 +124,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 // const Expanded(child: SizedBox()),
-                                Image.asset(
-                                  'assets/menalogoblack.png',
-                                  width: 130.w,
-                                  height: 130.h,
+                                SvgPicture.asset(
+                                  'assets/new_icons/mena_black.svg',
+                                  width: 90.w,
                                 ),
                               ],
                             ),

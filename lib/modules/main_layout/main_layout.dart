@@ -503,6 +503,7 @@ class _MainLayoutState extends State<MainLayout> {
                                                 logg('profile bubble clicked');
                                                 navigateToWithoutNavBar(context,
                                                     getCachedToken() == null ? SignInScreen() : MyProfile(), '');
+                                                    // getCachedToken() == null ? SignInScreen() : MyProfile(), '');
 
                                                 // viewComingSoonAlertDialog(context,
                                                 //     customAddedWidget: DefaultButton(

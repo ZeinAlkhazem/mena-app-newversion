@@ -94,8 +94,8 @@ class _SelectPlatformState extends State<SelectPlatform> {
                             'assets/new_icons/new_menu.svg',
                             fit: BoxFit.contain,
                             width: 50.w,
-                            height: 50.h,
-                            color: Color(0xff999B9D),
+
+                            // color: Color(0xff999B9D),
                           ),
                         ),
                         onPressed: () {
@@ -235,10 +235,10 @@ class _PlatformSelectionPageState extends State<PlatformSelectionPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/menalogoblack.png',
+                          SvgPicture.asset(
+                            'assets/new_icons/mena_black.svg',
                             width: 70.w,
-                            height: 70.h,
+
                           ),
                         ],
                       ),
@@ -280,9 +280,9 @@ class _PlatformSelectionPageState extends State<PlatformSelectionPage> {
                                     children: [
                                       IconButton(
                                         icon: SvgPicture.asset(
-                                          "assets/close.svg",
-                                          width: 40.w,
-                                          height: 40.h,
+                                          "assets/new_icons/close.svg",
+                                          width: 20.w,
+
                                         ),
                                         color: Color(0xff303840),
                                         onPressed: () {

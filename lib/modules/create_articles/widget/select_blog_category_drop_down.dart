@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/models/api_model/blogs_info_model.dart';
@@ -37,13 +38,13 @@ class _SelectBlogCategoryDropDownState
               iconSize: 25,
               icon: Center(
                 child: Image.asset(
-                  'assets/icons/Menu - Gray.png',
+                  'assets/icons/Menu.png',
                   height: 20,
                 ),
               ),
-              hint: Text('Select Blog Category',
+              hint: Text('Select Blog Topic',
                   style: mainStyle(context, 13,
-                      color: newDarkGreyColor, weight: FontWeight.w600)),
+                      color: AppColors.lineGray, weight: FontWeight.w600)),
               borderRadius: BorderRadius.circular(10),
               elevation: 0,
               

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/modules/appointments/appointments_layouts/appointment_saved_success.dart';
 import 'package:mena/modules/create_articles/create_article_editor_screen.dart';
@@ -50,21 +51,28 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Image.asset(
-            'assets/addedbyzein/back.png', // Replace with your image path
-            scale: 3,
-            alignment: Alignment.centerRight, // Adjust the height as needed
-          ),
-          // SvgPicture.asset(
-          //   'assets/svg/back_icon.svg',
-          //   color: mainBlueColor,
-          // ),
-        ),
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              Icons.arrow_back,
+              color: AppColors.lineBlue,
+              size: 30,
+            )
+            // Image.asset(
+            //   'assets/icons/ba.png', // Replace with your image path
+            //   scale: 1,
+            //   height: 1,
+            //   width: 2,
+            //   alignment: Alignment.centerRight, // Adjust the height as needed
+            // ),
+            // SvgPicture.asset(
+            //   'assets/svg/back_icon.svg',
+            //   color: mainBlueColor,
+            // ),
+            ),
         title: Text(
           "Create Article",
           style: mainStyle(context, 16,
-              color: Colors.black, weight: FontWeight.w700),
+              color: AppColors.gray, weight: FontWeight.w700),
         ),
         centerTitle: true,
         actions: [
@@ -131,14 +139,14 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                                       navigateTo(context, const EditorScreen());
                                     },
                                     child: ArticleInputField(
-                                      label: 'Start creating your article...',
+                                      label: 'Start Creating Your Article...',
                                       enabled: false,
                                       minLines: 5,
                                       maxLines: 50,
                                       controller:
                                           createArticleCubit.content.text != ''
                                               ? TextEditingController(
-                                                  text: "your article is here")
+                                                  text: "Your Article is Here")
                                               : createArticleCubit.content,
                                       validate: normalInputValidate(context,
                                           customText: 'It cannot be empty'),

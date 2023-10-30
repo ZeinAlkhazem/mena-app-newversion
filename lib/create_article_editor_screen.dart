@@ -53,13 +53,11 @@ class EditorScreen extends StatelessWidget {
         elevation: 0,
         leading: InkWell(
           onTap: () => Navigator.pop(context),
-          child: 
-         
-            Icon(
-              Icons.arrow_back,
-              color: AppColors.lineBlue,
-              size: 30,
-            ),
+          child: SvgPicture.asset(
+            'assets/svg/icons/back.svg', // Replace with your image path
+            // scale: 3,
+            alignment: Alignment.centerRight, // Adjust the height as needed
+          ),
           // SvgPicture.asset(
           //   'assets/svg/back_icon.svg',
           //   color: mainBlueColor,
@@ -98,7 +96,6 @@ class EditorScreen extends StatelessWidget {
           ),
         ],
       ),
-   
       body: SafeArea(
         child: FlutterSummernote(
           hint: createArticleCubit.content.text.isEmpty ?'Start creating your article...' : '',

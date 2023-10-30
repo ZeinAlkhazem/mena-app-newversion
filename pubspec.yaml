@@ -107,9 +107,10 @@ dependencies:
   like_button: ^2.0.5
   share_plus: ^6.0.0
   flutter_webrtc: ^0.9.34
-  package_info_plus: ^3.1.2
+  package_info_plus: 
   quill_html_editor:
   fluttertoast: ^8.2.2
+  # flutter_quill: 
 
 
 dev_dependencies:

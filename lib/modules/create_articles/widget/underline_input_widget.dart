@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mena/core/constants/Colors.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
@@ -71,20 +72,20 @@ class ArticleUnderLineInputField extends StatelessWidget {
         floatingLabelBehavior:
             floatingLabelBehavior ?? FloatingLabelBehavior.never,
         hintStyle: mainStyle(context, 12,
-            color: newDarkGreyColor, weight: FontWeight.w400),
+            color: AppColors.textGray, weight: FontWeight.w400),
         contentPadding: edgeInsetsGeometry ??
             EdgeInsets.symmetric(
                 vertical: Responsive.isMobile(context) ? 15 : 20.0,
                 horizontal: 10.0),
         border: UnderlineInputBorder(
-            borderSide: BorderSide(color: newDarkGreyColor)),
+            borderSide: BorderSide(color: AppColors.lineGray)),
         suffixIcon: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
           child: suffixIcon,
         ),
         suffixIconConstraints: BoxConstraints(maxHeight: 30.w),
         labelStyle: mainStyle(context, 13,
-            color: newDarkGreyColor, weight: FontWeight.w600),
+            color:  AppColors.textGray, weight: FontWeight.w600),
         label: Text(label ?? ''),
         focusColor: newLightGreyColor,
         focusedErrorBorder: UnderlineInputBorder(

@@ -65,10 +65,10 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
                             children: [
                               ArticleCard(article: feedsCubit.menaArticleDetails!,isDetails:false),
                               heightBox(10.h),
-                              SimpleUserCard(
-                                provider: feedsCubit.menaArticleDetails!.provider,
-                                currentLayout: 'Article details',
-                              ),
+                              // SimpleUserCard(
+                              //   provider: feedsCubit.menaArticleDetails!.provider  ,
+                              //   currentLayout: 'Article details',
+                              // ),
                               heightBox(10.h),
                               // Html(data: feedsCubit.menaArticleDetails!.content,
                               

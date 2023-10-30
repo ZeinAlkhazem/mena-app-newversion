@@ -287,7 +287,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(SignUpSuccessState());
     }).catchError((error, stack) {
       logg(error.toString());
-      logg(stack.response.toString());
+      // logg(stack.response.toString());
       // hasError = true;
       emit(AuthErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mena/core/constants/Colors.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
@@ -70,6 +71,7 @@ class ArticleInputField extends StatelessWidget {
         errorMaxLines: 3,
         isDense: true,
         filled: true,
+        
         hintText: customHintText ?? label ?? '...',
         floatingLabelAlignment: floatingLabelAlignment,
         floatingLabelBehavior:
@@ -80,14 +82,16 @@ class ArticleInputField extends StatelessWidget {
             EdgeInsets.symmetric(
                 vertical: Responsive.isMobile(context) ? 15 : 20.0,
                 horizontal: 10.0),
-        border: const OutlineInputBorder(),
+        border:  OutlineInputBorder(
+            borderRadius:BorderRadius.circular(20.0)
+        ),
         suffixIcon: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
           child: suffixIcon,
         ),
         suffixIconConstraints: BoxConstraints(maxHeight: 30.w),
         labelStyle: mainStyle(context, 13,
-            color: newDarkGreyColor, weight: FontWeight.w600),
+            color:  AppColors.textGray, weight: FontWeight.w600),
         label: Text(label ?? ''),
         fillColor: Colors.white,
 
@@ -109,7 +113,7 @@ class ArticleInputField extends StatelessWidget {
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: unFocusedBorderColor ??newDarkGreyColor,
+                color: unFocusedBorderColor ?? AppColors.lineGray,
                 width: .5),
             borderRadius: BorderRadius.all(
                 Radius.circular(borderRadius ?? defaultRadiusVal))),

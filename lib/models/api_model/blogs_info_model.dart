@@ -93,7 +93,7 @@ class MenaArticle {
   int categoryId;
   int providerId;
   BlogBanner category;
-  User provider;
+  User? provider;
   DateTime createdAt;
   bool isMine;
 
@@ -105,7 +105,7 @@ class MenaArticle {
     required this.categoryId,
     required this.providerId,
     required this.category,
-    required this.provider,
+     this.provider,
     required this.createdAt,
     required this.isMine,
   });
@@ -118,7 +118,9 @@ class MenaArticle {
     categoryId: json["category_id"],
     providerId: json["provider_id"],
     category: BlogBanner.fromJson(json["category"]),
-    provider: User.fromJson(json["provider"]),
+    provider: 
+    json["provider"] != null ?
+    User.fromJson(json["provider"]) : null,
     createdAt: DateTime.parse(json["created_at"]),
     isMine: json["is_mine"],
   );
@@ -131,7 +133,7 @@ class MenaArticle {
     "category_id": categoryId,
     "provider_id": providerId,
     "category": category.toJson(),
-    "provider": provider.toJson(),
+    "provider": provider?.toJson(),
     "created_at": "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
     "is_mine": isMine,
   };

@@ -4,6 +4,7 @@ part of 'create_article_cubit.dart';
 abstract class CreateArticleState {}
 class CreateArticleInitial extends CreateArticleState {}
 class ImageUploaded extends CreateArticleState {}
+class ImageDelete extends CreateArticleState {}
 class GettingArticleInfoState extends CreateArticleState {}
 class ArticleLoadingState extends CreateArticleState {}
 class SavingAppointmentState extends CreateArticleState  {}

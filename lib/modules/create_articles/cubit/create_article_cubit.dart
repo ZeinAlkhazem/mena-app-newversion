@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_summernote/flutter_summernote.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mena/core/constants/app_toasts.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 import 'package:mena/models/api_model/blogs_info_model.dart';
@@ -41,17 +42,56 @@ class CreateArticleCubit extends Cubit<CreateArticleState> {
     selectedItem = selectedCategory;
   }
 
+  void deleteImage() {
+    imagePath == '';
+    emit(ImageDelete());
+  }
+
   FilePickerResult? res;
   pickFile(
     context,
   ) async {
-  res =
-        await FilePicker.platform.pickFiles(type: FileType.image);
+    res = await FilePicker.platform.pickFiles(type: FileType.image);
 
     if (res != null) {
       imagePath = res!.files.first.path!;
       emit(ImageUploaded());
     }
+  }
+
+  pickFromCamera(
+    context,
+  ) async {
+    final ImagePicker picker = ImagePicker();
+// Pick an image.
+// final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+// // Capture a photo.
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
+
+    // if (image != null) {
+    //   imagePath = image.path;
+    //   emit(ImageUploaded());
+    // }
+
+    if (photo != null) {
+      imagePath = photo.path;
+      emit(ImageUploaded());
+    }
+        Navigator.pop(context);
+  }
+
+  pickFromGallery(
+    context,
+  ) async {
+    final ImagePicker picker = ImagePicker();
+//Pick an image.
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      imagePath = image.path;
+      emit(ImageUploaded());
+    }
+    Navigator.pop(context);
   }
 
   BlogsInfoModel? blogsInfoModel;
@@ -91,40 +131,36 @@ class CreateArticleCubit extends Cubit<CreateArticleState> {
     }
   }
 
-  Future<void> publishArticle(   BuildContext context,) async {
+  Future<void> publishArticle(
+    BuildContext context,
+  ) async {
     emit(ArticleLoadingState());
 
-
-
-
-       
-   Map<String, dynamic> toSendData = {
+    Map<String, dynamic> toSendData = {
       // 'banner': imagePath,
       'title': title.text,
       'content': content.text,
       'category_id': categoryId,
     };
 
-      File temp = File(imagePath);
-      toSendData['banner'] = await MultipartFile.fromFile(
-        temp.path,
-        filename: temp.path.split('/').last,
-      );
-    
-
+    File temp = File(imagePath);
+    toSendData['banner'] = await MultipartFile.fromFile(
+      temp.path,
+      filename: temp.path.split('/').last,
+    );
 
     FormData formData = FormData.fromMap(toSendData);
     MainDioHelper.postDataWithFormData(url: publishArticleEnd, data: formData)
         .then((value) async {
       // logg('publish article response: $value');
-    
-     logg('publish article response: ');
+
+      logg('publish article response: ');
       Navigator.pop(context);
       AppToasts.errorToast('Your article has been published successfully');
       emit(SuccessGettingArticleState());
     }).catchError((error) {
       logg(error.response.toString());
-  
+
       emit(ArticleErrorState(getErrorMessageFromErrorJsonResponse(error)));
     });
   }

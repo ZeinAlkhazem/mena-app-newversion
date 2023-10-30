@@ -43,10 +43,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'modules/start_live/cubit/start_live_cubit.dart';
 import 'modules/tools/cubit/tools_cubit.dart';
 
-
-
-
-
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -59,9 +55,7 @@ class MyHttpOverrides extends HttpOverrides {
 //
 // late Box userBox;
 void main() async {
-
   HttpOverrides.global = MyHttpOverrides();
-
 
   /// handle error best way
   /// init hive
@@ -86,7 +80,6 @@ void main() async {
   /// now web options is not initialized yet so ignore web for now
   if (!kIsWeb) {
     ErrorWidget.builder = (FlutterErrorDetails details) {
-
       // bool inDebug = false;
       // assert(() {
       //   inDebug = true;
@@ -130,7 +123,7 @@ void main() async {
   }
   // runApp(const MainAppProvider());
   BlocOverrides.runZoned(
-        () {
+    () {
       // Use cubits...
       runApp(const MainAppProvider());
       //
@@ -175,8 +168,6 @@ class MainAppProvider extends StatelessWidget {
     );
   }
 }
-
-
 
 class MainMaterialApp extends StatefulWidget {
   const MainMaterialApp({Key? key}) : super(key: key);
@@ -259,26 +250,27 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           debugShowCheckedModeBanner: false,
 
           theme: Theme.of(context).copyWith(
-            appBarTheme: Theme.of(context).appBarTheme.
-            copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+            appBarTheme: Theme.of(context)
+                .appBarTheme
+                .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
             // drawerTheme: DrawerThemeData(
             //   scrimColor: Colors.green,
             //   shadowColor: Colors.blue,
             //
             // ),
             textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.black,
-              displayColor: Colors.blue,
-              fontSizeFactor: 1,
-              fontSizeDelta: 1,
-              fontFamily:
+                  bodyColor: Colors.black,
+                  displayColor: Colors.blue,
+                  fontSizeFactor: 1,
+                  fontSizeDelta: 1,
+                  fontFamily:
 
-              ///
-              /// getCachedLocale is arabic? Tajawal else english Visby
-              /// else another language add custom font family
-              ///
-              getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
-            ),
+                      ///
+                      /// getCachedLocale is arabic? Tajawal else english Visby
+                      /// else another language add custom font family
+                      ///
+                      getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
+                ),
             // useMaterial3: true,
             // This is the theme of your application.
             //xx
@@ -449,23 +441,25 @@ class TestMaterialApp extends StatelessWidget {
       supportedLocales: L10n.all,
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(
-        appBarTheme: Theme.of(context).appBarTheme.copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+        appBarTheme: Theme.of(context)
+            .appBarTheme
+            .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
         textTheme: Theme.of(context).textTheme.apply(
-          bodyColor: Colors.black,
-          displayColor: Colors.blue,
-          fontSizeFactor: 1.1,
-          fontSizeDelta: 2.0,
-          fontFamily:
+              bodyColor: Colors.black,
+              displayColor: Colors.blue,
+              fontSizeFactor: 1.1,
+              fontSizeDelta: 2.0,
+              fontFamily:
 
-          /// getCachedLocale is arabic? Tajawal else english Visby
-          /// else another language add custom font family
-          ///
-          getCachedLocal() == null
-              ? 'Roboto'
-              : getCachedLocal() == 'en'
-              ? 'Roboto'
-              : 'Tajawal',
-        ),
+                  /// getCachedLocale is arabic? Tajawal else english Visby
+                  /// else another language add custom font family
+                  ///
+                  getCachedLocal() == null
+                      ? 'Roboto'
+                      : getCachedLocal() == 'en'
+                          ? 'Roboto'
+                          : 'Tajawal',
+            ),
         // useMaterial3: true,
         // This is the theme of your application.
         //

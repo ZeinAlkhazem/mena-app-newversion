@@ -34,8 +34,14 @@ class _CreateLivePageState extends State<CreateLivePage> {
   }
   void startCamera() async{
     cameras = await availableCameras();
+    if (isBack) {
+      isBack = false;
+    } else {
+      isBack = true;
+    }
+      final firstCamera = isBack ? cameras.last : cameras.first;
     if(cameras != null){
-      _controller = CameraController(cameras[0], ResolutionPreset.max);
+      _controller = CameraController(firstCamera, ResolutionPreset.max);
                   //cameras[0] = first camera, change to 1 to another camera
                   
      camerasValue = _controller.initialize().then((value) {

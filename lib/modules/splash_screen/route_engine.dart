@@ -39,9 +39,7 @@ class RouteEngine extends StatelessWidget {
                   ///Todo: remove !, ! is for testing purpose
                   return const MainLayout();
                 } else {
-                  return const CompleteInfoSubscribe(
-                    fromRouteEngineSoNoBackButton: true,
-                  );
+                  return const MainLayout();
                 }
                 // return tablet;
               } else {

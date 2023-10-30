@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mena/core/cache/cache.dart';
@@ -1013,11 +1014,12 @@ class _PhotoViewWithZoomContainerState
 }
 
 ///
-class DefaultInputField extends StatelessWidget {
+class DefaultInputField extends StatefulWidget {
   const DefaultInputField({
     Key? key,
     this.label,
     // this.labelWidget,
+    this.asyncValidator,
     this.suffixIcon,
     this.obscureText,
     this.controller,
@@ -1043,8 +1045,11 @@ class DefaultInputField extends StatelessWidget {
     this.edgeInsetsGeometry,
     this.labelTextStyle,
     this.hasError1 = false,
+    this.errorIconAsset,
   }) : super(key: key);
 
+  final String? errorIconAsset;
+  final Future<bool?> Function(String?)? asyncValidator;
   final String? label;
   final String? customHintText;
   final bool hasError1;
@@ -1062,8 +1067,8 @@ class DefaultInputField extends StatelessWidget {
   final Color? fillColor;
   final Function(String)? onFieldChanged;
   final Function()? onTap;
-  final TextEditingController? controller;
   final String? Function(String?)? validate;
+  final TextEditingController? controller;
   final double? borderRadius;
   final int? maxLines;
   final int? maxLength;
@@ -1075,108 +1080,330 @@ class DefaultInputField extends StatelessWidget {
   final FloatingLabelBehavior? floatingLabelBehavior;
 
   @override
+  State<DefaultInputField> createState() => _DefaultInputFieldState();
+}
+
+class _DefaultInputFieldState extends State<DefaultInputField> {
+  bool error = false;
+  Color? fillColor;
+
+  Future<bool?> asyncValidate(String? value) async {
+    if (widget.asyncValidator != null) {
+      return await widget.asyncValidator!(value);
+    }
+    return null;
+  }
+
+  void clearError() {
+    setState(() {
+      error = false;
+      fillColor = widget.fillColor;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    error = widget.hasError1 ?? false;
+    fillColor = widget.fillColor;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool hasError =
-        hasError1 ?? false; // Use hasError1 if provided, default to false
+
+    bool hasError = widget.hasError1 ?? false; // Use hasError1 if provided, default to false
+
     String? errorText;
 
-    if (validate != null) {
-      errorText = validate!(controller?.text);
+    if (widget.validate != null) {
+      errorText = widget.validate!(widget.controller?.text);
       hasError = errorText != null;
     }
     return TextFormField(
-      controller: controller,
-      focusNode: focusNode,
-      onTap: onTap,
-      maxLength: maxLength,
-      onChanged: onFieldChanged,
-      keyboardType: customTextInputType,
-      obscureText: obscureText ?? false,
-      autovalidateMode: autoValidateMode,
-      readOnly: readOnly,
-      enabled: enabled,
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      onTap: widget.onTap,
+      maxLength: widget.maxLength,
+      onChanged: widget.onFieldChanged,
+      keyboardType: widget.customTextInputType,
+      obscureText: widget.obscureText ?? false,
+      autovalidateMode: widget.autoValidateMode,
+      readOnly: widget.readOnly,
+      enabled: widget.enabled,
       decoration: InputDecoration(
         errorMaxLines: 3,
         isDense: true,
         filled: true,
-        errorStyle:
-            mainStyle(context, 11, color: Colors.red, weight: FontWeight.w700),
-        hintText: customHintText ?? label ?? '...',
-        floatingLabelAlignment: floatingLabelAlignment,
+
+        errorStyle: mainStyle(context, 11, color: Colors.red, weight: FontWeight.w700),
+        hintText: widget.customHintText ?? widget.label ?? '...',
+        floatingLabelAlignment: widget.floatingLabelAlignment,
         // floatingLabelBehavior: floatingLabelBehavior,
-        floatingLabelBehavior:
-            floatingLabelBehavior ?? FloatingLabelBehavior.never,
-        hintStyle: mainStyle(context, 12,
-            color: newDarkGreyColor, weight: FontWeight.w700),
-        contentPadding: edgeInsetsGeometry ??
-            EdgeInsets.symmetric(
-                vertical: Responsive.isMobile(context) ? 15 : 20.0,
-                horizontal: 10.0),
+        floatingLabelBehavior: widget.floatingLabelBehavior ?? FloatingLabelBehavior.never,
+        hintStyle: mainStyle(context, 12, color: newDarkGreyColor, weight: FontWeight.w700),
+        contentPadding: widget.edgeInsetsGeometry ??
+            EdgeInsets.symmetric(vertical: Responsive.isMobile(context) ? 15 : 20.0, horizontal: 10.0),
+
         border: const OutlineInputBorder(),
         suffixIcon: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-          child: suffixIcon,
+          child: widget.suffixIcon,
         ),
-        prefixIcon: prefixWidget != null
+        prefixIcon: widget.prefixWidget != null
             ? Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                child: prefixWidget,
+
+                padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                child: widget.prefixWidget,
               )
             : null,
-        suffixIconConstraints: BoxConstraints(maxHeight: 50.h, maxWidth: 50.w),
-        labelStyle: labelTextStyle ??
-            mainStyle(context, 13,
-                color: newDarkGreyColor, weight: FontWeight.w700),
+        suffixIconConstraints: BoxConstraints(maxHeight: 60.h,maxWidth: 60.w),
+        labelStyle: widget.labelTextStyle ?? mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+
         // labelText: label,
-        label: Text(label ?? ''),
+        label: Text(widget.label ?? ''),
         // Padding(
         //   padding: EdgeInsets.symmetric(horizontal: withoutLabelPadding ? 0.0 : 2.0),
         //   child: labelWidget,
         // ),
         // fillColor: fillColor ?? newLightGreyColor,
-        fillColor: hasError ? Color(0xffF2D5D5) : fillColor,
-        focusColor: fillColor ?? newLightGreyColor,
+
+        fillColor: error ? Color(0xffF2D5D5) : fillColor,
+        focusColor: widget.fillColor ?? newLightGreyColor,
 
         focusedErrorBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: unFocusedBorderColor ?? Colors.red, width: 1),
-            borderRadius: BorderRadius.all(
-                Radius.circular(borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.unFocusedBorderColor ?? Colors.red, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
         errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
-            borderRadius: BorderRadius.all(
-                Radius.circular(borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.unFocusedBorderColor ?? Colors.red, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
 
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: focusedBorderColor ?? Color(0xff0077FF), width: 1.0),
-            borderRadius: BorderRadius.all(
-                Radius.circular(borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.focusedBorderColor ?? Color(0xff0077FF), width: 1.0),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
 
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
-            borderRadius: BorderRadius.all(
-                Radius.circular(borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
         disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
-            borderRadius: BorderRadius.all(
-                Radius.circular(borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
       ),
       validator: (val) {
-        if (validate != null) {
+        if (widget.validate != null) {
+          final errorText = widget.validate!(widget.controller?.text);
+          setState(() {
+            error = errorText != null;
+            fillColor = error ? Color(0xffF2D5D5) : widget.fillColor;
+          });
           return errorText;
         }
         return null;
       },
+      onFieldSubmitted: (value) async {
+        bool? asyncError = await asyncValidate(value);
+        if (asyncError != null) {
+          setState(() {
+            error = true;
+            fillColor = Color(0xffF2D5D5);
+          });
+        }
+      },
       minLines: 1,
-      maxLines: maxLines ?? 1,
+      maxLines: widget.maxLines ?? 1,
     );
   }
 }
+
+
+class DefaultInputField29 extends StatefulWidget {
+  const DefaultInputField29({
+    Key? key,
+    this.label,
+    this.asyncValidator,
+    this.suffixIcon,
+    this.controller,
+    this.focusNode,
+    this.customHintText,
+    this.unFocusedBorderColor,
+    this.focusedBorderColor,
+    this.borderRadius,
+    this.maxLength,
+    this.maxLines,
+    this.onTap,
+    this.readOnly = false,
+    this.validate,
+    this.enabled,
+    this.onFieldChanged,
+    this.withoutLabelPadding = false,
+    this.customTextInputType,
+    this.floatingLabelAlignment,
+    this.fillColor,
+    this.floatingLabelBehavior,
+    this.prefixWidget,
+    this.autoValidateMode = AutovalidateMode.disabled,
+    this.edgeInsetsGeometry,
+    this.labelTextStyle,
+    this.hasError1 = false,
+    this.errorIconAsset, this.obscureText,
+  }) : super(key: key);
+
+  final String? errorIconAsset;
+  final Future<bool> Function(String?)? asyncValidator;
+  final String? label;
+  final String? customHintText;
+  final bool hasError1;
+  final TextStyle? labelTextStyle;
+  final bool withoutLabelPadding;
+  final FocusNode? focusNode;
+  final bool? obscureText;
+  final bool? enabled;
+  final bool readOnly;
+  final Widget? suffixIcon;
+  final Widget? prefixWidget;
+  final Color? unFocusedBorderColor;
+  final Color? focusedBorderColor;
+  final Color? fillColor;
+  final Function(String)? onFieldChanged;
+  final Function()? onTap;
+  final String? Function(String?)? validate;
+  final TextEditingController? controller;
+  final double? borderRadius;
+  final int? maxLines;
+  final int? maxLength;
+  final AutovalidateMode? autoValidateMode;
+  final EdgeInsetsGeometry? edgeInsetsGeometry;
+  final TextInputType? customTextInputType;
+  final FloatingLabelAlignment? floatingLabelAlignment;
+  final FloatingLabelBehavior? floatingLabelBehavior;
+
+  @override
+  State<DefaultInputField29> createState() => _DefaultInputField29State();
+}
+
+class _DefaultInputField29State extends State<DefaultInputField29> {
+  bool error = false;
+  Color? fillColor;
+
+  Future<bool?> asyncValidate(String? value) async {
+    if (widget.asyncValidator != null) {
+      return await widget.asyncValidator!(value);
+    }
+    return false;
+  }
+
+  void clearError() {
+    setState(() {
+      error = false;
+      fillColor = widget.fillColor;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    error = widget.hasError1 ?? false;
+    fillColor = widget.fillColor;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String? errorText;
+
+    return TextFormField(
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      onTap: widget.onTap,
+      maxLength: widget.maxLength,
+      onChanged: widget.onFieldChanged,
+      keyboardType: widget.customTextInputType,
+      obscureText: widget.obscureText ?? false,
+      autovalidateMode: widget.autoValidateMode,
+      readOnly: widget.readOnly,
+      enabled: widget.enabled,
+      decoration: InputDecoration(
+        errorMaxLines: 3,
+        isDense: true,
+        filled: true,
+        errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.w700),
+        hintText: widget.customHintText ?? widget.label ?? '...',
+        floatingLabelAlignment: widget.floatingLabelAlignment,
+        floatingLabelBehavior: widget.floatingLabelBehavior ?? FloatingLabelBehavior.never,
+        hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+        contentPadding: widget.edgeInsetsGeometry ??
+            EdgeInsets.symmetric(
+              vertical: 15,
+              horizontal: 10.0,
+            ),
+        border: const OutlineInputBorder(),
+        suffixIcon: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: widget.suffixIcon,
+        ),
+        prefixIcon: widget.prefixWidget != null
+            ? Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: widget.prefixWidget,
+        )
+            : null,
+        suffixIconConstraints: BoxConstraints(maxHeight: 60, maxWidth: 60),
+        labelStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+        label: Text(widget.label ?? ''),
+        fillColor: error ? Color(0xffF2D5D5) : fillColor,
+        focusColor: widget.fillColor ?? Colors.grey,
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xff0077FF), width: 1.0),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xff999B9D), width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xff999B9D), width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
+          ),
+        ),
+      ),
+      validator: (val) {
+        if (widget.validate != null) {
+          final errorText = widget.validate!(widget.controller?.text);
+          setState(() {
+            error = errorText != null;
+            fillColor = error ? Color(0xffF2D5D5) : widget.fillColor;
+          });
+          return errorText;
+        }
+        return null;
+      },
+      onFieldSubmitted: (value) async {
+        bool? asyncError = await asyncValidate(value);
+        if (asyncError!) {
+          setState(() {
+            error = true;
+            fillColor = Color(0xffF2D5D5);
+          });
+        }
+      },
+      minLines: 1,
+      maxLines: widget.maxLines ?? 1,
+    );
+  }
+}
+
+
+
 
 class ChatInputField extends StatelessWidget {
   const ChatInputField({
@@ -1315,6 +1542,7 @@ class DefaultButton extends StatelessWidget {
     this.titleColor,
     this.withoutPadding = false,
     this.isEnabled = true,
+    this.isLoading = false,
   }) : super(key: key);
   final String text;
   final Function() onClick;
@@ -1329,11 +1557,14 @@ class DefaultButton extends StatelessWidget {
   final Color? borderColor;
   final Color? titleColor;
   final bool isEnabled;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onClick,
+
+      onTap: isEnabled ? onClick : null,
+
       child: Container(
         width: width,
         height: height ?? null,
@@ -1352,7 +1583,149 @@ class DefaultButton extends StatelessWidget {
             vertical: withoutPadding ? 0 : 10),
         child: customChild ??
             Center(
+
+              child:Text(
+                text,
+                textAlign: TextAlign.center,
+                style: mainStyle(context, isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
+              ),
+            ),
+      ),
+    );
+  }
+}
+
+class DefaultButton1 extends StatelessWidget {
+  const DefaultButton1({
+    Key? key,
+    required this.text,
+    required this.onClick,
+    this.height,
+    this.width,
+    this.radius,
+    this.fontSize,
+    this.backColor,
+    this.borderColor,
+    this.customChild,
+    this.titleColor,
+    this.withoutPadding = false,
+    this.isEnabled = true,
+  }) : super(key: key);
+  final String text;
+  final Function() onClick;
+  final double? height;
+  final double? width;
+  final double? radius;
+  final bool withoutPadding;
+  final double? fontSize;
+  final Widget? customChild;
+  final Color? backColor;
+  final Color? borderColor;
+  final Color? titleColor;
+  final bool isEnabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: isEnabled ? onClick : null,
+      child: Container(
+        width: width,
+        height: height ?? null,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(radius ?? defaultRadiusVal),
+          ),
+          border: Border.all(
+              width: 1.0,
+              color:
+              isEnabled ? borderColor ?? mainBlueColor : disabledGreyColor),
+          color: isEnabled ? backColor ?? mainBlueColor : disabledGreyColor,
+        ),
+        padding: EdgeInsets.symmetric(
+            horizontal: withoutPadding ? 0 : 5,
+            vertical: withoutPadding ? 0 : 10),
+        child: customChild ??
+            Center(
               child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: mainStyle(
+                    context,
+                    isBold: false,
+                    fontSize ?? 14,
+                    color: titleColor ?? Colors.white),
+              ),
+            ),
+      ),
+    );
+  }
+}
+
+class DefaultButtonUserName extends StatelessWidget {
+  const DefaultButtonUserName({
+    Key? key,
+    required this.text,
+    required this.onClick,
+    required this.validator,
+    this.onAnimationStart,
+    this.height,
+    this.width,
+    this.radius,
+    this.fontSize,
+    this.backColor,
+    this.borderColor,
+    this.customChild,
+    this.titleColor,
+    this.withoutPadding = false,
+    this.isEnabled = true,
+    this.isLoading = false,
+  }) : super(key: key);
+  final String text;
+  final Function() onClick;
+  final Function() validator;
+  final Function()? onAnimationStart;
+  final double? height;
+  final double? width;
+  final double? radius;
+  final bool withoutPadding;
+  final double? fontSize;
+  final Widget? customChild;
+  final Color? backColor;
+  final Color? borderColor;
+  final Color? titleColor;
+  final bool isEnabled;
+  final bool isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: isEnabled
+          ? () async {
+        if (validator != null) {
+          final isValid = await validator!();
+          if (isValid) {
+            onClick();
+          }
+        } else {
+          onClick();
+        }
+      }
+          : null,
+      child: Container(
+        width: width,
+        height: height ?? null,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(radius ?? defaultRadiusVal),
+          ),
+          border: Border.all(width: 1.0, color: isEnabled ? borderColor ?? mainBlueColor : disabledGreyColor),
+          color: isEnabled ? backColor ?? mainBlueColor : disabledGreyColor,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: withoutPadding ? 0 : 5, vertical: withoutPadding ? 0 : 10),
+        child: customChild ??
+            Center(
+              child:Text(
+
                 text,
                 textAlign: TextAlign.center,
                 style: mainStyle(
@@ -3176,8 +3549,8 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
                   color: Colors.transparent,
                   child: Center(
                     child: SvgPicture.asset(
-                      'assets/svg/back_icon.svg',
-                      color: mainBlueColor,
+                      'assets/new_icons/back.svg',
+                      // color: mainBlueColor,
                     ),
                   ),
                 ),
@@ -3188,10 +3561,12 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
               child: Container(
                 color: Colors.transparent,
                 child: Center(
-                  child: Image.asset(
-                    logo ?? 'assets/Menalogo.png',
-                    scale: 5,
-                    // color: mainBlueColor,
+
+                  child: SvgPicture.asset(
+                  logo ??  'assets/new_icons/mena_main_logo.svg',
+                    fit: BoxFit.cover,
+                    width: 100.w,
+
                   ),
                 ),
               ),
@@ -3200,8 +3575,75 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
             Expanded(
               child: Text(
                 title ?? '',
-                style: mainStyle(context, 11,
-                    weight: FontWeight.w400, color: Colors.black, isBold: true),
+
+                style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'PNfont',
+                          color: Color(0xff152026),
+                        ),
+              ),
+            ),
+            suffix ?? SizedBox()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DefaultOnlyLogoAppbar1 extends StatelessWidget {
+  const DefaultOnlyLogoAppbar1({
+    Key? key,
+    this.withBack = false,
+    this.title,
+    this.suffix,
+    this.logo,
+    this.onTap,
+  }) : super(key: key);
+
+  final Function()? onTap;
+  final String? logo;
+  final String? title;
+  final bool withBack;
+  final Widget? suffix;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            widthBox(defaultHorizontalPadding),
+            if (withBack)
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  height: 30.h,
+                  width: 30.w,
+                  color: Colors.transparent,
+                  child: Center(
+                    child: SvgPicture.asset(
+                      logo ??'assets/new_icons/back.svg',
+                      color: Color(0xff4273B8),
+                    ),
+                  ),
+                ),
+              ),
+            widthBox(0.02.sw),
+            widthBox(0.02.sw),
+            Expanded(
+              child: Text(
+                title ?? '',
+                style: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'PNfont',
+                  color: Color(0xff152026),
+                ),
+
               ),
             ),
             suffix ?? SizedBox()
@@ -3652,54 +4094,23 @@ class BottomSheetSimple extends StatelessWidget {
   }
 }
 
-//
-// class CustomGradient extends CustomPainter {
-//   CustomGradient({ this.gradient,required this.sWidth});
-//
-//   final Gradient? gradient;
-//   final double sWidth;
-//   final Paint p = Paint();
-//
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     Rect innerRect = Rect.fromLTRB(sWidth, sWidth, size.width - sWidth, size.height - sWidth);
-//     Rect outerRect = Offset.zero & size;
-//
-//     p.shader = gradient?.createShader(outerRect);
-//     Path borderPath = _calculateBorderPath(outerRect, innerRect);
-//     canvas.drawPath(borderPath, p);
-//   }
-//
-//   Path _calculateBorderPath(Rect outerRect, Rect innerRect) {
-//     Path outerRectPath = Path()..addRect(outerRect);
-//     Path innerRectPath = Path()..addRect(innerRect);
-//     return Path.combine(PathOperation.difference, outerRectPath, innerRectPath);
-//   }
-//
-//   @override
-//   bool shouldRepaint(CustomPainter oldDelegate) => true;
-// }
-//
-// class CustomGradientContainer extends StatelessWidget {
-//   CustomGradientContainer({
-//     required gradient,
-//     required this.child,
-//     this.strokeWidth = 3, required this.onPressed,
-//   }) : this.painter = CustomGradient(
-//       gradient: gradient, sWidth: strokeWidth
-//   );
-//
-//   final CustomGradient? painter;
-//   final Widget child;
-//   final VoidCallback onPressed;
-//   final double strokeWidth;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return CustomPaint(
-//         painter: painter,
-//         child: child
-//     );
-//   }
-// }
-//
+Future<void> showMessageDialog({required BuildContext context,required String message}) async {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      duration: const Duration(seconds: 5),
+      content: Container(
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        margin: EdgeInsets.symmetric(vertical: 100, horizontal: 0),
+        decoration: BoxDecoration(
+            color: Colors.grey.shade700,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          message,
+          style: TextStyle(color: Colors.white, fontSize: 14),
+        ),
+      ),
+    ),
+  );
+}

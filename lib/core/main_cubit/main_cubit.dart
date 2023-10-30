@@ -440,7 +440,7 @@ class MainCubit extends Cubit<MainState> {
 
     await MainDioHelper.getData(url: userInfoEnd, query: {}).then((value) async {
       logg('got user info ');
-      logg(value.toString());
+      logg("${value.toString()}");
       userInfoModel = UserInfoModel.fromJson(value.data);
       requireDataCompleted = userInfoModel!.data.dataCompleted.completed;
 
@@ -459,8 +459,9 @@ class MainCubit extends Cubit<MainState> {
       ///
       ///
       ///
-      logg('an error occurred');
-      logg(stack.toString());
+      logg('an error occurred ---- got user info');
+      // logg("${error.toString()}");
+      // logg("${stack.toString()}");
     });
   }
 
@@ -470,6 +471,7 @@ class MainCubit extends Cubit<MainState> {
     socket = await IO.io(
 
         'https://live.menaaii.com:3000',
+
         IO.OptionBuilder().setTransports(['websocket'])
             // for Flutter or Dart VM
             .setExtraHeaders({
@@ -478,6 +480,7 @@ class MainCubit extends Cubit<MainState> {
             .build());
       messageSocket = await IO.io(
         'https://chat.menaaii.com:3000',
+
         IO.OptionBuilder().setTransports(['websocket'])
             // for Flutter or Dart VM
             .setExtraHeaders({

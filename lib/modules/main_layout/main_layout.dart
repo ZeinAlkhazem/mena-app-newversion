@@ -51,134 +51,135 @@ class _MainLayoutState extends State<MainLayout> {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
 
-    if (getCachedToken() != null) {
-      checkPhoneVerified();
-    }
+    // if (getCachedToken() != null) {
+    //   checkPhoneVerified();
+    // }
     _hideNavBar = false;
 
     // MainCubit.socketInitial();
   }
 
-  void checkPhoneVerified() {
-    logg('checkPhoneVerified');
+  // void checkPhoneVerified() {
+  //   logg('checkPhoneVerified');
+  //
+  //   var mainCubit = MainCubit.get(context);
+  //   Future.delayed(Duration(seconds: 2)).then((value) {
+  //     logg('after 2 seconds checkPhoneVerified');
+  //     if (mainCubit.isUserLoggedIn) {
+  //       if (mainCubit.userInfoModel!.data.user.phoneVerifiedAt == null) {
+  //         // var authCubit= AuthCubit.get(context);
+  //         String otpText = '';
+  //         showMyBottomSheet(
+  //             context: context,
+  //             isDismissible: false,
+  //             title: getTranslatedStrings(context).enterCode,
+  //             body: Padding(
+  //               padding: EdgeInsets.symmetric(vertical: defaultHorizontalPadding, horizontal: defaultHorizontalPadding),
+  //               child: BlocConsumer<AuthCubit, AuthState>(
+  //                 listener: (context, state) {
+  //                   // TODO: implement listener
+  //                   if (state is VerifyingNumErrorState) {
+  //                     showMyAlertDialog(context, 'Error Message',
+  //                         alertDialogContent: Text(
+  //                           'The digits you entered are incorrect. Please double-check the 6 digits that were sent to you.',
+  //                           style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+  //                           textAlign: TextAlign.center,
+  //                         ));
+  //                   }
+  //                 },
+  //                 builder: (context, state) {
+  //                   return Column(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                     crossAxisAlignment: CrossAxisAlignment.center,
+  //                     mainAxisSize: MainAxisSize.min,
+  //                     children: [
+  //                       // Text(
+  //                       //   getTranslatedStrings(context).enterCode,
+  //                       //   style: mainStyle(context, 14, weight: FontWeight.w800),
+  //                       // ),
+  //                       // heightBox(10.h),
+  //                       // Text(
+  //                       //   '${getTranslatedStrings(context).enterCodeReceivedPhone} ${registerModel!.data.user.phone}',
+  //                       //   style: mainStyle(context, 13.0),
+  //                       //   textAlign: TextAlign.center,
+  //                       // ),
+  //                       Text(
+  //                         'Please enter the 6-digit code you received on your mobile or email.',
+  //                         style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
+  //                         // textAlign: TextAlign.center,
+  //                       ),
+  //                       heightBox(10.h),
+  //                       PinCodeTextField(
+  //                         onChanged: (value) {
+  //                           otpText = value;
+  //                           AuthCubit.get(context).updateOtpVal(value);
+  //                         },
+  //                         keyboardType: TextInputType.number,
+  //                         appContext: context,
+  //                         length: 6,
+  //                         obscureText: false,
+  //                         textStyle: const TextStyle(
+  //                           color: Colors.white,
+  //                         ),
+  //                         pinTheme: PinTheme(
+  //                           selectedFillColor: softBlueColor,
+  //                           inactiveColor: mainBlueColor,
+  //                           activeColor: mainBlueColor,
+  //                           inactiveFillColor: Colors.white,
+  //                           selectedColor: mainBlueColor.withOpacity(0.5),
+  //                           shape: PinCodeFieldShape.box,
+  //                           borderRadius: BorderRadius.circular(5),
+  //                           fieldHeight: 50,
+  //                           fieldWidth: 40,
+  //                           activeFillColor: Theme.of(context).backgroundColor,
+  //                         ),
+  //                         cursorColor: Theme.of(context).backgroundColor,
+  //                         animationDuration: const Duration(milliseconds: 300),
+  //                         //backgroundColor:  Theme.of(context).backgroundColor,
+  //                         enableActiveFill: true,
+  //                         // controller: smsCodeEditingController,
+  //                       ),
+  //                       heightBox(10.h),
+  //                       state is VerifyingNumState
+  //                           ? const DefaultLoaderGrey()
+  //                           : DefaultButton(
+  //                               text: getTranslatedStrings(context).submit,
+  //                               onClick: () {
+  //                                 if (otpText.length < 6) {
+  //                                   logg('otp must be 6 digits');
+  //                                 } else {
+  //                                   AuthCubit.get(context)
+  //                                       .verifyPhoneNumber(mainCubit.userInfoModel!.data.user.phone!)
+  //                                       .then((value) {
+  //                                     ///
+  //                                     ///
+  //                                     ///     navigateTo(
+  //                                     ///      context, const CompleteInfoSubscribe());
+  //                                     ///    Todo: if data completed go to main
+  //                                     ///    Todo: else go to complete data
+  //                                     ///
+  //                                     return navigateToAndFinishUntil(context, const RouteEngine());
+  //                                   });
+  //                                 }
+  //                               }),
+  //                       heightBox(10.h),
+  //                       // state is VerifyingNumErrorState
+  //                       //     ? Text(
+  //                       //         state.error.toString(),
+  //                       //         style: mainStyle(context, 11, color: Colors.red),
+  //                       //         textAlign: TextAlign.center,
+  //                       //       )
+  //                       //     : const SizedBox()
+  //                     ],
+  //                   );
+  //                 },
+  //               ),
+  //             ));
+  //       }
+  //     }
+  //   });
+  // }
 
-    var mainCubit = MainCubit.get(context);
-    Future.delayed(Duration(seconds: 2)).then((value) {
-      logg('after 2 seconds checkPhoneVerified');
-      if (mainCubit.isUserLoggedIn) {
-        if (mainCubit.userInfoModel!.data.user.phoneVerifiedAt == null) {
-          // var authCubit= AuthCubit.get(context);
-          String otpText = '';
-          showMyBottomSheet(
-              context: context,
-              isDismissible: false,
-              title: getTranslatedStrings(context).enterCode,
-              body: Padding(
-                padding: EdgeInsets.symmetric(vertical: defaultHorizontalPadding, horizontal: defaultHorizontalPadding),
-                child: BlocConsumer<AuthCubit, AuthState>(
-                  listener: (context, state) {
-                    // TODO: implement listener
-                    if (state is VerifyingNumErrorState) {
-                      showMyAlertDialog(context, 'Error Message',
-                          alertDialogContent: Text(
-                            'The digits you entered are incorrect. Please double-check the 6 digits that were sent to you.',
-                            style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
-                            textAlign: TextAlign.center,
-                          ));
-                    }
-                  },
-                  builder: (context, state) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Text(
-                        //   getTranslatedStrings(context).enterCode,
-                        //   style: mainStyle(context, 14, weight: FontWeight.w800),
-                        // ),
-                        // heightBox(10.h),
-                        // Text(
-                        //   '${getTranslatedStrings(context).enterCodeReceivedPhone} ${registerModel!.data.user.phone}',
-                        //   style: mainStyle(context, 13.0),
-                        //   textAlign: TextAlign.center,
-                        // ),
-                        Text(
-                          'Please enter the 6-digit code you received on your mobile or email.',
-                          style: mainStyle(context, 13.0, color: newDarkGreyColor, weight: FontWeight.w700),
-                          // textAlign: TextAlign.center,
-                        ),
-                        heightBox(10.h),
-                        PinCodeTextField(
-                          onChanged: (value) {
-                            otpText = value;
-                            AuthCubit.get(context).updateOtpVal(value);
-                          },
-                          keyboardType: TextInputType.number,
-                          appContext: context,
-                          length: 6,
-                          obscureText: false,
-                          textStyle: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          pinTheme: PinTheme(
-                            selectedFillColor: softBlueColor,
-                            inactiveColor: mainBlueColor,
-                            activeColor: mainBlueColor,
-                            inactiveFillColor: Colors.white,
-                            selectedColor: mainBlueColor.withOpacity(0.5),
-                            shape: PinCodeFieldShape.box,
-                            borderRadius: BorderRadius.circular(5),
-                            fieldHeight: 50,
-                            fieldWidth: 40,
-                            activeFillColor: Theme.of(context).backgroundColor,
-                          ),
-                          cursorColor: Theme.of(context).backgroundColor,
-                          animationDuration: const Duration(milliseconds: 300),
-                          //backgroundColor:  Theme.of(context).backgroundColor,
-                          enableActiveFill: true,
-                          // controller: smsCodeEditingController,
-                        ),
-                        heightBox(10.h),
-                        state is VerifyingNumState
-                            ? const DefaultLoaderGrey()
-                            : DefaultButton(
-                                text: getTranslatedStrings(context).submit,
-                                onClick: () {
-                                  if (otpText.length < 6) {
-                                    logg('otp must be 6 digits');
-                                  } else {
-                                    AuthCubit.get(context)
-                                        .verifyPhoneNumber(mainCubit.userInfoModel!.data.user.phone!)
-                                        .then((value) {
-                                      ///
-                                      ///
-                                      ///     navigateTo(
-                                      ///      context, const CompleteInfoSubscribe());
-                                      ///    Todo: if data completed go to main
-                                      ///    Todo: else go to complete data
-                                      ///
-                                      return navigateToAndFinishUntil(context, const RouteEngine());
-                                    });
-                                  }
-                                }),
-                        heightBox(10.h),
-                        // state is VerifyingNumErrorState
-                        //     ? Text(
-                        //         state.error.toString(),
-                        //         style: mainStyle(context, 11, color: Colors.red),
-                        //         textAlign: TextAlign.center,
-                        //       )
-                        //     : const SizedBox()
-                      ],
-                    );
-                  },
-                ),
-              ));
-        }
-      }
-    });
-  }
 
   // void socketInitial(BuildContext context) async {
   //   /// Socket connect
@@ -504,6 +505,7 @@ class _MainLayoutState extends State<MainLayout> {
                                                 logg('profile bubble clicked');
                                                 navigateToWithoutNavBar(context,
                                                     getCachedToken() == null ? SignInScreen() : MyProfile(), '');
+                                                    // getCachedToken() == null ? SignInScreen() : MyProfile(), '');
 
                                                 // viewComingSoonAlertDialog(context,
                                                 //     customAddedWidget: DefaultButton(

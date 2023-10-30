@@ -11,6 +11,7 @@ import 'package:mena/modules/auth_screens/sign_up_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/constants/validators.dart';
+import '../../core/dialogs/dialogs_page.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
 import '../home_screen/cubit/home_screen_cubit.dart';
 import '../main_layout/main_layout.dart';
@@ -28,8 +29,10 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-
+  String? loginEmail;
+  String? loginPass;
   bool showContainer = false;
+  bool isLoading = false;
   late double height, width;
   var formKey = GlobalKey<FormState>();
   var emailCont = TextEditingController();
@@ -92,20 +95,11 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Image.asset(
-              'assets/addedbyzein/back.png', // Replace with your image path
-              scale: 3,
-              alignment: Alignment.centerRight, // Adjust the height as needed
-            ),
-            // SvgPicture.asset(
-            //   'assets/svg/back_icon.svg',
-            //   color: mainBlueColor,
-            // ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(56.0.h),
+          child: const DefaultOnlyLogoAppbar1(
+            withBack: true,
+            // title: 'Back',
           ),
         ),
         body: SafeArea(
@@ -131,13 +125,13 @@ class _SignInScreenState extends State<SignInScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 // const Expanded(child: SizedBox()),
-                                Image.asset(
-                                  'assets/menalogoblack.png',
-                                  scale: 2,
+                                SvgPicture.asset(
+                                  'assets/new_icons/mena_black.svg',
+                                  width: 90.w,
                                 ),
                               ],
                             ),
-                            heightBox(110.h),
+                            heightBox(90.h),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
                               child: Form(
@@ -145,6 +139,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                   child: Column(
                                     children: [
                                       DefaultInputField(
+                                        // onFieldChanged: (text){
+                                        //   loginEmail = text;
+                                        // },
+                                        onTap: (){
+                                          setState(() {
+                                            hasError = false;
+                                            emailValidate(context);
+                                          });
+                                        },
+                                        // fillColor: hasError?Color(0xffF2D5D5):null,
                                         label: '${getTranslatedStrings(context).userLogin}',
                                         labelTextStyle: TextStyle(
                                           fontSize: 13.0,
@@ -157,6 +161,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                       ),
                                       heightBox(10.h),
                                       DefaultInputField(
+                                        // onFieldChanged: (text){
+                                        //   loginPass = text;
+                                        // },
+                                        // fillColor: hasError?Color(0xffF2D5D5):null,
                                         label: getTranslatedStrings(context).passwordLogin,
                                         labelTextStyle: TextStyle(
                                             fontSize: 13.0,
@@ -174,9 +182,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                           child: SvgPicture.asset(
                                             /// HERE ADD CONDITION IF VISIBLE ASSET LINK WILL BE DEIFFERENT
                                             authCubit.passVisible
-                                                ? 'assets/open_eyes_icon.svg'
-                                                : 'assets/close_eye.svg',
+                                                ? 'assets/new_icons/opened_eye.svg'
+                                                : 'assets/new_icons/closed_eye.svg',
                                             fit: BoxFit.contain,
+                                            width: 20.w,
+                                            height: 20.h,
                                             color: Color(0xff999B9D),
                                             theme: SvgTheme(
                                               currentColor: Color(0xff999B9D),
@@ -205,6 +215,24 @@ class _SignInScreenState extends State<SignInScreen> {
                                           ? const DefaultLoaderGrey()
                                           : DefaultButton(
                                               onClick: () {
+                                                if (emailCont.text.isEmpty ||
+                                                    passCont.text.isEmpty) {
+                                                  logInAlertDialog(context);
+                                                  return;
+                                                }
+                                                setState(() {
+                                                  isLoading = true;
+                                                  Future.delayed(Duration(seconds: 2),(){
+                                                    setState(() {
+                                                      isLoading = false;
+                                                    });
+                                                  });
+                                                });
+                                                // Future.delayed(Duration(seconds: 3),(){
+                                                //   setState(() {
+                                                //     isLoading = false;
+                                                //   });
+                                                // });
                                                 logg('userLogin started');
                                                 authCubit.toggleAutoValidate(true);
                                                 if (formKey.currentState!.validate()) {
@@ -216,13 +244,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                                   );
                                                 }
                                               },
-                                        onAnimationStart: () {
-                                          // Trigger the SVG animation when the button is clicked
-                                          setState(() {
-                                            playAnimation(); // Implement your animation logic here
-                                          });
-                                        },
-                                        text: getTranslatedStrings(context).login,
+                                        customChild: Center(
+                                          child: isLoading ? SizedBox(width: 20,height:20,child: CircularProgressIndicator(color: Colors.white,))
+                                              : Text(
+                                            getTranslatedStrings(context).login,
+                                            textAlign: TextAlign.center,
+                                            style: mainStyle(context, isBold: true, 14, color: Colors.white),
+                                          ),
+                                        ),
+                                        text: "",
+                                        // text: getTranslatedStrings(context).login,
                                       ),
                                       // SVGAnimationWidget(),
                                     ],

@@ -25,7 +25,12 @@ dependencies:
 #      url: https://github.com/MozafarAlali93/mena_live_webrtc.git
 #      ref: master # branch name
 
+
+  flutter_cupertino_date_picker_fork: 1.0.7
+  flutter_holo_date_picker: ^1.1.3
+
   intl: ^0.18.1
+
   cupertino_icons: ^1.0.2
   cloud_firestore: ^4.3.1
   intl_phone_number_input: ^0.7.0+2
@@ -124,7 +129,7 @@ flutter:
   generate: true
   assets:
     - assets/
-    - assets/addedbyzein/
+    - assets/allNewDesign/
     - assets/images/
     - assets/icons/messenger/
     - assets/images/public/
@@ -135,6 +140,7 @@ flutter:
     - assets/svg/icons/profile/
     - assets/flags/
     - assets/video/
+    - assets/new_icons/
 
   fonts:
     - family: Tajawal

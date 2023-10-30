@@ -76,7 +76,7 @@ void main() async {
   // logg('2opened box name: '+box.keys.toString());
   /// register hive adapter
   // Hive.registerAdapter(UserInfoAdapter());
-  WidgetsFlutterBinding.ensureInitialized();
+   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   await MainDioHelper.init();
 

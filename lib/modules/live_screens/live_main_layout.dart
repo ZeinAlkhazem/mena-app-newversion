@@ -232,7 +232,33 @@ class _LiveNowViewState extends State<LiveNowView> {
                     navigateToWithoutNavBar(context, CreateLivePage(), 'routeName');
                     logg('go live');
 
-
+                    // await Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             ZegoUIKitPrebuiltLiveStreaming(
+                    //               appID: zegoAppId,
+                    //               appSign: zegoAppSign,
+                    //               userID: generateRandUserID,
+                    //               userName: generateRandUserID,
+                    //               liveID: 'widget.liveID',
+                    //               config:
+                    //                   ZegoUIKitPrebuiltLiveStreamingConfig
+                    //                       .host(),
+                    //             ))).then((value) async {
+                    //   logg('zego live pop');
+                    //   // await Future.delayed(Duration(seconds: 3));
+                    //   await ScreenUtil.init(
+                    //           context,
+                    //           designSize: const Size(360, 770),
+                    //           splitScreenMode: true)
+                    //       .then((value) => logg('screen init '));
+                    //   setState(() {
+                    //
+                    //   });
+                    // });
+                    // viewLiveModalBottomSheet(context, formKey, liveCubit, titleController,
+                    //     goalController, topicController);
                   },
                   child: DefaultContainer(
                     radius: 35.sp,
@@ -253,6 +279,88 @@ class _LiveNowViewState extends State<LiveNowView> {
   }
 }
 
+// class ProviderGoLiveBubble extends StatelessWidget {
+//   const ProviderGoLiveBubble({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     var liveCubit=LiveCubit.get(context);
+//     return   getCachedToken() == null
+//         ? widthBox(defaultHorizontalPadding)
+//         :
+//
+//     ! MainCubit.get(context).isUserProvider()?
+//     widthBox(defaultHorizontalPadding):
+//     Row(
+//       children: [
+//         widthBox(
+//           defaultHorizontalPadding,
+//         ),
+//         GestureDetector(
+//           onTap: () async {
+//             logg('go live');
+//             var formKey = GlobalKey<FormState>();
+//             TextEditingController titleController =
+//             TextEditingController();
+//             TextEditingController goalController = TextEditingController();
+//             TextEditingController topicController =
+//             TextEditingController();
+//             liveCubit.changeSelectedStartLiveCat(liveCubit
+//                 .nowLiveCategoriesModel!.liveCategories[0].id
+//                 .toString());
+//             liveCubit.updateThumbnailFile(null);
+//
+//             // await Navigator.push(
+//             //     context,
+//             //     MaterialPageRoute(
+//             //         builder: (context) =>
+//             //             ZegoUIKitPrebuiltLiveStreaming(
+//             //               appID: zegoAppId,
+//             //               appSign: zegoAppSign,
+//             //               userID: generateRandUserID,
+//             //               userName: generateRandUserID,
+//             //               liveID: 'widget.liveID',
+//             //               config:
+//             //                   ZegoUIKitPrebuiltLiveStreamingConfig
+//             //                       .host(),
+//             //             ))).then((value) async {
+//             //   logg('zego live pop');
+//             //   // await Future.delayed(Duration(seconds: 3));
+//             //   await ScreenUtil.init(
+//             //           context,
+//             //           designSize: const Size(360, 770),
+//             //           splitScreenMode: true)
+//             //       .then((value) => logg('screen init '));
+//             //   setState(() {
+//             //
+//             //   });
+//             // });
+//             viewLiveModalBottomSheet(context, formKey, liveCubit,
+//                 titleController, goalController, topicController);
+//           },
+//           child: Column(
+//             mainAxisSize: MainAxisSize.max,
+//             children: [
+//               Lottie.asset('assets/json/live.json',
+//                   width: 60.sp, fit: BoxFit.fill),
+//               SizedBox(height: 8.h),
+//               Text(
+//                 'Go live',
+//                 textAlign: TextAlign.center,
+//                 maxLines: 1,
+//                 overflow: TextOverflow.ellipsis,
+//                 style: mainStyle(context, 9, weight: FontWeight.w700),
+//               ),
+//             ],
+//           ),
+//         ),
+//         widthBox(
+//           defaultHorizontalPadding / 2,
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class UpcomingLiveView extends StatefulWidget {
   const UpcomingLiveView({Key? key}) : super(key: key);

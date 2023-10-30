@@ -18,7 +18,7 @@ import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
-import 'package:mena/modules/messenger/msngr_cubit/messenger_cubit.dart';
+import 'package:mena/modules/messenger/cubit/messenger_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,7 +71,7 @@ class _ChatLayoutState extends State<ChatLayout> {
       );
     }
 
-    socket = MainCubit.get(context).socket;
+    socket = MainCubit.get(context).messageSocket;
     socket?.on('message', (data) {
       logg('new message socket: $data');
       if (widget.chatId == null) {

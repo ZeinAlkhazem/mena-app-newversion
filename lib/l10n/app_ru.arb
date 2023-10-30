@@ -188,6 +188,10 @@
   "hidePost" : "",
   "reportPost" : "",
   "confirmDeletion" : "",
-                          "messenger" : ""
+                          "messenger" : "",
+                          "chat":"",
+                            "chatGroup":"",
+                            "channels":"",
+                            "calls":""
 
 }

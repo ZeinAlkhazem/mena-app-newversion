@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,7 +88,8 @@ class MessengerCubit extends Cubit<MessengerState> {
     // File? attachedFile,
   }) async {
     emit(DeletingMsgState());
-    await MainDioHelper.postData(url: deleteChatEnd, data: {'chat_id': chatId}).then((value) {
+    await MainDioHelper.postData(url: deleteChatEnd, data: {'chat_id': chatId})
+        .then((value) {
       logg('Successfully DeletingMsgState');
       logg(value.toString());
       emit(SuccessDeletingMsgState());
@@ -102,7 +104,8 @@ class MessengerCubit extends Cubit<MessengerState> {
     required String chatId,
   }) async {
     emit(DeletingMsgState());
-    await MainDioHelper.postData(url: markAsReadChatEnd, data: {'chat_id': chatId}).then((value) {
+    await MainDioHelper.postData(
+        url: markAsReadChatEnd, data: {'chat_id': chatId}).then((value) {
       logg('Successfully DeletingMsgState');
       logg(value.toString());
       emit(SuccessDeletingMsgState());
@@ -117,7 +120,8 @@ class MessengerCubit extends Cubit<MessengerState> {
     required String chatId,
   }) async {
     emit(DeletingMsgState());
-    await MainDioHelper.postData(url: reportToMENAChatEnd, data: {'chat_id': chatId}).then((value) {
+    await MainDioHelper.postData(
+        url: reportToMENAChatEnd, data: {'chat_id': chatId}).then((value) {
       logg('Successfully DeletingMsgState');
       logg(value.toString());
       emit(SuccessDeletingMsgState());
@@ -132,7 +136,8 @@ class MessengerCubit extends Cubit<MessengerState> {
     required String chatId,
   }) async {
     emit(DeletingMsgState());
-    await MainDioHelper.postData(url: blockUserChatEnd, data: {'chat_id': chatId}).then((value) {
+    await MainDioHelper.postData(
+        url: blockUserChatEnd, data: {'chat_id': chatId}).then((value) {
       logg('Successfully DeletingMsgState');
       logg(value.toString());
       emit(SuccessDeletingMsgState());
@@ -147,7 +152,8 @@ class MessengerCubit extends Cubit<MessengerState> {
     required String chatId,
   }) async {
     emit(DeletingMsgState());
-    await MainDioHelper.postData(url: clearChatEnd, data: {'chat_id': chatId}).then((value) {
+    await MainDioHelper.postData(url: clearChatEnd, data: {'chat_id': chatId})
+        .then((value) {
       logg('Successfully DeletingMsgState');
       logg(value.toString());
       emit(SuccessDeletingMsgState());
@@ -208,7 +214,8 @@ class MessengerCubit extends Cubit<MessengerState> {
     ////
     logg('to send data: ' + toSendData.toString());
     formData = FormData.fromMap(toSendData);
-    await MainDioHelper.postDataWithFormData(url: sendMsgEnd, data: formData).then((value) {
+    await MainDioHelper.postDataWithFormData(url: sendMsgEnd, data: formData)
+        .then((value) {
       logg('Msg sent');
       logg(value.toString());
       responseMsg = 'Successfully sent';
@@ -246,7 +253,7 @@ class MessengerCubit extends Cubit<MessengerState> {
       logg(value.toString());
       chatMessagesModel = ChatMessagesModel.fromJson(value.data);
       emit(SuccessGettingMessagesDataState());
-    }).catchError((error,stack) {
+    }).catchError((error, stack) {
       logg('an error occurred');
       logg(error.toString());
       logg(stack.toString());
@@ -273,7 +280,7 @@ class MessengerCubit extends Cubit<MessengerState> {
       chatMessagesModel = ChatMessagesModel.fromJson(value.data);
 
       emit(SuccessGettingMessagesDataState());
-    }).catchError((error,s) {
+    }).catchError((error, s) {
       logg('an error occurred');
       logg(error.toString());
       logg(s.toString());
@@ -300,7 +307,7 @@ class MessengerCubit extends Cubit<MessengerState> {
       usersChatModel = UsersToChatModel.fromJson(value.data);
       logg(value.toString());
       emit(SuccessGettingUsersDataState());
-    }).catchError((error,stack) {
+    }).catchError((error, stack) {
       logg('an error occurred');
       logg(error.toString());
       logg(stack.toString());
@@ -310,6 +317,7 @@ class MessengerCubit extends Cubit<MessengerState> {
 
   /// fetch My messages
   Future<void> fetchMyMessages() async {
+    log("==== fetch my message ====");
     emit(GettingMyMessagesData());
     ////
     await MainDioHelper.getData(
@@ -326,7 +334,7 @@ class MessengerCubit extends Cubit<MessengerState> {
       // logg(value.toString());
       emit(SuccessGettingMyMessagesDataState());
     }).catchError((error) {
-      logg('an error occurred');
+      logg('an error occurred === fetch my message');
       logg(error.toString());
       emit(ErrorGettingMessagesDataState());
     });

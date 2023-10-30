@@ -7,12 +7,10 @@ import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:meta/meta.dart';
 
-import '../../../core/cache/cache.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
 import '../../../models/local_models.dart';
 import '../../feeds_screen/feeds_screen.dart';
-import '../../messenger/messenger_home_page.dart';
 import '../edit_profile.dart';
 
 part 'profile_state.dart';
@@ -77,15 +75,8 @@ class ProfileCubit extends Cubit<ProfileState> {
         ItemWithTitleAndCallback(
           title: 'My messenger',
           thumbnailLink: 'assets/svg/icons/profile/messanger.svg',
-          count: MainCubit.get(context).countersModel == null
-              ? '0'
-              : MainCubit.get(context).countersModel!.data.messages.toString(),
-          onClickCallback: () {
-            getCachedToken() == null
-                ? viewMessengerLoginAlertDialog(context)
-            // : navigateToWithoutNavBar(context, const MessengerLayout(), '');
-                : navigateToWithoutNavBar(context, const MessengerHomePage(), '');
-          },
+          count: '9',
+          onClickCallback: () {},
         ),
         ItemWithTitleAndCallback(
           title: 'Manage Appointment',

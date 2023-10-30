@@ -63,11 +63,6 @@ Color newLightGreyColor = const Color(0xffF2F3F5);
 Color drawerColor = const Color(0xffdce0e5);
 Color newDarkGreyColor = const Color(0xff818C99);
 Color newLightTextGreyColor = const Color(0xff818C99);
-Color titleColor = const Color(0xff3e5563);
-Color subTitleColor = const Color(0xff5b6064);
-Color hintTitleColor = const Color(0xffa8abb0 );
-Color statusBarColor = const Color(0xff1c5580);
-Color primaryColor = const Color(0xff1c5580);
 
 /// shadow
 List<BoxShadow>? mainBoxShadow = [
@@ -79,18 +74,14 @@ List<BoxShadow>? mainBoxShadow = [
 ];
 
 List<BoxShadow>? softBoxShadow = const [
-  BoxShadow(
-      color: Color.fromRGBO(0, 0, 0, 0.30000001192092896),
-      offset: Offset(0, 1),
-      blurRadius: 3)
+  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.30000001192092896), offset: Offset(0, 1), blurRadius: 3)
 ];
 
 AppLocalizations getTranslatedStrings(BuildContext context) {
   return AppLocalizations.of(context)!;
 }
 
-String privacyAudienceTranslatedText(
-    BuildContext context, String textInEnglish) {
+String privacyAudienceTranslatedText(BuildContext context, String textInEnglish) {
   if (textInEnglish.toLowerCase() == 'everyone') {
     return getTranslatedStrings(context).everyOne;
   } else if (textInEnglish.toLowerCase() == 'providers') {

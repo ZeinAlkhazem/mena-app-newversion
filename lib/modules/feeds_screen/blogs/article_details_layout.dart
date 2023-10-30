@@ -63,7 +63,7 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ArticleCard(article: feedsCubit.menaArticleDetails!,isDetails:false),
+                              ArticleCard(article: feedsCubit.menaArticleDetails!),
                               heightBox(10.h),
                               // SimpleUserCard(
                               //   provider: feedsCubit.menaArticleDetails!.provider  ,
@@ -90,6 +90,7 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
                                  }
                               
                                ),
+
 
                               Text(
                                 feedsCubit.menaArticleDetails!.title,

@@ -74,10 +74,10 @@ class StartLiveCubit extends Cubit<StartLiveState> {
     emit(OnPressShareLiveState());
   }
 
-  onPressCopyLink(BuildContext context, String? text) {
+  onPressCopyLink(BuildContext context, String text) {
     ShowMToast toast = ShowMToast();
 
-    Clipboard.setData(ClipboardData(text: text!)).then((value) =>
+    Clipboard.setData(ClipboardData(text: text)).then((value) =>
         toast.successToast(context,
             message: "Link Copied ,copied to clipboard",
             alignment: Alignment.bottomCenter));

@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
             await HomeScreenCubit.get(context)
               ..changeSelectedHomePlatform(MainCubit.get(context).configModel!.data.platforms[0].id!).then((value) async{
             await    MainCubit.get(context).checkSetUpData().then((value) async{
-              await Future.delayed(Duration(milliseconds: 1000));
+              await Future.delayed(Duration(milliseconds: 2000));
               moveToRouteEngine(context);
               // Future.delayed(const Duration(seconds: 4), () {
               //   moveToRouteEngine(context);
@@ -103,21 +103,16 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          'assets/menalogoblack.png',
-                          width: 0.6.sw,
+                        SvgPicture.asset(
+                          'assets/new_icons/mena_black.svg',
+                          width: 110.w,
                         ),
                       ],
                     ),
                   ),
                   Text(
                     'COPYRIGHT @2023 MenaAI',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'PNfont',
-                      color: Color(0xff152026),
-                    ),
+                    style: mainStyle(context, 18, color: newDarkGreyColor, weight: FontWeight.w700),
                   )
                 ],
               ),

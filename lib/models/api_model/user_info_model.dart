@@ -79,15 +79,15 @@ class DataCompleted {
 
 class PlatformField {
   PlatformField({
-   required this.id,
-   required this.name,
-   required this.title,
-   required this.description,
-   required this.required,
-   required this.extensions,
-   required this.type,
-   required this.value,
-   required this.updatedAt,
+    required this.id,
+    required this.name,
+    required this.title,
+    required this.description,
+    required this.required,
+    required this.extensions,
+    required this.type,
+    required this.value,
+    required this.updatedAt,
   });
 
   int id;
@@ -104,8 +104,9 @@ class PlatformField {
     id: json["id"],
     name: json["name"],
     title: json["title"],
-    description: json["description"],
-  required: json["required"],
+    description: json["description"].toString(),
+   required: json["required"],
+   //  required: 2,
     extensions: List<String>.from(json["extensions"].map((x) => x)),
     type: json["type"],
     value: json["value"],

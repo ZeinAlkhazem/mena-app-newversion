@@ -6,7 +6,7 @@ import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/modules/messenger/chat_layout.dart';
-import 'package:mena/modules/messenger/cubit/messenger_cubit.dart';
+import 'package:mena/modules/messenger/msngr_cubit/messenger_cubit.dart';
 
 import '../../core/functions/main_funcs.dart';
 import '../../core/shared_widgets/shared_widgets.dart';

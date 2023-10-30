@@ -1,246 +1,340 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mena/core/dialogs/dialogs_page.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/modules/auth_screens/cubit/auth_cubit.dart';
 import 'package:mena/modules/auth_screens/cubit/auth_state.dart';
-import 'package:mena/modules/auth_screens/sign_up_screen.dart';
-
+import 'package:mena/modules/auth_screens/sign_in_screen.dart';
 import '../../core/constants/constants.dart';
+import '../../core/constants/validators.dart';
 import '../../core/functions/main_funcs.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
+import '../../models/my_models/create_user_model.dart';
+import '../../models/my_models/user_type_info_model.dart';
+import '../create_new_user/select_platform.dart';
+import 'package:http/http.dart' as http;
 
-class PickUserTypeLayout extends StatelessWidget {
+import '../create_new_user/username_page.dart';
+
+String? emailConfirmation = "";
+String? phoneConfirmation = '';
+
+class PickUserTypeLayout extends StatefulWidget {
   const PickUserTypeLayout({Key? key}) : super(key: key);
+
+  @override
+  State<PickUserTypeLayout> createState() => _PickUserTypeLayoutState();
+}
+
+class _PickUserTypeLayoutState extends State<PickUserTypeLayout> {
+  List<UserTypeInfoModel> userTypes = [];
+  bool isLoading = true;
+  UserTypeInfoModel? userTypeSelected;
+
+  List userTypeDescriptionList = [
+    UserTypeInfoModel(
+        id: 1,
+        title: "Professionals & Experts",
+        description:
+            "Select this option if you are a working professional or expert in your field. This category is suitable for individuals with specialized skills, qualifications, or expertise related to their profession."),
+    UserTypeInfoModel(
+        id: 2,
+        title: "Private Institutional Account",
+        description:
+            "Select this option if you represent a business, organization, or facility, such as a company, medical clinic, gym, or community center. Facilities often have unique needs and access requirements."),
+    UserTypeInfoModel(
+        id: 3,
+        title: "Government Account",
+        description:
+            "Select this option if you represent a government entity, agency, or authority at any level, such as municipal, state, or federal. Government authorities often have specific roles, responsibilities, and access requirements"),
+    UserTypeInfoModel(
+        id: 4,
+        title: "VIP & Public Figures Account",
+        description:
+            "Select this option if you are a distinguished individual with special privileges, such as government officials, celebrities, business leaders, or individuals with significant influence. VIP members often have unique access and service requirements"),
+    UserTypeInfoModel(
+        id: 5,
+        title: "University Student Account",
+        description:
+            "Select this option if you are currently enrolled as a university or college student. This category is for individuals pursuing higher education"),
+    UserTypeInfoModel(
+        id: 6,
+        title: "General User Account",
+        description:
+            "Please select this option if you represent a category of community members not covered by other specific users in our user list. This section includes all individuals with diverse interests and needs in the community"),
+    UserTypeInfoModel(
+        id: 7,
+        title: "Children\'s Account",
+        description:
+            "Please select this option if you are a child or a parent/guardian registering on behalf of a child under the age of 18 Years , Children's accounts are subject to special privacy and safety measures"),
+    UserTypeInfoModel(
+        id: 8,
+        title: "International Organizations Account",
+        description:
+            "Please select this option if you are a child or a parent/guardian registering on behalf of a child under the age of 18 Years , Children's accounts are subject to special privacy and safety measures"),
+  ];
+
+  ///Fetch data from the API
+
+  Future<void> _fetchUserTypes() async {
+    log("==== Fetch User type  ====");
+    try {
+      final response = await http.get(
+        Uri.parse('https://menaaii.com/api/v1/provider-types'),
+      );
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final List<dynamic> userTypesData = responseData['data'];
+        log("# user type Data :$userTypesData");
+
+        setState(() {
+          userTypes = userTypesData
+              .map((data) => UserTypeInfoModel.fromJson(data))
+              .toList();
+          isLoading = false;
+        });
+        log("# user type :$userTypes");
+      } else {
+        // Handle errors, e.g., show a snackbar or an error message
+        print("Error fetching user types: ${response.statusCode}");
+      }
+    } catch (error) {
+      // Handle errors, e.g., show a snackbar or an error message
+      print("Error fetching user types: $error");
+    }
+  }
+
+  void displayAlertDialogBasedOnUserType(
+      BuildContext context, String userType) async {
+    log("# user type selection :$userType");
+
+    switch (userType) {
+      case 'Professionals & Experts':
+        return showDescriptionUserTypeAlertDialog(
+            context: context,
+            title: userTypeDescriptionList[0].title!,
+            description: userTypeDescriptionList[0].description!);
+      case 'Private Institutional Account':
+        return showDescriptionUserTypeAlertDialog(
+            context: context,
+            title: userTypeDescriptionList[1].title!,
+            description: userTypeDescriptionList[1].description!);
+      case 'Government Account':
+        return showDescriptionUserTypeAlertDialog(
+            context: context,
+            title: userTypeDescriptionList[2].title!,
+            description: userTypeDescriptionList[2].description!);
+      case 'VIP & Public Figures Account':
+        return showDescriptionUserTypeAlertDialog(
+            context: context,
+            title: userTypeDescriptionList[3].title!,
+            description: userTypeDescriptionList[3].description!);
+      case 'University Student Account':
+        return showDescriptionUserTypeAlertDialog(
+            context: context,
+            title: userTypeDescriptionList[4].title!,
+            description: userTypeDescriptionList[4].description!);
+      case 'General User Account':
+        return showDescriptionUserTypeAlertDialog(
+            context: context,
+            title: userTypeDescriptionList[5].title!,
+            description: userTypeDescriptionList[5].description!);
+      case 'Children\'s Account':
+        return showDescriptionUserTypeAlertDialog(
+            context: context,
+            title: userTypeDescriptionList[6].title!,
+            description: userTypeDescriptionList[6].description!);
+      case 'International Organizations Account':
+        return showDescriptionUserTypeAlertDialog(
+            context: context,
+            title: userTypeDescriptionList[6].title!,
+            description: userTypeDescriptionList[6].description!);
+      // Add cases for other user types
+      default:
+        // Handle the case for unknown user types or show a default AlertDialog
+        return showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Unknown User Type'),
+              content: Text('This user type is not recognized.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserTypes();
+  }
 
   @override
   Widget build(BuildContext context) {
     var authCubit = AuthCubit.get(context);
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(56.0.h),
-          child: const DefaultOnlyLogoAppbar(
-            withBack: true,
-          ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56.0.h),
+        child: const DefaultOnlyLogoAppbar1(
+          withBack: true,
+          title: "Sign Up",
+          // title: 'Back',
         ),
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-            child: BlocConsumer<AuthCubit, AuthState>(
-              listener: (context, state) {
-                // TODO: implement listener
-              },
-              builder: (context, state) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Lottie.asset('assets/json/login-and-sign-up.json', height: 0.15.sh),
-                    heightBox(10.h),
-                    Text(
-                      'Choose your account type:',
-                      style: mainStyle(context, 15, isBold: true),
-                    ),
-                    heightBox(10.h),
-                    Text(
-                      'Once chosen, it cannot be altered later',
-                      style: mainStyle(context, 12, color: newDarkGreyColor, weight: FontWeight.w700),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              heightBox(30.h),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: SelectorButton(
-                                      title: getTranslatedStrings(context).asProvider,
-                                      onClick: () {
-                                        authCubit.updateSelectedUserType('provider');
-                                      },
-                                      customHeight: 40.h,
-                                      customRadius: defaultRadiusVal,
-                                      isSelected: authCubit.selectedSignupUserType == 'provider',
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+          child: BlocConsumer<AuthCubit, AuthState>(
+            listener: (context, state) {
+              // TODO: implement listener
+            },
+            builder: (context, state) {
+              return isLoading
+                  ? const DefaultLoaderGrey()
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Lottie.asset('assets/json/login-and-sign-up.json',
+                            height: 0.15.sh),
+                        heightBox(10.h),
+                        Text(
+                          'Please select your user type:',
+                          style: TextStyle(
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'PNfont',
+                            color: Color(0xff303840),
+                          ),
+                        ),
+                        heightBox(10.h),
+                        Text(
+                          'Once chosen, it cannot be altered later',
+                          style: TextStyle(
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'PNfont',
+                            color: Color(0xff999B9D),
+                          ),
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: userTypeDescriptionList.map((userType) {
+                                return Column(
+                                  children: [
+                                    heightBox(20.h),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: SelectorButton(
+                                            title: userType.title!,
+                                            onClick: () {
+                                              authCubit.updateSelectedUserType(
+                                                  userType.title!);
+                                              setState(() {
+                                                userTypeSelected = userType;
+                                              });
+                                            },
+                                            customHeight: 40.h,
+                                            customRadius: defaultRadiusVal,
+                                            isSelected: authCubit
+                                                    .selectedSignupUserType ==
+                                                userType.title,
+                                          ),
+                                        ),
+                                        widthBox(10.w),
+                                        // Add your AlertDialog widget for this user type here
+                                        InfoWidget(btnClick: () {
+                                          displayAlertDialogBasedOnUserType(
+                                              context, userType.title!);
+                                        }),
+                                      ],
                                     ),
-                                  ),
-                                  widthBox(10.w),
-                                  NoteWidget(
-                                    content: RichText(
-                                        text: TextSpan(children: [
-                                      TextSpan(
-                                        text:
-                                            'If you fall under any of the following categories - professional, facility, company, supplier, university, authority, or school …etc- you must choose ',
-                                        style: mainStyle(
-                                          context,
-                                          12,
-                                          color: newDarkGreyColor,
-                                          weight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                          text: '\'Provider\'',
-                                          style: mainStyle(context, 12, color: mainBlueColor, weight: FontWeight.w700)),
-                                    ])),
-                                  )
-                                ],
-                              ),
-                              heightBox(20.h),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: SelectorButton(
-                                      title: getTranslatedStrings(context).asClient,
-                                      onClick: () {
-                                        authCubit.updateSelectedUserType('client');
-                                      },
-                                      customHeight: 40.h,
-                                      customRadius: defaultRadiusVal,
-                                      isSelected: authCubit.selectedSignupUserType == 'client',
-                                    ),
-                                  ),
-                                  widthBox(10.w),
-                                  NoteWidget(
-                                    content: RichText(
-                                        text: TextSpan(children: [
-                                      TextSpan(
-                                        text: 'Choose ',
-                                        style: mainStyle(
-                                          context,
-                                          12,
-                                          color: newDarkGreyColor,
-                                          weight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                          text: '\'Client\'',
-                                          style: mainStyle(context, 12, color: mainBlueColor, weight: FontWeight.w700)),
-                                      TextSpan(
-                                        text:
-                                            ' if you are a public user, patient, parent, job seeker, or seeking services or products, …etc.',
-                                        style: mainStyle(
-                                          context,
-                                          12,
-                                          color: newDarkGreyColor,
-                                          weight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ])),
-                                  )
-                                ],
-                              ),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
 
-                              // DefaultContainer(
-                              //   width: double.maxFinite,
-                              //   childWidget: Padding(
-                              //     padding: const EdgeInsets.all(14.0),
-                              //     child: Center(
-                              //       child: Text(
-                              //         getTranslatedStrings(context).asProvider,
-                              //         style: mainStyle(context, 12),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              // Text('dataaaaaaaaaaaaaaaaa'),
-                              // // heightBox(20.h),
-                              // DefaultButton(
-                              //   text: getTranslatedStrings(context).asProvider,
-                              //   width: double.maxFinite,
-                              //   height: 40.h,
-                              //   fontSize: 12,
-                              //   onClick: () {
-                              //     navigateTo(
-                              //         context,
-                              //         SignUpScreen(
-                              //           type: 'provider',
-                              //         ));
-                              //   },
-                              //   radius: 10.r,
-                              // ),
-                              // heightBox(7.h),
-                              // Text(
-                              //   getTranslatedStrings(context).providerDescription,
-                              //   style: mainStyle(context, 12, color: mainBlueColor),
-                              //   textAlign: TextAlign.center,
-                              // )
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 50),
+                          child: Column(
+                            children: [
+                              DefaultButton(
+                                  backColor: Color(0xff0077FF),
+                                  text: getTranslatedStrings(context).next,
+                                  width: double.maxFinite,
+                                  height: 40.h,
+                                  radius: 10.r,
+                                  fontSize: 12,
+                                  onClick: () {
+                                    if (userTypeSelected?.title ==
+                                        'Professionals & Experts') {
+                                      log("#user type selected :${userTypeSelected!.id}");
+                                      navigateTo(
+                                          context,
+                                          SelectPlatform(
+                                              userTypeInfoModel:
+                                                  userTypeSelected!)
+                                          // SelectPlatform(
+                                          //   userTypeInfoModel:
+                                          //       userTypeSelected!,
+                                          // )
+
+                                          );
+                                    }
+                                  }),
                             ],
                           ),
-
-                          /// sign up as student commented for now
-                          // heightBox(2.h),
-                          // Padding(
-                          //   padding:
-                          //   const EdgeInsets.all(8.0),
-                          //   child: Column(
-                          //     children: [
-                          //       DefaultButton(
-                          //           text: getTranslatedStrings(
-                          //               context)
-                          //               .asStudent,
-                          //           width: double.maxFinite,
-                          //           height: 40.h,
-                          //           radius: 10.r,
-                          //           fontSize: 12,
-                          //           onClick: () {
-                          //             navigateTo(
-                          //                 context,
-                          //                 SignUpScreen(
-                          //                   type: 'student',
-                          //                 ));
-                          //           }),
-                          //       heightBox(7.h),
-                          //       Text(getTranslatedStrings(context).studentDescription,
-                          //         style: mainStyle(context, 12,color: mainBlueColor),)
-                          //     ],
-                          //   ),
-                          // ),
-                          // heightBox(2.h),
-                          // Column(
-                          //   children: [
-                          //     DefaultButton(
-                          //         text: getTranslatedStrings(context).asClient,
-                          //         width: double.maxFinite,
-                          //         height: 40.h,
-                          //         radius: 10.r,
-                          //         fontSize: 12,
-                          //         onClick: () {
-                          //           navigateTo(
-                          //               context,
-                          //               SignUpScreen(
-                          //                 type: 'client',
-                          //               ));
-                          //         }),
-                          //     // heightBox(7.h),
-                          //     // Text(
-                          //     //   getTranslatedStrings(context).clientDescription,
-                          //     //   style: mainStyle(context, 12, color: mainBlueColor),
-                          //     //   textAlign: TextAlign.center,
-                          //     // )
-                          //   ],
-                          // ),
-                        ],
-                      ),
-                    ),
-                    DefaultButton(
-                        text: getTranslatedStrings(context).next,
-                        width: double.maxFinite,
-                        height: 40.h,
-                        radius: 10.r,
-                        fontSize: 12,
-                        onClick: () {
-                          navigateTo(
-                              context,
-                              SignUpScreen(
-                                type: authCubit.selectedSignupUserType,
-                              ));
-                        }),
-                  ],
-                );
-              },
-            ),
+                        ),
+                        // ...
+                      ],
+                    );
+            },
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class InfoWidget extends StatelessWidget {
+  const InfoWidget({
+    super.key,
+    this.customColor,
+    required this.btnClick,
+  });
+
+  final Color? customColor;
+  final VoidCallback btnClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: btnClick,
+        child: Icon(
+          Icons.info_outline,
+          size: 20.sp,
+          color: customColor ?? newDarkGreyColor,
         ));
   }
 }
@@ -249,7 +343,7 @@ class NoteWidget extends StatelessWidget {
   const NoteWidget({
     super.key,
     required this.content,
-     this.customColor,
+    this.customColor,
   });
 
   final Widget content;
@@ -259,12 +353,292 @@ class NoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          showMyAlertDialog(context, 'Note', alertDialogContent: content,isTitleBold: true);
+          showMyAlertDialog(context, 'Note',
+              alertDialogContent: content, isTitleBold: true);
         },
         child: Icon(
           Icons.info_outline,
           size: 20.sp,
-          color:customColor?? newDarkGreyColor,
+          color: customColor ?? newDarkGreyColor,
         ));
+  }
+}
+
+class YourPassword extends StatefulWidget {
+  final CreateUserModel userInfo;
+
+  const YourPassword({super.key, required this.userInfo});
+
+  @override
+  State<YourPassword> createState() => _YourPasswordState();
+}
+
+class _YourPasswordState extends State<YourPassword> {
+  final passwordController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  CreateUserModel? newUserModel;
+
+  @override
+  Widget build(BuildContext context) {
+    var authCubit = AuthCubit.get(context)
+      ..toggleAutoValidate(false)
+      ..togglePassVisibilityFalse();
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56.0.h),
+        child: const DefaultOnlyLogoAppbar1(
+          withBack: true,
+          // title: 'Back',
+        ),
+      ),
+      body: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: 25, top: 5, right: 30),
+                child: Form(
+                  key: formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      heightBox(15.h),
+                      Text(
+                        'Create a password',
+                        style: TextStyle(
+                          fontSize: 23.0,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'PNfont',
+                          color: Color(0xff303840),
+                        ),
+                        // textAlign: TextAlign.center,
+                      ),
+                      heightBox(25.h),
+                      Text(
+                        textAlign: TextAlign.start,
+                        "Create a password with at least 8 letters or numbers. It should be something others can\'t guess",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontFamily: 'PNfont',
+                            color: Color(0xff303840),
+                            fontWeight: FontWeight.w500),
+                      ),
+                      heightBox(30.h),
+                      DefaultInputField(
+                        // onFieldChanged: {},
+                        fillColor: Color(0xffF2F2F2),
+                        focusedBorderColor: Color(0xff0077FF),
+                        unFocusedBorderColor: Color(0xffC9CBCD),
+                        label: 'Password',
+                        obscureText: !authCubit.passVisible,
+                        validate: passwordValidateSignUp(context),
+                        controller: passwordController,
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            authCubit.toggleVisibility('pass');
+                          },
+                          child: SvgPicture.asset(
+                            /// HERE ADD CONDITION IF VISIBLE ASSET LINK WILL BE DEIFFERENT
+                            authCubit.passVisible
+                                ? 'assets/new_icons/opened_eye.svg'
+                                : 'assets/new_icons/closed_eye.svg',
+                            fit: BoxFit.contain,
+                            width: 20.w,
+                            height: 20.h,
+                            color: Color(0xff999B9D),
+                            theme: SvgTheme(
+                              currentColor: Color(0xff999B9D),
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                        labelTextStyle: TextStyle(
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'PNfont',
+                            color: Color(0xff999B9D)),
+                      ),
+                      heightBox(15.h),
+                      DefaultButton(
+                          text: "Next",
+                          onClick: () {
+                            if (formKey.currentState!.validate()) {
+                              newUserModel = widget.userInfo;
+                              newUserModel!.password = passwordController.text;
+                              navigateTo(
+                                  context,
+                                  YourBirthday(
+                                    userInfo: newUserModel!,
+                                  ));
+                            }
+                          }),
+                      heightBox(415.h),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 80.0),
+                        child: TextButton(
+                          onPressed: () {
+                            navigateTo(context, SignInScreen());
+                          },
+                          child: Text(
+                            textAlign: TextAlign.start,
+                            "Already have an account?",
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontFamily: 'PNfont',
+                                color: Color(0xff0077FF),
+                                fontWeight: FontWeight.w900),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class YourBirthday extends StatefulWidget {
+  final CreateUserModel userInfo;
+
+  const YourBirthday({super.key, required this.userInfo});
+
+  @override
+  State<YourBirthday> createState() => _YourBirthdayState();
+}
+
+class _YourBirthdayState extends State<YourBirthday> {
+  final birthDayController = TextEditingController();
+
+  CreateUserModel? newUserModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56.0.h),
+        child: const DefaultOnlyLogoAppbar1(
+          withBack: true,
+          // title: 'Back',
+        ),
+      ),
+      body: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: 25, top: 5, right: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    heightBox(15.h),
+                    Text(
+                      'What\'s your birthday?',
+                      style: TextStyle(
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'PNfont',
+                        color: Color(0xff303840),
+                      ),
+                      // textAlign: TextAlign.center,
+                    ),
+                    heightBox(25.h),
+                    Text(
+                      textAlign: TextAlign.start,
+                      "You can use your own birthday, even if this account is for a business, or another purpose. Your birthday won't be visible to anyone unless you choose to share it",
+                      style: TextStyle(
+                          fontSize: 13,
+                          fontFamily: 'PNfont',
+                          color: Color(0xff303840),
+                          fontWeight: FontWeight.w500),
+                    ),
+                    heightBox(10.h),
+                    DefaultInputField(
+                      onTap: () async {
+                        // buildCupertinoDatePicker(context);
+                        var datePicked = await DatePicker.showSimpleDatePicker(
+                          context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1950),
+                          lastDate: DateTime(3000),
+                          dateFormat: "dd-MMMM-yyyy",
+                          locale: DateTimePickerLocale.en_us,
+                          looping: true,
+                        );
+                        log("# date selected  :$datePicked");
+                        setState(() {
+                          birthDayController.text =
+                              datePicked.toString().substring(0, 10);
+                        });
+                      },
+                      fillColor: Color(0xffF2F2F2),
+                      focusedBorderColor: Color(0xff0077FF),
+                      unFocusedBorderColor: Color(0xffC9CBCD),
+                      label: 'October 11,2023',
+                      controller: birthDayController,
+                      labelTextStyle: TextStyle(
+                          fontSize: 13.0,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'PNfont',
+                          color: Color(0xff999B9D)),
+                    ),
+                    heightBox(30.h),
+                    heightBox(15.h),
+                    DefaultButton(
+                        text: "Next",
+                        onClick: () {
+                          newUserModel = widget.userInfo;
+                          newUserModel!.dateOfBirth = birthDayController.text;
+                          navigateTo(
+                              context,
+                              UserName(
+                                userInfo: newUserModel!,
+                              ));
+                        }),
+                    heightBox(400.h),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 80.0),
+                      child: TextButton(
+                        onPressed: () {
+                          navigateTo(context, SignInScreen());
+                        },
+                        child: Text(
+                          textAlign: TextAlign.start,
+                          "Already have an account?",
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: 'PNfont',
+                              color: Color(0xff0077FF),
+                              fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

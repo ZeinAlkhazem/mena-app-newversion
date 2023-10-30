@@ -9,9 +9,7 @@ import '../functions/main_funcs.dart';
 
 bool hasError = false;
 String? Function(String?)? emailValidate(BuildContext context) =>
-
         (String? val) {
-
       if (val!.isEmpty) {
         return getTranslatedStrings(context).thisFieldIsRequired;
       } else if (val.contains('.') &&
@@ -25,7 +23,6 @@ String? Function(String?)? emailValidate(BuildContext context) =>
         return getTranslatedStrings(context).invalidEmail;
       }
     };
-
 String? Function(String?)? emailValidateSignUp(BuildContext context) =>
         (String? val) {
       if (val!.isEmpty) {
@@ -41,7 +38,6 @@ String? Function(String?)? emailValidateSignUp(BuildContext context) =>
         return getTranslatedStrings(context).invalidEmailSignUp;
       }
     };
-
 String? Function(String?)? passwordValidate(BuildContext context) {
   return (String? val) {
     if (val!.isEmpty) {
@@ -49,16 +45,13 @@ String? Function(String?)? passwordValidate(BuildContext context) {
       return getTranslatedStrings(context).pleaseEnterPassword;
     } else if (val.length < 8) {
       hasError = true;
-
-      return getTranslatedStrings(context).passwordShouldBeMoreThan8Characters;
-
+      return getTranslatedStrings(context).invalidPassword;
     } else {
       hasError = false;
       // return getTranslatedStrings(context).invalidPassword;
       return null;
     }
   };
-
 }
 String? passwordMatchValidator(String newPassword, String confirmPassword) {
   if (newPassword != confirmPassword) {
@@ -245,7 +238,6 @@ Future<bool> isEmailTaken(String email) async {
 bool isValidEmail(String email) {
   final emailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
   return emailRegExp.hasMatch(email);
-
 }
 // String? Function(String?)? retypePasswordValidate(BuildContext context,String passwordEntered) {
 //   return (String? val) {
@@ -258,54 +250,64 @@ bool isValidEmail(String email) {
 //   return null;
 // };
 // }
+String? normalInputValidate1(String? fieldContent) {
+  if (fieldContent == null || fieldContent.isEmpty) {
+    hasError = true;
+    return "Check your username, mobile or email address  and try again";
+  }
+  hasError = false;
+  return null;
+}
 
-String? Function(String?)? normalInputValidate(BuildContext context,
-    {String? customText}) {
-  return (String? val) {
+String? emptyValueValidate(String? fieldContent) {
+  if (fieldContent == null || fieldContent.isEmpty) {
+    return "Please fill this field";
+  }
+  return null;
+}
+String? Function(String?)? normalInputValidate(BuildContext context,{String? customText}) {
+  return  (String? val) {
     if (val!.isEmpty) {
-      return customText ?? getTranslatedStrings(context).thisFieldIsRequired;
+      return customText??getTranslatedStrings(context).thisFieldIsRequired;
     }
     return null;
   };
 }
-
 String? normalInputValidate2(String? fieldContent) {
   if (fieldContent == null || fieldContent.isEmpty) {
     return "Check your username, mobile or email address  and try again";
   }
   return null;
 }
-
-
-String? Function(String?)? yearBeforeCurrentValidate(BuildContext context,
-    {String? customText}) {
-  return (String? val) {
-
+String? Function(String?)? yearBeforeCurrentValidate(BuildContext context,{String? customText}) {
+  return  (String? val) {
     if (val!.isEmpty) {
       return getTranslatedStrings(context).thisFieldIsRequired;
-    } else if (!isNumeric(val)) {
+    }
+    else if(!isNumeric(val)){
       return 'Enter a valid year';
-    } else if ((double.parse(val) < 1000 ||
-        double.parse(val) > DateTime.now().year)) {
+    }
+    else if((double.parse(val)<1000 || double.parse(val)>DateTime.now().year)){
       return 'Enter a valid year';
     }
     return null;
-  };
+  }
+  ;
 }
-
-String? Function(String?)? isNumberValidate(BuildContext context,
-    {String? customText}) {
-  return (String? val) {
+String? Function(String?)? isNumberValidate(BuildContext context,{String? customText}) {
+  return  (String? val) {
     if (val!.isEmpty) {
       return getTranslatedStrings(context).thisFieldIsRequired;
-    } else if (!isNumeric(val)) {
+    }
+    else if(!isNumeric(val)){
       return 'Enter a valid Number';
     }
     // else if((double.parse(val)<1000 || double.parse(val)>DateTime.now().year)){
     //   return 'Enter a valid year';
     // }
     return null;
-  };
+  }
+  ;
 }
 
 // String? Function(String?)? userNameValidateSignUp(BuildContext context) {

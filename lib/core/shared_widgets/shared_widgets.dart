@@ -2340,47 +2340,7 @@ class LivesList extends StatelessWidget {
                           bottom: 5.h,
                           left: defaultHorizontalPadding,
                           right: defaultHorizontalPadding),
-                      child: Row(
-                        children: [
-                          NewSelectorButton(
-                              title: 'ALL',
-                              customHeight: 31.sp - 4,
-                              customFontSize: 10,
-                              isSelected: isNow
-                                  ? liveCubit.selectedNowLiveCat == '-1'
-                                  : liveCubit.selectedUpcomingLiveCat == '-1',
-                              onClick: () {
-                                /// unselected current items in the row and remove the below rows
-                                isNow
-                                    ? liveCubit.changeSelectedNowLiveCat('-1')
-                                    : liveCubit
-                                        .changeSelectedUpcomingLiveCat('-1');
-                              }),
-                          // Container(width: 4,color: Colors.red,height: 10,),
-                          Expanded(
-                            child: NewHorizontalSelectorScrollable(
-                              buttons: categories
-                                  .map((e) => SelectorButtonModel(
-                                      title: e.name,
-                                      onClickCallback: () {
-                                        isNow
-                                            ? liveCubit
-                                                .changeSelectedNowLiveCat(
-                                                    e.id.toString())
-                                            : liveCubit
-                                                .changeSelectedUpcomingLiveCat(
-                                                    e.id.toString());
-                                      },
-                                      isSelected: isNow
-                                          ? liveCubit.selectedNowLiveCat ==
-                                              e.id.toString()
-                                          : liveCubit.selectedUpcomingLiveCat ==
-                                              e.id.toString()))
-                                  .toList(),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: Container(),
                     ),
             ),
             heightBox(7.h),

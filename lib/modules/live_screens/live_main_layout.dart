@@ -263,13 +263,7 @@ class _LiveNowViewState extends State<LiveNowView> {
                   child: DefaultContainer(
                     radius: 35.sp,
                     backColor: mainBlueColor,
-                    childWidget: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: defaultHorizontalPadding),
-                      child: Text(
-                        'Create',
-                        style: mainStyle(context, 11, color: Colors.white, isBold: true),
-                      ),
-                    ),
+                    childWidget: Container(),
                   ),
                 ))
           ],
@@ -278,6 +272,14 @@ class _LiveNowViewState extends State<LiveNowView> {
     );
   }
 }
+
+// DefaultContainer child : create button :  Padding(
+//                       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: defaultHorizontalPadding),
+//                       child: Text(
+//                         'Create',
+//                         style: mainStyle(context, 11, color: Colors.white, isBold: true),
+//                       ),
+//                     )
 
 // class ProviderGoLiveBubble extends StatelessWidget {
 //   const ProviderGoLiveBubble({Key? key}) : super(key: key);

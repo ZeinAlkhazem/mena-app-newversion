@@ -1,18 +1,14 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mena/modules/create_live/widget/appbar_for_live.dart';
+import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/modules/create_live/cubit/create_live_cubit.dart';
 import 'package:mena/modules/create_live/widget/avatar_for_live.dart';
-import 'package:mena/modules/create_live/widget/live_input_field.dart';
-import 'package:mena/modules/create_live/widget/more_live_option.dart';
-
-import '../../core/constants/constants.dart';
-import '../../core/functions/main_funcs.dart';
-import '../../core/responsive/responsive.dart';
-import '../../core/shared_widgets/shared_widgets.dart';
-import '../add_people_to_live/add_people_to_live_screen.dart';
-import 'cubit/create_live_cubit.dart';
+import 'package:mena/modules/create_live/widget/live_option_button.dart';
+import 'package:mena/core/constants/constants.dart';
+import 'package:mena/core/shared_widgets/shared_widgets.dart';
 
 class CreateLivePage extends StatefulWidget {
   const CreateLivePage({super.key});
@@ -22,120 +18,372 @@ class CreateLivePage extends StatefulWidget {
 }
 
 class _CreateLivePageState extends State<CreateLivePage> {
+
+  bool isCameraReady = false;
+  Future<void>? _initializeControllerFuture;
+  bool isBack = false;
+  late List<CameraDescription> cameras;
+  late  CameraController _controller; 
+  Future<void>? camerasValue;
+
+  @override
+  void initState() {
+    super.initState();
+    startCamera();
+    // _initializeCamera();
+  }
+  void startCamera() async{
+    cameras = await availableCameras();
+    if (isBack) {
+      isBack = false;
+    } else {
+      isBack = true;
+    }
+      final firstCamera = isBack ? cameras.last : cameras.first;
+    if(cameras != null){
+      _controller = CameraController(firstCamera, ResolutionPreset.max);
+                  //cameras[0] = first camera, change to 1 to another camera
+
+     camerasValue = _controller.initialize().then((value) {
+          if (!mounted) {
+            return;
+          }
+          setState(() {});
+      });
+    }else{
+      print("NO any camera found");
+    }
+
+  }
+
+  @override
+  void dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+  // Future<void> _initializeCamera() async {
+  //   if (isBack) {
+  //     isBack = false;
+  //   } else {
+  //     isBack = true;
+  //   }
+
+  //   setState(() {
+  //     isCameraReady = false;
+  //   });
+
+
+
+  //   // final firstCamera = isBack ? cameras.first : cameras.last;
+  //   // logg('firstCamera ${firstCamera}');
+  //   // setState(() {
+  //   //   _controller = CameraController(firstCamera, RelutionPreset.ultraHigh);
+  //   //   _initializeControllerFuture = _controller!.initialize();
+  //   // });
+
+
+
+  // }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      camerasValue == null
+          ? camerasValue = _controller!.initialize()
+          : null; //on pause camera is disposed, so we need to call again "issue is only for android"
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final deviceRatio = size.width / size.height;
+
     var createLiveCubit = CreateLiveCubit.get(context)
       ..toggleAutoValidate(false);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
-      appBar: defaultAppBarForLive(
-        context,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
-        child: Form(
-            key: createLiveCubit.formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SingleChildScrollView(
-                  child: Column(children: [
-                    heightBox(20.h),
-                    AvatarForLive(
-                        radius: 40.sp,
-                        isOnline: true,
-                        customRingColor: mainBlueColor,
-                        pictureUrl:
-                            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
-                    heightBox(20.h),
-                    LiveInputField(
-                      label: 'Title',
-                      controller: createLiveCubit.title,
-                      validate: normalInputValidate(context,
-                          customText: 'It cannot be empty'),
-                    ),
-                    heightBox(20.h),
-                    LiveInputField(
-                      label: 'Target',
-                      controller: createLiveCubit.target,
-                      validate: normalInputValidate(context,
-                          customText: 'It cannot be empty'),
-                    ),
-                    heightBox(20.h),
-                    LiveInputField(
-                      label: 'Goal',
-                      controller: createLiveCubit.goal,
-                      validate: normalInputValidate(context,
-                          customText: 'It cannot be empty'),
-                    ),
-                    heightBox(40.h),
-                    BlocConsumer<CreateLiveCubit, CreateLiveState>(
-                        listener: (context, state) {},
-                        builder: (context, state) {
-                          return MoreOptionRow(
-                            title: "Record live streams",
-                            onChanged: (value) =>
-                                createLiveCubit.onPressRecordlive(value),
-                            value: createLiveCubit.valueRecordlive,
-                          );
-                        }),
-                    heightBox(20.h),
-                    BlocConsumer<CreateLiveCubit, CreateLiveState>(
-                        listener: (context, state) {},
-                        builder: (context, state) {
-                          return MoreOptionRow(
-                            title: "Share My live on my feed page",
-                            onChanged: (value) => createLiveCubit
-                                .onPressShareMyLive(context, value),
-                            value: createLiveCubit.valueShareMyLive,
-                          );
-                        }),
-                  ]),
-                ),
-                const Spacer(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0, backgroundColor: Colors.white),
-                      onPressed: () => navigateTo(
-                          context, const AddPeopleToLiveScreenPage()),
-                      child: SvgPicture.asset(
-                        'assets/svg/user_add.svg',
-                        height: Responsive.isMobile(context) ? 28.w : 12.w,
-                      ),
-                    ),
-                    DefaultButton(
-                      width: 150.w,
-                      text: "Star Streaming",
-                      onClick: () {
-                        // createLiveCubit.onPressStarStreaming(context);
-                        createLiveCubit.createLive();
-                      },
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0, backgroundColor: Colors.white),
-                      onPressed: () {
-                        createLiveCubit.onPressLinked(context);
-                      },
-                      child: SvgPicture.asset(
-                        'assets/svg/linked_outline.svg',
-                        height: Responsive.isMobile(context) ? 28.w : 12.w,
-                      ),
-                    ),
-                  ],
-                ),
-                heightBox(20.h),
-              ],
-            )),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            camerasValue != null
+                ? CameraPreview(
+                          _controller,
+                        )
+                : Center(child: CircularProgressIndicator()),
+                 Column(
+                      children: [
+                        /// create live widget
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20.h, vertical: 20.w),
+                          child: Row(
+                            children: [
+                              InkWell(
+                                  onTap: () => Navigator.of(context).pop(),
+                                  child: SvgPicture.asset(
+                                      "assets/live_create/Whiteboards.svg",
+                                      height: 30)),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text(
+                                "Create Live",
+                                style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontFamily: 'PNfont',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        /// add title widget
+                        Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color(0xFFdbdbdb).withOpacity(0.5)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AvatarForLive(
+                                  radius: 30.sp,
+                                  isOnline: true,
+                                  customRingColor: mainBlueColor,
+                                  pictureUrl:
+                                      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
+                              widthBox(10.w),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.h),
+                                child: Text(
+                                  "Add Title",
+                                  style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontFamily: 'PNfont',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              /// Add topic
+                              InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 25.w, vertical: 10.h),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0xFFdbdbdb).withOpacity(0.5)),
+                                  child: Text(
+                                    "Add Topic",
+                                    style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontFamily: 'PNfont',
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+
+                              /// Add topic
+                              InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 30.w, vertical: 10.h),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0xFFdbdbdb).withOpacity(0.5)),
+                                  child: Text(
+                                    "Add a LIVE goal",
+                                    style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontFamily: 'PNfont',
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        heightBox(200.h),
+
+                        /// option buttons
+                        Wrap(
+                          children: [
+                            LiveOptionButton(
+                                title: "Flip",
+                                icon: "assets/live_create/Whiteboards.svg",
+                                btnClick: () async {
+                                  startCamera();
+                                }),
+                            LiveOptionButton(
+                                title: "Setting",
+                                icon: "assets/live_create/Whiteboards.svg",
+                                btnClick: () {}),
+                            LiveOptionButton(
+                                title: "Share",
+                                icon: "assets/live_create/Whiteboards.svg",
+                                btnClick: () {}),
+                            LiveOptionButton(
+                                title: "Poll",
+                                icon: "assets/live_create/Whiteboards.svg",
+                                btnClick: () {}),
+                            LiveOptionButton(
+                                title: "Product",
+                                icon: "assets/live_create/Whiteboards.svg",
+                                btnClick: () {}),
+                            LiveOptionButton(
+                                title: "Live Center",
+                                icon: "assets/live_create/Whiteboards.svg",
+                                btnClick: () {}),
+                            LiveOptionButton(
+                                title: "Link",
+                                icon: "assets/live_create/Whiteboards.svg",
+                                btnClick: () {}),
+                          ],
+                        ),
+                        heightBox(10.h),
+                        DefaultButton(
+                            backColor: Color(0xFFF22E52),
+                            width: 250.w,
+                            height: 50.h,
+                            radius: 15,
+                            text: "Go Live",
+                            onClick: () {
+                              createLiveCubit.createLive();
+                            }),
+                      ],
+            ),
+          ],
+        ),
+        // appBar: defaultAppBarForLive(
+        //   context,
+        // ),
+        // body: Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
+        //   child: Form(
+        //       key: createLiveCubit.formKey,
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: [
+        //           SingleChildScrollView(
+        //             child: Column(children: [
+        //               heightBox(20.h),
+        //               AvatarForLive(
+        //                   radius: 40.sp,
+        //                   isOnline: true,
+        //                   customRingColor: mainBlueColor,
+        //                   pictureUrl:
+        //                       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
+        //               heightBox(20.h),
+        //               LiveInputField(
+        //                 label: 'Title',
+        //                 controller: createLiveCubit.title,
+        //                 validate: normalInputValidate(context,
+        //                     customText: 'It cannot be empty'),
+        //               ),
+        //               heightBox(20.h),
+        //               LiveInputField(
+        //                 label: 'Target',
+        //                 controller: createLiveCubit.target,
+        //                 validate: normalInputValidate(context,
+        //                     customText: 'It cannot be empty'),
+        //               ),
+        //               heightBox(20.h),
+        //               LiveInputField(
+        //                 label: 'Goal',
+        //                 controller: createLiveCubit.goal,
+        //                 validate: normalInputValidate(context,
+        //                     customText: 'It cannot be empty'),
+        //               ),
+        //               heightBox(40.h),
+        //               BlocConsumer<CreateLiveCubit, CreateLiveState>(
+        //                   listener: (context, state) {},
+        //                   builder: (context, state) {
+        //                     return MoreOptionRow(
+        //                       title: "Record live streams",
+        //                       onChanged: (value) =>
+        //                           createLiveCubit.onPressRecordlive(value),
+        //                       value: createLiveCubit.valueRecordlive,
+        //                     );
+        //                   }),
+        //               heightBox(20.h),
+        //               BlocConsumer<CreateLiveCubit, CreateLiveState>(
+        //                   listener: (context, state) {},
+        //                   builder: (context, state) {
+        //                     return MoreOptionRow(
+        //                       title: "Share My live on my feed page",
+        //                       onChanged: (value) => createLiveCubit
+        //                           .onPressShareMyLive(context, value),
+        //                       value: createLiveCubit.valueShareMyLive,
+        //                     );
+        //                   }),
+        //             ]),
+        //           ),
+        //           const Spacer(),
+        //           Row(
+        //             crossAxisAlignment: CrossAxisAlignment.center,
+        //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //             children: [
+        //               ElevatedButton(
+        //                 style: ElevatedButton.styleFrom(
+        //                     elevation: 0, backgroundColor: Colors.white),
+        //                 onPressed: () => navigateTo(
+        //                     context, const AddPeopleToLiveScreenPage()),
+        //                 child: SvgPicture.asset(
+        //                   'assets/svg/user_add.svg',
+        //                   height: Responsive.isMobile(context) ? 28.w : 12.w,
+        //                 ),
+        //               ),
+        //               DefaultButton(
+        //                 width: 150.w,
+        //                 text: "Star Streaming",
+        //                 onClick: () {
+        //                   // createLiveCubit.onPressStarStreaming(context);
+        //                   createLiveCubit.createLive();
+        //                 },
+        //               ),
+        //               ElevatedButton(
+        //                 style: ElevatedButton.styleFrom(
+        //                     elevation: 0, backgroundColor: Colors.white),
+        //                 onPressed: () {
+        //                   createLiveCubit.onPressLinked(context);
+        //                 },
+        //                 child: SvgPicture.asset(
+        //                   'assets/svg/linked_outline.svg',
+        //                   height: Responsive.isMobile(context) ? 28.w : 12.w,
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //           heightBox(20.h),
+        //         ],
+        //       )),
+        // ),
       ),
     );
   }
-}
+  }

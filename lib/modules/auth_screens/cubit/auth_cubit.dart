@@ -781,6 +781,7 @@ class AuthCubit extends Cubit<AuthState> {
                                             .then((value) {
                                           log("# code :$value");
                                           if (value == false) {
+                                            //test
                                             pinCodeAlertDialog(context);
                                           } else {
                                             showResetPassPopUp(

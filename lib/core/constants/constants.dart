@@ -14,7 +14,7 @@ String channelName = 'test';
 String token =
     '007eJxTYHiw711elO45fmaDHZkpkzf7CW3SOOE0J3fTzTiFtsn7zt1UYEgzMTJKTEy0MAQiE2OTFAtTsxRzCyOTVBNLM0OzRHOj+beTGwIZGX68F2NlZIBAEJ+FoSS1uISBAQBr/yAk';
 int uid = 0; //
-
+// bool?  hasError = true;
 ///dimensions
 double defaultRadiusVal = 7.r;
 double defaultHorizontalPadding = 12.w;

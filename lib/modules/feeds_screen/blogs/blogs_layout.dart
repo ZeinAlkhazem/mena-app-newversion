@@ -245,26 +245,40 @@ class BannersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: (9 / 16).sw,
-      width: double.maxFinite,
-      child: CarouselSlider.builder(
-        itemCount: banners.length,
-        // carouselController: carouselController,
-        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
-          onTap: () {
-            navigateToWithoutNavBar(
-                context,
-                ArticleDetailsLayout(
-                  menaArticleId: banners[itemIndex].articleBlogId.toString(),
-                ),
-                'routeName');
-          },
-          child: DefaultImageFadeInOrSvg(
-            backGroundImageUrl: banners[itemIndex].image,
-            boxFit: BoxFit.cover,
-            width: double.maxFinite,
-            borderColor: mainBlueColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: SizedBox(
+        height: (9 / 16).sw,
+        width: double.maxFinite,
+        child: CarouselSlider.builder(
+          itemCount: banners.length,
+          // carouselController: carouselController,
+          itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
+            onTap: () {
+              // navigateToWithoutNavBar(
+              //     context,
+              //     ArticleDetailsLayout(
+              //       menaArticleId: banners[itemIndex].articleBlogId.toString(),
+              //     ),
+              //     'routeName');
+            },
+            child: DefaultImageFadeInOrSvg(
+              backGroundImageUrl: banners[itemIndex].image,
+              boxFit: BoxFit.cover,
+              width: double.maxFinite,
+              borderColor: mainBlueColor,
+            ),
+          ),
+          options: CarouselOptions(
+            autoPlay: false,
+            reverse: false,
+            height: double.maxFinite,
+            enableInfiniteScroll: false,
+            enlargeCenterPage: true,
+            viewportFraction: Responsive.isMobile(context) ? 1 : 1,
+            aspectRatio: 1,
+            initialPage: 1,
+            scrollPhysics: ClampingScrollPhysics(),
           ),
         ),
         options: CarouselOptions(

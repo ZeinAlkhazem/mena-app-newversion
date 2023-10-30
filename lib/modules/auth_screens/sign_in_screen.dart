@@ -173,7 +173,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                         obscureText: !authCubit.passVisible,
                                         autoValidateMode: authCubit.autoValidateMode,
                                         controller: passCont,
-                                        validate: passwordValidate(context),
+                                        // validate: passwordValidate(context),
                                         suffixIcon: GestureDetector(
                                           onTap: () {
                                             authCubit.toggleVisibility('pass');
@@ -210,9 +210,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                         ],
                                       ),
                                       heightBox(35.h),
-                                      state is AuthLoadingState
-                                          ? const DefaultLoaderGrey()
-                                          : DefaultButton(
+                                      // state is AuthLoadingState
+                                      //     ? const DefaultLoaderGrey()
+                                      //     : 
+                                          
+                                          DefaultButton(
                                               onClick: () {
                                                 if (emailCont.text.isEmpty ||
                                                     passCont.text.isEmpty) {

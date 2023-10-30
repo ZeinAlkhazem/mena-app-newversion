@@ -12,6 +12,8 @@
   "passwordNotMatch":"",
   "invalidEmail":"",
   "enterYourPhone":"",
+  "welcomeToMenaMessenger": "",
+  "welcomeToBlogs":"",
   "error":"",
   "enterCode":"",
   "editProfile":"",

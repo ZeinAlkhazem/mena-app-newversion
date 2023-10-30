@@ -130,7 +130,8 @@ class AppointmentConfirmDetailsLayout extends StatelessWidget {
                 ),
                 state is SavingAppointmentState
                     ? DefaultLoaderGrey()
-                    : DefaultButton(
+                    :
+                     DefaultButton(
                         text: 'Confirm appointment',
                         onClick: () {
                           appointmentCubit.confirmAndSaveAppointment().then((value) {});

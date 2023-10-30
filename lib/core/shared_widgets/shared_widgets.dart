@@ -1637,6 +1637,7 @@ class DefaultButtonUserName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+
       onTap: isEnabled
           ? () async {
         if (validator != null) {

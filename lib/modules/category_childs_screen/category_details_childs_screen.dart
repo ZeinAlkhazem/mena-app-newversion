@@ -75,9 +75,11 @@ class _CategoryChildsScreenState extends State<CategoryChildsScreen> {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(defaultRadiusVal), bottomRight: Radius.circular(defaultHorizontalPadding))),
+                                    bottomLeft: Radius.circular(defaultRadiusVal),
+                                    bottomRight: Radius.circular(defaultHorizontalPadding))),
                             child: ChildsFilterHorizontalRows(
-                                childs: currentCategoryToView!.childs, fatherId: currentCategoryToView!.id),
+                                childs: currentCategoryToView!.childs,
+                                fatherId: currentCategoryToView!.id),
                           ),
 
                           Expanded(

@@ -15,16 +15,18 @@ part 'create_article_state.dart';
 
 class CreateArticleCubit extends Cubit<CreateArticleState> {
   CreateArticleCubit() : super(CreateArticleInitial());
-  static CreateArticleCubit get(context) => BlocProvider.of(context);
+
 
   GlobalKey formKey = GlobalKey<FormState>();
 
   final QuillEditorController controller = QuillEditorController();
+  static CreateArticleCubit get(context) => BlocProvider.of(context);
   String imagePath = '';
   TextEditingController title = TextEditingController();
   TextEditingController content = TextEditingController();
   GlobalKey<FlutterSummernoteState> keyEditor = GlobalKey();
   String? selectedCategory;
+  String selectedLang = '';
   String selectedItem = '';
   String categoryId = '';
 

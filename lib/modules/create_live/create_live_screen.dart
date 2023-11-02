@@ -103,18 +103,27 @@ class _CreateLivePageState extends State<CreateLivePage> {
         body: Stack(
           children: [
             camerasValue != null
-                ? CameraPreview(
+                ? Container(
+                width: size.width,
+                height: size.height,
+                child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: Container(
+                        width: 100, // the actual width is not important here
+                        child: CameraPreview(
 
-                    _controller,
-                  )
+                          _controller,
+                        )
+                    )))
 
                 : Center(child: CircularProgressIndicator()),
             Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 /// create live widget
                 Container(
                   padding:
-
                   EdgeInsets.symmetric(horizontal: 15.h, vertical: 20.w),
                   child: Row(
                     children: [
@@ -123,39 +132,39 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           // onTap: () => Navigator.of(context).pop(),
                           child: SvgPicture.asset(
                               "assets/new_icons/Livestream_Logo.svg",
-                              height: 30)),
+                              height: 27)),
                       SizedBox(
                         width: 230.w,
                       ),
                       InkWell(
-                        // onTap: () async {
-                        //   bool confirm = await showDialog(
-                        //     context: context,
-                        //     builder: (BuildContext context) {
-                        //       return AlertDialog(
-                        //         title: Text("Are you sure?"),
-                        //         actions: <Widget>[
-                        //           TextButton(
-                        //             child: Text("No"),
-                        //             onPressed: () {
-                        //               Navigator.of(context).pop(false); // Return false
-                        //             },
-                        //           ),
-                        //           TextButton(
-                        //             child: Text("Yes"),
-                        //             onPressed: () {
-                        //               Navigator.of(context).pop(true); // Return true
-                        //             },
-                        //           ),
-                        //         ],
-                        //       );
-                        //     },
-                        //   );
-                        //
-                        //   if (confirm == true) {
-                        //     Navigator.of(context).pop(); // Go back to the previous page
-                        //   }
-                        // },
+                        onTap: () async {
+                          bool confirm = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Are you sure?"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text("No"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(false); // Return false
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text("Yes"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(true); // Return true
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+
+                          if (confirm == true) {
+                            Navigator.of(context).pop(); // Go back to the previous page
+                          }
+                        },
                         child: SvgPicture.asset(
                           "assets/new_icons/Close_Icon.svg",
                           height: 28,
@@ -170,7 +179,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                 /// add title widget
                 Container(
                   margin:
-                  EdgeInsets.symmetric(horizontal: 40.w, vertical: 15.h),
+                  EdgeInsets.symmetric(horizontal: 40.w,),
                   padding:
                   EdgeInsets.only(left: 6.w, top: 6.h, bottom: 6.h),
                   decoration: BoxDecoration(
@@ -181,7 +190,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AvatarForLive(
-                          radius: 40.sp,
+                          radius: 30.sp,
                           isOnline: true,
                           customRingColor: mainBlueColor,
                           onlyView: false,
@@ -231,10 +240,9 @@ class _CreateLivePageState extends State<CreateLivePage> {
                     ],
                   ),
                 ),
-
+                heightBox(10.h),
                 Padding(
                   padding: EdgeInsets.symmetric(
-
                     horizontal: 40.w,
                   ),
                   child: Row(
@@ -246,7 +254,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                         onTap: () {},
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 5.w, vertical: 8.h),
+                              horizontal: 5.w, vertical: 6.h),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
                               color: Color(0xff363434).withOpacity(0.2)),
@@ -270,13 +278,13 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           ),
                         ),
                       ),
-
+                      heightBox(10.h),
                       /// Add topic
                       InkWell(
                         onTap: () {},
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 10.w, vertical: 8.h),
+                              horizontal: 10.w, vertical: 6.h),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
                               color: Color(0xff363434).withOpacity(0.2)),
@@ -303,7 +311,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                     ],
                   ),
                 ),
-                heightBox(180.h),
+                heightBox(260.h),
 
                 /// option buttons
                 Wrap(
@@ -355,9 +363,9 @@ class _CreateLivePageState extends State<CreateLivePage> {
                             widthBox(25.w),
                             LiveOptionButton(
                                 title: "Setting",
-                                iconSize: 50,
-                                hieght: 0,
-                                icon: "assets/new_icons/Setting.svg",
+                                iconSize: 35,
+                                hieght: 22,
+                                icon: "assets/new_icons/Device_Camera.svg",
                                 btnClick: () {}),
                             widthBox(15.w),
                             LiveOptionButton(
@@ -392,14 +400,14 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           widthBox(60.w),
                           LiveOptionButtonExtra(
                               title: "Voice hub",
-                              iconSize: 25,
+                              iconSize: 20,
                               // width: 15,
                               icon: "assets/new_icons/voice-square-svgrepo-com.svg",
                               btnClick: () {}),
-                          widthBox(25.w),
+                          widthBox(40.w),
                           LiveOptionButtonExtra(
                               title: "Device camera",
-                              iconSize: 25,
+                              iconSize: 20,
                               // width: 15,
                               icon: "assets/new_icons/Device_Camera.svg",
                               btnClick: () {}),

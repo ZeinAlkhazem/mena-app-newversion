@@ -59,7 +59,7 @@ class _WatcherScreenState extends State<WatcherScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: const Text("P2P Call App"),
+        title: const Text("Watcher Screen"),
       ),
       body: SafeArea(
         child: Column(
@@ -68,7 +68,7 @@ class _WatcherScreenState extends State<WatcherScreen> {
               child: Stack(children: [
                Container(
                 child: Center(
-                  child: Text('Fuck'),
+                  child: Text('Test'),
                 ),
                )
               ]),

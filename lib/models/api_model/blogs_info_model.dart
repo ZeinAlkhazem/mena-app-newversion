@@ -96,6 +96,7 @@ class MenaArticle {
   User? provider;
   DateTime createdAt;
   bool isMine;
+  int? view;
 
   MenaArticle({
     required this.id,
@@ -108,9 +109,11 @@ class MenaArticle {
      this.provider,
     required this.createdAt,
     required this.isMine,
+  this.view,
   });
 
-  factory MenaArticle.fromJson(Map<String, dynamic> json) => MenaArticle(
+  factory MenaArticle.fromJson(Map<String, dynamic> json) =>
+MenaArticle(
     id: json["id"],
     banner: json["banner"],
     title: json["title"],
@@ -123,12 +126,14 @@ class MenaArticle {
     User.fromJson(json["provider"]) : null,
     createdAt: DateTime.parse(json["created_at"]),
     isMine: json["is_mine"],
+    view:  json['view'],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "banner": banner,
     "title": title,
+
     "content": content,
     "category_id": categoryId,
     "provider_id": providerId,
@@ -136,5 +141,6 @@ class MenaArticle {
     "provider": provider?.toJson(),
     "created_at": "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
     "is_mine": isMine,
+    "view":view,
   };
 }

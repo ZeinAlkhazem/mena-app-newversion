@@ -16,6 +16,7 @@ import 'package:mena/modules/create_articles/widget/underline_input_widget.dart'
 import 'package:mena/modules/create_articles/widget/upload_cover_picker.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 
+import '../../core/constants/constants.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
 
 class CreateArticleScreen extends StatefulWidget {
@@ -50,18 +51,37 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        // leading: InkWell(
-        //     onTap: () => Navigator.pop(context),
-        //
-        //   child:
-        //     Image.asset(
-        //         'assets/icons/ba.png',
-        //       height: 3,
-        //       // Replace with your image path
-        //         alignment: Alignment.centerRight, // Adjust the height as needed
+        leading: 
+        
+        
+        InkWell(
+          onTap: () => Navigator.pop(context),
+          child: 
+         
+            Icon(
+              Icons.arrow_back,
+              color: AppColors.lineBlue,
+              size: 30,
+            ),
+          // SvgPicture.asset(
+          //   'assets/svg/back_icon.svg',
+          //   color: mainBlueColor,
+          // ),
+        ),
+        //  GestureDetector(
+        //   onTap: () => Navigator.pop(context),
+        //   child: Container(
+        //     height: 10.h,
+        //     width: 10.w,
+        //     color: Colors.transparent,
+        //     child: Center(
+        //       child: SvgPicture.asset(
+        //         'assets/icons/back.svg',
+        //         color: mainBlueColor,
         //       ),
-        //
         //     ),
+        //   ),
+        // ),
         title: Text(
           "Create Article",
           style: mainStyle(context, 16,
@@ -153,8 +173,12 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                             state is ArticleLoadingState
                                 ? DefaultLoaderGrey()
                                 : Container(
-                                    height: 90,
-                                    padding: EdgeInsets.all(20),
+                                    // height: 90,
+                              padding: EdgeInsets.only(
+                                left: 20.w,
+                                right: 20.w,
+                                bottom:  20.w,
+                              ),
                                     child: DefaultButton(
                                       onClick: () {
                                         logg('userLogin started');

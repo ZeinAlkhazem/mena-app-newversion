@@ -1,4 +1,4 @@
-part of 'messenger_cubit.dart';
+part of '../cubit/messenger_cubit.dart';
 
 @immutable
 abstract class MessengerState {}

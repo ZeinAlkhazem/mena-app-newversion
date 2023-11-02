@@ -33,8 +33,8 @@ import '../../modules/create_live/widget/radius_20_container.dart';
 import '../../modules/feeds_screen/post_a_feed.dart';
 import '../../modules/live_screens/start_live_form.dart';
 import '../../modules/main_layout/main_layout.dart';
+import '../../modules/messenger/cubit/messenger_cubit.dart';
 import '../../modules/messenger/messenger_layout.dart';
-import '../../modules/messenger/msngr_cubit/messenger_cubit.dart';
 import '../constants/constants.dart';
 import '../constants/validators.dart';
 import '../functions/main_funcs.dart';
@@ -401,6 +401,7 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
       this.decoration,
       this.boxConstraints,
       this.customImageCacheHeight,
+        this.isBlog,
       this.withoutRadius})
       : super(key: key);
   final double? width;
@@ -408,6 +409,7 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
   final Color? backColor;
   final Color? borderColor;
   final double? borderWidth;
+  final bool? isBlog;
   final String backGroundImageUrl;
   final bool? withoutRadius;
   final double? radius;
@@ -430,7 +432,25 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
               border: Border.all(width: borderWidth ?? 0.0, color: borderColor ?? Colors.transparent),
             ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+          borderRadius:
+           isBlog ==true ?
+
+
+          BorderRadius.only(
+            bottomLeft:  Radius.circular(
+              withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+           bottomRight:  Radius.circular(
+          withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+            topLeft:  Radius.circular(
+                withoutRadius != null ? 0.0 : 30 ?? defaultHorizontalPadding),
+            topRight:  Radius.circular(
+                withoutRadius != null ? 0.0 : 30?? defaultHorizontalPadding),
+
+
+          )
+          :
+           BorderRadius.circular(  withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding)
+          ,
           child: backGroundImageUrl == ""
               ? SizedBox()
               :
@@ -1529,6 +1549,7 @@ class DefaultButton extends StatelessWidget {
     this.withoutPadding = false,
     this.isEnabled = true,
     this.isLoading = false,
+    this.fontName,
   }) : super(key: key);
   final String text;
   final Function() onClick;
@@ -1544,6 +1565,7 @@ class DefaultButton extends StatelessWidget {
   final Color? titleColor;
   final bool isEnabled;
   final bool isLoading;
+  final String? fontName;
 
   @override
   Widget build(BuildContext context) {
@@ -1565,7 +1587,9 @@ class DefaultButton extends StatelessWidget {
               child:Text(
                 text,
                 textAlign: TextAlign.center,
-                style: mainStyle(context, isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
+                style: mainStyle(context,
+                    fontFamily: fontName,
+                    isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
               ),
             ),
       ),
@@ -3390,7 +3414,7 @@ class DefaultBackTitleAppBar extends StatelessWidget {
                 color: Colors.transparent,
                 child: Center(
                   child: SvgPicture.asset(
-                    'assets/svg/icons/back.svg',
+                    'assets/icons/back.svg',
                     color: mainBlueColor,
                   ),
                 ),

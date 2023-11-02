@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
@@ -35,7 +36,7 @@ import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
-import 'modules/messenger/msngr_cubit/messenger_cubit.dart';
+import 'modules/messenger/cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
 import 'modules/nearby_screen/cubit/nearby_cubit.dart';
 import 'modules/platform_provider/cubit/provider_cubit.dart';
@@ -44,8 +45,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'modules/start_live/cubit/start_live_cubit.dart';
 import 'modules/tools/cubit/tools_cubit.dart';
-import 'modules/tools/e_services/e-services.dart';
-import 'modules/tools/jobs/jobs.dart';
+
 
 
 
@@ -67,6 +67,11 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
+  /// set status bar color
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: AppColors.iconsColor
+  ));
+
   // await initializeDateFormatting();
   final prefs = await SharedPreferences.getInstance();
   String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
@@ -89,7 +94,7 @@ void main() async {
   /// handle error best way
   /// init hive
   // await Hive.initFlutter();
-// saveCacheLocal('ar');
+  // saveCacheLocal('ar');
   /// Register adapters
   ///
   // Hive.registerAdapter(UserInfoModelAdapter());

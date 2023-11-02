@@ -50,25 +50,18 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Icon(
-              Icons.arrow_back,
-              color: AppColors.lineBlue,
-              size: 30,
-            )
-            // Image.asset(
-            //   'assets/icons/ba.png', // Replace with your image path
-            //   scale: 1,
-            //   height: 1,
-            //   width: 2,
-            //   alignment: Alignment.centerRight, // Adjust the height as needed
-            // ),
-            // SvgPicture.asset(
-            //   'assets/svg/back_icon.svg',
-            //   color: mainBlueColor,
-            // ),
-            ),
+        // leading: InkWell(
+        //     onTap: () => Navigator.pop(context),
+        //
+        //   child:
+        //     Image.asset(
+        //         'assets/icons/ba.png',
+        //       height: 3,
+        //       // Replace with your image path
+        //         alignment: Alignment.centerRight, // Adjust the height as needed
+        //       ),
+        //
+        //     ),
         title: Text(
           "Create Article",
           style: mainStyle(context, 16,
@@ -76,14 +69,15 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              'assets/svg/icons/Menu 3 dot - blue.svg',
-              height: 18,
-              color: Colors.blue,
-            ),
-          ),
+
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: SvgPicture.asset(
+          //     'assets/svg/icons/Menu 3 dot - blue.svg',
+          //     height: 18,
+          //     color: Colors.blue,
+          //   ),
+          // ),
         ],
       ),
       // bottomNavigationBar: Container(
@@ -97,95 +91,94 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
       //   ),
       // ),
       body: SafeArea(
-        child: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
-            child: BlocConsumer<CreateArticleCubit, CreateArticleState>(
-              listener: (context, state) {
-                //         if (state is SuccessGettingArticleState) {
-                //   navigateTo(
-                //     context,
-                //     AppointmentSavedSuccess(),
-                //   );
-                // }
-              },
-              builder: (context, state) {
-                return state is GettingArticleInfoState
-                    ? DefaultLoaderColor()
-                    : createArticleCubit.blogsInfoModel == null
-                        ? SizedBox()
-                        : Form(
-                            key: formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.only(top: 5),
-                                  child: ArticleUnderLineInputField(
-                                    label: 'Article Title',
-                                    maxLines: 2,
-                                    edgeInsetsGeometry:
-                                        EdgeInsetsDirectional.only(
-                                            start: 20, bottom: 10),
-                                    controller: createArticleCubit.title,
-                                    validate: normalInputValidate(context,
-                                        customText: 'It cannot be empty'),
-                                  ),
+        child: BlocConsumer<CreateArticleCubit, CreateArticleState>(
+          listener: (context, state) {
+            //         if (state is SuccessGettingArticleState) {
+            //   navigateTo(
+            //     context,
+            //     AppointmentSavedSuccess(),
+            //   );
+            // }
+          },
+          builder: (context, state) {
+            return state is GettingArticleInfoState
+                ? DefaultLoaderColor()
+                : createArticleCubit.blogsInfoModel == null
+                    ? SizedBox()
+                    : Form(
+                        key: formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.only(top: 5),
+                              child: ArticleUnderLineInputField(
+                                label: 'Article Title',
+                                maxLines: 2,
+                                edgeInsetsGeometry:
+                                    EdgeInsetsDirectional.only(
+                                        start: 20, bottom: 10),
+                                controller: createArticleCubit.title,
+                                validate: normalInputValidate(context,
+                                    customText: 'It cannot be empty'),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.only(
+                                  top: 40, bottom: 20, start: 10, end: 10),
+                              child: InkWell(
+                                onTap: () {
+                                  navigateTo(context, const EditorScreen());
+                                },
+                                child: ArticleInputField(
+                                  label: 'Start Creating Your Article...',
+                                  enabled: false,
+                                  minLines: 5,
+                                  maxLines: 50,
+                                  controller:
+                                      createArticleCubit.content.text != ''
+                                          ? TextEditingController(
+                                              text: "Your Article is Here")
+                                          : createArticleCubit.content,
+                                  validate: normalInputValidate(context,
+                                      customText: 'It cannot be empty'),
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.only(
-                                      top: 40, bottom: 20, start: 10, end: 10),
-                                  child: InkWell(
-                                    onTap: () {
-                                      navigateTo(context, const EditorScreen());
-                                    },
-                                    child: ArticleInputField(
-                                      label: 'Start Creating Your Article...',
-                                      enabled: false,
-                                      minLines: 5,
-                                      maxLines: 50,
-                                      controller:
-                                          createArticleCubit.content.text != ''
-                                              ? TextEditingController(
-                                                  text: "Your Article is Here")
-                                              : createArticleCubit.content,
-                                      validate: normalInputValidate(context,
-                                          customText: 'It cannot be empty'),
+                              ),
+                            ),
+                            SelectBlogCategoryDropDown(),
+                            AddServiceImagePicker(),
+                            PrivacyText(),
+                            // heightBox(200.h),
+                            Expanded(child: SizedBox()),
+                            state is ArticleLoadingState
+                                ? DefaultLoaderGrey()
+                                : Container(
+                                    height: 90,
+                                    padding: EdgeInsets.all(20),
+                                    child: DefaultButton(
+                                      onClick: () {
+                                        logg('userLogin started');
+                                        createArticleCubit
+                                            .toggleAutoValidate(true);
+                                        createArticleCubit
+                                            .checkValidation();
+                                        if (formKey.currentState!
+                                                .validate() &&
+                                            (createArticleCubit
+                                                .checkValidation())) {
+                                          logg('validate');
+                                          createArticleCubit
+                                              .publishArticle(context);
+                                        }
+                                      },
+                                      text: 'Publish',
                                     ),
                                   ),
-                                ),
-                                SelectBlogCategoryDropDown(),
-                                AddServiceImagePicker(),
-                                PrivacyText(),
-                                heightBox(250.h),
-                                state is ArticleLoadingState
-                                    ? DefaultLoaderGrey()
-                                    : Container(
-                                        height: 90,
-                                        padding: EdgeInsets.all(20),
-                                        child: DefaultButton(
-                                          onClick: () {
-                                            logg('userLogin started');
-                                            createArticleCubit
-                                                .toggleAutoValidate(true);
-                                            createArticleCubit
-                                                .checkValidation();
-                                            if (formKey.currentState!
-                                                    .validate() &&
-                                                (createArticleCubit
-                                                    .checkValidation())) {
-                                              logg('validate');
-                                              createArticleCubit
-                                                  .publishArticle(context);
-                                            }
-                                          },
-                                          text: 'Publish',
-                                        ),
-                                      ),
-                              ],
-                            ),
-                          );
-              },
-            )),
+                          ],
+                        ),
+                      );
+          },
+        ),
       ),
     );
   }

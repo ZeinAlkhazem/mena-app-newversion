@@ -193,6 +193,7 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => StartLiveCubit()),
         BlocProvider(create: (BuildContext context) => AddPeopleToLiveCubit()),
         BlocProvider(create: (BuildContext context) => MeetingCubit()),
+        BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
         // ChangeNotifierProvider(create: (context) => ErrorNotifier()),
       ],
       child: const MainMaterialApp(),

@@ -329,8 +329,8 @@ class LiveCubit extends Cubit<LiveState> {
     Map<String, dynamic> toSendData = {
       'title': title,
       'goal': goal,
-      'topic': topic,
-      'live_now_category_id': liveNowCategoryId,
+      'topic_id': 2,
+      'live_now_category_id': 5,
     };
     if (thumbnailFile != null) {
       File temp = File(thumbnailFile!.path);
@@ -341,13 +341,14 @@ class LiveCubit extends Cubit<LiveState> {
     }
 
     formData = FormData.fromMap(toSendData);
+    print('to send Data : ${toSendData}');
     await MainDioHelper.postDataWithFormData(url: goLiveEnd, data: formData).then((value) {
       logg('goLiveAndGetLiveFromServer');
       logg(value.toString());
       goLiveModel = GoLiveModel.fromJson(value.data);
       emit(SuccessGoLiveAndGetLiveFromServer());
     }).catchError((error, stack) {
-      logg('an error occurred');
+      logg('an error occurred ${error} ${stack}');
       logg(stack.toString());
 
       emit(ErrorGoLiveAndGetLiveFromServer());
@@ -452,7 +453,7 @@ class LiveCubit extends Cubit<LiveState> {
     await MainDioHelper.getData(
         url: '${getLivesEnd}?type=$filter${categoryId.isEmpty ? '' : '&category_id=$categoryId'}',
         query: {}).then((value) {
-      logg('got getLivesNowAndUpcoming currently live');
+      logg('got getLivesNowAndUpcoming currently live ${filter} ${categoryId}' );
       logg(value.toString());
       if (filter == 'live') {
         nowLivesModel = LivesModel.fromJson(value.data);

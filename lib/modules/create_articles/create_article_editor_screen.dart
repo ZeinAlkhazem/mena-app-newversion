@@ -48,18 +48,18 @@ class EditorScreen extends StatelessWidget {
       //   ],
       // ),
 
-           appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: InkWell(
           onTap: () => Navigator.pop(context),
-          child: 
-         
-            Icon(
-              Icons.arrow_back,
-              color: AppColors.lineBlue,
-              size: 30,
-            ),
+          child:
+          
+          Icon(
+            Icons.arrow_back,
+            color: AppColors.lineBlue,
+            size: 30,
+          ),
           // SvgPicture.asset(
           //   'assets/svg/back_icon.svg',
           //   color: mainBlueColor,
@@ -74,37 +74,32 @@ class EditorScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: ()async {
-
-                     createArticleCubit.content.text =
+              createArticleCubit.content.text =
                   await createArticleCubit.keyEditor.currentState!.getText();
-             createArticleCubit.content.text =
+              createArticleCubit.content.text =
                   await createArticleCubit.keyEditor.currentState!.getText();
-                     createArticleCubit.content.text =
+              createArticleCubit.content.text =
                   await createArticleCubit.keyEditor.currentState!.getText();
-            Navigator.pop(context);
+              Navigator.pop(context);
               logg(createArticleCubit.content.text);
             },
-            icon: Container(
-                           height: 90,
-                           width: 30,
-                               padding: EdgeInsets.all(20),
-                            child: DefaultButton(
-                                onClick: () {
-                                   
-                                },
-                                          text: 'Done',
-                                        ),
-                                      ),
+            icon: SvgPicture.asset(
+              'assets/svg/icons/correct.svg',
+              height: 18,
+              color: Colors.blue,
+            ),
           ),
         ],
       ),
-   
+
       body: SafeArea(
         child: FlutterSummernote(
-          hint: createArticleCubit.content.text.isEmpty ?'Start creating your article...' : '',
-          key: createArticleCubit.keyEditor ,
+          hint: createArticleCubit.content.text.isEmpty
+              ? 'Start creating your article...'
+              : '',
+          key: createArticleCubit.keyEditor,
           hasAttachment: true,
-          value:  createArticleCubit.content.text,
+          value: createArticleCubit.content.text,
           customToolbar: """
           [
             ['style', ['bold', 'italic', 'underline',]],

@@ -175,6 +175,8 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => MainCubit()),
         BlocProvider(create: (BuildContext context) => ChildsCubit()),
         BlocProvider(create: (BuildContext context) => MessengerCubit()),
+        BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
+        
         BlocProvider(create: (BuildContext context) => LiveCubit()),
         BlocProvider(create: (BuildContext context) => PromotionsCubit()),
         BlocProvider(create: (BuildContext context) => AuthCubit()),
@@ -323,6 +325,7 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           //   return widget!;
           // },
           home: const SplashScreen(),
+          // home: const SplashScreen(),
           // home: const JobsLayout(),
         ),
       ),
@@ -471,6 +474,7 @@ class TestMaterialApp extends StatelessWidget {
       supportedLocales: L10n.all,
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(
+
         appBarTheme: Theme.of(context).appBarTheme.copyWith(),
         textTheme: Theme.of(context).textTheme.apply(
           bodyColor: Colors.black,

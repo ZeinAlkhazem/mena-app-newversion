@@ -316,6 +316,7 @@ class BannersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: SizedBox(
@@ -351,20 +352,10 @@ class BannersSection extends StatelessWidget {
             aspectRatio: 1,
             initialPage: 1,
             scrollPhysics: ClampingScrollPhysics(),
-          ),
-        ),
-      //   options: CarouselOptions(
-      //     autoPlay: false,
-      //     reverse: false,
-      //     height: double.maxFinite,
-      //     enableInfiniteScroll: false,
-      //     enlargeCenterPage: true,
-      //     viewportFraction: Responsive.isMobile(context) ? 1 : 1,
-      //     aspectRatio: 1,
-      //     initialPage: 1,
-      //     scrollPhysics: ClampingScrollPhysics(),
-      //   ),
-      // ),
+
+
+    )
+    )
     )
     );
   }

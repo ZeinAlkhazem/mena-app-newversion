@@ -4,11 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/modules/create_live/cubit/create_live_cubit.dart';
 import 'package:mena/modules/create_live/widget/avatar_for_live.dart';
 import 'package:mena/modules/create_live/widget/live_option_button.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
+import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
+import 'package:mena/modules/live_screens/live_screen.dart';
+import 'package:mena/modules/live_screens/start_live_form.dart';
+import 'package:mena/modules/start_live/start_live_page.dart';
 
 class CreateLivePage extends StatefulWidget {
   const CreateLivePage({super.key});
@@ -18,13 +23,21 @@ class CreateLivePage extends StatefulWidget {
 }
 
 class _CreateLivePageState extends State<CreateLivePage> {
-
   bool isCameraReady = false;
   Future<void>? _initializeControllerFuture;
   bool isBack = false;
   late List<CameraDescription> cameras;
-  late  CameraController _controller; 
+
+  late  CameraController _controller;
+
   Future<void>? camerasValue;
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController goalController = TextEditingController();
+  TextEditingController topicController = TextEditingController();
+  TextEditingController publishedDateCont = TextEditingController();
+  TextEditingController timeCont = TextEditingController();
+  TextEditingController pickedThumbCont = TextEditingController();
 
   @override
   void initState() {
@@ -32,64 +45,43 @@ class _CreateLivePageState extends State<CreateLivePage> {
     startCamera();
     // _initializeCamera();
   }
-  void startCamera() async{
+
+  void startCamera() async {
     cameras = await availableCameras();
     if (isBack) {
       isBack = false;
     } else {
       isBack = true;
     }
-      final firstCamera = isBack ? cameras.last : cameras.first;
-    if(cameras != null){
-      _controller = CameraController(firstCamera, ResolutionPreset.max);
-                  //cameras[0] = first camera, change to 1 to another camera
+    final firstCamera = isBack ? cameras.last : cameras.first;
 
-     camerasValue = _controller.initialize().then((value) {
-          if (!mounted) {
-            return;
-          }
-          setState(() {});
+    if(cameras != null){
+
+      _controller = CameraController(firstCamera, ResolutionPreset.max);
+      //cameras[0] = first camera, change to 1 to another camera
+
+      camerasValue = _controller.initialize().then((value) {
+        if (!mounted) {
+          return;
+        }
+        setState(() {});
       });
-    }else{
+    } else {
       print("NO any camera found");
     }
-
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }
-  // Future<void> _initializeCamera() async {
-  //   if (isBack) {
-  //     isBack = false;
-  //   } else {
-  //     isBack = true;
-  //   }
-
-  //   setState(() {
-  //     isCameraReady = false;
-  //   });
-
-
-
-  //   // final firstCamera = isBack ? cameras.first : cameras.last;
-  //   // logg('firstCamera ${firstCamera}');
-  //   // setState(() {
-  //   //   _controller = CameraController(firstCamera, RelutionPreset.ultraHigh);
-  //   //   _initializeControllerFuture = _controller!.initialize();
-  //   // });
-
-
-
-  // }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       camerasValue == null
-          ? camerasValue = _controller!.initialize()
+          ? camerasValue = _controller.initialize()
           : null; //on pause camera is disposed, so we need to call again "issue is only for android"
     }
   }
@@ -98,7 +90,9 @@ class _CreateLivePageState extends State<CreateLivePage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final deviceRatio = size.width / size.height;
-
+    var liveCubit = LiveCubit.get(context);
+    // liveCubit.changeSelectedStartLiveCat(liveCubit.nowLiveCategoriesModel!.liveCategories[0].id.toString());
+    liveCubit.updateThumbnailFile(null);
     var createLiveCubit = CreateLiveCubit.get(context)
       ..toggleAutoValidate(false);
 
@@ -109,171 +103,341 @@ class _CreateLivePageState extends State<CreateLivePage> {
         body: Stack(
           children: [
             camerasValue != null
-                ? CameraPreview(
+                ? Container(
+                width: size.width,
+                height: size.height,
+                child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: Container(
+                        width: 100, // the actual width is not important here
+                        child: CameraPreview(
+
                           _controller,
                         )
+                    )))
+
                 : Center(child: CircularProgressIndicator()),
-                 Column(
-                      children: [
-                        /// create live widget
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 20.h, vertical: 20.w),
+            Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                /// create live widget
+                Container(
+                  padding:
+                  EdgeInsets.symmetric(horizontal: 15.h, vertical: 20.w),
+                  child: Row(
+                    children: [
+                      InkWell(
+                          onTap: () {},
+                          // onTap: () => Navigator.of(context).pop(),
+                          child: SvgPicture.asset(
+                              "assets/new_icons/Livestream_Logo.svg",
+                              height: 27)),
+                      SizedBox(
+                        width: 230.w,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          bool confirm = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Are you sure?"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text("No"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(false); // Return false
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text("Yes"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(true); // Return true
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+
+                          if (confirm == true) {
+                            Navigator.of(context).pop(); // Go back to the previous page
+                          }
+                        },
+                        child: SvgPicture.asset(
+                          "assets/new_icons/Close_Icon.svg",
+                          height: 28,
+                        ),
+                      ),
+
+
+                    ],
+                  ),
+                ),
+
+                /// add title widget
+                Container(
+                  margin:
+                  EdgeInsets.symmetric(horizontal: 40.w,),
+                  padding:
+                  EdgeInsets.only(left: 6.w, top: 6.h, bottom: 6.h),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Color(0xff363434).withOpacity(0.2)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AvatarForLive(
+                          radius: 30.sp,
+                          isOnline: true,
+                          customRingColor: mainBlueColor,
+                          onlyView: false,
+                          pictureUrl:
+                          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
+                      widthBox(10.w),
+                      Container(
+                        padding: EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                          Text(
+                            "Add Title",
+                            style: TextStyle(
+                                fontSize: 16.sp,
+                                fontFamily: 'PNfont',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                            widthBox(5.w),
+                            SvgPicture.asset(
+                              "assets/new_icons/Write_title.svg",
+                              fit: BoxFit.contain,
+                              width: 20,
+                            )
+                            // TextField(
+                            //   style: TextStyle(
+                            //     fontSize: 18.sp,
+                            //     fontFamily: 'PNfont',
+                            //     // color: Colors.white,
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            //   decoration: InputDecoration(
+                            //     border: InputBorder.none, // Remove borders
+                            //     enabledBorder: InputBorder.none, // Remove borders
+                            //     focusedBorder: InputBorder.none, // Remove borders
+                            //     hintText: "Add Title", // Placeholder text
+                            //     hintStyle: TextStyle(
+                            //       fontSize: 18.sp,
+                            //       fontFamily: 'PNfont',
+                            //       color: Colors.white.withOpacity(0.5), // Placeholder text color
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                heightBox(10.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.w,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /// Add topic
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5.w, vertical: 6.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: Color(0xff363434).withOpacity(0.2)),
                           child: Row(
                             children: [
-                              InkWell(
-                                  onTap: () => Navigator.of(context).pop(),
-                                  child: SvgPicture.asset(
-                                      "assets/live_create/Whiteboards.svg",
-                                      height: 30)),
-                              SizedBox(
-                                width: 10.w,
+                              SvgPicture.asset(
+                                'assets/new_icons/Goal.svg',
+                                height: 20,
                               ),
+                              widthBox( 15),
                               Text(
-                                "Create Live",
+                                "Add Topic",
                                 style: TextStyle(
-                                    fontSize: 18.sp,
+                                    fontSize: 13.sp,
                                     fontFamily: 'PNfont',
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              )
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              widthBox( 10),
                             ],
                           ),
                         ),
-
-                        /// add title widget
-                        Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFdbdbdb).withOpacity(0.5)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AvatarForLive(
-                                  radius: 30.sp,
-                                  isOnline: true,
-                                  customRingColor: mainBlueColor,
-                                  pictureUrl:
-                                      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
-                              widthBox(10.w),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.h),
-                                child: Text(
-                                  "Add Title",
-                                  style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontFamily: 'PNfont',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-
-                        Padding(
+                      ),
+                      heightBox(10.h),
+                      /// Add topic
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 20.w,
-                          ),
+                              horizontal: 10.w, vertical: 6.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: Color(0xff363434).withOpacity(0.2)),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              /// Add topic
-                              InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 25.w, vertical: 10.h),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0xFFdbdbdb).withOpacity(0.5)),
-                                  child: Text(
-                                    "Add Topic",
-                                    style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontFamily: 'PNfont',
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
+                              SvgPicture.asset(
+                                'assets/new_icons/Goal.svg',
+                                height: 20,
                               ),
-
-                              /// Add topic
-                              InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 30.w, vertical: 10.h),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0xFFdbdbdb).withOpacity(0.5)),
-                                  child: Text(
-                                    "Add a LIVE goal",
-                                    style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontFamily: 'PNfont',
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
+                              widthBox( 15),
+                              Text(
+                                "Add a LIVE goal",
+                                style: TextStyle(
+                                    fontSize: 13.sp,
+                                    fontFamily: 'PNfont',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
                               ),
+                              widthBox( 10),
                             ],
                           ),
                         ),
-                        heightBox(200.h),
+                      ),
+                    ],
+                  ),
+                ),
+                heightBox(260.h),
 
-                        /// option buttons
-                        Wrap(
+                /// option buttons
+                Wrap(
+                  children: [
+                    Column(
+                      children: [
+                        Row(
                           children: [
+                            widthBox(60.w),
                             LiveOptionButton(
                                 title: "Flip",
-                                icon: "assets/live_create/Whiteboards.svg",
+                                iconSize: 48,
+                                icon: "assets/new_icons/Flip.svg",
                                 btnClick: () async {
                                   startCamera();
                                 }),
-                            LiveOptionButton(
-                                title: "Setting",
-                                icon: "assets/live_create/Whiteboards.svg",
-                                btnClick: () {}),
-                            LiveOptionButton(
-                                title: "Share",
-                                icon: "assets/live_create/Whiteboards.svg",
-                                btnClick: () {}),
+                            widthBox(25.w),
                             LiveOptionButton(
                                 title: "Poll",
-                                icon: "assets/live_create/Whiteboards.svg",
+                                iconSize: 52,
+                                icon: "assets/new_icons/Add_poll.svg",
                                 btnClick: () {}),
+                            widthBox(25.w),
                             LiveOptionButton(
                                 title: "Product",
-                                icon: "assets/live_create/Whiteboards.svg",
+                                iconSize: 50,
+                                hieght: 9,
+                                icon: "assets/new_icons/Add_Producat.svg",
                                 btnClick: () {}),
-                            LiveOptionButton(
-                                title: "Live Center",
-                                icon: "assets/live_create/Whiteboards.svg",
-                                btnClick: () {}),
+                            widthBox(25.w),
                             LiveOptionButton(
                                 title: "Link",
-                                icon: "assets/live_create/Whiteboards.svg",
+                                iconSize: 34,
+                                hieght: 20,
+                                icon: "assets/new_icons/Add_Link.svg",
                                 btnClick: () {}),
                           ],
                         ),
-                        heightBox(10.h),
-                        DefaultButton(
-                            backColor: Color(0xFFF22E52),
-                            width: 250.w,
-                            height: 50.h,
-                            radius: 15,
-                            text: "Go Live",
-                            onClick: () {
-                              createLiveCubit.createLive();
-                            }),
+                        heightBox(12.h),
+                        Row(
+                          children: [
+                            widthBox(65.w),
+                            LiveOptionButton(
+                                title: "Share",
+                                iconSize: 25,
+                                hieght: 15,
+                                icon: "assets/new_icons/Share_icon_white.svg",
+                                btnClick: () {}),
+                            widthBox(25.w),
+                            LiveOptionButton(
+                                title: "Setting",
+                                iconSize: 35,
+                                hieght: 22,
+                                icon: "assets/new_icons/Device_Camera.svg",
+                                btnClick: () {}),
+                            widthBox(15.w),
+                            LiveOptionButton(
+                                title: "Live Center",
+                                iconSize: 25,
+                                hieght: 15,
+                                icon: "assets/new_icons/home-wifi-svgrepo-com.svg",
+                                btnClick: () {}),
+                          ],
+                        ),
                       ],
+                    ),
+                  ],
+                ),
+                heightBox(15.h),
+                DefaultButton(
+                    borderColor: Color(0xFFF22E52),
+                    backColor: Color(0xFFF22E52),
+                    width: 250.w,
+                    height: 50.h,
+                    radius: 30,
+                    text: "Go Live",
+                    onClick: () {
+                      createLiveCubit.createLive();
+                    }),
+                heightBox(15.h),
+                Wrap(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          widthBox(60.w),
+                          LiveOptionButtonExtra(
+                              title: "Voice hub",
+                              iconSize: 20,
+                              // width: 15,
+                              icon: "assets/new_icons/voice-square-svgrepo-com.svg",
+                              btnClick: () {}),
+                          widthBox(40.w),
+                          LiveOptionButtonExtra(
+                              title: "Device camera",
+                              iconSize: 20,
+                              // width: 15,
+                              icon: "assets/new_icons/Device_Camera.svg",
+                              btnClick: () {}),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                // Container(
+                //   padding: EdgeInsets.only(left: 50),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       LiveOptionButtonExtra(
+                //           title: "Voice hub",
+                //           iconSize: 25,
+                //           // width: 15,
+                //           icon: "assets/new_icons/voice-square-svgrepo-com.svg",
+                //           btnClick: () {}),
+                //       LiveOptionButtonExtra(
+                //           title: "Device camera",
+                //           iconSize: 25,
+                //           // width: 15,
+                //           icon: "assets/new_icons/Device_Camera.svg",
+                //           btnClick: () {}),
+                //     ],
+                //   ),
+                // ),
+              ],
             ),
           ],
         ),
@@ -386,4 +550,5 @@ class _CreateLivePageState extends State<CreateLivePage> {
       ),
     );
   }
-  }
+}
+

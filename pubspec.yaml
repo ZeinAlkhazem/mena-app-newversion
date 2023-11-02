@@ -111,6 +111,7 @@ dependencies:
   # flutter_quill: 
   package_info_plus: ^3.1.2
   camera: ^0.9.7+1
+  get:
 
 dev_dependencies:
   flutter_test:

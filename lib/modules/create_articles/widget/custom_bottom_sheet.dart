@@ -7,10 +7,10 @@ class CustomBottomSheet extends StatelessWidget {
   const CustomBottomSheet(
       {super.key,
       required this.height,
-      required this.selectText,
+     this.selectText,
       required this.valueWidget});
   final double height;
-  final String selectText;
+  final String? selectText;
   final Widget valueWidget;
   @override
   Widget build(BuildContext context) {
@@ -23,27 +23,27 @@ class CustomBottomSheet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: GestureDetector(
-              onTap: () {
-                // Get.back();
-              },
-              child: Container(
-                width: 110,
-                height: 37,
-                decoration: BoxDecoration(
-                  borderRadius:
-                      const BorderRadius.vertical(bottom: Radius.circular(15)),
-                  // color: AppColors.secondaryBlack,
-                ),
-                child: Icon(
-                  Icons.keyboard_arrow_down_sharp,
-                  // color: AppColors.white,
-                  size: 40,
-                ),
-              ),
-            ),
-          ),
+          // Center(
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       // Get.back();
+          //     },
+          //     child: Container(
+          //       width: 110,
+          //       height: 37,
+          //       decoration: BoxDecoration(
+          //         borderRadius:
+          //             const BorderRadius.vertical(bottom: Radius.circular(15)),
+          //         // color: AppColors.secondaryBlack,
+          //       ),
+          //       child: Icon(
+          //         Icons.keyboard_arrow_down_sharp,
+          //         // color: AppColors.white,
+          //         size: 40,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(
             height: 25,
           ),
@@ -53,7 +53,7 @@ class CustomBottomSheet extends StatelessWidget {
               //   width: AppDimensions.screenWidth(context) * 0.12,
               // ),
               Text(
-                selectText,
+                selectText??'',
                 style: Theme.of(context).textTheme.displayLarge!.copyWith(
                     // color: AppColors.secondaryBlack,
                     fontSize: 18,

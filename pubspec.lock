@@ -133,17 +133,10 @@ packages:
     dependency: transitive
     description:
       name: camera_avfoundation
-<<<<<<< HEAD
-      sha256: "9495e633cda700717bbe299b0979e6c4a08cee45f298945973dc9cf3e4c1cba5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.9.13+6"
-=======
       sha256: "3b6d9f550cfd658c71f34a99509528501e5e5d4fa79f11e3a4d6ef380d8e0254"
       url: "https://pub.dev"
     source: hosted
     version: "0.9.13+7"
->>>>>>> d83871d0d24700b03991274a44161aed06c6e34b
   camera_platform_interface:
     dependency: transitive
     description:
@@ -852,6 +845,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.3"
+  get:
+    dependency: "direct main"
+    description:
+      name: get
+      sha256: e4e7335ede17452b391ed3b2ede016545706c01a02292a6c97619705e7d2a85e
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.6.6"
   google_api_headers:
     dependency: transitive
     description:

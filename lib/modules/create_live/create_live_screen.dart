@@ -4,11 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/modules/create_live/cubit/create_live_cubit.dart';
 import 'package:mena/modules/create_live/widget/avatar_for_live.dart';
 import 'package:mena/modules/create_live/widget/live_option_button.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
+import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
+import 'package:mena/modules/live_screens/live_screen.dart';
+import 'package:mena/modules/live_screens/start_live_form.dart';
+import 'package:mena/modules/start_live/start_live_page.dart';
 
 class CreateLivePage extends StatefulWidget {
   const CreateLivePage({super.key});
@@ -18,13 +23,21 @@ class CreateLivePage extends StatefulWidget {
 }
 
 class _CreateLivePageState extends State<CreateLivePage> {
-
   bool isCameraReady = false;
   Future<void>? _initializeControllerFuture;
   bool isBack = false;
   late List<CameraDescription> cameras;
+
   late  CameraController _controller;
+
   Future<void>? camerasValue;
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController goalController = TextEditingController();
+  TextEditingController topicController = TextEditingController();
+  TextEditingController publishedDateCont = TextEditingController();
+  TextEditingController timeCont = TextEditingController();
+  TextEditingController pickedThumbCont = TextEditingController();
 
   @override
   void initState() {
@@ -32,7 +45,8 @@ class _CreateLivePageState extends State<CreateLivePage> {
     startCamera();
     // _initializeCamera();
   }
-  void startCamera() async{
+
+  void startCamera() async {
     cameras = await availableCameras();
     if (isBack) {
       isBack = false;
@@ -40,7 +54,9 @@ class _CreateLivePageState extends State<CreateLivePage> {
       isBack = true;
     }
     final firstCamera = isBack ? cameras.last : cameras.first;
+
     if(cameras != null){
+
       _controller = CameraController(firstCamera, ResolutionPreset.max);
       //cameras[0] = first camera, change to 1 to another camera
 
@@ -50,46 +66,22 @@ class _CreateLivePageState extends State<CreateLivePage> {
         }
         setState(() {});
       });
-    }else{
+    } else {
       print("NO any camera found");
     }
-
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }
-  // Future<void> _initializeCamera() async {
-  //   if (isBack) {
-  //     isBack = false;
-  //   } else {
-  //     isBack = true;
-  //   }
-
-  //   setState(() {
-  //     isCameraReady = false;
-  //   });
-
-
-
-  //   // final firstCamera = isBack ? cameras.first : cameras.last;
-  //   // logg('firstCamera ${firstCamera}');
-  //   // setState(() {
-  //   //   _controller = CameraController(firstCamera, RelutionPreset.ultraHigh);
-  //   //   _initializeControllerFuture = _controller!.initialize();
-  //   // });
-
-
-
-  // }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       camerasValue == null
-          ? camerasValue = _controller!.initialize()
+          ? camerasValue = _controller.initialize()
           : null; //on pause camera is disposed, so we need to call again "issue is only for android"
     }
   }
@@ -98,7 +90,9 @@ class _CreateLivePageState extends State<CreateLivePage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final deviceRatio = size.width / size.height;
-
+    var liveCubit = LiveCubit.get(context);
+    // liveCubit.changeSelectedStartLiveCat(liveCubit.nowLiveCategoriesModel!.liveCategories[0].id.toString());
+    liveCubit.updateThumbnailFile(null);
     var createLiveCubit = CreateLiveCubit.get(context)
       ..toggleAutoValidate(false);
 
@@ -110,14 +104,17 @@ class _CreateLivePageState extends State<CreateLivePage> {
           children: [
             camerasValue != null
                 ? CameraPreview(
-              _controller,
-            )
+
+                    _controller,
+                  )
+
                 : Center(child: CircularProgressIndicator()),
             Column(
               children: [
                 /// create live widget
                 Container(
                   padding:
+
                   EdgeInsets.symmetric(horizontal: 15.h, vertical: 20.w),
                   child: Row(
                     children: [
@@ -164,6 +161,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           height: 28,
                         ),
                       ),
+
 
                     ],
                   ),
@@ -236,6 +234,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
 
                 Padding(
                   padding: EdgeInsets.symmetric(
+
                     horizontal: 40.w,
                   ),
                   child: Row(
@@ -544,3 +543,4 @@ class _CreateLivePageState extends State<CreateLivePage> {
     );
   }
 }
+

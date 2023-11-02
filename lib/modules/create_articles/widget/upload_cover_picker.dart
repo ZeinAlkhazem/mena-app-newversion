@@ -46,7 +46,7 @@ class _AddServiceImagePickerState extends State<AddServiceImagePicker> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                getTranslatedStrings(context).pickImagesVideos,
+                                "Pick Image",
                                 style: mainStyle(context, 14,
                                     color: newDarkGreyColor, isBold: true),
                               ),
@@ -69,8 +69,7 @@ class _AddServiceImagePickerState extends State<AddServiceImagePicker> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              getTranslatedStrings(context)
-                                                  .images,
+                                              "Gallery",
                                               style: mainStyle(context, 13,
                                                   color: newDarkGreyColor,
                                                   isBold: true),

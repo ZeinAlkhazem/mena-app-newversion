@@ -17,6 +17,7 @@ import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/modules/auth_screens/sign_in_screen.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
+import 'package:mena/modules/live_screens/watcher_screen.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -312,17 +313,7 @@ class LiveProfileBubble extends StatelessWidget {
                     ? null
                     : navigateToWithoutNavBar(
                         context,
-                        LivePage(
-                          liveID: liveId!,
-                          isHost: false,
-                          liveTitle: liveTitle,
-                          liveGoal: liveGoal,
-                          liveTopic: liveTopic,
-
-                          /// audience false
-                          /// true for host
-                          /// this will change the layout view behaviour
-                        ),
+                        WatcherScreen(),
                         '', onBackToScreen: () {
                         logg('khgkajscn');
 
@@ -821,22 +812,12 @@ class LiveContainerLiveNow extends StatelessWidget {
       onTap: () {
         navigateToWithoutNavBar(
           context,
-          LivePage(
-            liveID: liveItem.id.toString(),
-            isHost: liveItem.isCoHost ?? false,
-            liveTitle: liveItem.title ?? '',
-            liveGoal: liveItem.goal ?? '',
-            liveTopic: liveItem.topic ?? '',
-
-            /// audience false
-            /// true for host
-            /// this will change the layout view behaviour
-          ),
+         WatcherScreen(),
           '',
           onBackToScreen: () {
             logg('ksahfkjlsnkxl');
-            ScreenUtil.init(context,
-                designSize: const Size(360, 770), splitScreenMode: true);
+            // ScreenUtil.init(context,
+            //     designSize: const Size(360, 770), splitScreenMode: true);
           },
         );
       },

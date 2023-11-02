@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:like_button/like_button.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mena/core/main_cubit/main_cubit.dart';
+import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/start_live/widget/comments_live_list.dart';
 import 'package:mena/modules/start_live/widget/header_live_screen.dart';
 import 'package:mena/modules/start_live/widget/live_message_inputfield.dart';
@@ -33,6 +35,29 @@ class _StartLivePageState extends State<StartLivePage>
     animationController.duration = const Duration(milliseconds: 1500);
 
     animationController.forward();
+    MainCubit mainCubit = MainCubit.get(context);
+    LiveCubit liveCubit = LiveCubit.get(context);
+    String roomId = liveCubit.goLiveModel!.data.roomId.toString();
+    Map<String,dynamic> data = {
+            'type': 'join',
+            'username': 'ZainTest',
+            'meetingId': roomId,
+            'moderator': true,
+            'watch': true
+    };
+    mainCubit.sendMessage(data);
+
+     mainCubit.sendMessage({
+            'type': 'checkMeeting',
+            'username': 'ZainTest',
+            'meetingId': roomId,
+            'moderator': true,
+            'authMode': 'disabled',
+            'moderatorRights': 'disabled',
+            'watch': true,
+            'micMuted': false,
+            'videoMuted': false,
+        });
   }
 
   @override
@@ -62,14 +87,14 @@ class _StartLivePageState extends State<StartLivePage>
             Visibility(
                 visible: !keyboardVisible, child: const HeaderLiveScreen()),
             const Spacer(),
-            BlocConsumer<StartLiveCubit, StartLiveState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                return startLiveCubit.isLivePaused
-                    ? const PausedLive()
-                    : const SizedBox();
-              },
-            ),
+            // BlocConsumer<StartLiveCubit, StartLiveState>(
+            //   listener: (context, state) {},
+            //   builder: (context, state) {
+            //     return startLiveCubit.isLivePaused
+            //         ? const PausedLive()
+            //         : const SizedBox();
+            //   },
+            // ),
             const Spacer(),
             BlocConsumer<StartLiveCubit, StartLiveState>(
               listener: (context, state) {},

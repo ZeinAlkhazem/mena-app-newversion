@@ -175,6 +175,8 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => MainCubit()),
         BlocProvider(create: (BuildContext context) => ChildsCubit()),
         BlocProvider(create: (BuildContext context) => MessengerCubit()),
+        BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
+        
         BlocProvider(create: (BuildContext context) => LiveCubit()),
         BlocProvider(create: (BuildContext context) => PromotionsCubit()),
         BlocProvider(create: (BuildContext context) => AuthCubit()),

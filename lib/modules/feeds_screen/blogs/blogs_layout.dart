@@ -285,6 +285,7 @@ class BannersSection extends StatelessWidget {
             scrollPhysics: ClampingScrollPhysics(),
           ),
         ),
+
       //   options: CarouselOptions(
       //     autoPlay: false,
       //     reverse: false,

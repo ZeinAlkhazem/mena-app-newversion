@@ -329,7 +329,7 @@ class LiveCubit extends Cubit<LiveState> {
     Map<String, dynamic> toSendData = {
       'title': title,
       'goal': goal,
-      'topic': topic,
+      'topic_id': 2,
       'live_now_category_id': 5,
     };
     if (thumbnailFile != null) {

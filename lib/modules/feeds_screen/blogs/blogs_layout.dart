@@ -46,16 +46,17 @@ class _BlogsLayoutState extends State<BlogsLayout> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56.0.h),
-        child:  DefaultBackTitleAppBar(
+        child: DefaultBackTitleAppBar(
           // title: 'Blogs',
 
-          customTitleWidget: Center( child:Text(
-            'Blogs',
-            style: mainStyle(context, 14, weight: FontWeight.w400, color: Colors.black, isBold: true),
-
-
-          ),),
-          suffix:  Padding(
+          customTitleWidget: Center(
+            child: Text(
+              'Blogs',
+              style: mainStyle(context, 14,
+                  weight: FontWeight.w400, color: Colors.black, isBold: true),
+            ),
+          ),
+          suffix: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: GestureDetector(
               onTap: () => Navigator.pop(context),
@@ -74,7 +75,6 @@ class _BlogsLayoutState extends State<BlogsLayout> {
           ),
         ),
       ),
-
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 50),
         child: IconButton(
@@ -85,9 +85,7 @@ class _BlogsLayoutState extends State<BlogsLayout> {
               height: 30,
             ),
           ),
-          onPressed: () {
-
-          },
+          onPressed: () {},
         ),
       ),
       body: BlocConsumer<FeedsCubit, FeedsState>(
@@ -118,15 +116,16 @@ class BlogsHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-
         child: Column(
           children: [
             if (blogsInfoModel.data.banners.isNotEmpty)
               BannersSection(banners: blogsInfoModel.data.banners),
             if (blogsInfoModel.data.categories.isNotEmpty)
-              BlogsCategoriesSection(categories: blogsInfoModel.data.categories),
+              BlogsCategoriesSection(
+                  categories: blogsInfoModel.data.categories),
             if (blogsInfoModel.data.topArticles.isNotEmpty)
-              BlogsTopArticlesSection(articles: blogsInfoModel.data.topArticles),
+              BlogsTopArticlesSection(
+                  articles: blogsInfoModel.data.topArticles),
           ],
         ),
       ),
@@ -157,7 +156,8 @@ class BlogsTopArticlesSection extends StatelessWidget {
           heightBox(10.h),
           ListView.separated(
             physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => ArticleCard(article: articles[index]),
+            itemBuilder: (context, index) =>
+                ArticleCard(article: articles[index]),
             separatorBuilder: (context, index) => heightBox(7.h),
             shrinkWrap: true,
             itemCount: articles.length,
@@ -206,17 +206,16 @@ class ArticleCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                  FittedBox(
-                    child: SizedBox(
-
-                      width: 344,
+                      FittedBox(
+                        child: SizedBox(
+                          width: 344,
                           child: Text(
                             article.title,
                             maxLines: 2,
                             style: mainStyle(context, 14, isBold: true),
                           ),
                         ),
-                  ),
+                      ),
                       heightBox(7.h),
                       // BlogItemHeader(
                       //   article: article,
@@ -224,17 +223,14 @@ class ArticleCard extends StatelessWidget {
                       //
                       // ),
 
-                      BlogActionBar(
-                        article:article
-                      ),
-
-
+                      BlogActionBar(article: article),
 
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Text(
                           getFormattedDate(article.createdAt),
-                          style: mainStyle(context, 11, color: newDarkGreyColor),
+                          style:
+                              mainStyle(context, 11, color: newDarkGreyColor),
                         ),
                       )
                       // DefaultSoftButton(
@@ -242,7 +238,6 @@ class ArticleCard extends StatelessWidget {
                       // ),
                     ],
                   ),
-
                 ],
               ),
             ],
@@ -293,7 +288,9 @@ class BlogsCategoriesSection extends StatelessWidget {
                       },
                       child: Column(
                         children: [
-                          Expanded(child: DefaultImageFadeInOrSvg(backGroundImageUrl: e.image)),
+                          Expanded(
+                              child: DefaultImageFadeInOrSvg(
+                                  backGroundImageUrl: e.image)),
                           Text(e.title ?? ''),
                         ],
                       ),
@@ -316,7 +313,6 @@ class BannersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: SizedBox(
@@ -325,7 +321,9 @@ class BannersSection extends StatelessWidget {
         child: CarouselSlider.builder(
           itemCount: banners.length,
           // carouselController: carouselController,
-          itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
+          itemBuilder:
+              (BuildContext context, int itemIndex, int pageViewIndex) =>
+                  GestureDetector(
             onTap: () {
               // navigateToWithoutNavBar(
               //     context,
@@ -352,11 +350,9 @@ class BannersSection extends StatelessWidget {
             aspectRatio: 1,
             initialPage: 1,
             scrollPhysics: ClampingScrollPhysics(),
-
-
-    )
-    )
-    )
+          ),
+        ),
+      ),
     );
   }
 }

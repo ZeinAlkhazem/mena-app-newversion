@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+
 import 'package:mena/core/constants/Colors.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../cubit/messenger_cubit.dart';
+
+
 
 class MessengerChatScreen extends StatelessWidget {
   const MessengerChatScreen({super.key});
@@ -15,6 +18,7 @@ class MessengerChatScreen extends StatelessWidget {
     var messengerCubit = MessengerCubit.get(context);
     return BlocConsumer<MessengerCubit, MessengerState>(
         listener: (context, state) {
+
       // TODO: implement listener
     }, builder: (context, state) {
       return Column(
@@ -69,4 +73,7 @@ class MessengerChatScreen extends StatelessWidget {
       );
     });
   }
+          // TODO: implement listener
+
 }
+

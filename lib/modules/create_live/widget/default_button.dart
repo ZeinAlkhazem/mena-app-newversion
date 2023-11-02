@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
 
-class DefaultButton extends StatelessWidget {
-  const DefaultButton({
+class DefaultButtonLive extends StatelessWidget {
+  const DefaultButtonLive({
     Key? key,
     required this.text,
     required this.onClick,

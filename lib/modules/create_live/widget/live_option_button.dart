@@ -8,10 +8,12 @@ class LiveOptionButton extends StatelessWidget {
   final String title;
   final VoidCallback btnClick;
   final double iconSize;
+  final double hieght;
 
   const LiveOptionButton(
       {super.key,
       required this.btnClick,
+        this.hieght = 7,
         this.iconSize = 39.0,
       required this.title,
       required this.icon});
@@ -31,14 +33,14 @@ class LiveOptionButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
-            heightBox(7.h),
+            heightBox(hieght.h),
             Text(
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 12.sp,
                   fontFamily: 'PNfont',
-                  color: Colors.white,
+                  color: Colors.white.withOpacity(0.5),
                   fontWeight: FontWeight.w200),
             ),
           ],
@@ -55,11 +57,13 @@ class LiveOptionButtonExtra extends StatelessWidget {
   final String title;
   final VoidCallback btnClick;
   final double iconSize;
+  final double width;
 
   const LiveOptionButtonExtra(
       {super.key,
         required this.btnClick,
         this.iconSize = 60.0,
+        this.width = 7,
         required this.title,
         required this.icon});
 
@@ -68,29 +72,22 @@ class LiveOptionButtonExtra extends StatelessWidget {
     return InkWell(
       onTap: btnClick,
       child: Expanded(
-        // width: 40.w,
-        // height: 50.h,
-        // margin: EdgeInsets.symmetric(
-        //     horizontal: 15.w
-        // ),
-        child: Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
-              widthBox(10.w),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    fontFamily: 'PNfont',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
+            widthBox(width.h),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  fontFamily: 'PNfont',
+                  color: Colors.white.withOpacity(0.5),
+                  fontWeight: FontWeight.w200),
+            ),
+          ],
         ),
       ),
     );

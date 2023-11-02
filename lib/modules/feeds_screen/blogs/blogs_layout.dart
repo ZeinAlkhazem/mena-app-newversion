@@ -281,17 +281,7 @@ class BannersSection extends StatelessWidget {
             scrollPhysics: ClampingScrollPhysics(),
           ),
         ),
-        options: CarouselOptions(
-          autoPlay: false,
-          reverse: false,
-          height: double.maxFinite,
-          enableInfiniteScroll: false,
-          enlargeCenterPage: true,
-          viewportFraction: Responsive.isMobile(context) ? 1 : 1,
-          aspectRatio: 1,
-          initialPage: 1,
-          scrollPhysics: ClampingScrollPhysics(),
-        ),
+       
       ),
     );
   }

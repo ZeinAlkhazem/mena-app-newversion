@@ -42,7 +42,7 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
 
     setState(() {});
 
-    socket = IO.io('http://20.0.0.97:8000', {
+    socket = IO.io('https://live.menaaii.com:3000', {
       'transports': ['websocket'],
       'autoConnect': true,
     });
@@ -115,8 +115,13 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
     final Map<String, dynamic> config = {
       'iceServers': [
         {
-          "urls": "stun:stun.l.google.com:19302",
+          "urls": "stun:3.28.124.112:3478",
         },
+        {
+            "urls": "turn:3.28.124.112:3478",
+            "username": "ubuntu",
+            "credential": "\$#@ubuntu\$#@",
+        }
       ],
     };
 

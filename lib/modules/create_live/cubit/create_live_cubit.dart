@@ -237,20 +237,20 @@ class CreateLiveCubit extends Cubit<CreateLiveState> {
       'topic': target.text,
       'live_now_category_id': "1",
     };
-
+  
     try {
-      await MainDioHelper.postData(url: goLiveEnd, data: toSendData)
-          .then((value) {
-        logg('createLive');
-        logg(value.toString());
+      // await MainDioHelper.postData(url: goLiveEnd, data: toSendData)
+      //     .then((value) {
+      //   logg('createLive');
+      //   logg(value.toString());
 
-        // goLiveModel = GoLiveModel.fromJson(value.data);
-        emit(SuccessCreateLive());
-      });
+      //   // goLiveModel = GoLiveModel.fromJson(value.data);
+      //   emit(SuccessCreateLive());
+      // });
     } on DioError catch (e) {
-      print("gggggggggggggg");
-      print(e.response?.statusCode);
-      print(e.response?.data);
+      // print("gggggggggggggg ${e.response?.data}");
+      // print(e.response?.statusCode);
+      // print(e.response?.data);
     }
     // .catchError((error, stack) {
     // logg('an error occurred');

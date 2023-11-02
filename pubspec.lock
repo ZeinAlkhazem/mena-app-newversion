@@ -113,6 +113,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  camera:
+    dependency: "direct main"
+    description:
+      name: camera
+      sha256: "3ad71371b8168a4c8012c0b40a53c05afc75d46cc688b0f37b4611a841d47b25"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.8+1"
+  camera_android:
+    dependency: "direct overridden"
+    description:
+      name: camera_android
+      sha256: "58463140f1b39591b8e2155861b436abad4ceb48160058be8374164ff0309ef3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.8+13"
+  camera_avfoundation:
+    dependency: transitive
+    description:
+      name: camera_avfoundation
+      sha256: "9495e633cda700717bbe299b0979e6c4a08cee45f298945973dc9cf3e4c1cba5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.13+6"
+  camera_platform_interface:
+    dependency: transitive
+    description:
+      name: camera_platform_interface
+      sha256: "86fd4fc597c6e455265ddb5884feb352d0171ad14b9cdf3aba30da59b25738c4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.0"
+  camera_web:
+    dependency: transitive
+    description:
+      name: camera_web
+      sha256: "18cdbee5441e9a6fb129fdd9b68a06d1b8c5236932ba97d5faeaefe80db2e5bd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1+6"
   carousel_slider:
     dependency: "direct main"
     description:
@@ -189,10 +229,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: "4a07be6cb69c84d677a6c3096fcf960cc3285a8330b4603e0d463d15d9bd934c"
+      sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.1"
+    version: "1.17.2"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -341,18 +381,18 @@ packages:
     dependency: "direct main"
     description:
       name: extended_text
-      sha256: dec14c9b36d9bbaaf007da5998f5dc72a2dbd5b877601d7b7970bb42524b3ced
+      sha256: "02260234da409916f56add1dd470bc17f4b3359e94c93bf4b8e44c7439dcd536"
       url: "https://pub.dev"
     source: hosted
-    version: "11.0.1"
+    version: "11.1.0"
   extended_text_library:
     dependency: transitive
     description:
       name: extended_text_library
-      sha256: c06fbd8e3b6eedadf50cd6c109bbbd80921a6c43e4422d3b4ec9d4cb36ce4555
+      sha256: f6ae456324ff6ba3f9fe560a5c12f51ec02c5f463ef5a02bf165b678f049d547
       url: "https://pub.dev"
     source: hosted
-    version: "11.0.2"
+    version: "11.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -1169,18 +1209,18 @@ packages:
     dependency: transitive
     description:
       name: matcher
-      sha256: "6501fbd55da300384b768785b83e5ce66991266cec21af89ab9ae7f5ce1c4cbb"
+      sha256: "1803e76e6653768d64ed8ff2e1e67bea3ad4b923eb5c56a295c3e634bad5960e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.15"
+    version: "0.12.16"
   material_color_utilities:
     dependency: transitive
     description:
       name: material_color_utilities
-      sha256: d92141dc6fe1dad30722f9aa826c7fbc896d021d792f80678280601aff8cf724
+      sha256: "9528f2f296073ff54cb9fee677df673ace1218163c3bc7628093e7eed5203d41"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.5.0"
   meta:
     dependency: transitive
     description:
@@ -1441,10 +1481,10 @@ packages:
     dependency: transitive
     description:
       name: pointer_interceptor
-      sha256: acfcd63c00ec3d5a7894b0e2a875893716d31958fe03f064734dba7dfd9113d9
+      sha256: "7626e034489820fd599380d2bb4d3f4a0a5e3529370b62bfce53ab736b91adb2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3+5"
+    version: "0.9.3+6"
   pointycastle:
     dependency: transitive
     description:
@@ -1493,6 +1533,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  quill_html_editor:
+    dependency: "direct main"
+    description:
+      name: quill_html_editor
+      sha256: "16d09a35742aaa0059c1a332ab2cef4570c22053495d1b9dafd9d2573b837d94"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.9"
   quiver:
     dependency: transitive
     description:
@@ -1646,10 +1694,10 @@ packages:
     dependency: transitive
     description:
       name: source_span
-      sha256: dd904f795d4b4f3b870833847c461801f6750a9fa8e61ea5ac53f9422b31f250
+      sha256: "53e943d4206a5e30df338fd4c6e7a077e02254531b138a15aec3bd143c1a8b3c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.1"
+    version: "1.10.0"
   spinner_date_time_picker:
     dependency: "direct main"
     description:
@@ -1798,10 +1846,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: eb6ac1540b26de412b3403a163d919ba86f6a973fe6cc50ae3541b80092fdcfb
+      sha256: "75760ffd7786fffdfb9597c35c5b27eaeec82be8edfb6d71d32651128ed7aab8"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.6.0"
   transparent_image:
     dependency: "direct main"
     description:
@@ -2010,6 +2058,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1"
+  web:
+    dependency: transitive
+    description:
+      name: web
+      sha256: dc8ccd225a2005c1be616fe02951e2e342092edf968cf0844220383757ef8f10
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4-beta"
   webrtc_interface:
     dependency: transitive
     description:

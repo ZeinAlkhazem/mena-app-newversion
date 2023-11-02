@@ -8,6 +8,7 @@ import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import '../../core/main_cubit/main_cubit.dart';
 import '../../core/network/network_constants.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class LivePage extends StatefulWidget {
   final String liveID;
@@ -15,7 +16,6 @@ class LivePage extends StatefulWidget {
   final String liveGoal;
   final String liveTopic;
   final bool isHost;
-
 
   const LivePage({
     Key? key,
@@ -31,11 +31,53 @@ class LivePage extends StatefulWidget {
 }
 
 class _LivePageState extends State<LivePage> {
+  
+
+  @override
+  void initState() {
+    super.initState();
+    logg('asdasdasdasd');
+    connectToSocket();
+  }
+ void connectToSocket() {
+     // Replace 'https://your_socket_server_url' with the URL of your Socket.IO server.
+     final socket = io.io('https://live.menaaii.com:3000', <String, dynamic>{
+       'transports': ['websocket'],
+       'autoConnect': true,
+     });
+
+     socket.connect();
+
+     socket.onConnect((_) {
+       print('Connected to the socket server');
+     });
+     socket.onError((data) {
+      print('errorsssss   : ${data}');
+     });
+
+     socket.onDisconnect((_) {
+       print('Disconnected from the socket server');
+     });
+
+     socket.on('message', (data) {
+       print('Received message: $data');
+     });
+
+     // Add more event listeners and functionality as needed.
+
+     // To send a message to the server, use:
+     // socket.emit('eventName', 'message data');
+   }
+ 
+
   @override
   Widget build(BuildContext context) {
     var liveCubit = LiveCubit.get(context);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.red,
+      body: Center(
+        child: LiveTitleWidget(text:"test"),
+      )
     );
   }
 }

@@ -72,8 +72,8 @@ class BlogBanner {
   factory BlogBanner.fromJson(Map<String, dynamic> json) => BlogBanner(
     id: json["id"],
     image: json["image"],
-    platformId: json["platform_id"],
-    articleBlogId: json["blog_id"],
+    platformId: json["platform_id"].toString(),
+    articleBlogId: json["blog_id"].toString(),
     title: json["title"],
   );
 
@@ -115,8 +115,8 @@ class MenaArticle {
     banner: json["banner"],
     title: json["title"],
     content: json["content"],
-    categoryId: json["category_id"],
-    providerId: json["provider_id"],
+    categoryId: json["category_id"].toString(),
+    providerId: json["provider_id"].toString(),
     category: BlogBanner.fromJson(json["category"]),
     provider: 
     json["provider"] != null ?

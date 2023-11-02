@@ -3,18 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mena/modules/messenger/screens/messenger_get_start_page.dart';
 import 'package:mena/modules/messenger/widget/messenger_chat_screen.dart';
-import 'package:mena/modules/messenger/widget/messenger_empty_widget.dart';
 import 'package:mena/modules/messenger/widget/tab_item_widget.dart';
-import '../../core/constants/Colors.dart';
-import '../../core/constants/constants.dart';
-import '../../core/functions/main_funcs.dart';
-import '../../core/main_cubit/main_cubit.dart';
-import '../../core/shared_widgets/shared_widgets.dart';
-import 'cubit/messenger_cubit.dart';
-import 'messenger_layout.dart';
-import 'users_to_start_chat.dart';
-import 'widget/icon_button_widget.dart';
+import '../../../core/constants/Colors.dart';
+import '../../../core/constants/constants.dart';
+import '../../../core/functions/main_funcs.dart';
+import '../../../core/main_cubit/main_cubit.dart';
+import '../../../core/shared_widgets/shared_widgets.dart';
+import '../cubit/messenger_cubit.dart';
+import '../messenger_layout.dart';
+import '../users_to_start_chat.dart';
+import '../widget/icon_button_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class MessengerHomePage extends StatefulWidget {
@@ -94,37 +94,18 @@ class _MessengerHomePageState extends State<MessengerHomePage>
     return BlocConsumer<MessengerCubit, MessengerState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return
-            //   MessengerEmptyWidget(
-            //   title: getTranslatedStrings(context)
-            //       .welcomeToMenaMessenger,
-            //   description: getTranslatedStrings(context)
-            //       .startMessagingWithProvidersClients,
-            //   imageUrl:
-            //   "assets/icons/messenger/icon_mena_messenger_colors.svg",
-            //   btnClick: () {
-            //     navigateTo(context, UsersToStartChatLayout());
-            //   },
-            // );
+        return Scaffold(
+          body:
 
-            Scaffold(
-          body: messengerCubit.myMessagesModel == null
-              ? DefaultLoaderGrey()
-              : messengerCubit.myMessagesModel!.data.myChats == null
-                  ? DefaultLoaderGrey()
-                  : messengerCubit.myMessagesModel!.data.myChats!.isEmpty
-                      ? MessengerEmptyWidget(
-                          title: getTranslatedStrings(context)
-                              .welcomeToMenaMessenger,
-                          description: getTranslatedStrings(context)
-                              .startMessagingWithProvidersClients,
-                          imageUrl:
-                              "assets/icons/messenger/icon_mena_messenger_colors.svg",
-                          btnClick: () {
-                            navigateTo(context, UsersToStartChatLayout());
-                          },
-                        )
-                      : DefaultTabController(
+          // messengerCubit.myMessagesModel == null
+          //     ? DefaultLoaderGrey()
+          //     : messengerCubit.myMessagesModel!.data.myChats == null
+          //         ? DefaultLoaderGrey()
+          //         : messengerCubit.myMessagesModel!.data.myChats!.isEmpty
+          //             ? MessengerGetStartPage()
+          //             :
+
+          DefaultTabController(
                           length: 4,
                           child: Scaffold(
                             backgroundColor: Colors.white,
@@ -251,40 +232,41 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                               : messengerCubit.myMessagesModel!
                                                       .data.myChats!.isEmpty
                                                   ? MessengerChatScreen()
-                                                  : Expanded(
-                                                      child: Padding(
-                                                        padding:  EdgeInsets.symmetric(
-                                                          horizontal: 10.w
-                                                        ),
-                                                        child: ListView.separated(
-                                                          shrinkWrap: true,
-                                                          padding:
-                                                              EdgeInsets.zero,
-                                                          itemBuilder:
-                                                              (context, index) {
-                                                            return MsgSummaryItem(
-                                                              chat: messengerCubit
-                                                                  .myMessagesModel!
-                                                                  .data
-                                                                  .myChats![index],
-                                                              user: messengerCubit
-                                                                  .myMessagesModel!
-                                                                  .data
-                                                                  .myChats![index]
-                                                                  .user,
-                                                            );
-                                                          },
-                                                          separatorBuilder:
-                                                              (_, i) =>
-                                                                  heightBox(5.h),
-                                                          itemCount: messengerCubit
+                                                  : Padding(
+                                                    padding: EdgeInsets
+                                                        .symmetric(
+                                                            horizontal:
+                                                                10.w),
+                                                    child:
+                                                        ListView.separated(
+                                                      shrinkWrap: true,
+                                                      padding:
+                                                          EdgeInsets.zero,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return MsgSummaryItem(
+                                                          chat: messengerCubit
                                                               .myMessagesModel!
                                                               .data
-                                                              .myChats!
-                                                              .length,
-                                                        ),
-                                                      ),
+                                                              .myChats![index],
+                                                          user: messengerCubit
+                                                              .myMessagesModel!
+                                                              .data
+                                                              .myChats![
+                                                                  index]
+                                                              .user,
+                                                        );
+                                                      },
+                                                      separatorBuilder: (_,
+                                                              i) =>
+                                                          heightBox(5.h),
+                                                      itemCount: messengerCubit
+                                                          .myMessagesModel!
+                                                          .data
+                                                          .myChats!
+                                                          .length,
                                                     ),
+                                                  ),
                                       Container(
                                         child: Lottie.asset(
                                           'assets/json/coming soon.json',
@@ -326,8 +308,9 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                 },
                                 child: SizedBox(
                                   child: SvgPicture.asset(
-                                    _tabController!.index == 0 ?
-                                    "assets/icons/messenger/icon_new_message.svg":"assets/icons/messenger/icon_plus_blue.svg",
+                                    _tabController!.index == 0
+                                        ? "assets/icons/messenger/icon_new_message.svg"
+                                        : "assets/icons/messenger/icon_plus_blue.svg",
                                   ),
                                 ),
                               ),

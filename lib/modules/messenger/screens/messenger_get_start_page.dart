@@ -1,26 +1,18 @@
-import 'dart:developer';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mena/modules/messenger/screens/messenger_home_page.dart';
 import '../../../core/constants/Colors.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+import '../users_to_start_chat.dart';
 
-class MessengerEmptyWidget extends StatelessWidget {
-  final String title;
-  final String description;
-  final String imageUrl;
-  final VoidCallback btnClick;
+class MessengerGetStartPage extends StatelessWidget {
 
-  const MessengerEmptyWidget(
-      {super.key,
-      required this.title,
-      required this.description,
-      required this.btnClick,
-      required this.imageUrl});
+
+  const MessengerGetStartPage(
+      {super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +28,7 @@ class MessengerEmptyWidget extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
+                  EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
                   child: SvgPicture.asset(
                     'assets/icons/back.svg',
                     color: Color(0xFF4273B8),
@@ -50,13 +42,14 @@ class MessengerEmptyWidget extends StatelessWidget {
               width: ScreenUtil().screenWidth * 0.75,
               padding: EdgeInsets.only(
                   top: 10.h, bottom: 70.h, right: 35.w, left: 35.w),
-              child: SvgPicture.asset(imageUrl, width: 50.w, height: 75.w),
+              child: SvgPicture.asset("assets/icons/messenger/icon_mena_messenger_colors.svg", width: 50.w, height: 75.w),
             ),
             heightBox(
               1.h,
             ),
             Text(
-              title,
+              getTranslatedStrings(context)
+                  .welcomeToMenaMessenger,
               style: mainStyle(context, 14.sp,
                   fontFamily: AppFonts.openSansFont,
                   weight: FontWeight.w900,
@@ -86,15 +79,15 @@ class MessengerEmptyWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _rowItemTextWidget(
-                      context: context, text:  getTranslatedStrings(context).messengerDescription2,),
+                    context: context, text:  getTranslatedStrings(context).messengerDescription2,),
                   _rowItemTextWidget(
-                      context: context,
-                      text:
-                      getTranslatedStrings(context).messengerDescription3,),
+                    context: context,
+                    text:
+                    getTranslatedStrings(context).messengerDescription3,),
                   _rowItemTextWidget(
-                      context: context,
-                      text:
-                      getTranslatedStrings(context).messengerDescription4,),
+                    context: context,
+                    text:
+                    getTranslatedStrings(context).messengerDescription4,),
                   heightBox(
                     30.h,
                   ),
@@ -112,7 +105,9 @@ class MessengerEmptyWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
                 child: InkWell(
-                  onTap: btnClick,
+                  onTap: (){
+                    navigateTo(context, MessengerHomePage());
+                  },
                   child: Container(
                     width: ScreenUtil().screenWidth * 0.9,
                     height: 45.h,
@@ -181,9 +176,9 @@ class MessengerEmptyWidget extends StatelessWidget {
                   color: AppColors.blueDarkColor,
                   fontFamily: AppFonts.openSansFont,
                 ),
-              recognizer: TapGestureRecognizer()..onTap =(){
+                recognizer: TapGestureRecognizer()..onTap =(){
 
-              }
+                }
             ),
             TextSpan(
                 text: getTranslatedStrings(context).termsOfServiceDescriptionPart2,

@@ -195,7 +195,7 @@ class LiveByCategoryItem {
         topic: json["topic"],
         duration: json["duration"].toString(),
         roomId: json["room_id"],
-        status: json["status"]!,
+        status: json["status"]!.toString(),
         isCoHost: json["is_co_host"],
         provider:
             json["provider"] == null ? null : User.fromJson(json["provider"]),

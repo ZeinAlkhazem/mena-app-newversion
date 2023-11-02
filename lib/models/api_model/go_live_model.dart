@@ -51,7 +51,7 @@ class Data {
   String topic;
   int duration;
   String roomId;
-  String status;
+  int status;
   User provider;
   DateTime createdAt;
 
@@ -61,7 +61,7 @@ class Data {
     title: json["title"],
     goal: json["goal"],
     topic: json["topic"],
-    duration: json["duration"],
+    duration: 60,
     roomId: json["room_id"],
     status: json["status"],
     provider: User.fromJson(json["provider"]),

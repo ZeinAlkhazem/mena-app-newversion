@@ -41,12 +41,15 @@ class _BlogsLayoutState extends State<BlogsLayout> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56.0.h),
-        child:  DefaultBackTitleAppBar(
+        child: DefaultBackTitleAppBar(
           // title: 'Blogs',
-          customTitleWidget: Center( child:Text(
-            'Blogs',
-            style: mainStyle(context, 11, weight: FontWeight.w400, color: Colors.black, isBold: true),
-          ),),
+          customTitleWidget: Center(
+            child: Text(
+              'Blogs',
+              style: mainStyle(context, 11,
+                  weight: FontWeight.w400, color: Colors.black, isBold: true),
+            ),
+          ),
         ),
       ),
       body: BlocConsumer<FeedsCubit, FeedsState>(
@@ -82,9 +85,11 @@ class BlogsHome extends StatelessWidget {
             if (blogsInfoModel.data.banners.isNotEmpty)
               BannersSection(banners: blogsInfoModel.data.banners),
             if (blogsInfoModel.data.categories.isNotEmpty)
-              BlogsCategoriesSection(categories: blogsInfoModel.data.categories),
+              BlogsCategoriesSection(
+                  categories: blogsInfoModel.data.categories),
             if (blogsInfoModel.data.topArticles.isNotEmpty)
-              BlogsTopArticlesSection(articles: blogsInfoModel.data.topArticles),
+              BlogsTopArticlesSection(
+                  articles: blogsInfoModel.data.topArticles),
           ],
         ),
       ),
@@ -115,7 +120,8 @@ class BlogsTopArticlesSection extends StatelessWidget {
           heightBox(10.h),
           ListView.separated(
             physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => ArticleCard(article: articles[index]),
+            itemBuilder: (context, index) =>
+                ArticleCard(article: articles[index]),
             separatorBuilder: (context, index) => heightBox(7.h),
             shrinkWrap: true,
             itemCount: articles.length,
@@ -226,7 +232,9 @@ class BlogsCategoriesSection extends StatelessWidget {
                       },
                       child: Column(
                         children: [
-                          Expanded(child: DefaultImageFadeInOrSvg(backGroundImageUrl: e.image)),
+                          Expanded(
+                              child: DefaultImageFadeInOrSvg(
+                                  backGroundImageUrl: e.image)),
                           Text(e.title ?? ''),
                         ],
                       ),
@@ -257,7 +265,9 @@ class BannersSection extends StatelessWidget {
         child: CarouselSlider.builder(
           itemCount: banners.length,
           // carouselController: carouselController,
-          itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
+          itemBuilder:
+              (BuildContext context, int itemIndex, int pageViewIndex) =>
+                  GestureDetector(
             onTap: () {
               // navigateToWithoutNavBar(
               //     context,
@@ -285,9 +295,7 @@ class BannersSection extends StatelessWidget {
             scrollPhysics: ClampingScrollPhysics(),
           ),
         ),
-
       ),
-
     );
   }
 }

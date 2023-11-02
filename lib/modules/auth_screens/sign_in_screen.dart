@@ -16,7 +16,6 @@ import '../../core/shared_widgets/shared_widgets.dart';
 import '../home_screen/cubit/home_screen_cubit.dart';
 import '../main_layout/main_layout.dart';
 
-import '../messenger/messenger_layout.dart';
 import 'cubit/auth_cubit.dart';
 import 'cubit/auth_state.dart';
 
@@ -275,13 +274,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           },
                         ),
                       ),
-                      const ContinueGuestButton(),
-                      /// for test
                       // heightBox(30.h),
-                      // TextButton(onPressed: (){
-                      //   navigateTo(context, const MessengerLayout());
-                      // }, child:Text("Messenger"))
-
+                      const ContinueGuestButton(),
                     ],
                   );
                 },

@@ -47,7 +47,7 @@ class AdditionalItem {
   String name;
   String title;
   String description;
-  int required;
+  String required;
   List<String> extensions;
   String type;
   dynamic value;
@@ -56,7 +56,7 @@ class AdditionalItem {
         id: json["id"],
         name: json["name"],
         title: json["title"],
-        description: json["description"].toString(),
+        description: json["description"],
         required: json["required"],
         extensions: List<String>.from(json["extensions"].map((x) => x)),
         type: json["type"],

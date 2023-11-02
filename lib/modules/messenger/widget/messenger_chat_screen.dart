@@ -29,7 +29,9 @@ class MessengerChatScreen extends StatelessWidget {
                 child: Text(
                   "Chat",
                   style: mainStyle(
-                      context, 14.sp, isBold: true, color: primaryColor),
+                      context, 14.sp, isBold: true,
+                      // color: primaryColor
+                  ),
                 ),
               ),
 
@@ -52,7 +54,9 @@ class MessengerChatScreen extends StatelessWidget {
                       textAlign: TextAlign.justify,
                       style:
                       mainStyle(
-                          context, 10, isBold: true, color: hintTitleColor),
+                          context, 10, isBold: true,
+                          // color: hintTitleColor
+                      ),
                     ),
                   ],
                 ),

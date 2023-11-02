@@ -31,19 +31,8 @@ class MainCubit extends Cubit<MainState> {
 
   static MainCubit get(context) => BlocProvider.of(context);
 
-      
-  IO.Socket messageSocket = IO.io(
-      'https://chat.menaaii.com:3000',
-      IO.OptionBuilder().setTransports(['websocket'])
-          // for Flutter or Dart VM
-          .setExtraHeaders({
-        'foo': 'bar',
-      }) // optional
-          .build()
-  );
-  
   IO.Socket socket = IO.io(
-      'https://live.menaaii.com:3000',
+      'https://menaplatforms.com:3002',
       IO.OptionBuilder().setTransports(['websocket'])
           // for Flutter or Dart VM
           .setExtraHeaders({
@@ -469,18 +458,7 @@ class MainCubit extends Cubit<MainState> {
     /// Socket connect
     print('establishing socket connection');
     socket = await IO.io(
-
         'https://live.menaaii.com:3000',
-
-        IO.OptionBuilder().setTransports(['websocket'])
-            // for Flutter or Dart VM
-            .setExtraHeaders({
-          'foo': 'bar',
-        }) // optional
-            .build());
-      messageSocket = await IO.io(
-        'https://chat.menaaii.com:3000',
-
         IO.OptionBuilder().setTransports(['websocket'])
             // for Flutter or Dart VM
             .setExtraHeaders({
@@ -489,7 +467,7 @@ class MainCubit extends Cubit<MainState> {
             .build());
 
     ///
-    // IO.Socket socket =await IO.io('https://menaplatforms.com:3000');
+    // IO.Socket socket =await IO.io('https://menaplatforms.com:3001');
 
     logg(socket.json.connected.toString());
     socket.onConnect((_) {
@@ -510,28 +488,6 @@ class MainCubit extends Cubit<MainState> {
       print('socket: ${data.toString()}');
       getCountersData();
     });
-
-
-
-    messageSocket.onConnect((_) {
-      print('socket connection established');
-
-
-      if (userInfoModel != null) {
-        messageSocket.emit('join', [
-          {'user_id': '${userInfoModel!.data.user.id}', 'type': '${isUserProvider() ? 'provider' : 'client'}'},
-        ]);
-
-        logg('emitted');
-      }
-      messageSocket.emit('msg', 'socket test');
-    });
-
-    messageSocket.on('event', (data) => print('socket ' + data));
-    messageSocket.on('counters', (data) {
-      print('socket: ${data.toString()}');
-      getCountersData();
-    });
     // socket.on('new-message', (data) => print('socket: ' + data));
     socket.onAny((event, data) {
       print('socket: event: ' + event);
@@ -540,15 +496,7 @@ class MainCubit extends Cubit<MainState> {
 
     socket.onerror((err) => {logg('Socket error : $err')});
 
-    messageSocket.onConnectError((data) => logg(data.toString()));
-
-    messageSocket.onDisconnect((_) => print('socket disconnect'));
-
-    // socket.on
-    messageSocket.on('fromServer', (_) => print('socket ' + _));
-
-
-     socket.onConnectError((data) => logg(data.toString()));
+    socket.onConnectError((data) => logg(data.toString()));
 
     socket.onDisconnect((_) => print('socket disconnect'));
 

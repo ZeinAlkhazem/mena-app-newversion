@@ -52,7 +52,9 @@ class MessengerEmptyWidget extends StatelessWidget {
                 Text(
                   title,
                   style: mainStyle(context, 13,
-                      weight: FontWeight.w700, color: titleColor, isBold: true),
+                      weight: FontWeight.w700,
+                      // color: titleColor,
+                      isBold: true),
                 ),
                 heightBox(
                   10.h,
@@ -63,7 +65,7 @@ class MessengerEmptyWidget extends StatelessWidget {
                     description,
                     style: mainStyle(context, 10,
                         weight: FontWeight.w700,
-                        color: subTitleColor,
+                        // color: subTitleColor,
                         textHeight: 1.5),
                     textAlign: TextAlign.justify,
                   ),

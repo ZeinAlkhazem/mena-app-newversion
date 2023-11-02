@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:mena/modules/auth_screens/cubit/auth_cubit.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
@@ -32,14 +34,17 @@ import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
-import 'modules/messenger/cubit/messenger_cubit.dart';
+import 'modules/messenger/msngr_cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
 import 'modules/nearby_screen/cubit/nearby_cubit.dart';
 import 'modules/platform_provider/cubit/provider_cubit.dart';
 import 'modules/promotions_screen/cubit/promotions_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'modules/start_live/cubit/start_live_cubit.dart';
 import 'modules/tools/cubit/tools_cubit.dart';
+import 'modules/tools/e_services/e-services.dart';
+import 'modules/tools/jobs/jobs.dart';
 
 
 
@@ -60,7 +65,26 @@ void main() async {
 
   HttpOverrides.global = MyHttpOverrides();
 
+  WidgetsFlutterBinding.ensureInitialized();
+  // await initializeDateFormatting();
+  final prefs = await SharedPreferences.getInstance();
+  String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
 
+  // Get the default phone language and set it as the default language
+  Locale myLocale = WidgetsBinding.instance!.window.locale;
+  if (myLocale.languageCode == 'ar') {
+    selectedLanguage = 'Arabic';
+  } else {
+    selectedLanguage =
+    'English'; // You can set other default languages if needed
+  }
+  await prefs.setString('selectedLanguage', selectedLanguage);
+
+  HttpOverrides.global = MyHttpOverrides();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
+  await MainDioHelper.init();
   /// handle error best way
   /// init hive
   // await Hive.initFlutter();
@@ -76,7 +100,7 @@ void main() async {
   // logg('2opened box name: '+box.keys.toString());
   /// register hive adapter
   // Hive.registerAdapter(UserInfoAdapter());
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   await MainDioHelper.init();
 
@@ -85,6 +109,14 @@ void main() async {
   if (!kIsWeb) {
     ErrorWidget.builder = (FlutterErrorDetails details) {
 
+      // bool inDebug = false;
+      // assert(() {
+      //   inDebug = true;
+      //   return true;
+      // }());
+      // if (inDebug) {
+      //   return ErrorWidget(details.exception);
+      // }
 
       return SafeArea(
         child: Container(
@@ -183,8 +215,20 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
     // preCacheProcesses(context);
 
     openMyDatabase();
+    // if (!kIsWeb) {
+    //   preCacheProcesses(context);
+    //   openMyDatabase();
+    // }
     if (kIsWeb) {}
-
+    // saveCacheLocal('ar');
+    // insertIntoMyDatabase(
+    //   tableName: databaseStoredJsonTableName,
+    //   rawNameVal: 'config',
+    //   jsonVal: 'tesbdkjbsct',
+    // );
+    // readJsonValFromMyDatabase(
+    //         tableName: databaseStoredJsonTableName, rawNameVal: 'config')
+    //     .then((value) => logg('read result for config is: $value'));
     /// to reset cache uncomment
     //   clearAllCache();
     logg('saved cache local: ${getCachedLocal().toString()}');
@@ -197,16 +241,16 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: statusBarColor, // navigation bar color
-      statusBarColor: statusBarColor, // status bar color
-    ));
-
-
     return Listener(
       /// listener for un focus text form field on all application
+      // onPointerDown: (pointerEvent) {
+      //   FocusScopeNode currentFocus = FocusScope.of(context);
+      //   if (!currentFocus.hasPrimaryFocus) {
+      //     if(true) {
+      //       currentFocus.focusedChild?.unfocus();
+      //     }
+      //   }
+      // },
       child: ScreenUtilInit(
         designSize: const Size(360, 770),
         builder: (BuildContext context, Widget? child) {
@@ -237,6 +281,11 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
 
           theme: Theme.of(context).copyWith(
             appBarTheme: Theme.of(context).appBarTheme.copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+            // drawerTheme: DrawerThemeData(
+            //   scrimColor: Colors.green,
+            //   shadowColor: Colors.blue,
+            //
+            // ),
             textTheme: Theme.of(context).textTheme.apply(
               bodyColor: Colors.black,
               displayColor: Colors.blue,
@@ -250,12 +299,102 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
               ///
               getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
             ),
+            // useMaterial3: true,
+            // This is the theme of your application.
+            //xx
+            // Try running your application with "flutter run". You'll see the
+            // application has a blue toolbar. Then, without quitting the app, try
+            // changing the primarySwatch below to Colors.green and then invoke
+            // "hot reload" (press "r" in the console where you ran "flutter run",
+            // or simply save your changes to "hot reload" in a Flutter IDE).
+            // Notice that the counter didn't reset back to zero; the application
+            // is not restarted.
+            // primarySwatch: Colors.blue,
           ),
+          // builder: (ctx, widget) {
+          //   ScreenUtil.init(
+          //     ctx,
+          //     designSize: const Size(360, 770),
+          //     splitScreenMode: true
+          //     // width: 750, height: 1334, allowFontScaling: false
+          //   );
+          //   return widget!;
+          // },
           home: const SplashScreen(),
+          // home: const SplashScreen(),
           // home: const JobsLayout(),
         ),
       ),
     );
+    // ScreenUtilInit(
+    //   designSize: const Size(360, 770),
+    //   minTextAdapt: true,
+    //   splitScreenMode: true,
+    //   useInheritedMediaQuery: true,
+    //   builder: (context, child) {
+    //     return Listener(
+    //       /// listener for un focus text form field on all application
+    //       // onPointerDown: (pointerEvent) {
+    //       //   FocusScopeNode currentFocus = FocusScope.of(context);
+    //       //   if (!currentFocus.hasPrimaryFocus) {
+    //       //     if(true) {
+    //       //       currentFocus.focusedChild?.unfocus();
+    //       //     }
+    //       //   }
+    //       // },
+    //
+    //       child: MaterialApp(
+    //         title: 'MENA Platform',
+    //         ///
+    //         /// localization delegates
+    //         localizationsDelegates: const [
+    //           AppLocalizations.delegate,
+    //           GlobalMaterialLocalizations.delegate,
+    //           GlobalWidgetsLocalizations.delegate,
+    //           GlobalCupertinoLocalizations.delegate,
+    //         ],
+    //         locale: mainCubit.appLocale,
+    //         supportedLocales: L10n.all,
+    //         debugShowCheckedModeBanner: false,
+    //         theme: Theme.of(context).copyWith(
+    //           appBarTheme: Theme.of(context)
+    //               .appBarTheme
+    //               .copyWith(brightness: Brightness.dark),
+    //           textTheme: Theme.of(context).textTheme.apply(
+    //                 bodyColor: Colors.black,
+    //                 displayColor: Colors.blue,
+    //                 fontSizeFactor: 1,
+    //                 fontSizeDelta: 1,
+    //                 fontFamily:
+    //                     /// getCachedLocale is arabic? Tajawasal else english Visby
+    //                     /// else another language add custom font family
+    //                     ///
+    //                     getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
+    //               ),
+    //           // useMaterial3: true,
+    //           // This is the theme of your application.
+    //           //
+    //           // Try running your application with "flutter run". You'll see the
+    //           // application has a blue toolbar. Then, without quitting the app, try
+    //           // changing the primarySwatch below to Colors.green and then invoke
+    //           // "hot reload" (press "r" in the console where you ran "flutter run",
+    //           // or simply save your changes to "hot reload" in a Flutter IDE).
+    //           // Notice that the counter didn't reset back to zero; the application
+    //           // is not restarted.
+    //           // primarySwatch: Colors.blue,
+    //         ),
+    //         builder: (context, widget) {
+    //           ScreenUtil.init(context,
+    //               designSize: const Size(360, 770),
+    //               // width: 750, height: 1334, allowFontScaling: false
+    //           );
+    //           return widget!;
+    //         },
+    //         home: const SplashScreen(),
+    //         // home: const MainLayout(),
+    //       ),
+    //     );
+    //   });
   }
 }
 
@@ -331,7 +470,7 @@ class TestMaterialApp extends StatelessWidget {
       supportedLocales: L10n.all,
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(
-        appBarTheme: Theme.of(context).appBarTheme.copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+        // appBarTheme: Theme.of(context).appBarTheme.copyWith(brightness: Brightness.dark),
         textTheme: Theme.of(context).textTheme.apply(
           bodyColor: Colors.black,
           displayColor: Colors.blue,

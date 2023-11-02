@@ -25,54 +25,41 @@ class AvatarForLive extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onlyView ? null : () {},
-      child: CircleAvatar(
-        radius: radius != null ? radius! + 1.sp : 30.sp,
-        backgroundColor:
-            isOnline ? customRingColor ?? mainGreenColor : Colors.transparent,
-        child: Stack(
-          children: [
-            Center(
-              child: CircleAvatar(
-                radius: isOnline
-                    ? radius == null
-                        ? 27.sp
-                        : (radius! - (radius! * 0.001))
-                    : radius ?? 30.sp,
-                backgroundColor: Colors.white,
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: (isOnline
-                          ? radius == null
-                              ? 27.sp
-                              : (radius! - (radius! * 0.001))
-                          : radius ?? 30.sp) -
-                      1.5,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(isOnline
-                        ? radius == null
-                            ? 26.sp
-                            : (radius! - (radius! * 0.01))
-                        : radius ?? 30.sp),
-                    child: Padding(
-                      padding: const EdgeInsets.all(0.0),
-                      child: DefaultImage(
-                        backGroundImageUrl: pictureUrl ?? '',
-                        backColor: newLightGreyColor,
-                        boxFit: BoxFit.cover,
-                      ),
+      child: Stack(
+        children: [
+          Center(
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.white,
+              radius: (isOnline
+                      ? radius == null
+                          ? 27.sp
+                          : (radius! - (radius! * 0.001))
+                      : radius ?? 30.sp) -
+                  1.5,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: DefaultImage(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
                     ),
+                    backGroundImageUrl: pictureUrl ?? '',
+                    backColor: newLightGreyColor,
+                    boxFit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
-            if (!onlyView)
-              Align(
-                alignment: Alignment.bottomRight,
-                child: SvgPicture.asset('assets/svg/icons/profileFilled.svg',
-                    height: 24.sp),
-              )
-          ],
-        ),
+          ),
+          if (!onlyView)
+            Align(
+              alignment: Alignment.bottomRight,
+              child: SvgPicture.asset('assets/svg/icons/profileFilled.svg',
+                  height: 24.sp),
+            )
+        ],
       ),
     );
   }

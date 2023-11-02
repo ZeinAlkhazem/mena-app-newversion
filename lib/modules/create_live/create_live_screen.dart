@@ -122,21 +122,45 @@ class _CreateLivePageState extends State<CreateLivePage> {
                   child: Row(
                     children: [
                       InkWell(
-                          onTap: () => Navigator.of(context).pop(),
+                          onTap: () {},
+                          // onTap: () => Navigator.of(context).pop(),
                           child: SvgPicture.asset(
-                              "assets/live_create/Whiteboards.svg",
+                              "assets/new_icons/Livestream_Logo.svg",
                               height: 30)),
                       SizedBox(
-                        width: 10.w,
+                        width: 230.w,
                       ),
-                      Text(
-                        "Create Live",
-                        style: TextStyle(
-                            fontSize: 18.sp,
-                            fontFamily: 'PNfont',
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      )
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Are you sure?"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text("No"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); // Close the dialog
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text("Yes"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); // Close the dialog
+                                      Navigator.of(context).pop(); // Go back to the previous page
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          "assets/new_icons/Close_Icon.svg",
+                          height: 28,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -144,12 +168,12 @@ class _CreateLivePageState extends State<CreateLivePage> {
                 /// add title widget
                 Container(
                   margin:
-                  EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                  EdgeInsets.symmetric(horizontal: 40.w, vertical: 20.h),
                   padding:
                   EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xFFdbdbdb).withOpacity(0.5)),
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xff504e4e).withOpacity(0.2)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,20 +185,37 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           pictureUrl:
                           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
                       widthBox(10.w),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.h),
-                        child: Text(
-                          "Add Title",
-                          style: TextStyle(
-                              fontSize: 18.sp,
-                              fontFamily: 'PNfont',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
+                      TextField(
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontFamily: 'PNfont',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              decoration: InputDecoration(
+                                border: InputBorder.none, // Remove borders
+                                enabledBorder: InputBorder.none, // Remove borders
+                                focusedBorder: InputBorder.none, // Remove borders
+                                hintText: "Add Title", // Placeholder text
+                                hintStyle: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontFamily: 'PNfont',
+                                  color: Colors.white.withOpacity(0.5), // Placeholder text color
+                                ),
+                              ),
+                            ),
+                            // IconButton(
+                            //   onPressed: (){},
+                            //   iconSize: 40,
+                            //   icon: SvgPicture.asset(
+                            //     "assets/new_icons/Write_title.svg",
+                            //     fit: BoxFit.contain,
+                            //   ),
+                            // ),
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                ),
+                      ),
+
 
                 Padding(
                   padding: EdgeInsets.symmetric(

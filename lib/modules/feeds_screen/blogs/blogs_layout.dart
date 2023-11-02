@@ -2,14 +2,19 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/modules/feeds_screen/blogs/widgets/blogItemHeader.dart';
+import 'package:mena/modules/feeds_screen/blogs/widgets/blog_action_bar.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 
+import '../../../core/constants/Colors.dart';
 import '../../../core/responsive/responsive.dart';
 import '../../../core/shared_widgets/shared_widgets.dart';
 import '../../../models/api_model/blogs_info_model.dart';
+import '../widgets/feed_item_header.dart';
 import '../widgets/follow_user_button.dart';
 import 'article_details_layout.dart';
 import 'blogs_articles_list.dart';
@@ -43,10 +48,46 @@ class _BlogsLayoutState extends State<BlogsLayout> {
         preferredSize: Size.fromHeight(56.0.h),
         child:  DefaultBackTitleAppBar(
           // title: 'Blogs',
+
           customTitleWidget: Center( child:Text(
             'Blogs',
-            style: mainStyle(context, 11, weight: FontWeight.w400, color: Colors.black, isBold: true),
+            style: mainStyle(context, 14, weight: FontWeight.w400, color: Colors.black, isBold: true),
+
+
           ),),
+          suffix:  Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                height: 35.h,
+                width: 30.w,
+                color: Colors.transparent,
+                child: Center(
+                  child: Image.asset(
+                    'assets/icons/search.png',
+                    color: mainBlueColor,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 50),
+        child: IconButton(
+          iconSize: 50,
+          icon: Center(
+            child: Image.asset(
+              'assets/icons/add.png',
+              height: 30,
+            ),
+          ),
+          onPressed: () {
+
+          },
         ),
       ),
       body: BlocConsumer<FeedsCubit, FeedsState>(
@@ -77,6 +118,7 @@ class BlogsHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
+
         child: Column(
           children: [
             if (blogsInfoModel.data.banners.isNotEmpty)
@@ -152,7 +194,9 @@ class ArticleCard extends StatelessWidget {
             children: [
               DefaultImageFadeInOrSvg(
                 backGroundImageUrl: article.banner,
-                borderColor: mainBlueColor,
+                isBlog: true,
+                radius: 0,
+                // borderColor: mainBlueColor,
               ),
               heightBox(7.h),
               Row(
@@ -162,20 +206,43 @@ class ArticleCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        article.title,
-                        style: mainStyle(context, 14, isBold: true),
-                      ),
+                  FittedBox(
+                    child: SizedBox(
+
+                      width: 344,
+                          child: Text(
+                            article.title,
+                            maxLines: 2,
+                            style: mainStyle(context, 14, isBold: true),
+                          ),
+                        ),
+                  ),
                       heightBox(7.h),
-                      DefaultSoftButton(
-                        label: article.category.title ?? '',
+                      // BlogItemHeader(
+                      //   article: article,
+                      //
+                      //
+                      // ),
+
+                      BlogActionBar(
+                        article:article
                       ),
+
+
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          getFormattedDate(article.createdAt),
+                          style: mainStyle(context, 11, color: newDarkGreyColor),
+                        ),
+                      )
+                      // DefaultSoftButton(
+                      //   label: article.category.title ?? '',
+                      // ),
                     ],
                   ),
-                  Text(
-                    getFormattedDateWithDayName(article.createdAt),
-                    style: mainStyle(context, 13, weight: FontWeight.w400),
-                  )
+
                 ],
               ),
             ],
@@ -250,91 +317,46 @@ class BannersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return SizedBox(
-      height: (9 / 16).sw,
-      width: double.maxFinite,
-      child: CarouselSlider.builder(
-        itemCount: banners.length,
-        // carouselController: carouselController,
-        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
-          onTap: () {
-            navigateToWithoutNavBar(
-                context,
-                ArticleDetailsLayout(
-                  menaArticleId: banners[itemIndex].articleBlogId.toString(),
-                ),
-                'routeName');
-          },
-          child: DefaultImageFadeInOrSvg(
-            backGroundImageUrl: banners[itemIndex].image,
-            boxFit: BoxFit.cover,
-            width: double.maxFinite,
-            borderColor: mainBlueColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: SizedBox(
+        height: (7 / 19).sw,
+        width: double.maxFinite,
+        child: CarouselSlider.builder(
+          itemCount: banners.length,
+          // carouselController: carouselController,
+          itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
+            onTap: () {
+              // navigateToWithoutNavBar(
+              //     context,
+              //     ArticleDetailsLayout(
+              //       menaArticleId: banners[itemIndex].articleBlogId.toString(),
+              //     ),
+              //     'routeName');
+            },
+            child: DefaultImageFadeInOrSvg(
+              backGroundImageUrl: banners[itemIndex].image,
+              boxFit: BoxFit.cover,
+              width: double.maxFinite,
+              radius: 0,
+              // borderColor: mainBlueColor,
+            ),
           ),
-        ),
-        options: CarouselOptions(
-          autoPlay: false,
-          reverse: false,
-          height: double.maxFinite,
-          enableInfiniteScroll: false,
-          enlargeCenterPage: true,
-          viewportFraction: Responsive.isMobile(context) ? 1 : 1,
-          aspectRatio: 1,
-          initialPage: 1,
-          scrollPhysics: ClampingScrollPhysics(),
-        ),
-      ),
+          options: CarouselOptions(
+            autoPlay: false,
+            reverse: false,
+            height: double.maxFinite,
+            enableInfiniteScroll: false,
+            enlargeCenterPage: true,
+            viewportFraction: Responsive.isMobile(context) ? 1 : 1,
+            aspectRatio: 1,
+            initialPage: 1,
+            scrollPhysics: ClampingScrollPhysics(),
 
-    // return Padding(
-    //   padding: const EdgeInsets.symmetric(horizontal: 0),
-    //   child: SizedBox(
-    //     height: (7 / 19).sw,
-    //     width: double.maxFinite,
-    //     child: CarouselSlider.builder(
-    //       itemCount: banners.length,
-    //       // carouselController: carouselController,
-    //       itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
-    //         onTap: () {
-    //           // navigateToWithoutNavBar(
-    //           //     context,
-    //           //     ArticleDetailsLayout(
-    //           //       menaArticleId: banners[itemIndex].articleBlogId.toString(),
-    //           //     ),
-    //           //     'routeName');
-    //         },
-    //         child: DefaultImageFadeInOrSvg(
-    //           backGroundImageUrl: banners[itemIndex].image,
-    //           boxFit: BoxFit.cover,
-    //           width: double.maxFinite,
-    //           // borderColor: mainBlueColor,
-    //         ),
-    //       ),
-    //       options: CarouselOptions(
-    //         autoPlay: false,
-    //         reverse: false,
-    //         height: double.maxFinite,
-    //         enableInfiniteScroll: false,
-    //         enlargeCenterPage: true,
-    //         viewportFraction: Responsive.isMobile(context) ? 1 : 1,
-    //         aspectRatio: 1,
-    //         initialPage: 1,
-    //         scrollPhysics: ClampingScrollPhysics(),
-    //       ),
-    //     ),
-    //   //   options: CarouselOptions(
-    //   //     autoPlay: false,
-    //   //     reverse: false,
-    //   //     height: double.maxFinite,
-    //   //     enableInfiniteScroll: false,
-    //   //     enlargeCenterPage: true,
-    //   //     viewportFraction: Responsive.isMobile(context) ? 1 : 1,
-    //   //     aspectRatio: 1,
-    //   //     initialPage: 1,
-    //   //     scrollPhysics: ClampingScrollPhysics(),
-    //   //   ),
-    //   // ),
-    // )
 
+    )
+    )
+    )
     );
   }
 }

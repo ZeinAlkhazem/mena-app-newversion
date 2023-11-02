@@ -106,7 +106,7 @@ class ArticleUnderLineInputField extends StatelessWidget {
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
         enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-                color: unFocusedBorderColor ?? newDarkGreyColor, width: 1),
+                color: unFocusedBorderColor ??     AppColors.lineGray, width: 1),
             borderRadius: BorderRadius.all(
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
       ),

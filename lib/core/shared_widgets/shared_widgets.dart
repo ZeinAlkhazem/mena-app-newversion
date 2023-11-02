@@ -401,6 +401,7 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
       this.decoration,
       this.boxConstraints,
       this.customImageCacheHeight,
+        this.isBlog,
       this.withoutRadius})
       : super(key: key);
   final double? width;
@@ -408,6 +409,7 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
   final Color? backColor;
   final Color? borderColor;
   final double? borderWidth;
+  final bool? isBlog;
   final String backGroundImageUrl;
   final bool? withoutRadius;
   final double? radius;
@@ -430,7 +432,25 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
               border: Border.all(width: borderWidth ?? 0.0, color: borderColor ?? Colors.transparent),
             ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+          borderRadius:
+           isBlog ==true ?
+
+
+          BorderRadius.only(
+            bottomLeft:  Radius.circular(
+              withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+           bottomRight:  Radius.circular(
+          withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+            topLeft:  Radius.circular(
+                withoutRadius != null ? 0.0 : 30 ?? defaultHorizontalPadding),
+            topRight:  Radius.circular(
+                withoutRadius != null ? 0.0 : 30?? defaultHorizontalPadding),
+
+
+          )
+          :
+           BorderRadius.circular(  withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding)
+          ,
           child: backGroundImageUrl == ""
               ? SizedBox()
               :
@@ -3390,7 +3410,7 @@ class DefaultBackTitleAppBar extends StatelessWidget {
                 color: Colors.transparent,
                 child: Center(
                   child: SvgPicture.asset(
-                    'assets/svg/icons/back.svg',
+                    'assets/icons/back.svg',
                     color: mainBlueColor,
                   ),
                 ),

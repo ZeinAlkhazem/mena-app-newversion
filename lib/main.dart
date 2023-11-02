@@ -14,6 +14,7 @@ import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/l10n/l10n.dart';
 import 'package:mena/modules/auth_screens/cubit/auth_cubit.dart';
+import 'package:mena/modules/create_articles/cubit/create_article_cubit.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
@@ -190,6 +191,7 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => StartLiveCubit()),
         BlocProvider(create: (BuildContext context) => AddPeopleToLiveCubit()),
         BlocProvider(create: (BuildContext context) => MeetingCubit()),
+        BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
         // ChangeNotifierProvider(create: (context) => ErrorNotifier()),
       ],
       child: const MainMaterialApp(),

@@ -293,6 +293,7 @@ class _SpecializationInformationLayoutState extends State<SpecializationInformat
                                                                 child: Text(value.name.toString()),
                                                               );
                                                             }).toList(),
+                                                            
                                                           ),
                                                         ),
                                                       ),

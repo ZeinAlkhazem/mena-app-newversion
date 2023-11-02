@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
-import '../cubit/messenger_cubit.dart';
+import '../msngr_cubit/messenger_cubit.dart';
+// import '../cubit/messenger_cubit.dart';
 
 class MessengerChatScreen extends StatelessWidget {
   const MessengerChatScreen({super.key});

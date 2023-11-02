@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mena/core/constants/app_toasts.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/api_model/home_section_model.dart';
 import '../../modules/auth_screens/sign_in_screen.dart';
+import '../../modules/create_live/widget/default_button.dart';
 import '../constants/constants.dart';
 
 void logg(String logVal) {
@@ -27,7 +29,8 @@ void logRequestedUrl(String logText) {
   ///  commented 'log to disable'
 }
 
-Future<void> navigateTo(BuildContext context, page, {PageTransitionType? customTransition}) async {
+Future<void> navigateTo(BuildContext context, page,
+    {PageTransitionType? customTransition}) async {
   logg('navigateTo $page');
 
   final routPage = page;
@@ -40,7 +43,9 @@ Future<void> navigateTo(BuildContext context, page, {PageTransitionType? customT
     pageTransitionAnimation:
 
         /// Todo: uncomment to enable swipe to back
-        Platform.isIOS ? PageTransitionAnimation.cupertino : PageTransitionAnimation.fade,
+        Platform.isIOS
+            ? PageTransitionAnimation.cupertino
+            : PageTransitionAnimation.fade,
   );
 
   // Navigator.push(
@@ -53,7 +58,8 @@ Future<void> navigateTo(BuildContext context, page, {PageTransitionType? customT
   // );
 }
 
-Future<void> navigateBackToHome(BuildContext context, {PageTransitionType? customTransition}) async {
+Future<void> navigateBackToHome(BuildContext context,
+    {PageTransitionType? customTransition}) async {
   // logg('navigateTo $page');
   Navigator.of(context).popUntil((route) => route.isFirst);
 }
@@ -93,12 +99,15 @@ Future<void> navigateToAndFinishUntil(BuildContext context, page) async {
       ModalRoute.withName("/Homeeee"));
 }
 
-Future<void> navigateToWithoutNavAndFinishUntil(BuildContext context, page) async {
+Future<void> navigateToWithoutNavAndFinishUntil(
+    BuildContext context, page) async {
   logg('navigateToAndFinishUntil');
-  Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => page));
+  Navigator.of(context, rootNavigator: true)
+      .pushReplacement(MaterialPageRoute(builder: (context) => page));
 }
 
-Future<void> navigateToWithNavBar(BuildContext context, Widget page, routeName) async {
+Future<void> navigateToWithNavBar(
+    BuildContext context, Widget page, routeName) async {
   pushNewScreenWithRouteSettings(
     context,
     settings: RouteSettings(name: routeName),
@@ -108,7 +117,8 @@ Future<void> navigateToWithNavBar(BuildContext context, Widget page, routeName) 
   );
 }
 
-Future<void> navigateToWithoutNavBar(BuildContext context, Widget page, routeName,
+Future<void> navigateToWithoutNavBar(
+    BuildContext context, Widget page, routeName,
     {VoidCallback? onBackToScreen, bool resetDesignSize = false}) async {
   // if(resetDesignSize){
   //   logg('asjdghbkjnd');
@@ -139,7 +149,9 @@ Future<void> navigateToWithoutNavBar(BuildContext context, Widget page, routeNam
     pageTransitionAnimation:
 
         /// Todo: uncomment to enable swipe to back
-        Platform.isIOS ? PageTransitionAnimation.cupertino : PageTransitionAnimation.fade,
+        Platform.isIOS
+            ? PageTransitionAnimation.cupertino
+            : PageTransitionAnimation.fade,
   ).then((value) {
     logg('back to ${page.toString()}');
     if (onBackToScreen != null) {
@@ -339,18 +351,22 @@ Future<void> showMyAlertDialog(
               child: AlertDialog(
                 backgroundColor: alertDialogBackColor ?? Colors.white,
                 titlePadding: EdgeInsets.all(16.sp),
-                contentPadding: EdgeInsets.only(bottom: 16.sp, left: 16.sp, right: 16.sp),
+                contentPadding:
+                    EdgeInsets.only(bottom: 16.sp, left: 16.sp, right: 16.sp),
                 title: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       title,
-                      style: titleTextStyle ?? mainStyle(context, 14.0,
-                          color: Colors.black,
-                          isBold: isTitleBold,
-                          weight: isTitleBold ? FontWeight.normal : FontWeight.w700,
-                          textHeight: 1.5),
+                      style: titleTextStyle ??
+                          mainStyle(context, 14.0,
+                              color: Colors.black,
+                              isBold: isTitleBold,
+                              weight: isTitleBold
+                                  ? FontWeight.normal
+                                  : FontWeight.w700,
+                              textHeight: 1.5),
                       textAlign: TextAlign.center,
                     ),
                     // Divider(
@@ -359,7 +375,8 @@ Future<void> showMyAlertDialog(
                   ],
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(defaultRadiusVal)),
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(defaultRadiusVal)),
                 ),
                 content: alertDialogContent,
                 actions: actions,
@@ -433,7 +450,8 @@ Future<void> showMyBottomSheet({
       ));
 }
 
-Future<void> viewComingSoonAlertDialog(BuildContext context, {Widget? customAddedWidget}) async {
+Future<void> viewComingSoonAlertDialog(BuildContext context,
+    {Widget? customAddedWidget}) async {
   await showDialog<String>(
       context: context,
       useRootNavigator: false,
@@ -447,16 +465,19 @@ Future<void> viewComingSoonAlertDialog(BuildContext context, {Widget? customAdde
               title: Center(
                 child: Text(
                   'Coming SOON',
-                  style: mainStyle(context, 15.0, weight: FontWeight.w800, color: mainBlueColor),
+                  style: mainStyle(context, 15.0,
+                      weight: FontWeight.w800, color: mainBlueColor),
                   textAlign: TextAlign.center,
                 ),
               ),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(11.0.r))),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(11.0.r))),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Lottie.asset('assets/json/coming soon.json'),
-                  Text('This feature not available right now', style: mainStyle(context, 13)),
+                  Text('This feature not available right now',
+                      style: mainStyle(context, 13)),
                   heightBox(7.h),
                   customAddedWidget ?? SizedBox()
                 ],
@@ -643,11 +664,13 @@ Future<void> viewLoginAlertDialog(BuildContext context) async {
         title: Center(
           child: Text(
             'Join us',
-            style: mainStyle(context, 15.0, weight: FontWeight.w800, color: mainBlueColor),
+            style: mainStyle(context, 15.0,
+                weight: FontWeight.w800, color: mainBlueColor),
             textAlign: TextAlign.center,
           ),
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(11.0.r))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(11.0.r))),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -687,7 +710,8 @@ Future<void> viewMessengerLoginAlertDialog(BuildContext context) async {
         title: Center(
           child: SvgPicture.asset('assets/svg/icons/menamessengerlogo.svg'),
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(11.0.r))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(11.0.r))),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -697,7 +721,10 @@ Future<void> viewMessengerLoginAlertDialog(BuildContext context) async {
             heightBox(10.h),
             Text(
               'To use Messenger, you need to log in',
-              style: mainStyle(context, 12, weight: FontWeight.w700, color: newDarkGreyColor, isBold: true),
+              style: mainStyle(context, 12,
+                  weight: FontWeight.w700,
+                  color: newDarkGreyColor,
+                  isBold: true),
               textAlign: TextAlign.center,
             ),
             heightBox(15.h),
@@ -719,7 +746,12 @@ Future<void> viewMessengerLoginAlertDialog(BuildContext context) async {
 }
 
 String replaceFlutterColorWithHexValue(Color color) {
-  return color.value.toRadixString(16).padLeft(6, '0').toUpperCase().toString().replaceRange(0, 2, '#');
+  return color.value
+      .toRadixString(16)
+      .padLeft(6, '0')
+      .toUpperCase()
+      .toString()
+      .replaceRange(0, 2, '#');
 }
 
 class HexColor extends Color {
@@ -736,14 +768,22 @@ class HexColor extends Color {
 
 String? getErrorMessageFromErrorJsonResponse(dynamic error) {
   if (error.response == null) {
+    AppToasts.errorToast('Check your internet connection');
     return 'Check your internet connection';
   } else {
+    AppToasts.errorToast(json.decode(error.response.toString())["message"])
+        .toString();
+
     return (json.decode(error.response.toString())["message"]).toString();
   }
 }
 
 void showErrorStateSnackBar(BuildContext context, state, {String? text}) {
-  viewMySnackBar(context, state.error != null ? state.error.toString() : text ?? 'unknown error', '', () {});
+  viewMySnackBar(
+      context,
+      state.error != null ? state.error.toString() : text ?? 'unknown error',
+      '',
+      () {});
 }
 
 // void playSuccessSound() {
@@ -1002,11 +1042,16 @@ void showErrorStateSnackBar(BuildContext context, state, {String? text}) {
 
 void loginRequiredSnackBar(BuildContext context) {
   var localizationStrings = AppLocalizations.of(context);
-  viewMySnackBar(context, localizationStrings!.loginRequired, localizationStrings.login,
+  viewMySnackBar(
+      context,
+      localizationStrings!.loginRequired,
+      localizationStrings.login,
       () => pushNewScreenLayout(context, const SignInScreen(), false));
 }
 
-void viewMySnackBar(BuildContext context, String text, String actionLabel, Function() action, {Color? customColor}) {
+void viewMySnackBar(
+    BuildContext context, String text, String actionLabel, Function() action,
+    {Color? customColor}) {
   var localizationStrings = AppLocalizations.of(context);
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -1181,7 +1226,8 @@ Future<void> buildShowModalBottomSheet(BuildContext context,
     useRootNavigator: true,
     builder: (BuildContext context) {
       return Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: body,
       );
     },

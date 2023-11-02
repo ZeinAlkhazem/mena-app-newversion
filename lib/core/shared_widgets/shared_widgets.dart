@@ -28,6 +28,7 @@ import '../../models/api_model/live_categories.dart';
 import '../../models/api_model/lives_model.dart';
 import '../../models/local_models.dart';
 import '../../modules/appointments/appointments_layouts/my_appointments.dart';
+import '../../modules/create_live/widget/avatar_for_live.dart';
 import '../../modules/create_live/widget/radius_20_container.dart';
 import '../../modules/feeds_screen/post_a_feed.dart';
 import '../../modules/live_screens/start_live_form.dart';
@@ -633,8 +634,12 @@ class ExpandedColoredContainer extends StatelessWidget {
     return Expanded(child: Container(color: color));
   }
 }
+
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({Key? key, this.onFieldChanged}) : super(key: key);
+
+
+
 
   final Function(String)? onFieldChanged;
 
@@ -1672,6 +1677,7 @@ class DefaultButtonUserName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+
       onTap: isEnabled
           ? () async {
         if (validator != null) {
@@ -2646,6 +2652,7 @@ class LivesList extends StatelessWidget {
               color: Colors.white,
               child: categories.isEmpty
                   ? SizedBox()
+
                   : Padding(
                       padding: EdgeInsets.only(
                           top: 7.0.h, bottom: 5.h, left: defaultHorizontalPadding, right: defaultHorizontalPadding),
@@ -2683,7 +2690,10 @@ class LivesList extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
+                    )
+
+
+
             ),
             heightBox(7.h),
             if (isNow)

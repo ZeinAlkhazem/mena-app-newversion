@@ -79,11 +79,11 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                             ],
                           ),
                         ),
-                        SearchBarWidget(
-                          onFieldChanged: (val) {
-                            mainCubit.updateCountrySearchQuery(val);
-                          },
-                        )
+                        // SearchBar(
+                        //   onFieldChanged: (val) {
+                        //     mainCubit.updateCountrySearchQuery(val);
+                        //   },
+                        // )
                       ],
                     ),
                     heightBox(35.h),

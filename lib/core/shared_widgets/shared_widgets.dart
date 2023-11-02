@@ -32,8 +32,8 @@ import '../../modules/create_live/widget/radius_20_container.dart';
 import '../../modules/feeds_screen/post_a_feed.dart';
 import '../../modules/live_screens/start_live_form.dart';
 import '../../modules/main_layout/main_layout.dart';
+import '../../modules/messenger/cubit/messenger_cubit.dart';
 import '../../modules/messenger/messenger_layout.dart';
-import '../../modules/messenger/msngr_cubit/messenger_cubit.dart';
 import '../constants/constants.dart';
 import '../constants/validators.dart';
 import '../functions/main_funcs.dart';
@@ -1489,6 +1489,7 @@ class DefaultButton extends StatelessWidget {
     this.withoutPadding = false,
     this.isEnabled = true,
     this.isLoading = false,
+    this.fontName,
   }) : super(key: key);
   final String text;
   final Function() onClick;
@@ -1504,6 +1505,7 @@ class DefaultButton extends StatelessWidget {
   final Color? titleColor;
   final bool isEnabled;
   final bool isLoading;
+  final String? fontName;
 
   @override
   Widget build(BuildContext context) {
@@ -1525,7 +1527,9 @@ class DefaultButton extends StatelessWidget {
               child:Text(
                 text,
                 textAlign: TextAlign.center,
-                style: mainStyle(context, isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
+                style: mainStyle(context,
+                    fontFamily: fontName,
+                    isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
               ),
             ),
       ),

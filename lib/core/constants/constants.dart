@@ -36,7 +36,7 @@ String databaseName = 'mayya_db.db';
 
 /// database name not used 'json_store.db' used by json store package
 ///
-
+///
 int databaseVersion = 1;
 
 String databaseStoredJsonTableName = 'json_table';
@@ -44,6 +44,14 @@ String databaseStoredJsonTableName = 'json_table';
 double rainBowBarBottomPadding(BuildContext context) => 0;
 
 double topScreenPadding = 1.h;
+/// icons size
+
+double iconAppBarWidth = 10.w;
+double iconAppBarHeight = 10.w;
+
+
+
+
 
 /// colors
 Color blackColor = const Color.fromRGBO(0, 0, 0, 1);

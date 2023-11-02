@@ -13,6 +13,7 @@ import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/responsive/responsive.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
+import 'package:mena/modules/messenger/messenger_home_page.dart';
 
 // import 'package:mena/modules/test/test_layout.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -177,7 +178,6 @@ class _MainLayoutState extends State<MainLayout> {
   //     }
   //   });
   // }
-
 
   // void socketInitial(BuildContext context) async {
   //   /// Socket connect
@@ -458,7 +458,8 @@ class _MainLayoutState extends State<MainLayout> {
             // TODO: implement listener
           },
           builder: (context, state) {
-            return (MainCubit.get(context).userInfoModel == null && getCachedToken() != null)
+            return (MainCubit.get(context).userInfoModel == null &&
+                    getCachedToken() != null)
                 ? SizedBox()
                 : Padding(
                     padding: EdgeInsets.only(top: topScreenPadding),
@@ -477,23 +478,32 @@ class _MainLayoutState extends State<MainLayout> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 5.0),
                                     child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
                                             SvgPicture.asset(
                                               mainCubit.currentLogo,
-                                              height: Responsive.isMobile(context) ? 22.w : 12.w,
+                                              height:
+                                                  Responsive.isMobile(context)
+                                                      ? 22.w
+                                                      : 12.w,
                                             ),
                                           ],
                                         ),
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
                                           children: [
                                             SvgPicture.asset(
                                               'assets/svg/icons/searchFilled.svg',
-                                              height: Responsive.isMobile(context) ? 30.w : 12.w,
+                                              height:
+                                                  Responsive.isMobile(context)
+                                                      ? 30.w
+                                                      : 12.w,
                                             ),
                                             widthBox(10.w),
                                             MessengerIconBubble(),
@@ -501,9 +511,13 @@ class _MainLayoutState extends State<MainLayout> {
                                             GestureDetector(
                                               onTap: () {
                                                 logg('profile bubble clicked');
-                                                navigateToWithoutNavBar(context,
-                                                    getCachedToken() == null ? SignInScreen() : MyProfile(), '');
-                                                    // getCachedToken() == null ? SignInScreen() : MyProfile(), '');
+                                                navigateToWithoutNavBar(
+                                                    context,
+                                                    getCachedToken() == null
+                                                        ? SignInScreen()
+                                                        : MyProfile(),
+                                                    '');
+                                                // getCachedToken() == null ? SignInScreen() : MyProfile(), '');
 
                                                 // viewComingSoonAlertDialog(context,
                                                 //     customAddedWidget: DefaultButton(
@@ -523,20 +537,33 @@ class _MainLayoutState extends State<MainLayout> {
                                               child: getCachedToken() == null
                                                   ? SvgPicture.asset(
                                                       'assets/svg/icons/profileFilled.svg',
-                                                      height: Responsive.isMobile(context) ? 30.w : 12.w,
+                                                      height:
+                                                          Responsive.isMobile(
+                                                                  context)
+                                                              ? 30.w
+                                                              : 12.w,
                                                     )
                                                   : ProfileBubble(
                                                       isOnline: true,
-                                                      customRingColor: mainBlueColor,
-                                                      pictureUrl: MainCubit.get(context).userInfoModel == null
+                                                      customRingColor:
+                                                          mainBlueColor,
+                                                      pictureUrl: MainCubit.get(
+                                                                      context)
+                                                                  .userInfoModel ==
+                                                              null
                                                           ? ''
-                                                          : MainCubit.get(context)
+                                                          : MainCubit.get(
+                                                                  context)
                                                               .userInfoModel!
                                                               .data
                                                               .user
                                                               .personalPicture,
                                                       onlyView: true,
-                                                      radius: Responsive.isMobile(context) ? 14.w : 5.w,
+                                                      radius:
+                                                          Responsive.isMobile(
+                                                                  context)
+                                                              ? 14.w
+                                                              : 5.w,
                                                     ),
                                             ),
                                           ],
@@ -559,13 +586,16 @@ class _MainLayoutState extends State<MainLayout> {
                               onItemSelected: (index) {
                                 // mainCubit.changeHeaderVisibility(true);
                                 if (index == 2) {
-                                  MainCubit.get(context).updateMenaViewedLogo('assets/svg/icons/menalive.svg');
+                                  MainCubit.get(context).updateMenaViewedLogo(
+                                      'assets/svg/icons/menalive.svg');
                                 } else if (index == 4) {
                                   /// feeds public
-                                  MainCubit.get(context).updateMenaViewedLogo('assets/svg/mena8.svg');
-                          //        FeedsCubit.get(context).getFeeds();
+                                  MainCubit.get(context).updateMenaViewedLogo(
+                                      'assets/svg/mena8.svg');
+                                  //        FeedsCubit.get(context).getFeeds();
                                 } else {
-                                  MainCubit.get(context).updateMenaViewedLogo('assets/svg/mena8.svg');
+                                  MainCubit.get(context).updateMenaViewedLogo(
+                                      'assets/svg/mena8.svg');
                                 }
                               },
                               screens: _buildScreens(),
@@ -613,11 +643,13 @@ class _MainLayoutState extends State<MainLayout> {
                                 ],
                               ),
                               popAllScreensOnTapOfSelectedTab: true,
-                              itemAnimationProperties: const ItemAnimationProperties(
+                              itemAnimationProperties:
+                                  const ItemAnimationProperties(
                                 duration: Duration(milliseconds: 400),
                                 curve: Curves.ease,
                               ),
-                              screenTransitionAnimation: const ScreenTransitionAnimation(
+                              screenTransitionAnimation:
+                                  const ScreenTransitionAnimation(
                                 // Screen transition animation on change of selected tab.
                                 animateTabTransition: false,
                                 curve: Curves.fastOutSlowIn,
@@ -649,7 +681,8 @@ class MessengerIconBubble extends StatelessWidget {
       onTap: () {
         getCachedToken() == null
             ? viewMessengerLoginAlertDialog(context)
-            : navigateToWithoutNavBar(context, const MessengerLayout(), '');
+            // : navigateToWithoutNavBar(context, const MessengerLayout(), '');
+            : navigateToWithoutNavBar(context, const MessengerHomePage(), '');
       },
       child: SizedBox(
         height: Responsive.isMobile(context) ? 30.w : 12.w,
@@ -674,8 +707,9 @@ class MessengerIconBubble extends StatelessWidget {
                 Align(
                   alignment: Alignment.topRight,
                   child: NotificationCounterBubble(
-                      counter:
-                          mainCubit.countersModel == null ? '0' : mainCubit.countersModel!.data.messages.toString()),
+                      counter: mainCubit.countersModel == null
+                          ? '0'
+                          : mainCubit.countersModel!.data.messages.toString()),
                 ),
               ],
             );
@@ -725,7 +759,11 @@ class NotificationIconBubble extends StatelessWidget {
                   child: NotificationCounterBubble(
                       counter: MainCubit.get(context).countersModel == null
                           ? '0'
-                          : MainCubit.get(context).countersModel!.data.notifications.toString()),
+                          : MainCubit.get(context)
+                              .countersModel!
+                              .data
+                              .notifications
+                              .toString()),
                 ),
               ],
             );

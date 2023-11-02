@@ -162,7 +162,7 @@
   "students": "Students",
   "youAboutMarkREad": "You are about mark this chat as read..",
   "startMessagingWithProvidersClients": "Start messaging with providers, clients, and share files, media, and more...",
-  "startMessaging": "Start Messaging",
+  "startMessaging": "Get Started",
   "whyNotStartChat": "Why not start a chat and send a message now?",
   "welcomeToBlogs":"Welcome to Mena Blogs, your platform for sharing and discovering articles. Here, you can write and publish your own articles, create your blog, and engage with articles from fellow users through likes, comments, and shares. Start writing and reading today",
   "feeds": "Feeds",
@@ -209,6 +209,18 @@
   "hidePost" : "Hide Post",
   "reportPost" : "Report Post",
   "confirmDeletion" : "Confirm Deletion",
-  "messenger" : "Messenger"
+  "messenger" : "Messenger",
+  "termsOfService" : "Terms of Service ",
+  "termsOfServiceDescriptionPart1" : "When you tap the 'Get Started' button, you are indicating your acceptance of the ",
+  "termsOfServiceDescriptionPart2" : "for Mena Messenger.",
+  "messengerDescription1" : "Discover MENA Messenger's features:",
+  "messengerDescription2" : "- One-to-One Chat.",
+  "messengerDescription3" : "- Chat Groups ( Up to 250000 Members ) and create, join chat groups",
+  "messengerDescription4" : "- Create Channel for unlimited audiences and find channels",
+  "messengerWelcomeText" : "Welcome to the messenger! It looks like you don't have any chats yet. You can start by writing messages, sending and sharing media and files, including high-resolution images and videos. To begin, simply click on the button at the bottom of this page",
+  "messengerChat" : "Chat",
+  "messengerChatGroups" : "Chat Group",
+  "messengerChannels" : "Channel",
+  "messengerCalls" : "Calls"
 
 }

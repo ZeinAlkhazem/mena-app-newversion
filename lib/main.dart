@@ -34,7 +34,7 @@ import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
-import 'modules/messenger/msngr_cubit/messenger_cubit.dart';
+import 'modules/messenger/cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
 import 'modules/nearby_screen/cubit/nearby_cubit.dart';
 import 'modules/platform_provider/cubit/provider_cubit.dart';

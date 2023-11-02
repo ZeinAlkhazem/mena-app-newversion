@@ -28,6 +28,7 @@ import '../../models/api_model/live_categories.dart';
 import '../../models/api_model/lives_model.dart';
 import '../../models/local_models.dart';
 import '../../modules/appointments/appointments_layouts/my_appointments.dart';
+import '../../modules/create_live/widget/avatar_for_live.dart';
 import '../../modules/create_live/widget/radius_20_container.dart';
 import '../../modules/feeds_screen/post_a_feed.dart';
 import '../../modules/live_screens/start_live_form.dart';
@@ -631,6 +632,45 @@ class ExpandedColoredContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(child: Container(color: color));
+  }
+}
+
+class SearchBarWidget extends StatelessWidget {
+  const SearchBarWidget({Key? key, this.onFieldChanged}) : super(key: key);
+
+
+
+
+  final Function(String)? onFieldChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    ///
+    var localizationStrings = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Expanded(
+              child: DefaultInputField(
+                // label: '',
+                label: localizationStrings!.search,
+                // labelWidget: Text(
+                //   localizationStrings!.search,
+                //   style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+                // ),
+                onFieldChanged: onFieldChanged,
+                customHintText: 'Search by country name',
+                suffixIcon: SvgPicture.asset(
+                  'assets/svg/search.svg',
+                  width: 20.w,
+                ),
+              )),
+          // SvgPicture.asset('assets/svg/search.svg'),
+        ],
+      ),
+    );
   }
 }
 
@@ -2612,7 +2652,48 @@ class LivesList extends StatelessWidget {
               color: Colors.white,
               child: categories.isEmpty
                   ? SizedBox()
-                  : SizedBox(),
+
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          top: 7.0.h, bottom: 5.h, left: defaultHorizontalPadding, right: defaultHorizontalPadding),
+                      child: Row(
+                        children: [
+                          NewSelectorButton(
+                              title: 'ALL',
+                              customHeight: 31.sp - 4,
+                              customFontSize: 10,
+                              isSelected: isNow
+                                  ? liveCubit.selectedNowLiveCat == '-1'
+                                  : liveCubit.selectedUpcomingLiveCat == '-1',
+                              onClick: () {
+                                /// unselected current items in the row and remove the below rows
+                                isNow
+                                    ? liveCubit.changeSelectedNowLiveCat('-1')
+                                    : liveCubit.changeSelectedUpcomingLiveCat('-1');
+                              }),
+                          // Container(width: 4,color: Colors.red,height: 10,),
+                          Expanded(
+                            child: NewHorizontalSelectorScrollable(
+                              buttons: categories
+                                  .map((e) => SelectorButtonModel(
+                                      title: e.name,
+                                      onClickCallback: () {
+                                        isNow
+                                            ? liveCubit.changeSelectedNowLiveCat(e.id.toString())
+                                            : liveCubit.changeSelectedUpcomingLiveCat(e.id.toString());
+                                      },
+                                      isSelected: isNow
+                                          ? liveCubit.selectedNowLiveCat == e.id.toString()
+                                          : liveCubit.selectedUpcomingLiveCat == e.id.toString()))
+                                  .toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+
+
+
             ),
             heightBox(7.h),
             if (isNow)

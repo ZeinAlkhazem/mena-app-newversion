@@ -8,8 +8,10 @@ import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/models/api_model/blogs_info_model.dart';
 import 'package:mena/modules/feeds_screen/blogs/blogs_layout.dart';
+
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../core/constants/constants.dart';
 import '../../../core/shared_widgets/shared_widgets.dart';
 import '../../platform_provider/provider_home/platform_provider_home.dart';
@@ -70,10 +72,6 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
                               //   currentLayout: 'Article details',
                               // ),
                               heightBox(10.h),
-                              // Html(data: feedsCubit.menaArticleDetails!.content,
-                              
-                              // onLinkTap: ,
-                              // ),
 
                               Html( data: feedsCubit.menaArticleDetails!.content,
                               
@@ -90,8 +88,6 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
                                  }
                               
                                ),
-
-
                               Text(
                                 feedsCubit.menaArticleDetails!.title,
                                 style: mainStyle(context, 14, isBold: true),

@@ -65,7 +65,9 @@ class AddArticlesPage extends StatelessWidget {
                   getTranslatedStrings(context).welcomeToMenaBlogs,
                   style: mainStyle(context, 13,
                       weight: FontWeight.w700,
+
                       color: newDarkGreyColor,
+
                       isBold: true),
                 ),
                 heightBox(
@@ -78,7 +80,9 @@ class AddArticlesPage extends StatelessWidget {
                         .welcomeToBlogs,
                     style: mainStyle(context, 10,
                         weight: FontWeight.w700,
+
                         color: newLightTextGreyColor,
+
                         textHeight: 1.5),
                     textAlign: TextAlign.justify,
                   ),

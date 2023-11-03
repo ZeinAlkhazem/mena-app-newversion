@@ -82,7 +82,7 @@ class LiveOptionButtonExtra extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 12.sp,
+                  fontSize: 10.sp,
                   fontFamily: 'PNfont',
                   color: Colors.white.withOpacity(0.5),
                   fontWeight: FontWeight.w200),

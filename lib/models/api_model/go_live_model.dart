@@ -57,9 +57,9 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
-    liveNowCategory: LiveNowCategory.fromJson(json["category"]),
-    title: json["title"],
-    goal: json["goal"],
+    liveNowCategory: json["category"] != null ? LiveNowCategory.fromJson(json["category"]):LiveNowCategory(id: 1, name: 'Default'),
+    title: json["title"] != null ?json["title"] : "",
+    goal: json["goal"]!= null ?json["goal"] : "",
     topic: json["topic"],
     duration: 60,
     roomId: json["room_id"],

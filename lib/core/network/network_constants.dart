@@ -120,10 +120,12 @@ const String homeSectionEnd = '/home-section';
 
 /// live
 const String goLiveEnd = '/live/go-live';
+const String goLiveStop = '/live/set-not-live';
 const String setLiveStartEnd = '/live/set-live';
 const String setLiveEndedEnd = '/live/set-not-live';
 const String getLivesEnd = '/live/get-lives';
 const String getCategoriesEnd = '/live/get-categories';
+const String getLivesInfo = '/live/info';
 
 ///
 const String getLivesNowEnd = '/live/live-categories';

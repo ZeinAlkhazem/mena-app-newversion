@@ -146,6 +146,7 @@ flutter:
     - assets/images/public/
     - assets/svg/
     - assets/json/
+    - assets/lottie/
     - assets/svg/icons/
     - assets/svg/meetings/
     - assets/svg/icons/profile/

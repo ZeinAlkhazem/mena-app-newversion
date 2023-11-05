@@ -511,17 +511,13 @@ class MainCubit extends Cubit<MainState> {
     });
 
     socket.on('event', (data) => print('socket ' + data));
-
     socket.on('message', (data) {
-       jsonDecode(data);
+      jsonDecode(data);
 
       logg('this is the data returned from server : ${jsonDecode(data)['type']}');
       switch(jsonDecode(data)['type']){
         case 'join':
           handleJoin(jsonDecode(data));
-        break;
-        case 'checkMeetingResult':
-          handleCheckMeeting(jsonDecode(data));
         break;
       }
     });
@@ -542,7 +538,7 @@ class MainCubit extends Cubit<MainState> {
     socket.onDisconnect((_) => print('socket disconnect'));
 
     // socket.on
-    socket.on('fromServer', (_) => print('socket ' + _));
+    socket.on('fromServer', (_) => logg('socketssssssss ' + _));
   }
 
   
@@ -555,6 +551,7 @@ class MainCubit extends Cubit<MainState> {
   }
 
   sendMessage(data){
+      logg('socektId : ${socket.id}');
      socket.emit('message', jsonEncode(data));
   }
 

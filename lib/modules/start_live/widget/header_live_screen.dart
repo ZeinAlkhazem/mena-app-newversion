@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mena/core/main_cubit/main_cubit.dart';
+import 'package:mena/models/api_model/home_section_model.dart';
+import 'package:mena/modules/my_profile/cubit/profile_cubit.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
 import '../../../core/constants/constants.dart';
@@ -15,8 +18,11 @@ class HeaderLiveScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mainCubit = MainCubit.get(context);
+    User user = mainCubit.userInfoModel!.data.user;
+    String? personalImage = user.personalPicture;
     StartLiveCubit startLiveCubit = StartLiveCubit.get(context);
-
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -29,9 +35,8 @@ class HeaderLiveScreen extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: const HeaderLiveBubble(
-                pictureUrl:
-                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+              child: HeaderLiveBubble(
+                pictureUrl:personalImage,
               ),
             ),
             SizedBox(

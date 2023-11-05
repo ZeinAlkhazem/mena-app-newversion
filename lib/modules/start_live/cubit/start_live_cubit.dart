@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:keyboard_emoji_picker/keyboard_emoji_picker.dart';
 import 'package:m_toast/m_toast.dart';
+import 'package:mena/core/main_cubit/main_cubit.dart';
+import 'package:mena/core/network/dio_helper.dart';
+import 'package:mena/core/network/network_constants.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/functions/main_funcs.dart';
@@ -25,7 +28,7 @@ class StartLiveCubit extends Cubit<StartLiveState> {
   static StartLiveCubit get(context) => BlocProvider.of(context);
 
   TextEditingController liveMessageText = TextEditingController();
-
+ 
   onPressStopLive(context) {
     showMyBottomSheet(
         context: context,
@@ -34,6 +37,8 @@ class StartLiveCubit extends Cubit<StartLiveState> {
           txetConfirm: "Finish",
           onClickCancel: () => Navigator.pop(context),
           onClickConfirm: () {
+            onPressDoneLive(context);
+            logg('its stoppinggg');
             Navigator.pop(context);
 
             navigateToAndFinish(context, const LiveEndedPage());
@@ -46,7 +51,23 @@ class StartLiveCubit extends Cubit<StartLiveState> {
     emit(OnPressStopLiveState());
   }
 
-  onPressDoneLive(context) {
+  onPressDoneLive(context) async {
+    
+    logg('trying to stop');
+    await MainDioHelper.postData(url: goLiveStop)
+        .then((value) {
+      logg('goLiveStopped : ${value}');
+      
+      
+      
+    }).catchError((error, stack) {
+      logg('error hasppend : ${error}');
+      logg('an error occurred ${error} ${stack}');
+      logg(stack.toString());
+
+      
+      return null;
+    });
     navigateBackToHome(context);
   }
 
@@ -185,6 +206,7 @@ class StartLiveCubit extends Cubit<StartLiveState> {
   sendComment() {}
 
   onShowDescription(context) {
+    
     showMyBottomSheet(
       context: context,
       title: "Live Description:",

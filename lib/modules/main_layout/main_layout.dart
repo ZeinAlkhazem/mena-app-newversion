@@ -20,6 +20,7 @@ import 'package:mena/modules/messenger/screens/messenger_home_page.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
 import '../../core/constants/constants.dart';
 import '../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
@@ -36,6 +37,7 @@ import '../messenger/messenger_layout.dart';
 import '../my_profile/my_profile.dart';
 import '../splash_screen/route_engine.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 class MainLayout extends StatefulWidget {
   const MainLayout({Key? key}) : super(key: key);
 
@@ -48,13 +50,12 @@ class _MainLayoutState extends State<MainLayout> {
   late bool _hideNavBar;
   IO.Socket? socket;
 
-
   @override
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
     _hideNavBar = false;
-    var messengerCubit =MessengerCubit.get(context);
+    var messengerCubit = MessengerCubit.get(context);
     messengerCubit
       ..fetchMyMessages()
       ..fetchOnlineUsers();
@@ -66,7 +67,7 @@ class _MainLayoutState extends State<MainLayout> {
         ..fetchMyMessages()
         ..fetchOnlineUsers();
     });
-    
+
     // if (getCachedToken() != null) {
     //   checkPhoneVerified();
     // }
@@ -84,7 +85,7 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> _buildScreens() {
     return const [
       HomeScreen(),
-      ComingSoonWidget(),
+      MarketScreen(),
       LiveMainLayout(),
       MeetingsLayout(),
       FeedsScreen(
@@ -438,6 +439,10 @@ class _MainLayoutState extends State<MainLayout> {
                               //   c
                               // ),
                               onItemSelected: (index) {
+                                if (index == 1) {
+                                  MainCubit.get(context)
+                                      .changeHeaderVisibility(false);
+                                }
                                 // mainCubit.changeHeaderVisibility(true);
                                 if (index == 2) {
                                   MainCubit.get(context).updateMenaViewedLogo(
@@ -533,14 +538,17 @@ class MessengerIconBubble extends StatelessWidget {
     var mainCubit = MainCubit.get(context);
     return GestureDetector(
       onTap: () {
-        if(getCachedToken() == null){
+        if (getCachedToken() == null) {
           viewMessengerLoginAlertDialog(context);
-        }else if (MessengerCubit.get(context).myMessagesModel!.data.myChats!.isEmpty){
+        } else if (MessengerCubit.get(context)
+            .myMessagesModel!
+            .data
+            .myChats!
+            .isEmpty) {
           navigateToWithoutNavBar(context, const MessengerGetStartPage(), '');
-        }else{
+        } else {
           navigateToWithoutNavBar(context, const MessengerHomePage(), '');
         }
-
       },
       child: SizedBox(
         height: Responsive.isMobile(context) ? 30.w : 12.w,

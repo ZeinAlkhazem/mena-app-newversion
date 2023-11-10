@@ -8,6 +8,7 @@ import 'package:mena/core/functions/main_funcs.dart';
 
 import '../widgets/button_with_label.dart';
 import '../widgets/search_controll.dart';
+import 'health_care_market.dart';
 
 class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
@@ -38,7 +39,7 @@ class _MarketScreenState extends State<MarketScreen> {
             alignment: Alignment.bottomCenter,
             children: [
               Container(
-                  height: 200.h,
+                  height: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
@@ -92,7 +93,10 @@ class _MarketScreenState extends State<MarketScreen> {
               ButtonWithLabel(
                 btnIcon: "assets/menamarket/market_circle_fill_yellow_20.svg",
                 label: "Healthcare\nMarket",
-                onTap: () {},
+                onTap: () async {
+                  navigateToWithoutNavBar(
+                      context, HealthCareMarket(), 'routeName');
+                },
               ),
               ButtonWithLabel(
                 btnIcon: "assets/menamarket/discount_outline_20.svg",
@@ -114,7 +118,7 @@ class _MarketScreenState extends State<MarketScreen> {
           heightBox(20.h),
           SizedBox(
             // color: Colors.grey,
-            height: context.height / 3.8,
+            height: context.height / 4.0,
             child: CarouselSlider.builder(
               itemCount: 3,
               carouselController: CarouselController(),
@@ -131,7 +135,7 @@ class _MarketScreenState extends State<MarketScreen> {
                 reverse: false,
                 viewportFraction: 0.95,
                 height: double.maxFinite,
-                enableInfiniteScroll: false,
+                enableInfiniteScroll: true,
                 // enlargeCenterPage: true,
                 aspectRatio: 16 / 9,
                 initialPage: 0,
@@ -230,8 +234,7 @@ class SliderItem extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: FadeInImage.assetNetwork(
-                          placeholder:
-                              'assets/menamarket/market_circle_fill_yellow_20.svg',
+                          placeholder: 'assets/allNewDesign/logo.jpg',
                           image:
                               "https://media.istockphoto.com/id/1150397417/photo/abstract-luminous-dna-molecule-doctor-using-tablet-and-check-with-analysis-chromosome-dna.webp?s=2048x2048&w=is&k=20&c=ipb_OZxpMheJNNEfC-cZea6_nz59HrYO4Sjli16jGzY="),
                     ),

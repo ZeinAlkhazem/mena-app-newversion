@@ -89,12 +89,14 @@ class Category {
     String title;
     String image;
     int platformId;
+    List<Category>? children;
 
     Category({
         required this.id,
         required this.title,
         required this.image,
         required this.platformId,
+        this.children
     });
 
     factory Category.fromJson(Map<String, dynamic> json) => Category(
@@ -102,6 +104,7 @@ class Category {
         title: json["title"],
         image: json["image"],
         platformId: json["platform_id"],
+        children: json["children"]!=[]?List<Category>.from(json["children"].map((x) => Category.fromJson(x))):[],
     );
 
     Map<String, dynamic> toJson() => {

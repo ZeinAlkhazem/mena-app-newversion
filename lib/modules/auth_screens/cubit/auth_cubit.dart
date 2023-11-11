@@ -21,6 +21,7 @@ import '../../../core/dialogs/dialogs_page.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
+import '../../../main.dart';
 import '../../../models/api_model/categories_model.dart';
 import '../../../models/api_model/plans_model.dart';
 import '../../../models/api_model/provider_types.dart';
@@ -211,6 +212,7 @@ class AuthCubit extends Cubit<AuthState> {
     }).then((value) async {
       logg('sign up response: $value');
       registerModel = RegisterModel.fromJson(value.data);
+      await  prefs.setString('platformName' ,  registerModel!.data.user.platform!.name.toString());
       // if (userSignUpModel != null) {
       //   userCacheProcess(userSignUpModel!).then((value) => checkUserAuth().then(
       //           (value) =>
@@ -271,7 +273,7 @@ class AuthCubit extends Cubit<AuthState> {
     }).then((value) async {
       logg('sign up response: $value');
       registerModel = RegisterModel.fromJson(value.data);
-
+      await  prefs.setString('platformName' ,  registerModel!.data.user.platform!.name.toString());
       /// cache process and navigate due to status
       ///
       ///

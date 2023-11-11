@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -12,6 +13,7 @@ import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/responsive/responsive.dart';
+import 'package:mena/main.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
 import 'package:mena/modules/main_layout/weather_banner.dart';
@@ -23,6 +25,7 @@ import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
+import '../../MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
 import '../../core/constants/constants.dart';
 import '../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
@@ -43,6 +46,7 @@ import '../my_profile/my_profile.dart';
 import '../my_profile/my_profile.dart';
 import '../splash_screen/route_engine.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 class MainLayout extends StatefulWidget {
   const MainLayout({Key? key}) : super(key: key);
 
@@ -55,13 +59,12 @@ class _MainLayoutState extends State<MainLayout> {
   late bool _hideNavBar;
   IO.Socket? socket;
 
-
   @override
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
     _hideNavBar = false;
-    var messengerCubit =MessengerCubit.get(context);
+    var messengerCubit = MessengerCubit.get(context);
     messengerCubit
       ..fetchMyMessages()
       ..fetchOnlineUsers();
@@ -73,7 +76,7 @@ class _MainLayoutState extends State<MainLayout> {
         ..fetchMyMessages()
         ..fetchOnlineUsers();
     });
-    
+
     // if (getCachedToken() != null) {
     //   checkPhoneVerified();
     // }
@@ -91,7 +94,7 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> _buildScreens() {
     return const [
       HomeScreen(),
-      ComingSoonWidget(),
+      MarketScreen(),
       LiveMainLayout(),
       MeetingsLayout(),
       FeedsScreen(
@@ -310,9 +313,11 @@ class _MainLayoutState extends State<MainLayout> {
                     (e) => SelectorButtonModel(
                       title: e.name!,
                       image: e.image,
-                      onClickCallback: () {
+                      onClickCallback: () async {
+                        log("hhhh");
                         myScaffoldKey.currentState?.closeEndDrawer();
                         homeCubit.changeSelectedHomePlatform(e.id.toString());
+                       await  prefs.setString('platformName' , e.name.toString());
                       },
                       isSelected: homeCubit.selectedHomePlatformId == e.id,
                     ),
@@ -461,6 +466,7 @@ class _MainLayoutState extends State<MainLayout> {
                                   ? kBottomNavigationBarHeight * 1
                                   : kBottomNavigationBarHeight * 1.3,
                               controller: _controller,
+
                               // // floatingActionButton: Container(
                               // //   c
                               // // ),
@@ -562,14 +568,17 @@ class MessengerIconBubble extends StatelessWidget {
     bool hasMessages = mainCubit.countersModel != null && mainCubit.countersModel!.data.messages > 0;
     return GestureDetector(
       onTap: () {
-        if(getCachedToken() == null){
+        if (getCachedToken() == null) {
           viewMessengerLoginAlertDialog(context);
-        }else if (MessengerCubit.get(context).myMessagesModel!.data.myChats!.isEmpty){
+        } else if (MessengerCubit.get(context)
+            .myMessagesModel!
+            .data
+            .myChats!
+            .isEmpty) {
           navigateToWithoutNavBar(context, const MessengerGetStartPage(), '');
-        }else{
+        } else {
           navigateToWithoutNavBar(context, const MessengerHomePage(), '');
         }
-
       },
       child: BlocConsumer<MainCubit, MainState>(
         listener: (context, state) {

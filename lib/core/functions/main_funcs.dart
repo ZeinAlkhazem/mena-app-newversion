@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/constants/app_toasts.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:page_transition/page_transition.dart';
@@ -708,7 +709,9 @@ Future<void> viewMessengerLoginAlertDialog(BuildContext context) async {
       child: AlertDialog(
         backgroundColor: Colors.white,
         title: Center(
-          child: SvgPicture.asset('assets/svg/icons/menamessengerlogo.svg'),
+          child: SizedBox(
+              height: 25.h,
+              child: SvgPicture.asset('$messengerAssets/icon_mena_messenger_color_hor.svg')),
         ),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(11.0.r))),
@@ -723,8 +726,8 @@ Future<void> viewMessengerLoginAlertDialog(BuildContext context) async {
               'To use Messenger, you need to log in',
               style: mainStyle(context, 12,
                   weight: FontWeight.w700,
-                  color: newDarkGreyColor,
-                  isBold: true),
+                  color: AppColors.grayDarkColor,
+                  isBold: false),
               textAlign: TextAlign.center,
             ),
             heightBox(15.h),

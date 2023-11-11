@@ -5,8 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mena/core/constants/Colors.dart';
@@ -20,11 +21,11 @@ import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
 import 'core/constants/constants.dart';
-import 'core/constants/validators.dart';
 import 'core/network/dio_helper.dart';
 import 'firebase_options.dart';
 import 'modules/add_people_to_live/cubit/add_people_to_live_cubit.dart';
@@ -42,15 +43,8 @@ import 'modules/my_profile/cubit/profile_cubit.dart';
 import 'modules/nearby_screen/cubit/nearby_cubit.dart';
 import 'modules/platform_provider/cubit/provider_cubit.dart';
 import 'modules/promotions_screen/cubit/promotions_cubit.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'modules/start_live/cubit/start_live_cubit.dart';
 import 'modules/tools/cubit/tools_cubit.dart';
-
-
-
-
-
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -63,12 +57,12 @@ class MyHttpOverrides extends HttpOverrides {
 
 //
 // late Box userBox;
+late SharedPreferences prefs;
 void main() async {
-  // BindingBase.debugZoneErrorsAreFatal = true;
-
   HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
+
   /// set status bar color
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       // statusBarColor: AppColors.iconsColor
@@ -77,17 +71,18 @@ void main() async {
     statusBarBrightness: Brightness.dark,
   ));
 
+
   // await initializeDateFormatting();
-  final prefs = await SharedPreferences.getInstance();
+prefs = await SharedPreferences.getInstance();
   String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
 
   // Get the default phone language and set it as the default language
-  Locale myLocale = WidgetsBinding.instance!.window.locale;
+  Locale myLocale = WidgetsBinding.instance.window.locale;
   if (myLocale.languageCode == 'ar') {
     selectedLanguage = 'Arabic';
   } else {
     selectedLanguage =
-    'English'; // You can set other default languages if needed
+        'English'; // You can set other default languages if needed
   }
   await prefs.setString('selectedLanguage', selectedLanguage);
 
@@ -96,6 +91,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   await MainDioHelper.init();
+
   /// handle error best way
   /// init hive
   // await Hive.initFlutter();
@@ -119,7 +115,6 @@ void main() async {
   /// now web options is not initialized yet so ignore web for now
   if (!kIsWeb) {
     ErrorWidget.builder = (FlutterErrorDetails details) {
-
       // bool inDebug = false;
       // assert(() {
       //   inDebug = true;
@@ -163,7 +158,7 @@ void main() async {
   }
   // runApp(const MainAppProvider());
   BlocOverrides.runZoned(
-        () {
+    () {
       // Use cubits...
       runApp(const MainAppProvider());
       //
@@ -186,7 +181,7 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => ChildsCubit()),
         BlocProvider(create: (BuildContext context) => MessengerCubit()),
         BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
-        
+
         BlocProvider(create: (BuildContext context) => LiveCubit()),
         BlocProvider(create: (BuildContext context) => PromotionsCubit()),
         BlocProvider(create: (BuildContext context) => AuthCubit()),
@@ -210,8 +205,6 @@ class MainAppProvider extends StatelessWidget {
     );
   }
 }
-
-
 
 class MainMaterialApp extends StatefulWidget {
   const MainMaterialApp({Key? key}) : super(key: key);
@@ -294,25 +287,27 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           debugShowCheckedModeBanner: false,
 
           theme: Theme.of(context).copyWith(
-            appBarTheme: Theme.of(context).appBarTheme.copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+            appBarTheme: Theme.of(context)
+                .appBarTheme
+                .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
             // drawerTheme: DrawerThemeData(
             //   scrimColor: Colors.green,
             //   shadowColor: Colors.blue,
             //
             // ),
             textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.black,
-              displayColor: Colors.blue,
-              fontSizeFactor: 1,
-              fontSizeDelta: 1,
-              fontFamily:
+                  bodyColor: Colors.black,
+                  displayColor: Colors.blue,
+                  fontSizeFactor: 1,
+                  fontSizeDelta: 1,
+                  fontFamily:
 
-              ///
-              /// getCachedLocale is arabic? Tajawal else english Visby
-              /// else another language add custom font family
-              ///
-              getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
-            ),
+                      ///
+                      /// getCachedLocale is arabic? Tajawal else english Visby
+                      /// else another language add custom font family
+                      ///
+                      getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
+                ),
             // useMaterial3: true,
             // This is the theme of your application.
             //xx
@@ -334,8 +329,8 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
           //   );
           //   return widget!;
           // },
+          // home: const MarketNavLayout(),
           home: const SplashScreen(),
-          // home: const SplashScreen(),
           // home: const JobsLayout(),
         ),
       ),
@@ -484,24 +479,23 @@ class TestMaterialApp extends StatelessWidget {
       supportedLocales: L10n.all,
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(
-
         appBarTheme: Theme.of(context).appBarTheme.copyWith(),
         textTheme: Theme.of(context).textTheme.apply(
-          bodyColor: Colors.black,
-          displayColor: Colors.blue,
-          fontSizeFactor: 1.1,
-          fontSizeDelta: 2.0,
-          fontFamily:
+              bodyColor: Colors.black,
+              displayColor: Colors.blue,
+              fontSizeFactor: 1.1,
+              fontSizeDelta: 2.0,
+              fontFamily:
 
-          /// getCachedLocale is arabic? Tajawal else english Visby
-          /// else another language add custom font family
-          ///
-          getCachedLocal() == null
-              ? 'Roboto'
-              : getCachedLocal() == 'en'
-              ? 'Roboto'
-              : 'Tajawal',
-        ),
+                  /// getCachedLocale is arabic? Tajawal else english Visby
+                  /// else another language add custom font family
+                  ///
+                  getCachedLocal() == null
+                      ? 'Roboto'
+                      : getCachedLocal() == 'en'
+                          ? 'Roboto'
+                          : 'Tajawal',
+            ),
         // useMaterial3: true,
         // This is the theme of your application.
         //

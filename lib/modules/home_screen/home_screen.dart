@@ -246,10 +246,38 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 33,
                               ),
                             ),
+
                             items: MainCubit.get(context)
                                 .userActionItems1(context),
+
                           ),
+
                         ),
+
+                        // FloatingActionButton(onPressed: () {
+                        //   var mainCubit = MainCubit.get(context);
+                        //   logg(mainCubit.socket.connected.toString());
+                        //   if (mainCubit.userInfoModel != null) {
+                        //
+                        //
+                        //
+                        //     mainCubit.socket.emit('join', [
+                        //       {
+                        //         'user_id': '${mainCubit.userInfoModel!.data.user.id}',
+                        //         'type': '${mainCubit.isUserProvider() ? 'provider' : 'client'}'
+                        //       },
+                        //     ]);
+                        //
+                        //     logg('emitted');
+                        //   }
+                        //   // logg( MainCubit.get(context).socket..toString() );
+                        // })
+
+//                         ///
+
+                  
+
+                        //
 
                         widthBox(7.w),
                         // GestureDetector(
@@ -278,16 +306,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         //     child: Text('E-ser'),
                         //   ),
                         // ),
-                        // widthBox(7.w),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     navigateToWithoutNavBar(context, JobsLayout(), 'routeName');
-                        //   },
-                        //   child: CircleAvatar(
-                        //     radius: 33.h,
-                        //     child: Text('Jobs'),
-                        //   ),
-                        // ),
+                        widthBox(7.w),
+                        GestureDetector(
+                          onTap: () {
+                            navigateToWithoutNavBar(context, JobsLayout(), 'routeName');
+                          },
+                          child: CircleAvatar(
+                            radius: 24.h,
+                            child: Text('Jobs'),
+                          ),
+                        ),
+                        widthBox(7.w),
                       ],
                     )),
             ],

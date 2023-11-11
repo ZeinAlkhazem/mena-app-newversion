@@ -14,7 +14,8 @@ class ErrorGettingCommentsState extends FeedsState {}
 class GettingFeedsState extends FeedsState {}
 
 class GettingBlogsInfoState extends FeedsState {}
-
+class GettingMyBlogsInfoState extends FeedsState {}
+class GettingProviderBlogsInfoState extends FeedsState {}
 class GettingBlogDetailsState extends FeedsState {}
 
 class GettingBlogsItemsState extends FeedsState {}
@@ -83,3 +84,4 @@ class SuccessAddingCommentState extends FeedsState {
 }
 
 class ErrorAddingCommentState extends FeedsState {}
+class SelectedCatChanged extends FeedsState {}

@@ -55,7 +55,6 @@ dependencies:
   flutter_webrtc: ^0.9.34
   fluttertoast: ^8.2.2
   geolocator: ^9.0.2
-  get: null
   google_maps_flutter: ^2.2.1
   google_maps_place_picker_mb: ^3.0.1
   hive: ^2.2.3
@@ -75,6 +74,12 @@ dependencies:
   multi_select_flutter: ^4.1.2
   outline_gradient_button: ^2.0.1+1
   package_info_plus: ^3.1.2
+  get:
+  # lib for import all device contact
+  flutter_contacts: ^1.1.7+1
+  # lib for show bottom sheet
+  wolt_modal_sheet: ^0.1.4
+
   page_transition: ^2.0.9
   path_provider: ^2.0.11
   permission_handler: ^10.2.0
@@ -100,6 +105,7 @@ dependencies:
   visibility_detector: ^0.3.3
   webview_flutter: ^4.2.2
   whiteboard: ^0.0.2
+
 
 dev_dependencies:
   flutter_test:
@@ -137,6 +143,7 @@ flutter:
     - assets/video/
     - assets/new_icons/
     - assets/fonts/
+    - lib/modules/messenger/widget/
 
   fonts:
     - family: Tajawal

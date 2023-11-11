@@ -722,6 +722,7 @@ class _OnAirListSectionState extends State<OnAirListSection> {
                                     liveTopic: '',
                                     name: widget.providersOnAir[index].name,
                                     thumbnailUrl: widget.providersOnAir[index].image,
+                                    
                                   ),
                       ),
                       separatorBuilder: (_, index) => widthBox(1.w),

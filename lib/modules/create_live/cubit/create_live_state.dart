@@ -15,3 +15,6 @@ class WhoCanCommentAndShowState extends CreateLiveState {}
 class CreatingLiveState extends CreateLiveState {}
 
 class SuccessCreateLive extends CreateLiveState{}
+
+
+class UpdatedLiveState extends CreateLiveState{}

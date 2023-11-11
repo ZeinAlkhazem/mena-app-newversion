@@ -44,6 +44,15 @@ class MainCubit extends Cubit<MainState> {
       }) // optional
           .build());
 
+  IO.Socket chatSocket = IO.io(
+      'https://chat.menaaii.com:3000',
+      IO.OptionBuilder().setTransports(['websocket'])
+          // for Flutter or Dart VM
+          .setExtraHeaders({
+        'foo': 'bar',
+      }) // optional
+          .build());
+
   String currentLogo = 'assets/svg/mena8.svg';
 
   List<String?> selectedLocalesIsoInDashboard = [];
@@ -478,6 +487,66 @@ class MainCubit extends Cubit<MainState> {
     });
   }
 
+  void chatSocketInit() async {
+    chatSocket = await IO.io(
+        'https://chat.menaaii.com:3000',
+        IO.OptionBuilder().setTransports(['websocket'])
+            // for Flutter or Dart VM
+            .setExtraHeaders({
+          'foo': 'bar',
+        }) // optional
+            .build());
+
+    ///
+    // IO.Socket socket =await IO.io('https://menaplatforms.com:3001');
+    chatSocket.onConnect((_) {
+      print('chatSocket connection established');
+
+      if (userInfoModel != null) {
+        chatSocket.emit('join', [
+          {
+            'user_id': '${userInfoModel!.data.user.id}',
+            'type': '${isUserProvider() ? 'provider' : 'client'}'
+          },
+        ]);
+
+        logg('emitted');
+      }
+      chatSocket.emit('msg', 'chatSocket test');
+    });
+
+    chatSocket.on('event', (data) => print('chatSocket ' + data));
+    chatSocket.on('message', (data) {
+      jsonDecode(data);
+
+      logg(
+          'this is the data returned from server : ${jsonDecode(data)['type']}');
+      switch (jsonDecode(data)['type']) {
+        case 'join':
+          handleJoin(jsonDecode(data));
+          break;
+      }
+    });
+    chatSocket.on('counters', (data) {
+      print('chatSocket: ${data.toString()}');
+      getCountersData();
+    });
+    // chatSocket.on('new-message', (data) => print('chatSocket: ' + data));
+    chatSocket.onAny((event, data) {
+      print('chatSocket: event: ' + event);
+      print('chatSocket: data:  ${data ?? 'Null data'}');
+    });
+
+    chatSocket.onerror((err) => {logg('chatSocket error : $err')});
+
+    chatSocket.onConnectError((data) => logg(data.toString()));
+
+    chatSocket.onDisconnect((_) => print('chatSocket disconnect'));
+
+    // chatSocket.on
+    chatSocket.on('fromServer', (_) => logg('chatSocketssssssss ' + _));
+  }
+
   void socketInitial() async {
     /// Socket connect
     print('establishing socket connection');
@@ -490,10 +559,6 @@ class MainCubit extends Cubit<MainState> {
         }) // optional
             .build());
 
-    ///
-    // IO.Socket socket =await IO.io('https://menaplatforms.com:3001');
-
-    logg(socket.json.connected.toString());
     socket.onConnect((_) {
       print('socket connection established');
 
@@ -514,11 +579,12 @@ class MainCubit extends Cubit<MainState> {
     socket.on('message', (data) {
       jsonDecode(data);
 
-      logg('this is the data returned from server : ${jsonDecode(data)['type']}');
-      switch(jsonDecode(data)['type']){
+      logg(
+          'this is the data returned from server : ${jsonDecode(data)['type']}');
+      switch (jsonDecode(data)['type']) {
         case 'join':
           handleJoin(jsonDecode(data));
-        break;
+          break;
       }
     });
     socket.on('counters', (data) {
@@ -541,18 +607,15 @@ class MainCubit extends Cubit<MainState> {
     socket.on('fromServer', (_) => logg('socketssssssss ' + _));
   }
 
-  
-  handleJoin(data){
-    logg('handleJoin : ${data}');
-  }
+  handleJoin(data) {}
 
-  handleCheckMeeting(data){
+  handleCheckMeeting(data) {
     logg('handle CheckMeeting : ${data}');
   }
 
-  sendMessage(data){
-      logg('socektId : ${socket.id}');
-     socket.emit('message', jsonEncode(data));
+  sendMessage(data) {
+    logg('socektId : ${socket.id}');
+    socket.emit('message', jsonEncode(data));
   }
 
   Future<bool> checkConnectivity() async {

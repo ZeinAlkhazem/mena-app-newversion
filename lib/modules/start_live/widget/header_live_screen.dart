@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
+import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/my_profile/cubit/profile_cubit.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
@@ -15,14 +16,14 @@ import 'header_live_bubble.dart';
 
 class HeaderLiveScreen extends StatelessWidget {
   const HeaderLiveScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
+    LiveCubit liveCubit = LiveCubit.get(context);
     var mainCubit = MainCubit.get(context);
     User user = mainCubit.userInfoModel!.data.user;
     String? personalImage = user.personalPicture;
     StartLiveCubit startLiveCubit = StartLiveCubit.get(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +37,7 @@ class HeaderLiveScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: HeaderLiveBubble(
-                pictureUrl:personalImage,
+                pictureUrl: personalImage,
               ),
             ),
             SizedBox(
@@ -126,8 +127,8 @@ class HeaderLiveScreen extends StatelessWidget {
                   title: 'Share Live',
                   onTap: () => startLiveCubit.onPressShareLive(
                       context,
-                      "2222222222222222222222",
-                      "lllllllllllllllllllllllllllll"),
+                      liveCubit.goLiveModel!.data.share_link,
+                      "Checkout This Live"),
                 ),
                 PullDownMenuItem(
                   iconSize: 20.w,
@@ -139,7 +140,7 @@ class HeaderLiveScreen extends StatelessWidget {
                   textStyle: TextStyle(color: Colors.black, fontSize: 12.sp),
                   title: 'Copy Link',
                   onTap: () => startLiveCubit.onPressCopyLink(
-                      context, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"),
+                      context, liveCubit.goLiveModel!.data.share_link),
                 ),
                 PullDownMenuItem(
                   iconSize: 20.w,

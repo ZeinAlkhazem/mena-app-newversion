@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mena/models/api_model/live_info_model.dart';
+import 'package:mena/models/api_model/provider_model.dart';
 import 'package:mena/modules/create_live/widget/live_topic.dart';
 
 import '../../../core/constants/constants.dart';
@@ -35,9 +36,10 @@ class CreateLiveCubit extends Cubit<CreateLiveState> {
 
   AutovalidateMode? resetPassAutoValidateMode = AutovalidateMode.disabled;
   String? selectedTopic;
-  LiveInfoModel? liveInfoModel; 
+  LiveInfoModel? liveInfoModel;
+
   onPressStarStreaming(context) {
-    navigateTo(context, const StartLivePage());
+    navigateTo(context, StartLivePage());
   }
 
   void toggleAutoValidate(bool val) {
@@ -230,13 +232,13 @@ class CreateLiveCubit extends Cubit<CreateLiveState> {
           },
         ));
   }
- getLiveInfo() async{
-  await MainDioHelper.getData(url: getLivesInfo, query: {})
+
+  getLiveInfo() async {
+    await MainDioHelper.getData(url: getLivesInfo, query: {})
         .then((value) async {
       logg('got live info ');
       logg("${value.toString()}");
       liveInfoModel = LiveInfoModel.fromJson(value.data);
-      
     }).catchError((error, stack) {
       /// read from hive
       ///
@@ -247,23 +249,20 @@ class CreateLiveCubit extends Cubit<CreateLiveState> {
       // logg("${stack.toString()}");
     });
   }
- 
- onShowDescription(context) {
-    getLiveInfo().then((e){
+
+  onShowDescription(context) {
+    getLiveInfo().then((e) {
       List<Topic> liveTopic = liveInfoModel!.data.topics;
       showTopicBottomSheet(
         context: context,
         title: "Add Topic:",
-        description: 'Topics will help your LIVE videos reach more viewers and the viewers can use topics to find your LIVE videos, more easily.',
-        body:  LiveTopic(
-          topics: liveTopic,
-          selectedTopic :selectedTopic
-        ), 
+        description:
+            'Topics will help your LIVE videos reach more viewers and the viewers can use topics to find your LIVE videos, more easily.',
+        body: LiveTopic(topics: liveTopic, selectedTopic: selectedTopic),
       );
     });
-    
-    
   }
+
   Future<void> createLive() async {
     emit(CreatingLiveState());
 
@@ -273,7 +272,7 @@ class CreateLiveCubit extends Cubit<CreateLiveState> {
       'topic': target.text,
       'live_now_category_id': "1",
     };
-  
+
     try {
       // await MainDioHelper.postData(url: goLiveEnd, data: toSendData)
       //     .then((value) {

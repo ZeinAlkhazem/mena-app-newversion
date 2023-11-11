@@ -16,6 +16,7 @@ import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/live_screens/live_screen.dart';
 import 'package:mena/modules/live_screens/start_live_form.dart';
 import 'package:mena/modules/start_live/start_live_page.dart';
+import 'package:mena/modules/start_live/test.dart';
 
 class CreateLivePage extends StatefulWidget {
   const CreateLivePage({super.key});
@@ -105,6 +106,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
           : null; //on pause camera is disposed, so we need to call again "issue is only for android"
     }
   }
+
   @override
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
@@ -145,6 +147,8 @@ class _CreateLivePageState extends State<CreateLivePage> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 15.h, vertical: 20.w),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
                           onTap: () {},
@@ -188,8 +192,9 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           }
                         },
                         child: SvgPicture.asset(
-                          "assets/new_icons/Close_Icon.svg",
+                          "assets/new_icons/zain/cross_large_outline_28.svg",
                           height: 28,
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -213,8 +218,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           radius: 30.sp,
                           isOnline: true,
                           customRingColor: mainBlueColor,
-                          pictureUrl:
-                              user.personalPicture),
+                          pictureUrl: user.personalPicture),
                       widthBox(10.w),
                       Expanded(
                         // padding: const EdgeInsets.all(8.0),
@@ -237,12 +241,6 @@ class _CreateLivePageState extends State<CreateLivePage> {
                               fontWeight: FontWeight.w500),
                         ),
                       ),
-                      // widthBox(5.w),
-                      // SvgPicture.asset(
-                      //   "assets/new_icons/Write_title.svg",
-                      //   fit: BoxFit.contain,
-                      //   width: 20,
-                      // ),
                     ],
                   ),
                 ),
@@ -276,13 +274,18 @@ class _CreateLivePageState extends State<CreateLivePage> {
                               BlocConsumer<LiveCubit, LiveState>(
                                   listener: (context, state) {},
                                   builder: (context, state) {
-                                    return Text(
-                                      liveCubit.selectedTopic,
-                                      style: TextStyle(
-                                          fontSize: 13.sp,
-                                          fontFamily: 'PNfont',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500),
+                                    return Container(
+                                      constraints:
+                                          BoxConstraints(maxWidth: 60.w),
+                                      child: new Text(
+                                        liveCubit.selectedTopic,
+                                        style: TextStyle(
+                                            fontSize: 13.sp,
+                                            overflow: TextOverflow.ellipsis,
+                                            fontFamily: 'PNfont',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                     );
                                   }),
                               widthBox(10),
@@ -290,7 +293,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           ),
                         ),
                       ),
-                      heightBox(10.h),
+                      widthBox(10.h),
 
                       /// Add topic
                       InkWell(
@@ -307,7 +310,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                                 'assets/new_icons/Goal.svg',
                                 height: 20,
                               ),
-                              widthBox(15),
+                              widthBox(10),
                               Container(
                                   width: 100.w,
                                   height: 28.h,
@@ -318,7 +321,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                                           TextAlignVertical.center,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: "Add a LIVE goal",
+                                        hintText: "Add a goal",
                                         fillColor: Colors.white,
                                         hintStyle: TextStyle(
                                             fontSize: 13.sp,
@@ -347,70 +350,82 @@ class _CreateLivePageState extends State<CreateLivePage> {
                 /// option buttons
                 Wrap(
                   children: [
-                    Row(
-                      children: [
-                        widthBox(55.w),
-                        LiveOptionButton(
-                            title: "Flip",
-                            iconSize: 30,
-                            hieght: 3,
-                            icon: "assets/new_icons/z3.svg",
-                            btnClick: () async {
-                              startCamera();
-                            }),
-                        widthBox(15.w),
-                        LiveOptionButton(
-                            title: "Poll",
-                            iconSize: 35,
-                            hieght: 0,
-                            icon: "assets/new_icons/z4.svg",
-                            btnClick: () {}),
-                        widthBox(15.w),
-                        LiveOptionButton(
-                            title: "Product",
-                            iconSize: 25,
-                            top: 6,
-                            hieght: 6,
-                            icon: "assets/new_icons/z6.svg",
-                            btnClick: () {}),
-                        widthBox(15.w),
-                        LiveOptionButton(
-                            title: "Link",
-                            iconSize: 20,
-                            hieght: 11,
-                            top: 11,
-                            icon: "assets/new_icons/z7.svg",
-                            btnClick: () {}),
-                        widthBox(15.w),
-                        LiveOptionButton(
-                            title: "Share",
-                            iconSize: 28,
-                            top: 15,
-                            hieght: 11,
-                            icon: "assets/new_icons/z2.svg",
-                            btnClick: () {}),
-                      ],
-                    ),
-                    heightBox(20.h),
-                    Row(
-                      children: [
-                        widthBox(60.w),
-                        LiveOptionButton(
-                            title: "Setting",
-                            iconSize: 34,
-                            top: 8,
-                            hieght: 15,
-                            icon: "assets/new_icons/settings.svg",
-                            btnClick: () {}),
-                        widthBox(8.w),
-                        LiveOptionButton(
-                            title: "Live Center",
-                            iconSize: 24,
-                            top: 8,
-                            hieght: 12,
-                            icon: "assets/new_icons/z6.svg",
-                            btnClick: () {}),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.only(left: 50.w, right: 50.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              LiveOptionButton(
+                                  title: "Flip",
+                                  iconSize: 35,
+                                  icon: "assets/new_icons/zain/camera.svg",
+                                  btnClick: () async {
+                                    startCamera();
+                                  }),
+                              heightBox(10.h),
+                              LiveOptionButton(
+                                  title: "Setting",
+                                  iconSize: 35,
+                                  icon: "assets/new_icons/zain/settings_24.svg",
+                                  btnClick: () {}),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              LiveOptionButton(
+                                  title: "Poll",
+                                  iconSize: 35,
+                                  icon:
+                                      "assets/new_icons/zain/poll_outline_20.svg",
+                                  btnClick: () {}),
+                              heightBox(10.h),
+                              LiveOptionButton(
+                                  title: "Live Center",
+                                  iconSize: 35,
+                                  icon:
+                                      "assets/new_icons/zain/home_outline_20.svg",
+                                  btnClick: () {}),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              LiveOptionButton(
+                                  title: "Product",
+                                  iconSize: 35,
+                                  icon: "assets/new_icons/z6.svg",
+                                  btnClick: () {}),
+                            ],
+                          ),
+                          widthBox(5),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              LiveOptionButton(
+                                  title: "Link",
+                                  iconSize: 35,
+                                  icon: "assets/new_icons/zain/linked_24.svg",
+                                  btnClick: () {}),
+                            ],
+                          ),
+                          widthBox(5),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              LiveOptionButton(
+                                  title: "Share",
+                                  iconSize: 35,
+                                  icon: "assets/new_icons/z2.svg",
+                                  btnClick: () {}),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -453,7 +468,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                             icon:
                                 "assets/new_icons/voice-square-svgrepo-com.svg",
                             btnClick: () {}),
-                        widthBox(40.w),
+                        widthBox(20.w),
                         LiveOptionButtonExtra(
                             title: "Device camera",
                             iconSize: 20,

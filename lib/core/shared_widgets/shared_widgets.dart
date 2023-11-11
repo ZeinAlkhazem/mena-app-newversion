@@ -2725,6 +2725,7 @@ class LivesList extends StatelessWidget {
                                           liveGoal: liveCubit.goLiveModel?.data.goal ?? '',
                                           liveTopic: liveCubit.goLiveModel?.data.topic ?? '',
                                           thumbnailUrl: liveCubit.nowLivesModel!.data.lives[index].image,
+                                          roomId: liveCubit.nowLivesModel!.data.lives[index].roomId,
                                         );
                                       },
                                       separatorBuilder: (_, i) => widthBox(2.w),

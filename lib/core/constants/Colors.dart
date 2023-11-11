@@ -6,6 +6,9 @@ class AppColors {
   static Color lineGray = const Color(0xFFC9CBCD);
   static Color textRed = const Color(0xFFE72B1C);
   static Color lineBlue = const Color(0xFF0077FF);
+  static Color softBlue = const Color(0xFF4480c2);
+  static Color hardBlue = const Color(0xFF1e5682);
+  static Color indigoBlue = const Color(0xFF1c3f91);
 
 
   static Color grayDarkColor = const Color(0xFF5B5C5E);

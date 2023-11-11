@@ -4,7 +4,10 @@
 
 import 'dart:convert';
 
+import 'package:mena/models/api_model/categories_model.dart';
+import 'package:mena/models/api_model/category-details.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
+import 'package:mena/modules/create_articles/model/pubish_article_model.dart';
 
 BlogsInfoModel blogsInfoModelFromJson(String str) => BlogsInfoModel.fromJson(json.decode(str));
 
@@ -32,7 +35,7 @@ class BlogsInfoModel {
 
 class Data {
   List<BlogBanner> banners;
-  List<BlogBanner> categories;
+  List<Category> categories;
   List<MenaArticle> topArticles;
 
   Data({
@@ -43,13 +46,13 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     banners: List<BlogBanner>.from(json["banners"].map((x) => BlogBanner.fromJson(x))),
-    categories: List<BlogBanner>.from(json["categories"].map((x) => BlogBanner.fromJson(x))),
+    categories: json["categories"]!=[]?List<Category>.from(json["categories"].map((x) => Category.fromJson(x))):[],
     topArticles: List<MenaArticle>.from(json["top_articles"].map((x) => MenaArticle.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
-    "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+    "categories": categories!=null?List<dynamic>.from(categories!.map((x) => x.toJson())):null,
     "top_articles": List<dynamic>.from(topArticles.map((x) => x.toJson())),
   };
 }
@@ -91,8 +94,8 @@ class MenaArticle {
   String title;
   String content;
   int categoryId;
-  int  providerId;
-  BlogBanner category;
+  int providerId;
+  BlogBanner? category;
   User? provider;
   DateTime createdAt;
   bool isMine;
@@ -105,29 +108,31 @@ class MenaArticle {
     required this.content,
     required this.categoryId,
     required this.providerId,
-    required this.category,
-     this.provider,
+     this.category,
+    this.provider,
     required this.createdAt,
     required this.isMine,
-  this.view,
+    this.view,
   });
 
   factory MenaArticle.fromJson(Map<String, dynamic> json) =>
-MenaArticle(
-    id: json["id"],
-    banner: json["banner"],
-    title: json["title"],
-    content: json["content"],
-    categoryId: json["category_id"],
-    providerId: json["provider_id"],
-    category: BlogBanner.fromJson(json["category"]),
-    provider: 
-    json["provider"] != null ?
-    User.fromJson(json["provider"]) : null,
-    createdAt: DateTime.parse(json["created_at"]),
-    isMine: json["is_mine"],
-    view:  json['view'],
-  );
+      MenaArticle(
+        id: json["id"],
+        banner: json["banner"],
+        title: json["title"],
+        content: json["content"],
+        categoryId: json["category_id"],
+        providerId: json["provider_id"],
+        category:
+        json["category"] != null ?
+        BlogBanner.fromJson(json["category"]) :null,
+        provider:
+        json["provider"] != null ?
+        User.fromJson(json["provider"]) : null,
+        createdAt: DateTime.parse(json["created_at"]),
+        isMine: json["is_mine"],
+        view:  json['view'],
+      );
 
   Map<String, dynamic> toJson() => {
     "id": id,
@@ -137,7 +142,7 @@ MenaArticle(
     "content": content,
     "category_id": categoryId,
     "provider_id": providerId,
-    "category": category.toJson(),
+    "category": category?.toJson(),
     "provider": provider?.toJson(),
     "created_at": "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
     "is_mine": isMine,

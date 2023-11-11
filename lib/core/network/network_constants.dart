@@ -60,6 +60,8 @@ const String getEServicesInfoEnd = '/e-services/info';
 
 ///blogs
 const String getBlogsInfoEnd = '/blogs/info';
+const String getMyBlogsInfoEnd = '/blogs/my';
+const String getProviderBlogsInfoEnd = '/blogs/provider';
 const String getBlogsItemsEnd = '/blogs/all';
 const String getBlogDetailsEnd = '/blogs/details';
 

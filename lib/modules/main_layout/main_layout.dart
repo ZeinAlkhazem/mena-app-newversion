@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,7 @@ import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/responsive/responsive.dart';
+import 'package:mena/main.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
 import 'package:mena/modules/messenger/screens/messenger_get_start_page.dart';
@@ -287,9 +289,11 @@ class _MainLayoutState extends State<MainLayout> {
                     (e) => SelectorButtonModel(
                       title: e.name!,
                       image: e.image,
-                      onClickCallback: () {
+                      onClickCallback: () async {
+                        log("hhhh");
                         myScaffoldKey.currentState?.closeEndDrawer();
                         homeCubit.changeSelectedHomePlatform(e.id.toString());
+                       await  prefs.setString('platformName' , e.name.toString());
                       },
                       isSelected: homeCubit.selectedHomePlatformId == e.id,
                     ),

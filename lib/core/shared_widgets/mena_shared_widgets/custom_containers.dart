@@ -102,7 +102,7 @@ class SelectorButton extends StatelessWidget {
     return GestureDetector(
       onTap: onClick,
       child: Container(
-        height: customHeight,
+        height: customHeight ??30.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(customRadius ?? 42.sp),
@@ -111,7 +111,7 @@ class SelectorButton extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(
           horizontal: 15.w,
-          vertical: 7.h,
+          vertical: 2.h,
         ),
         child: Center(
           child: Text(

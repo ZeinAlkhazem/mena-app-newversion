@@ -172,8 +172,7 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                     controller: _tabController,
                                     tabs: [
                                       TabItemWidget(
-                                          title: getTranslatedStrings(context)
-                                              .messengerChat,
+                                          title: "getTranslatedStrings(context).messengerChat",
                                           iconBlueUrl:
                                               "assets/icons/messenger/icon_chat_blue.svg",
                                           iconGrayUrl:
@@ -183,8 +182,7 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                               ? true
                                               : false),
                                       TabItemWidget(
-                                          title: getTranslatedStrings(context)
-                                              .messengerChatGroups,
+                                          title: "getTranslatedStrings(context).messengerChatGroups",
                                           iconBlueUrl:
                                               "assets/icons/messenger/icon_chat_group_blue.svg",
                                           iconGrayUrl:
@@ -194,8 +192,7 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                               ? true
                                               : false),
                                       TabItemWidget(
-                                          title: getTranslatedStrings(context)
-                                              .messengerChannels,
+                                          title: "getTranslatedStrings(context).messengerChannels",
                                           iconBlueUrl:
                                               "assets/icons/messenger/icon_channel_blue.svg",
                                           iconGrayUrl:

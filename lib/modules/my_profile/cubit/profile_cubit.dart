@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
+import 'package:mena/modules/feeds_screen/blogs/my_blog.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/cache/cache.dart';
@@ -123,7 +124,10 @@ class ProfileCubit extends Cubit<ProfileState> {
           title: 'My blog',
           thumbnailLink: 'assets/svg/icons/profile/my blog.svg',
           count: '0',
-          onClickCallback: () {},
+          onClickCallback: () {
+
+            navigateToWithoutNavBar(context, MyBlogLayout( isMyBlog: true), 'routeName');
+          },
         ),
         ItemWithTitleAndCallback(
           title: 'Events and webinars',

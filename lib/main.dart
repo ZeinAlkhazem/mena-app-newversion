@@ -62,6 +62,7 @@ class MyHttpOverrides extends HttpOverrides {
 
 //
 // late Box userBox;
+late SharedPreferences prefs;
 void main() async {
 
   HttpOverrides.global = MyHttpOverrides();
@@ -73,7 +74,7 @@ void main() async {
   ));
 
   // await initializeDateFormatting();
-  final prefs = await SharedPreferences.getInstance();
+prefs = await SharedPreferences.getInstance();
   String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
 
   // Get the default phone language and set it as the default language

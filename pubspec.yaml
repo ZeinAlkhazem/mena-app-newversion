@@ -111,7 +111,8 @@ dependencies:
   # flutter_quill: 
   package_info_plus: ^3.1.2
   camera: ^0.9.7+1
-  get:
+  image_cropper: ^3.0.3
+
 
 dev_dependencies:
   flutter_test:

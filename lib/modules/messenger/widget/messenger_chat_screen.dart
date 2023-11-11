@@ -59,7 +59,7 @@ class MessengerChatScreen extends StatelessWidget {
                   height: 50.h,
                 ),
                 Text(
-                  getTranslatedStrings(context).messengerWelcomeText,
+                  "getTranslatedStrings(context).messengerWelcomeText",
                   textAlign: TextAlign.justify,
                   style: mainStyle(context, 10.sp,
                       weight: FontWeight.w400,

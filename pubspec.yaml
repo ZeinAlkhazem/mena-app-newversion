@@ -112,6 +112,11 @@ dependencies:
   package_info_plus: ^3.1.2
   camera: ^0.9.7+1
   get:
+  # lib for import all device contact
+  flutter_contacts: ^1.1.7+1
+  # lib for show bottom sheet
+  wolt_modal_sheet: ^0.1.4
+
 
 dev_dependencies:
   flutter_test:
@@ -149,6 +154,7 @@ flutter:
     - assets/video/
     - assets/new_icons/
     - assets/fonts/
+    - lib/modules/messenger/widget/
 
   fonts:
     - family: Tajawal

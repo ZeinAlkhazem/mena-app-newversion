@@ -534,6 +534,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
+  flutter_contacts:
+    dependency: "direct main"
+    description:
+      name: flutter_contacts
+      sha256: "4fb4910fbe401ff234bc672304ef37f90319144920e940d1349b96fe089c6da7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.7+1"
   flutter_cupertino_date_picker_fork:
     dependency: "direct main"
     description:
@@ -2130,6 +2138,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.4"
+  wolt_modal_sheet:
+    dependency: "direct main"
+    description:
+      name: wolt_modal_sheet
+      sha256: af27d8cb2bd6373a06f31c8368cff789efe01cfa3aef7eed58e0a7de409ec18e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4"
   xdg_directories:
     dependency: transitive
     description:

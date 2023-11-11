@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -498,6 +500,7 @@ class MsgSummaryItem extends StatefulWidget {
 class _MsgSummaryItemState extends State<MsgSummaryItem> {
   @override
   Widget build(BuildContext context) {
+  log("# picture  :${ widget.chat.user!.personalPicture}");
     var messengerCubit = MessengerCubit.get(context);
     return widget.user == null
         ? Text('null user')
@@ -642,7 +645,7 @@ class _MsgSummaryItemState extends State<MsgSummaryItem> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ProfileBubble(
-                            isOnline: true,
+                            isOnline: false,
                             radius: 17.sp,
                             pictureUrl: widget.chat.user!.personalPicture,
                           ),

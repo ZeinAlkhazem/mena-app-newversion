@@ -196,65 +196,33 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           pictureUrl:
                           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
                       widthBox(10.w),
-                      Container(
-                        padding: EdgeInsets.only(top: 15),
-                        child: Row(
-                          children: [
-                            // TextField(
-                            //   style: TextStyle(
-                            //     fontSize: 18.sp,
-                            //     fontFamily: 'PNfont',
-                            //     // color: Colors.white,
-                            //     fontWeight: FontWeight.w500,
-                            //   ),
-                            //   decoration: InputDecoration(
-                            //     border: InputBorder.none, // Remove borders
-                            //     enabledBorder: InputBorder.none, // Remove borders
-                            //     focusedBorder: InputBorder.none, // Remove borders
-                            //     hintText: "Add Title", // Placeholder text
-                            //     hintStyle: TextStyle(
-                            //       fontSize: 18.sp,
-                            //       fontFamily: 'PNfont',
-                            //       color: Colors.white.withOpacity(0.5), // Placeholder text color
-                            //     ),
-                            //   ),
-                            // ),
-                          Text(
-                            "Add Title",
-                            style: TextStyle(
-                                fontSize: 16.sp,
+                      Expanded(
+                        // padding: const EdgeInsets.all(8.0),
+                        child:TextField(
+                          controller: titleController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Add Title",
+                            fillColor: Colors.white,
+                            hintStyle: TextStyle(
+                                fontSize: 18.sp,
                                 fontFamily: 'PNfont',
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.w500),
                           ),
-                            widthBox(5.w),
-                            SvgPicture.asset(
-                              "assets/new_icons/Write_title.svg",
-                              fit: BoxFit.contain,
-                              width: 20,
-                            )
-                            // TextField(
-                            //   style: TextStyle(
-                            //     fontSize: 18.sp,
-                            //     fontFamily: 'PNfont',
-                            //     // color: Colors.white,
-                            //     fontWeight: FontWeight.w500,
-                            //   ),
-                            //   decoration: InputDecoration(
-                            //     border: InputBorder.none, // Remove borders
-                            //     enabledBorder: InputBorder.none, // Remove borders
-                            //     focusedBorder: InputBorder.none, // Remove borders
-                            //     hintText: "Add Title", // Placeholder text
-                            //     hintStyle: TextStyle(
-                            //       fontSize: 18.sp,
-                            //       fontFamily: 'PNfont',
-                            //       color: Colors.white.withOpacity(0.5), // Placeholder text color
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
+                          style: TextStyle(
+                              fontSize: 18.sp,
+                              fontFamily: 'PNfont',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
+                        // widthBox(5.w),
+                        // SvgPicture.asset(
+                        //   "assets/new_icons/Write_title.svg",
+                        //   fit: BoxFit.contain,
+                        //   width: 20,
+                        // ),
                     ],
                   ),
                 ),
@@ -334,68 +302,69 @@ class _CreateLivePageState extends State<CreateLivePage> {
                 /// option buttons
                 Wrap(
                   children: [
-                    Column(
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            widthBox(55.w),
-                            LiveOptionButton(
-                                title: "Flip",
-                                iconSize: 45,
-                                hieght: 0,
-                                icon: "assets/new_icons/Flip.svg",
-                                btnClick: () async {
-                                  startCamera();
-                                }),
-                            widthBox(15.w),
-                            LiveOptionButton(
-                                title: "Poll",
-                                iconSize: 50,
-                                hieght: 0,
-                                icon: "assets/new_icons/Add_poll.svg",
-                                btnClick: () {}),
-                            widthBox(15.w),
-                            LiveOptionButton(
-                                title: "Product",
-                                iconSize: 48,
-                                hieght: 0,
-                                icon: "assets/new_icons/Add_Producat.svg",
-                                btnClick: () {}),
-                            widthBox(15.w),
-                            LiveOptionButton(
-                                title: "Link",
-                                iconSize: 32,
-                                hieght: 13,
-                                icon: "assets/new_icons/Add_Link.svg",
-                                btnClick: () {}),
-                            widthBox(15.w),
-                            LiveOptionButton(
-                                title: "Share",
-                                iconSize: 28,
-                                hieght: 18,
-                                icon: "assets/new_icons/Share_icon_white.svg",
-                                btnClick: () {}),
-                          ],
-                        ),
-                        heightBox(20.h),
-                        Row(
-                          children: [
-                            widthBox(60.w),
-                            LiveOptionButton(
-                                title: "Setting",
-                                iconSize: 34,
-                                hieght: 11,
-                                icon: "assets/new_icons/Device_Camera.svg",
-                                btnClick: () {}),
-                            widthBox(8.w),
-                            LiveOptionButton(
-                                title: "Live Center",
-                                iconSize: 24,
-                                hieght: 8,
-                                icon: "assets/new_icons/home-wifi-svgrepo-com.svg",
-                                btnClick: () {}),
-                          ],
-                        ),
+                        widthBox(55.w),
+                        LiveOptionButton(
+                            title: "Flip",
+                            iconSize: 47,
+                            hieght: 3,
+                            icon: "assets/new_icons/Flip.svg",
+                            btnClick: () async {
+                              startCamera();
+                            }),
+                        widthBox(15.w),
+                        LiveOptionButton(
+                            title: "Poll",
+                            iconSize: 55,
+                            hieght: 0,
+                            icon: "assets/new_icons/Add_poll.svg",
+                            btnClick: () {}),
+                        widthBox(15.w),
+                        LiveOptionButton(
+                            title: "Product",
+                            iconSize: 44,
+                            top: 6,
+                            hieght: 6,
+                            icon: "assets/new_icons/Add_Producat.svg",
+                            btnClick: () {}),
+                        widthBox(15.w),
+                        LiveOptionButton(
+                            title: "Link",
+                            iconSize: 32,
+                            hieght: 11,
+                            top: 11,
+                            icon: "assets/new_icons/Add_Link.svg",
+                            btnClick: () {}),
+                        widthBox(15.w),
+                        LiveOptionButton(
+                            title: "Share",
+                            iconSize: 28,
+                            top: 15,
+                            hieght: 11,
+                            icon: "assets/new_icons/Share_icon_white.svg",
+                            btnClick: () {}),
+                      ],
+                    ),
+                    heightBox(20.h),
+                    Row(
+                      children: [
+                        widthBox(60.w),
+                        LiveOptionButton(
+                            title: "Setting",
+                            iconSize: 34,
+                            top: 8,
+                            hieght: 15,
+                            icon: "assets/new_icons/Device_Camera.svg",
+                            btnClick: () {}),
+                        widthBox(8.w),
+                        LiveOptionButton(
+                            title: "Live Center",
+                            iconSize: 24,
+                            top: 8,
+                            hieght: 12,
+                            icon: "assets/new_icons/home-wifi-svgrepo-com.svg",
+                            btnClick: () {}),
                       ],
                     ),
                   ],
@@ -414,25 +383,23 @@ class _CreateLivePageState extends State<CreateLivePage> {
                 heightBox(15.h),
                 Wrap(
                   children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          widthBox(60.w),
-                          LiveOptionButtonExtra(
-                              title: "Voice hub",
-                              iconSize: 20,
-                              // width: 15,
-                              icon: "assets/new_icons/voice-square-svgrepo-com.svg",
-                              btnClick: () {}),
-                          widthBox(40.w),
-                          LiveOptionButtonExtra(
-                              title: "Device camera",
-                              iconSize: 20,
-                              // width: 15,
-                              icon: "assets/new_icons/Device_Camera.svg",
-                              btnClick: () {}),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        widthBox(60.w),
+                        LiveOptionButtonExtra(
+                            title: "Voice hub",
+                            iconSize: 20,
+                            // width: 15,
+                            icon: "assets/new_icons/voice-square-svgrepo-com.svg",
+                            btnClick: () {}),
+                        widthBox(40.w),
+                        LiveOptionButtonExtra(
+                            title: "Device camera",
+                            iconSize: 20,
+                            // width: 15,
+                            icon: "assets/new_icons/Device_Camera.svg",
+                            btnClick: () {}),
+                      ],
                     ),
                   ],
                 ),

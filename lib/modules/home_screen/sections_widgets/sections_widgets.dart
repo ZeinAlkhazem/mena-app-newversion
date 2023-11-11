@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,16 +11,18 @@ import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/modules/community_space/cme_layout.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../../../core/constants/my_countries.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/responsive/responsive.dart';
 import '../../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import '../../../models/api_model/home_section_model.dart';
-import '../../appointments/appointments_layouts/book_appointment_form.dart';
 import '../../category_childs_screen/category_details_childs_screen.dart';
+
+import '../../main_layout/categories page.dart';
+import '../../main_layout/weather_banner.dart';
 import '../../nearby_screen/nearby_layout.dart';
 import '../../platform_provider/provider_home/platform_provider_home.dart';
-import '../cubit/home_screen_cubit.dart';
+import 'package:http/http.dart' as http;
 
 class VideoSection extends StatelessWidget {
   const VideoSection({
@@ -54,7 +59,10 @@ class VideoSection extends StatelessWidget {
 
 class CategoriesSection extends StatelessWidget {
   const CategoriesSection(
-      {Key? key, required this.categoriesSection, required this.style, required this.homeSectionTitle})
+      {Key? key,
+      required this.categoriesSection,
+      required this.style,
+      required this.homeSectionTitle})
       : super(key: key);
 
   final List<MenaCategory>? categoriesSection;
@@ -64,7 +72,8 @@ class CategoriesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: defaultHorizontalPadding),
+      padding: EdgeInsets.symmetric(
+          vertical: 12, horizontal: defaultHorizontalPadding),
       child: categoriesSection == null
           ? const Text('categories null')
           : Column(
@@ -112,7 +121,10 @@ class CategoriesSection extends StatelessWidget {
                                 navigateToWithoutNavBar(
                                     context,
                                     CategoryChildsScreen(
-                                      currentCategoryToViewId: categoriesSection![index].id.toString(),
+                                      currentCategoryToViewId:
+                                          categoriesSection![index]
+                                              .id
+                                              .toString(),
                                     ),
                                     '');
                                 // navigateToWithoutNavBar(
@@ -125,18 +137,25 @@ class CategoriesSection extends StatelessWidget {
                                     Expanded(
                                       child: Padding(
                                         padding: EdgeInsets.all(1.0.sp),
-                                        child: SmoothBorderContainer(
-                                          thumbNail: categoriesSection![index].image!,
+                                        child: SmoothBorderContainerModified(
+                                          thumbNail:
+                                              categoriesSection![index].image!,
                                           cornerRadius:
-                                              Responsive.isMobile(context) ? defaultRadiusVal : defaultRadiusVal,
-                                          customHeight: Responsive.isMobile(context) ? 0.25.sw : 0.13.sw,
+                                              Responsive.isMobile(context)
+                                                  ? defaultRadiusVal
+                                                  : defaultRadiusVal,
+                                          customHeight:
+                                              Responsive.isMobile(context)
+                                                  ? 0.25.sw
+                                                  : 0.13.sw,
                                         ),
                                       ),
                                     ),
                                     heightBox(5.h),
                                     Text(
                                       categoriesSection![index].name ?? '-',
-                                      style: mainStyle(context, 11),
+                                      style: mainStyle(context, 11,
+                                          weight: FontWeight.w800),
                                       textAlign: TextAlign.center,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -175,7 +194,10 @@ class CategoriesSection extends StatelessWidget {
                                   navigateToWithoutNavBar(
                                       context,
                                       CategoryChildsScreen(
-                                        currentCategoryToViewId: categoriesSection![index].id.toString(),
+                                        currentCategoryToViewId:
+                                            categoriesSection![index]
+                                                .id
+                                                .toString(),
                                       ),
                                       '');
                                   // navigateToWithoutNavBar(
@@ -188,9 +210,13 @@ class CategoriesSection extends StatelessWidget {
                                       Padding(
                                         padding: EdgeInsets.all(1.0.sp),
                                         child: SmoothBorderContainer(
-                                          thumbNail: categoriesSection![index].image!,
+                                          thumbNail:
+                                              categoriesSection![index].image!,
                                           customWidth: 0.2.sw,
-                                          cornerRadius: Responsive.isMobile(context) ? 8.r : 10.r,
+                                          cornerRadius:
+                                              Responsive.isMobile(context)
+                                                  ? 8.r
+                                                  : 10.r,
                                           customHeight: 0.2.sw,
                                         ),
                                       ),
@@ -198,7 +224,9 @@ class CategoriesSection extends StatelessWidget {
                                       Expanded(
                                         child: Text(
                                           categoriesSection![index].name ?? '-',
-                                          style: mainStyle(context, 13, isBold: true, color: newDarkGreyColor),
+                                          style: mainStyle(context, 13,
+                                              isBold: true,
+                                              color: newDarkGreyColor),
                                           textAlign: TextAlign.start,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -213,7 +241,8 @@ class CategoriesSection extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              separatorBuilder: (BuildContext context, int index) {
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
                                 return Divider();
                               },
                             ),
@@ -223,7 +252,8 @@ class CategoriesSection extends StatelessWidget {
                     },
                     child: CategoriesTail(
                       title: homeSectionTitle,
-                      viewAllOption: ((style == '4_1' && categoriesSection!.length > 8) ||
+                      viewAllOption: ((style == '4_1' &&
+                              categoriesSection!.length > 8) ||
                           (style == '3_1' && categoriesSection!.length > 6) ||
                           (style == '2_1' && categoriesSection!.length > 4) ||
                           (style == '1_1' && categoriesSection!.length > 1)),
@@ -315,7 +345,9 @@ class CategoriesTail extends StatelessWidget {
 }
 
 class NearbyProvidersSection extends StatefulWidget {
-  const NearbyProvidersSection({Key? key, required this.providersNearby, required this.title}) : super(key: key);
+  const NearbyProvidersSection(
+      {Key? key, required this.providersNearby, required this.title})
+      : super(key: key);
   final String title;
   final List<ProviderLocationModel> providersNearby;
 
@@ -344,7 +376,8 @@ class _NearbyProvidersSectionState extends State<NearbyProvidersSection> {
     //   );
     // }
 // autoScroll();
-    Future.delayed(const Duration(milliseconds: 1500)).then((value) => autoScroll());
+    Future.delayed(const Duration(milliseconds: 1500))
+        .then((value) => autoScroll());
     super.initState();
   }
 
@@ -368,7 +401,8 @@ class _NearbyProvidersSectionState extends State<NearbyProvidersSection> {
       )
           .then((value) async {
         if (_controller.hasClients) {
-          if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+          if (_controller.position.pixels ==
+              _controller.position.maxScrollExtent) {
             {
               return animateToStartThenToEnd();
             }
@@ -391,7 +425,8 @@ class _NearbyProvidersSectionState extends State<NearbyProvidersSection> {
       )
           .then((value) async {
         if (_controller.hasClients) {
-          if (_controller.position.pixels == _controller.position.minScrollExtent) {
+          if (_controller.position.pixels ==
+              _controller.position.minScrollExtent) {
             return animateToEndThenToStart();
 
             if (_controller.keepScrollOffset) {
@@ -410,13 +445,15 @@ class _NearbyProvidersSectionState extends State<NearbyProvidersSection> {
       logg('! isAutoScrollRun');
       if (_controller.hasClients) {
         isAutoScrollRun = true;
-        if (_controller.position.pixels < _controller.position.maxScrollExtent) {
+        if (_controller.position.pixels <
+            _controller.position.maxScrollExtent) {
           logg('pixels is _controller.position.minScrollExtent');
 
           ///
           animateToEndThenToStart();
         }
-        if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+        if (_controller.position.pixels ==
+            _controller.position.maxScrollExtent) {
           logg('pixels is _controller.position.maxScrollExtent');
           _controller.animateTo(
             _controller.position.minScrollExtent,
@@ -457,8 +494,9 @@ class _NearbyProvidersSectionState extends State<NearbyProvidersSection> {
                       ProviderLocationsLayout(
                         title: '',
                         providersLocations: widget.providersNearby,
-                        initialSelectedNearbyProvider:
-                            widget.providersNearby.firstWhere((element) => element == widget.providersNearby[index]),
+                        initialSelectedNearbyProvider: widget.providersNearby
+                            .firstWhere((element) =>
+                                element == widget.providersNearby[index]),
                       ),
                       '');
                 },
@@ -483,15 +521,19 @@ class _NearbyProvidersSectionState extends State<NearbyProvidersSection> {
 }
 
 class NewMapNearbyProvidersSection extends StatefulWidget {
-  const NewMapNearbyProvidersSection({Key? key, required this.providersNearby, required this.title}) : super(key: key);
+  const NewMapNearbyProvidersSection(
+      {Key? key, required this.providersNearby, required this.title})
+      : super(key: key);
   final String title;
   final List<ProviderLocationModel> providersNearby;
 
   @override
-  State<NewMapNearbyProvidersSection> createState() => _NewMapNearbyProvidersSectionState();
+  State<NewMapNearbyProvidersSection> createState() =>
+      _NewMapNearbyProvidersSectionState();
 }
 
-class _NewMapNearbyProvidersSectionState extends State<NewMapNearbyProvidersSection> {
+class _NewMapNearbyProvidersSectionState
+    extends State<NewMapNearbyProvidersSection> {
   final _controller = ScrollController();
   late bool isAutoScrollRun = false;
 
@@ -511,7 +553,8 @@ class _NewMapNearbyProvidersSectionState extends State<NewMapNearbyProvidersSect
     //   );
     // }
     // autoScroll();
-    Future.delayed(const Duration(milliseconds: 1500)).then((value) => autoScroll());
+    Future.delayed(const Duration(milliseconds: 1500))
+        .then((value) => autoScroll());
 
     super.initState();
   }
@@ -536,7 +579,8 @@ class _NewMapNearbyProvidersSectionState extends State<NewMapNearbyProvidersSect
       )
           .then((value) async {
         if (_controller.hasClients) {
-          if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+          if (_controller.position.pixels ==
+              _controller.position.maxScrollExtent) {
             {
               return animateToStartThenToEnd();
             }
@@ -559,7 +603,8 @@ class _NewMapNearbyProvidersSectionState extends State<NewMapNearbyProvidersSect
       )
           .then((value) async {
         if (_controller.hasClients) {
-          if (_controller.position.pixels == _controller.position.minScrollExtent) {
+          if (_controller.position.pixels ==
+              _controller.position.minScrollExtent) {
             return animateToEndThenToStart();
           }
         }
@@ -572,13 +617,15 @@ class _NewMapNearbyProvidersSectionState extends State<NewMapNearbyProvidersSect
       logg('! isAutoScrollRun');
       if (_controller.hasClients) {
         isAutoScrollRun = true;
-        if (_controller.position.pixels < _controller.position.maxScrollExtent) {
+        if (_controller.position.pixels <
+            _controller.position.maxScrollExtent) {
           logg('pixels is _controller.position.minScrollExtent');
 
           ///
           animateToEndThenToStart();
         }
-        if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+        if (_controller.position.pixels ==
+            _controller.position.maxScrollExtent) {
           logg('pixels is _controller.position.maxScrollExtent');
           _controller.animateTo(
             _controller.position.minScrollExtent,
@@ -619,8 +666,9 @@ class _NewMapNearbyProvidersSectionState extends State<NewMapNearbyProvidersSect
                       ProviderLocationsLayout(
                         title: widget.title,
                         providersLocations: widget.providersNearby,
-                        initialSelectedNearbyProvider:
-                            widget.providersNearby.firstWhere((element) => element == widget.providersNearby[index]),
+                        initialSelectedNearbyProvider: widget.providersNearby
+                            .firstWhere((element) =>
+                                element == widget.providersNearby[index]),
                       ),
                       '');
                 },
@@ -688,7 +736,8 @@ class _OnAirListSectionState extends State<OnAirListSection> {
                   Expanded(
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding / 2),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: defaultHorizontalPadding / 2),
                       shrinkWrap: true,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () => viewComingSoonAlertDialog(context),
@@ -696,7 +745,8 @@ class _OnAirListSectionState extends State<OnAirListSection> {
 
                             /// >20 ? 21 ITEM SO ITEM 20 IS MORE
                             /// < 20 LENGTH+1 ITEMS SO ITEM[LENGTH] IS MORE
-                            ((widget.providersOnAir.length > maxViewed && index == maxViewed)
+                            ((widget.providersOnAir.length > maxViewed &&
+                                    index == maxViewed)
                                 // ||
                                 //     (providersOnAir.length < 20 && index == providersOnAir.length)
                                 )
@@ -721,12 +771,14 @@ class _OnAirListSectionState extends State<OnAirListSection> {
                                     liveGoal: '',
                                     liveTopic: '',
                                     name: widget.providersOnAir[index].name,
-                                    thumbnailUrl: widget.providersOnAir[index].image,
+                                    thumbnailUrl:
+                                        widget.providersOnAir[index].image,
                                   ),
                       ),
                       separatorBuilder: (_, index) => widthBox(1.w),
-                      itemCount:
-                          widget.providersOnAir.length > maxViewed ? maxViewed + 1 : widget.providersOnAir.length,
+                      itemCount: widget.providersOnAir.length > maxViewed
+                          ? maxViewed + 1
+                          : widget.providersOnAir.length,
                     ),
                   ),
                 ],
@@ -801,7 +853,8 @@ class ViewMoreBubble extends StatelessWidget {
                         image: DecorationImage(
                             image: AssetImage('assets/images/mena.png'),
                             fit: BoxFit.fitWidth,
-                            onError: (object, stackTrace) => const ImageLoadingError()),
+                            onError: (object, stackTrace) =>
+                                const ImageLoadingError()),
                       ),
 
                       // child:Image.asset('assets/images/mena.png'),
@@ -882,7 +935,8 @@ class MyProfileBubble extends StatelessWidget {
                       customRingColor: newDarkGreyColor,
                       radius: 30.sp,
                       onlyView: false,
-                      pictureUrl: mainCubit.userInfoModel!.data.user.personalPicture,
+                      pictureUrl:
+                          mainCubit.userInfoModel!.data.user.personalPicture,
                     ),
             ),
           ),
@@ -950,7 +1004,8 @@ class MyProfileBubble extends StatelessWidget {
 // }
 
 class ItemsSection extends StatelessWidget {
-  const ItemsSection({Key? key, required this.items, required this.title}) : super(key: key);
+  const ItemsSection({Key? key, required this.items, required this.title})
+      : super(key: key);
   final String title;
 
   final List<Item> items;
@@ -995,11 +1050,13 @@ class ItemsSection extends StatelessWidget {
                               )),
                               heightBox(3.h),
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 6.0),
                                 child: Center(
                                   child: Text(
                                     items[index].title,
-                                    style: mainStyle(context, 13, textHeight: 1),
+                                    style:
+                                        mainStyle(context, 13, textHeight: 1),
                                   ),
                                 ),
                               ),
@@ -1007,16 +1064,21 @@ class ItemsSection extends StatelessWidget {
                                   borderRadius: BorderRadius.only(
                                     // topLeft: Radius.circular(10.0),
                                     // topRight: Radius.circular(20.0),
-                                    bottomRight: Radius.circular(defaultHorizontalPadding),
-                                    bottomLeft: Radius.circular(defaultHorizontalPadding),
+                                    bottomRight: Radius.circular(
+                                        defaultHorizontalPadding),
+                                    bottomLeft: Radius.circular(
+                                        defaultHorizontalPadding),
                                   ),
                                   child: Container(
-                                    color: const Color(0xff33B6FF).withOpacity(0.5),
+                                    color: const Color(0xff33B6FF)
+                                        .withOpacity(0.5),
                                     height: 20.sp,
                                     child: Center(
                                       child: Text(
                                         items[index].price,
-                                        style: mainStyle(context, 13, color: mainBlueColor, weight: FontWeight.w700),
+                                        style: mainStyle(context, 13,
+                                            color: mainBlueColor,
+                                            weight: FontWeight.w700),
                                       ),
                                     ),
                                   ))
@@ -1041,7 +1103,9 @@ class ItemsSection extends StatelessWidget {
 }
 
 class VacanciesSection extends StatelessWidget {
-  const VacanciesSection({Key? key, required this.vacancies, required this.title}) : super(key: key);
+  const VacanciesSection(
+      {Key? key, required this.vacancies, required this.title})
+      : super(key: key);
   final String title;
 
   final List<Vacancy> vacancies;
@@ -1085,33 +1149,53 @@ class VacanciesSection extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Row(
                                           children: [
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   RichText(
                                                     text: TextSpan(children: [
-                                                      TextSpan(text: 'Job title: ', style: mainStyle(context, 12)),
+                                                      TextSpan(
+                                                          text: 'Job title: ',
+                                                          style: mainStyle(
+                                                              context, 12)),
                                                       TextSpan(
                                                           text: vacancy.title,
-                                                          style: mainStyle(context, 12, weight: FontWeight.w700)),
+                                                          style: mainStyle(
+                                                              context, 12,
+                                                              weight: FontWeight
+                                                                  .w700)),
                                                     ]),
                                                   ),
                                                   heightBox(8.h),
                                                   RichText(
                                                     text: TextSpan(children: [
-                                                      TextSpan(text: 'Location: ', style: mainStyle(context, 12)),
                                                       TextSpan(
-                                                          text: vacancy.location,
-                                                          style: mainStyle(context, 12, weight: FontWeight.w700)),
+                                                          text: 'Location: ',
+                                                          style: mainStyle(
+                                                              context, 12)),
                                                       TextSpan(
-                                                          text: ' (${vacancy.distance})',
-                                                          style: mainStyle(context, 12,
-                                                              weight: FontWeight.w700, color: mainBlueColor)),
+                                                          text:
+                                                              vacancy.location,
+                                                          style: mainStyle(
+                                                              context, 12,
+                                                              weight: FontWeight
+                                                                  .w700)),
+                                                      TextSpan(
+                                                          text:
+                                                              ' (${vacancy.distance})',
+                                                          style: mainStyle(
+                                                              context, 12,
+                                                              weight: FontWeight
+                                                                  .w700,
+                                                              color:
+                                                                  mainBlueColor)),
                                                     ]),
                                                   ),
                                                 ],
@@ -1126,11 +1210,14 @@ class VacanciesSection extends StatelessWidget {
                                         heightBox(10.h),
                                         RichText(
                                           text: TextSpan(children: [
-                                            TextSpan(text: 'Job scope: ', style: mainStyle(context, 12)),
+                                            TextSpan(
+                                                text: 'Job scope: ',
+                                                style: mainStyle(context, 12)),
                                             TextSpan(
                                                 text: vacancy.scope,
-                                                style:
-                                                    mainStyle(context, 12, textHeight: 1.5, weight: FontWeight.w700)),
+                                                style: mainStyle(context, 12,
+                                                    textHeight: 1.5,
+                                                    weight: FontWeight.w700)),
                                           ]),
                                         ),
                                         heightBox(10.h),
@@ -1138,7 +1225,8 @@ class VacanciesSection extends StatelessWidget {
                                     ),
                                   ),
                                   Text(getFormattedDate(vacancy.createdAt),
-                                      style: mainStyle(context, 12, color: softGreyColor)),
+                                      style: mainStyle(context, 12,
+                                          color: softGreyColor)),
                                   heightBox(10.h),
                                 ],
                               ),
@@ -1163,7 +1251,8 @@ class VacanciesSection extends StatelessWidget {
 }
 
 class DealsSection extends StatelessWidget {
-  const DealsSection({Key? key, required this.deals, required this.title}) : super(key: key);
+  const DealsSection({Key? key, required this.deals, required this.title})
+      : super(key: key);
   final String title;
 
   final List<Deal> deals;
@@ -1211,14 +1300,17 @@ class DealsSection extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
                                           Expanded(
                                               child: Row(
                                             children: [
-                                              SvgPicture.asset('assets/svg/icons/heart.svg', height: 12.sp),
+                                              SvgPicture.asset(
+                                                  'assets/svg/icons/heart.svg',
+                                                  height: 12.sp),
                                               widthBox(3.w),
                                               Text(
                                                 deal.likes.toString(),
@@ -1242,11 +1334,13 @@ class DealsSection extends StatelessWidget {
                                           )),
                                           Expanded(
                                               child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
                                             children: [
                                               RatingBarIndicator(
                                                 rating: 2.75,
-                                                itemBuilder: (context, index) => const Icon(
+                                                itemBuilder: (context, index) =>
+                                                    const Icon(
                                                   Icons.star,
                                                   color: Colors.amber,
                                                 ),
@@ -1261,16 +1355,20 @@ class DealsSection extends StatelessWidget {
                                       heightBox(5.h),
                                       Text(
                                         deal.title,
-                                        style: mainStyle(context, 14, weight: FontWeight.w600),
+                                        style: mainStyle(context, 14,
+                                            weight: FontWeight.w600),
                                       ),
                                       heightBox(5.h),
                                       RichText(
                                         text: TextSpan(children: [
-                                          TextSpan(text: deal.price, style: mainStyle(context, 12)),
+                                          TextSpan(
+                                              text: deal.price,
+                                              style: mainStyle(context, 12)),
                                           TextSpan(
                                               text: ' (${deal.offer})',
-                                              style:
-                                                  mainStyle(context, 12, weight: FontWeight.w700, color: Colors.red)),
+                                              style: mainStyle(context, 12,
+                                                  weight: FontWeight.w700,
+                                                  color: Colors.red)),
                                         ]),
                                       ),
                                     ],
@@ -1298,7 +1396,8 @@ class DealsSection extends StatelessWidget {
 }
 
 class CouponsSection extends StatelessWidget {
-  const CouponsSection({Key? key, required this.coupons, required this.title}) : super(key: key);
+  const CouponsSection({Key? key, required this.coupons, required this.title})
+      : super(key: key);
   final String title;
 
   final List<Coupon> coupons;
@@ -1341,7 +1440,8 @@ class CouponsSection extends StatelessWidget {
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
                                     coupon.description,
@@ -1351,20 +1451,28 @@ class CouponsSection extends StatelessWidget {
                                   ),
                                   RichText(
                                     text: TextSpan(children: [
-                                      TextSpan(text: coupon.price, style: mainStyle(context, 12)),
+                                      TextSpan(
+                                          text: coupon.price,
+                                          style: mainStyle(context, 12)),
                                       TextSpan(
                                           text: ' (${coupon.offer})',
-                                          style: mainStyle(context, 12, weight: FontWeight.w700, color: Colors.red)),
+                                          style: mainStyle(context, 12,
+                                              weight: FontWeight.w700,
+                                              color: Colors.red)),
                                     ]),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 4.0.sp),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 4.0.sp),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             SvgPicture.asset(
                                               'assets/svg/icons/heart.svg',
@@ -1379,7 +1487,8 @@ class CouponsSection extends StatelessWidget {
                                         ),
                                         RatingBarIndicator(
                                           rating: 2.75,
-                                          itemBuilder: (context, index) => const Icon(
+                                          itemBuilder: (context, index) =>
+                                              const Icon(
                                             Icons.star,
                                             color: Colors.amber,
                                           ),
@@ -1395,9 +1504,12 @@ class CouponsSection extends StatelessWidget {
                                     ),
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
-                                      DefaultImage(width: 33.sp, backGroundImageUrl: coupon.image),
+                                      DefaultImage(
+                                          width: 33.sp,
+                                          backGroundImageUrl: coupon.image),
                                       SvgPicture.asset(
                                         'assets/svg/getCode.svg',
                                         height: 30.sp,
@@ -1425,7 +1537,8 @@ class CouponsSection extends StatelessWidget {
 }
 
 class EventsSection extends StatelessWidget {
-  const EventsSection({Key? key, required this.events, required this.title}) : super(key: key);
+  const EventsSection({Key? key, required this.events, required this.title})
+      : super(key: key);
   final String title;
 
   final List<Event> events;
@@ -1474,31 +1587,39 @@ class EventsSection extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         event.category,
-                                        style: mainStyle(context, 12, color: mainBlueColor),
+                                        style: mainStyle(context, 12,
+                                            color: mainBlueColor),
                                       ),
                                       heightBox(6.h),
                                       Text(
                                         event.title,
-                                        style: mainStyle(context, 13, weight: FontWeight.w700, textHeight: 1.3),
+                                        style: mainStyle(context, 13,
+                                            weight: FontWeight.w700,
+                                            textHeight: 1.3),
                                       ),
                                       heightBox(6.h),
                                       RichText(
                                         text: TextSpan(children: [
-                                          TextSpan(text: event.time, style: mainStyle(context, 12)),
+                                          TextSpan(
+                                              text: event.time,
+                                              style: mainStyle(context, 12)),
                                           TextSpan(
                                               text: ' ${event.type}',
                                               style: mainStyle(context, 12,
-                                                  weight: FontWeight.w700, color: mainBlueColor)),
+                                                  weight: FontWeight.w700,
+                                                  color: mainBlueColor)),
                                         ]),
                                       ),
                                       heightBox(6.h),
                                       Row(
                                         children: [
-                                          SvgPicture.asset('assets/svg/icons/sand_clock.svg'),
+                                          SvgPicture.asset(
+                                              'assets/svg/icons/sand_clock.svg'),
                                           widthBox(5.w),
                                           Text(
                                             event.duration,
@@ -1509,7 +1630,10 @@ class EventsSection extends StatelessWidget {
                                       const Divider(),
                                       Row(
                                         children: [
-                                          ProfileBubble(radius: 12.sp, isOnline: false, pictureUrl: event.userImg),
+                                          ProfileBubble(
+                                              radius: 12.sp,
+                                              isOnline: false,
+                                              pictureUrl: event.userImg),
                                           widthBox(5.w),
                                           Text(
                                             event.userName,
@@ -1542,7 +1666,9 @@ class EventsSection extends StatelessWidget {
 }
 
 class NearbyEventsSection extends StatelessWidget {
-  const NearbyEventsSection({Key? key, required this.nearbyEvents, required this.title}) : super(key: key);
+  const NearbyEventsSection(
+      {Key? key, required this.nearbyEvents, required this.title})
+      : super(key: key);
   final String title;
 
   final List<EventsNearby> nearbyEvents;
@@ -1593,7 +1719,8 @@ class NearbyEventsSection extends StatelessWidget {
 }
 
 class ArticlesSection extends StatelessWidget {
-  const ArticlesSection({Key? key, required this.articles, required this.title}) : super(key: key);
+  const ArticlesSection({Key? key, required this.articles, required this.title})
+      : super(key: key);
   final String title;
 
   final List<Article> articles;
@@ -1641,7 +1768,8 @@ class ArticlesSection extends StatelessWidget {
 }
 
 class TalkSection extends StatelessWidget {
-  const TalkSection({Key? key, required this.talks, required this.title}) : super(key: key);
+  const TalkSection({Key? key, required this.talks, required this.title})
+      : super(key: key);
 
   final String title;
   final List<Talk> talks;
@@ -1713,7 +1841,8 @@ class TalkSection extends StatelessWidget {
 }
 
 class CmeSection extends StatelessWidget {
-  const CmeSection({Key? key, required this.title, required this.cmeItems}) : super(key: key);
+  const CmeSection({Key? key, required this.title, required this.cmeItems})
+      : super(key: key);
   final String title;
   final List<Cme> cmeItems;
 
@@ -1759,7 +1888,8 @@ class CmeSection extends StatelessWidget {
 }
 
 class BannerSection extends StatelessWidget {
-  const BannerSection({Key? key, required this.banners, required this.style}) : super(key: key);
+  const BannerSection({Key? key, required this.banners, required this.style})
+      : super(key: key);
 
   final List<MenaBanner> banners;
   final String style;
@@ -1777,8 +1907,14 @@ class BannerSection extends StatelessWidget {
                 : style == '2_1'
                     ? 2
                     : 1,
-        childAspectRatio: banners[0].imagesStyle == 'null' ? 1 : 1 / double.parse(banners[0].imagesStyle),
-        padding: const EdgeInsets.all(0),
+        childAspectRatio: banners[0].imagesStyle == 'null'
+            ? 1
+            : 1 / double.parse(banners[0].imagesStyle),
+        padding: banners[0].resourceId == 'air_quality' ||
+                banners[0].resourceId == 'weather_summary' ||
+                banners[0].resourceId == 'upcoming_days'
+            ? const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10)
+            : const EdgeInsets.all(0),
         shrinkWrap: true,
         mainAxisSpacing: 9.sp,
         crossAxisSpacing: 10.sp,
@@ -1793,12 +1929,23 @@ class BannerSection extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.all(0.0.sp),
-                          child: SmoothBorderContainer(
-                            thumbNail: banners[index].image,
-                            // withShadow: style != '1_1',
-                            cornerRadius: defaultRadiusVal,
-                            // customHeight: Responsive.isMobile(context) ? 0.25.sw : 0.13.sw,
-                          ),
+                          child: banners[index].resourceId == 'air_quality' ||
+                                  banners[index].resourceId ==
+                                      'weather_summary' ||
+                                  banners[index].resourceId == 'upcoming_days'
+                              ?
+                              // _buildConditionalWidget(banners[index].resourceType),
+                              SmoothBorderContainer(
+                                  thumbNail: banners[index].image,
+                                  cornerRadius: 22.r,
+                                  customWidth: 80.w,
+                                )
+                              : SmoothBorderContainer(
+                                  thumbNail: banners[index].image,
+                                  // withShadow: style != '1_1',
+                                  cornerRadius: defaultRadiusVal,
+                                  // customHeight: Responsive.isMobile(context) ? 0.25.sw : 0.13.sw,
+                                ),
                         ),
                       ),
                       // heightBox(5.h),
@@ -1808,39 +1955,10 @@ class BannerSection extends StatelessWidget {
             ),
       ),
     );
-    //   Column(
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: banners
-    //       .map((e) => DefaultImageFadeIn(
-    //             backGroundImageUrl: e.image,
-    //             // width: double.maxFinite,
-    //             boxFit: BoxFit.cover,
-    //             borderColor: Colors.transparent,
-    //             borderWidth: 1,
-    //     // height: 300,
-    //           ))
-    //       .toList(),
-    // );
-    ///
-    //   ListView.separated(
-    //   shrinkWrap: true,
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   itemBuilder: (context, index) => GestureDetector(
-    //     onTap: () => comingSoonAlertDialog(context),
-    //     child: DefaultImage(
-    //       backGroundImageUrl: banners[index].image,
-    //       width: double.maxFinite,
-    //       boxFit: BoxFit.cover,
-    //       borderColor: mainBlueColor,
-    //       borderWidth: 1,
-    //     ),
-    //   ),
-    //   separatorBuilder: (_, index) => heightBox(6.h),
-    //   itemCount: banners.length,
-    // );
   }
 
-  Future<void> handleBannerNavigation(BuildContext context, {required MenaBanner banner}) async {
+  Future<void> handleBannerNavigation(BuildContext context,
+      {required MenaBanner banner}) async {
     logg('handleBannerNavigation - type: ${banner.resourceType}');
     switch (banner.resourceType) {
       // case 'appointment':
@@ -1861,25 +1979,178 @@ class BannerSection extends StatelessWidget {
 
         break;
 
-      case 'url':
+      // case 'url':
+      //   logg('handleBannerNavigation: url');
+      //
+      //   if (banner.url != null) {
+      //     launchUrl(Uri.parse(banner.url!));
+      //   }
+      //
+      //   break;
+      case 'api':
+        navigateToWithoutNavBar(
+            context,
+            CategoryChildsScreen(
+              currentCategoryToViewId: banner.resourceId,
+            ),
+            '');
+        break;
+      default:
         logg('handleBannerNavigation: url');
 
         if (banner.url != null) {
           launchUrl(Uri.parse(banner.url!));
         }
-
         break;
-      case 'api':
-        logg('handleBannerNavigation: api');
+
+      /// and soo on
+    }
+  }
+}
+
+class BannerSectionWeather extends StatelessWidget {
+  const BannerSectionWeather(
+      {Key? key, required this.banners,required this.categoriesSection, required this.style, required this.homeSectionTitle})
+      : super(key: key);
+
+  final List<MenaBanner> banners;
+  final String style;
+  final List<MenaCategory>? categoriesSection;
+  final String homeSectionTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    var mainCubit = MainCubit.get(context);
+    return Center(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 85),
+            child: Text(
+              'Wellness Monitoring Widgets',
+              style: TextStyle(
+                fontSize: 23.0,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Tajawal',
+                color: Color(0xff444444),),
+            ),
+          ),
+          SizedBox(
+            height: 100.h,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: banners.length,
+              // physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () async {
+
+                    String countryName = await getCachedSelectedCountry()??"";
+                    String countryNameNew ="";
+                    log('# country name : $countryName');
+                    List countryList = MayyaCountries.countryList;
+                    for(var item in countryList){
+                      if(item['alpha_3_code']==countryName){
+                        countryNameNew = item['en_short_name'];
+                      }
+                    }
+                    log('# country name  new : $countryNameNew');
+
+
+                            banners[index].resourceId == 'upcoming_days'
+                        ? showDialog(
+                            context: context,
+                            builder: (context) {
+                              return PopupWidgetUpComing(countryNameNew);
+                            },
+                          )
+                        :banners[index].resourceId == 'air_quality' ?
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PopupWidgetUpComing(countryNameNew);
+                      },
+                    )
+                        :banners[index].resourceId == 'weather_summary' ?
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PopupWidgetUpComing(countryNameNew);
+                      },
+                    ): handleBannerNavigation(context,
+                            banner: banners[index]);
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 15, bottom: 15, left: 10, right: 10),
+                          child: banners[index].resourceId == 'air_quality' ||
+                                  banners[index].resourceId ==
+                                      'weather_summary' ||
+                                  banners[index].resourceId == 'upcoming_days'
+                              ? SmoothBorderContainer(
+                                  thumbNail: banners[index].image,
+                                  cornerRadius: 18.r,
+                                  customWidth: 70.w,
+                                )
+                              : SmoothBorderContainer(
+                                  thumbNail: banners[index].image,
+                                  cornerRadius: defaultRadiusVal,
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'more',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Tajawal',
+                    color: Color(0xff97A0A8),),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> handleBannerNavigation(BuildContext context,
+      {required MenaBanner banner}) async {
+    logg('handleBannerNavigation - type: ${banner.resourceType}');
+    var mainCubit = MainCubit.get(context);
+    switch (banner.resourceType) {
+      // case 'appointment':
+      case 'category':
+        logg('handleBannerNavigation: category');
         navigateToWithoutNavBar(
             context,
-            BookAppointmentFormLayout(
-                currentPlatformId: HomeScreenCubit.get(context).selectedHomePlatformId.toString()),
+            CategoryChildsScreen(
+              currentCategoryToViewId: banner.resourceId,
+            ),
             '');
-        // navigateToWithoutNavBar(context, HomeScreen(), '');
+        break;
+      case 'api':
         break;
       default:
-        logg('cant handle this navigation');
+        logg('handleBannerNavigation: url');
+
+        if (banner.url != null) {
+          launchUrl(Uri.parse(banner.url!));
+        }
         break;
 
       /// and soo on
@@ -1888,7 +2159,8 @@ class BannerSection extends StatelessWidget {
 }
 
 class PartnerSection extends StatelessWidget {
-  const PartnerSection({Key? key, required this.partners, required this.title}) : super(key: key);
+  const PartnerSection({Key? key, required this.partners, required this.title})
+      : super(key: key);
 
   final String title;
   final List<Partner> partners;

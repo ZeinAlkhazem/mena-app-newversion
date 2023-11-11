@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mena/core/functions/main_funcs.dart';
 
 import '../../../core/constants/constants.dart';
 
 class AvatarForLive extends StatelessWidget {
   const AvatarForLive(
       {Key? key,
-      required this.isOnline,
-      this.radius,
-      this.pictureUrl,
-      this.onlyView = true,
-      this.customRingColor})
+        required this.isOnline,
+        this.radius,
+        this.pictureUrl,
+        this.onlyView = true,
+        this.customRingColor})
       : super(key: key);
   final bool isOnline;
   final double? radius;
@@ -34,30 +35,25 @@ class AvatarForLive extends StatelessWidget {
               child: CircleAvatar(
                 radius: isOnline
                     ? radius == null
-                        ? 27.sp
-                        : (radius! - (radius! * 0.001))
+                    ? 27.sp
+                    : (radius! - (radius! * 0.001))
                     : radius ?? 30.sp,
                 backgroundColor: Colors.transparent,
-                foregroundColor: Colors.transparent,
                 child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.transparent,
                   radius: (isOnline
-                          ? radius == null
-                              ? 27.sp
-                              : (radius! - (radius! * 0.001))
-                          : radius ?? 30.sp) -
+                      ? radius == null
+                      ? 27.sp
+                      : (radius! - (radius! * 0.001))
+                      : radius ?? 30.sp) -
                       1.5,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Padding(
                       padding: const EdgeInsets.all(0.0),
                       child: DefaultImage(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
                         backGroundImageUrl: pictureUrl ?? '',
-                        backColor: newLightGreyColor,
+                        // backColor: newLightGreyColor,
                         boxFit: BoxFit.cover,
                       ),
                     ),
@@ -70,34 +66,16 @@ class AvatarForLive extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: SvgPicture.asset('assets/svg/icons/profileFilled.svg',
                     height: 24.sp),
-              ),
-            // if (!onlyView)
-            //   Positioned(
-            //     bottom: 0,
-            //     left: 0,
-            //     right: 0,
-            //     child: Container(
-            //       height: 25, // Adjust the height as needed
-            //       color: Color(0xff363434).withOpacity(0.2), // Set the background color to transparent
-            //       child: Center(
-            //         child: Text(
-            //           'Change',
-            //           style: TextStyle(
-            //             fontSize: 14.sp,
-            //             fontFamily: 'PNfont',
-            //               color: Colors.white.withOpacity(0.7),
-            //             fontWeight: FontWeight.bold // Change text color as needed
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
+              )
           ],
         ),
       ),
     );
   }
 }
+
+
+
 
 class DefaultImage extends StatelessWidget {
   const DefaultImage(
@@ -196,5 +174,66 @@ class ImageLoadingError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Icon(Icons.error);
+  }
+}
+
+
+class AvatarForLiveRect extends StatelessWidget {
+  const AvatarForLiveRect(
+      {Key? key,
+        required this.isOnline,
+        this.radius,
+        this.pictureUrl,
+        this.onlyView = true,
+        this.customRingColor})
+      : super(key: key);
+  final bool isOnline;
+  final double? radius;
+  final Color? customRingColor;
+  final String? pictureUrl;
+  final bool onlyView;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        DefaultImage(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          backGroundImageUrl: pictureUrl ?? '',
+          backColor: newLightGreyColor,
+          boxFit: BoxFit.cover,
+        ),
+        widthBox(8.w),
+        TextField(
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontFamily: 'PNfont',
+            // color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+          decoration: InputDecoration(
+            border: InputBorder.none, // Remove borders
+            enabledBorder: InputBorder.none, // Remove borders
+            focusedBorder: InputBorder.none, // Remove borders
+            hintText: "Add Title", // Placeholder text
+            hintStyle: TextStyle(
+              fontSize: 18.sp,
+              fontFamily: 'PNfont',
+              color: Colors.white.withOpacity(0.5), // Placeholder text color
+            ),
+          ),
+        ),
+        widthBox(5.w),
+        SvgPicture.asset(
+          "assets/new_icons/Write_title.svg",
+          fit: BoxFit.contain,
+          width: 20,
+        ),
+      ],
+    );
   }
 }

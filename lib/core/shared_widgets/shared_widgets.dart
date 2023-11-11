@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -694,8 +696,8 @@ class SearchBarWidget extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key, this.onFieldChanged}) : super(key: key);
+class SearchBar1 extends StatelessWidget {
+  const SearchBar1({Key? key, this.onFieldChanged}) : super(key: key);
 
   final Function(String)? onFieldChanged;
 
@@ -2438,15 +2440,15 @@ class FloatingPickPlatformsDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.transparent,
-      width: 0.50.sw,
+      width: 0.70.sw,
       elevation: 0.0,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 88.0),
         child: DefaultContainer(
+          backColor: Color(0xfff8f9fb),
           width: 0.33.sw,
-          backColor: drawerColor.withOpacity(0.7),
           withoutBorder: true,
-          withBoxShadow: false,
+          withBoxShadow: true,
           radius: 28.sp,
           childWidget: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(28.sp)),
@@ -2463,17 +2465,18 @@ class FloatingPickPlatformsDrawer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          'assets/svg/icons/categories_outline_28.svg',
-                          color: mainBlueColor,
+                          'assets/new_icons/SelectPlatform-colored.svg',
+                          // color: mainBlueColor,
+                          height: 28.h,
                         ),
-                        widthBox(5.w),
+                        widthBox(7.w),
                         Expanded(
                           child: Text(
                             'Select Platform',
                             style: mainStyle(
                               context,
-                              11, isBold: true,
-                              // color: newDarkGreyColor,
+                              13, isBold: true,
+                              color: Color(0xff5B5C5E),
                             ),
                           ),
                         ),
@@ -2490,11 +2493,21 @@ class FloatingPickPlatformsDrawer extends StatelessWidget {
                             button: buttons[index],
                           );
                         },
-                        separatorBuilder: (BuildContext context, int index) => Divider(
-                          thickness: 0.3,
-                          color: Colors.black,
-                        ),
+                        separatorBuilder: (BuildContext context, int index) => DottedLine(),
                       ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: (){},
+                            icon: SvgPicture.asset(
+                              'assets/new_icons/arrow_down_circle_12.svg',
+                              color: Color(0xff2788E8),
+                              height: 20.h,
+                            ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -2538,14 +2551,15 @@ class PlatformPickItem extends StatelessWidget {
                   button.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: mainStyle(context, 11, isBold: true, color: button.isSelected ? mainBlueColor : null),
+                  style: mainStyle(context, 11, isBold: true, color: Color(0xff5B5C5E)),
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: button.isSelected ? mainBlueColor : null,
-                size: 16.sp,
-              )
+              SvgPicture.asset(
+                'assets/new_icons/arrow_right_circle_outline_24.svg',
+                color: button.isSelected ? Color(0xff2788E8) : Color(0xff5B5C5E),
+                height: 20,
+              ),
+              heightBox(2.h),
             ],
           ),
         ],
@@ -3479,12 +3493,12 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
+                padding: EdgeInsets.only(bottom: 10, right: 5),
                 color: Colors.transparent,
                 child: Center(
                   child: SvgPicture.asset(
                   logo ??  'assets/new_icons/mena_main_logo.svg',
-                    fit: BoxFit.cover,
-                    width: 100.w,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

@@ -74,6 +74,8 @@ dependencies:
   multi_select_flutter: ^4.1.2
   outline_gradient_button: ^2.0.1+1
   package_info_plus: ^3.1.2
+  image_cropper: ^3.0.3
+
   get:
   # lib for import all device contact
   flutter_contacts: ^1.1.7+1
@@ -105,6 +107,7 @@ dependencies:
   visibility_detector: ^0.3.3
   webview_flutter: ^4.2.2
   whiteboard: ^0.0.2
+
 
 
 dev_dependencies:

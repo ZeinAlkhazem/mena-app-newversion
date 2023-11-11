@@ -67,6 +67,7 @@ class _MessengerHomePageState extends State<MessengerHomePage>
       builder: (context, state) {
         var messengerCubit = MessengerCubit.get(context);
         return Scaffold(
+
           body: DefaultTabController(
             length: 3,
             child: Scaffold(
@@ -197,6 +198,7 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                               .data
                                               .myChats!
                                               .length,
+
                                         ),
                                       ),
                         ComingSoonWidget(),

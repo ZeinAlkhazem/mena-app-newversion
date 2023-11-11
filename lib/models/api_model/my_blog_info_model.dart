@@ -1,23 +1,23 @@
 // To parse this JSON data, do
 //
-//     final publishArticleModel = publishArticleModelFromJson(jsonString);
+//     final myBlogInfoModel = myBlogInfoModelFromJson(jsonString);
 
 import 'dart:convert';
 
-PublishArticleModel publishArticleModelFromJson(String str) => PublishArticleModel.fromJson(json.decode(str));
+MyBlogInfoModel myBlogInfoModelFromJson(String str) => MyBlogInfoModel.fromJson(json.decode(str));
 
-String publishArticleModelToJson(PublishArticleModel data) => json.encode(data.toJson());
+String myBlogInfoModelToJson(MyBlogInfoModel data) => json.encode(data.toJson());
 
-class PublishArticleModel {
+class MyBlogInfoModel {
     String message;
     Data data;
 
-    PublishArticleModel({
+    MyBlogInfoModel({
         required this.message,
         required this.data,
     });
 
-    factory PublishArticleModel.fromJson(Map<String, dynamic> json) => PublishArticleModel(
+    factory MyBlogInfoModel.fromJson(Map<String, dynamic> json) => MyBlogInfoModel(
         message: json["message"],
         data: Data.fromJson(json["data"]),
     );
@@ -29,40 +29,78 @@ class PublishArticleModel {
 }
 
 class Data {
+    int totalReaders;
+    int blogsCount;
+    int followers;
+    Provider provider;
+    List<DataDatum> data;
+
+    Data({
+        required this.totalReaders,
+        required this.blogsCount,
+        required this.followers,
+        required this.provider,
+        required this.data,
+    });
+
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        totalReaders: json["total_readers"],
+        blogsCount: json["blogs_count"],
+        followers: json["followers"],
+        provider: Provider.fromJson(json["provider"]),
+        data: List<DataDatum>.from(json["data"].map((x) => DataDatum.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "total_readers": totalReaders,
+        "blogs_count": blogsCount,
+        "followers": followers,
+        "provider": provider.toJson(),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    };
+}
+
+class DataDatum {
     int id;
     String banner;
     String title;
     String content;
-    String categoryId;
+    int categoryId;
+    dynamic subCategoryId;
     int providerId;
     Category category;
+    dynamic subCategory;
     Provider provider;
     DateTime createdAt;
     int view;
     bool isMine;
 
-    Data({
+    DataDatum({
         required this.id,
         required this.banner,
         required this.title,
         required this.content,
         required this.categoryId,
+        required this.subCategoryId,
         required this.providerId,
         required this.category,
+        required this.subCategory,
         required this.provider,
         required this.createdAt,
         required this.view,
         required this.isMine,
     });
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+    factory DataDatum.fromJson(Map<String, dynamic> json) => DataDatum(
         id: json["id"],
         banner: json["banner"],
         title: json["title"],
         content: json["content"],
         categoryId: json["category_id"],
+        subCategoryId: json["sub_category_id"],
         providerId: json["provider_id"],
         category: Category.fromJson(json["category"]),
+        subCategory: json["sub_category"],
         provider: Provider.fromJson(json["provider"]),
         createdAt: DateTime.parse(json["created_at"]),
         view: json["view"],
@@ -75,8 +113,10 @@ class Data {
         "title": title,
         "content": content,
         "category_id": categoryId,
+        "sub_category_id": subCategoryId,
         "provider_id": providerId,
         "category": category.toJson(),
+        "sub_category": subCategory,
         "provider": provider.toJson(),
         "created_at": "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
         "view": view,
@@ -89,14 +129,14 @@ class Category {
     String title;
     String image;
     int platformId;
-    List<Category>? children;
+    List<dynamic> children;
 
     Category({
         required this.id,
         required this.title,
         required this.image,
         required this.platformId,
-        this.children
+        required this.children,
     });
 
     factory Category.fromJson(Map<String, dynamic> json) => Category(
@@ -104,7 +144,7 @@ class Category {
         title: json["title"],
         image: json["image"],
         platformId: json["platform_id"],
-        children: json["children"]!=[]?List<Category>.from(json["children"].map((x) => Category.fromJson(x))):[],
+        children: List<dynamic>.from(json["children"].map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
@@ -112,6 +152,7 @@ class Category {
         "title": title,
         "image": image,
         "platform_id": platformId,
+        "children": List<dynamic>.from(children.map((x) => x)),
     };
 }
 
@@ -121,9 +162,9 @@ class Provider {
     String fullName;
     String userName;
     String email;
-    dynamic phone;
-    DateTime phoneVerifiedAt;
-    DateTime emailVerifiedAt;
+    String phone;
+    dynamic phoneVerifiedAt;
+    dynamic emailVerifiedAt;
     DateTime createdAt;
     DateTime updatedAt;
     int roleId;
@@ -158,7 +199,7 @@ class Provider {
     Platform platform;
     List<dynamic> category;
     List<dynamic> specialitiesGroup;
-    List<Speciality> specialities;
+    List<dynamic> specialities;
     List<dynamic> features;
     MoreData moreData;
 
@@ -217,8 +258,8 @@ class Provider {
         userName: json["user_name"],
         email: json["email"],
         phone: json["phone"],
-        phoneVerifiedAt: DateTime.parse(json["phone_verified_at"]),
-        emailVerifiedAt: DateTime.parse(json["email_verified_at"]),
+        phoneVerifiedAt: json["phone_verified_at"],
+        emailVerifiedAt: json["email_verified_at"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         roleId: json["role_id"],
@@ -253,7 +294,7 @@ class Provider {
         platform: Platform.fromJson(json["platform"]),
         category: List<dynamic>.from(json["category"].map((x) => x)),
         specialitiesGroup: List<dynamic>.from(json["specialities_group"].map((x) => x)),
-        specialities: List<Speciality>.from(json["specialities"].map((x) => Speciality.fromJson(x))),
+        specialities: List<dynamic>.from(json["specialities"].map((x) => x)),
         features: List<dynamic>.from(json["features"].map((x) => x)),
         moreData: MoreData.fromJson(json["more_data"]),
     );
@@ -265,8 +306,8 @@ class Provider {
         "user_name": userName,
         "email": email,
         "phone": phone,
-        "phone_verified_at": phoneVerifiedAt.toIso8601String(),
-        "email_verified_at": emailVerifiedAt.toIso8601String(),
+        "phone_verified_at": phoneVerifiedAt,
+        "email_verified_at": emailVerifiedAt,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "role_id": roleId,
@@ -301,7 +342,7 @@ class Provider {
         "platform": platform.toJson(),
         "category": List<dynamic>.from(category.map((x) => x)),
         "specialities_group": List<dynamic>.from(specialitiesGroup.map((x) => x)),
-        "specialities": List<dynamic>.from(specialities.map((x) => x.toJson())),
+        "specialities": List<dynamic>.from(specialities.map((x) => x)),
         "features": List<dynamic>.from(features.map((x) => x)),
         "more_data": moreData.toJson(),
     };
@@ -376,7 +417,7 @@ class MoreData {
 }
 
 class Award {
-    String link;
+    Link link;
     String image;
 
     Award({
@@ -385,20 +426,28 @@ class Award {
     });
 
     factory Award.fromJson(Map<String, dynamic> json) => Award(
-        link: json["link"],
+        link: linkValues.map[json["link"]]!,
         image: json["image"],
     );
 
     Map<String, dynamic> toJson() => {
-        "link": link,
+        "link": linkValues.reverse[link],
         "image": image,
     };
 }
 
+enum Link {
+    EMPTY
+}
+
+final linkValues = EnumValues({
+    "#": Link.EMPTY
+});
+
 class Button {
     String type;
     String title;
-    String description;
+    Description description;
 
     Button({
         required this.type,
@@ -409,21 +458,31 @@ class Button {
     factory Button.fromJson(Map<String, dynamic> json) => Button(
         type: json["type"],
         title: json["title"],
-        description: json["description"],
+        description: descriptionValues.map[json["description"]]!,
     );
 
     Map<String, dynamic> toJson() => {
         "type": type,
         "title": title,
-        "description": description,
+        "description": descriptionValues.reverse[description],
     };
 }
+
+enum Description {
+    LEARN_MORE_ABOUT,
+    PROFESSIONALS_WORK_WITH_US
+}
+
+final descriptionValues = EnumValues({
+    "Learn more about ...": Description.LEARN_MORE_ABOUT,
+    "Professionals work with us": Description.PROFESSIONALS_WORK_WITH_US
+});
 
 class Location {
     int id;
     String image;
     String name;
-    dynamic phone;
+    String phone;
     String distance;
     String lat;
     String lng;
@@ -463,7 +522,7 @@ class Reviews {
     int totalSize;
     int limit;
     int offset;
-    List<Datum> data;
+    List<ReviewsDatum> data;
 
     Reviews({
         required this.totalSize,
@@ -476,7 +535,7 @@ class Reviews {
         totalSize: json["total_size"],
         limit: json["limit"],
         offset: json["offset"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<ReviewsDatum>.from(json["data"].map((x) => ReviewsDatum.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -487,14 +546,14 @@ class Reviews {
     };
 }
 
-class Datum {
+class ReviewsDatum {
     String image;
     String name;
     DateTime date;
     String content;
     int rate;
 
-    Datum({
+    ReviewsDatum({
         required this.image,
         required this.name,
         required this.date,
@@ -502,7 +561,7 @@ class Datum {
         required this.rate,
     });
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory ReviewsDatum.fromJson(Map<String, dynamic> json) => ReviewsDatum(
         image: json["image"],
         name: json["name"],
         date: DateTime.parse(json["date"]),
@@ -551,38 +610,14 @@ class Platform {
     };
 }
 
-class Speciality {
-    int id;
-    String filterId;
-    String name;
-    int ranking;
-    String design;
-    dynamic childs;
+class EnumValues<T> {
+    Map<String, T> map;
+    late Map<T, String> reverseMap;
 
-    Speciality({
-        required this.id,
-        required this.filterId,
-        required this.name,
-        required this.ranking,
-        required this.design,
-        required this.childs,
-    });
+    EnumValues(this.map);
 
-    factory Speciality.fromJson(Map<String, dynamic> json) => Speciality(
-        id: json["id"],
-        filterId: json["filter_id"],
-        name: json["name"],
-        ranking: json["ranking"],
-        design: json["design"],
-        childs: json["childs"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "filter_id": filterId,
-        "name": name,
-        "ranking": ranking,
-        "design": design,
-        "childs": childs,
-    };
+    Map<T, String> get reverse {
+        reverseMap = map.map((k, v) => MapEntry(v, k));
+        return reverseMap;
+    }
 }

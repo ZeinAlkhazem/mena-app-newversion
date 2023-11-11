@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:html_editor_enhanced/utils/utils.dart';
 import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
@@ -17,11 +18,16 @@ import 'package:mena/modules/create_articles/widget/upload_cover_picker.dart';
 
 import '../../core/shared_widgets/shared_widgets.dart';
 
-class EditorScreen extends StatelessWidget {
+class EditorScreen extends StatefulWidget {
   const EditorScreen({super.key});
 
   static String routeName = '/editor_screen';
 
+  @override
+  State<EditorScreen> createState() => _EditorScreenState();
+}
+
+class _EditorScreenState extends State<EditorScreen> {
   @override
   Widget build(BuildContext context) {
     var createArticleCubit = CreateArticleCubit.get(context);
@@ -54,11 +60,11 @@ class EditorScreen extends StatelessWidget {
         leading: InkWell(
           onTap: () => Navigator.pop(context),
           child:
-          
+
           Icon(
             Icons.arrow_back,
             color: AppColors.lineBlue,
-            size: 30,
+            size: 28,
           ),
           // SvgPicture.asset(
           //   'assets/svg/back_icon.svg',
@@ -67,8 +73,9 @@ class EditorScreen extends StatelessWidget {
         ),
         title: Text(
           "Create Article",
-          style: mainStyle(context, 16,
-              color: AppColors.gray, weight: FontWeight.w700),
+
+          style: mainStyle(context, 23,
+                color: Color(0xff444444), weight: FontWeight.w700 )
         ),
         centerTitle: true,
         actions: [
@@ -80,12 +87,14 @@ class EditorScreen extends StatelessWidget {
                   await createArticleCubit.keyEditor.currentState!.getText();
               createArticleCubit.content.text =
                   await createArticleCubit.keyEditor.currentState!.getText();
+
               Navigator.pop(context);
+              setState(mounted, (p0) { }, () { });
               logg(createArticleCubit.content.text);
             },
             icon: SvgPicture.asset(
               'assets/svg/icons/correct.svg',
-              height: 18,
+              height: 25,
               color: Colors.blue,
             ),
           ),

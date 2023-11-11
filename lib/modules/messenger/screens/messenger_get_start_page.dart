@@ -62,7 +62,7 @@ class MessengerGetStartPage extends StatelessWidget {
             SizedBox(
               width: ScreenUtil().screenWidth * 0.85,
               child: Text(
-                getTranslatedStrings(context).messengerDescription1,
+               " getTranslatedStrings(context).messengerDescription1",
                 style: mainStyle(context, 10.sp,
                     weight: FontWeight.w700,
                     color: AppColors.grayGreenColor,
@@ -79,15 +79,15 @@ class MessengerGetStartPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _rowItemTextWidget(
-                    context: context, text:  getTranslatedStrings(context).messengerDescription2,),
+                    context: context, text: " getTranslatedStrings(context).messengerDescription2",),
                   _rowItemTextWidget(
                     context: context,
                     text:
-                    getTranslatedStrings(context).messengerDescription3,),
+              "      getTranslatedStrings(context).messengerDescription3",),
                   _rowItemTextWidget(
                     context: context,
                     text:
-                    getTranslatedStrings(context).messengerDescription4,),
+                   " getTranslatedStrings(context).messengerDescription4",),
                   heightBox(
                     30.h,
                   ),
@@ -160,7 +160,7 @@ class MessengerGetStartPage extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text:
-          getTranslatedStrings(context).termsOfServiceDescriptionPart1,
+         " getTranslatedStrings(context).termsOfServiceDescriptionPart1",
           style: TextStyle(
             fontWeight: FontWeight.w400,
             color: Colors.grey,
@@ -169,7 +169,7 @@ class MessengerGetStartPage extends StatelessWidget {
           ),
           children: <TextSpan>[
             TextSpan(
-                text: getTranslatedStrings(context).termsOfService,
+                text: "getTranslatedStrings(context).termsOfService,",
                 style: TextStyle(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.bold,
@@ -181,7 +181,7 @@ class MessengerGetStartPage extends StatelessWidget {
                 }
             ),
             TextSpan(
-                text: getTranslatedStrings(context).termsOfServiceDescriptionPart2,
+                text:" getTranslatedStrings(context).termsOfServiceDescriptionPart2",
                 style: TextStyle(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w400,

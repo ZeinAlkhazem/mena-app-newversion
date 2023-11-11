@@ -1,19 +1,26 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mena/models/api_model/blogs_items_model.dart';
 import 'package:mena/models/api_model/comments_model.dart';
 import 'package:mena/models/api_model/like_comment_model.dart';
+import 'package:mena/models/api_model/my_blog_info_model.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/functions/main_funcs.dart';
+import '../../../core/main_cubit/main_cubit.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
 import '../../../models/api_model/blogs_info_model.dart';
 import '../../../models/api_model/comment_response_feed.dart';
 import '../../../models/api_model/feeds_model.dart';
+import '../../../models/api_model/home_section_model.dart';
+import '../../home_screen/cubit/home_screen_cubit.dart';
 
 part 'feeds_state.dart';
 
@@ -25,7 +32,11 @@ class FeedsCubit extends Cubit<FeedsState> {
   int feedsVideosListOffset = 1;
   int menaFeedsListOffset = 1;
   int menaProviderFeedsListOffset = 1;
+  Map<int, String> selectedSubs = {};
+  int selectedSub = -1;
+  bool isChangeIcon = false ;
 
+  bool isFollow = false ;
   FeedsCubit() : super(FeedsInitial());
 
   static FeedsCubit get(context) => BlocProvider.of(context);
@@ -34,6 +45,7 @@ class FeedsCubit extends Cubit<FeedsState> {
   FeedsModel? feedsVideosModel;
 
   BlogsInfoModel? blogsInfoModel;
+  MyBlogInfoModel? myBlogInfoModel;
   MenaArticle? menaArticleDetails;
   BlogsItemsModel? blogsItemsModel;
   CommentsModel? commentsModel;
@@ -218,7 +230,7 @@ class FeedsCubit extends Cubit<FeedsState> {
       logg('to send feed data: ' + toSendData.toString());
       formData = FormData.fromMap(toSendData);
       await MainDioHelper.postDataWithFormData(
-              url: feed == null ? addNewFeedEnd : updateFeedEnd, data: formData)
+          url: feed == null ? addNewFeedEnd : updateFeedEnd, data: formData)
           .then((value) {
         logg('Feed sent');
         logg(value.toString());
@@ -305,8 +317,12 @@ class FeedsCubit extends Cubit<FeedsState> {
     }
   }
 
-  Future<void> getBlogsInfo({String? providerId}) async {
+  Future<void> getBlogsInfo(BuildContext context,{String? providerId}) async {
     // feedsModel = null;
+    var homes = HomeScreenCubit.get(context);
+    // User user = mainCubit.userInfoModel!.data.user;
+
+
     if (state is! GettingBlogsInfoState) {
       emit(GettingBlogsInfoState());
       ////
@@ -320,12 +336,17 @@ class FeedsCubit extends Cubit<FeedsState> {
       }
 
       logg('to send data: ${toSendData}');
+
       await MainDioHelper.getData(
         url: getBlogsInfoEnd,
-        query: {},
-      ).then((value) {
+        query: {
+          'platform_id':homes.selectedHomePlatformId
+        },
+
+      ).then((value) async {
         logg('Blogs info fetched...');
         logg(value.toString());
+         // await getBlogs();
         // var response = FeedsModel.fromJson(value.data);
         // loginModel = response.data!;
         blogsInfoModel = BlogsInfoModel.fromJson(value.data);
@@ -340,6 +361,101 @@ class FeedsCubit extends Cubit<FeedsState> {
     }
   }
 
+
+
+
+  Future<void> getMyBlogs(BuildContext context,{String? providerId, String? categoryId}) async {
+
+    var homes = HomeScreenCubit.get(context);
+    if (state is! GettingMyBlogsInfoState) {
+      emit(GettingMyBlogsInfoState());
+      ////
+      Map<String, String?> toSendData = {
+        'limit': '15',
+        'offset': '1',
+      };
+
+      if (providerId != null) {
+        toSendData['provider_id'] = '${providerId}';
+      }
+
+      logg('to send data: ${toSendData}');
+      // await getBlogsInfo(context);
+
+      String endPoint = getMyBlogsInfoEnd;
+      if (categoryId != null) {
+        endPoint = endPoint + '/$categoryId';
+      }
+      await MainDioHelper.getData(
+        url: endPoint,
+        query: {
+          'platform_id':homes.selectedHomePlatformId
+        },
+
+      ).then((value) async {
+        logg('My Blogs info fetched...');
+        logg(value.toString());
+
+
+        myBlogInfoModel = MyBlogInfoModel.fromJson(value.data);
+        logg('My blogs info filled');
+        emit(SuccessGettingFeedsState());
+      }).catchError((error, stack) {
+        logg('an error occurred...');
+        logg('an error occurred: ' + error.toString());
+        logg('an error occurred: ' + stack.toString());
+        emit(ErrorGettingFeedsState());
+      });
+    }
+  }
+
+
+
+
+  Future<void> getProviderBlogs(BuildContext context,{String? providerId, String? categoryId}) async {
+
+    var homes = HomeScreenCubit.get(context);
+    if (state is! GettingMyBlogsInfoState) {
+      emit(GettingMyBlogsInfoState());
+      ////
+      Map<String, String?> toSendData = {
+        'limit': '15',
+        'offset': '1',
+      };
+
+      if (providerId != null) {
+        toSendData['provider_id'] = '${providerId}';
+      }
+
+      logg('to send data: ${toSendData}');
+      await getBlogsInfo(context);
+
+      String endPoint = getProviderBlogsInfoEnd +'/$providerId' ;
+      if (categoryId != null) {
+        endPoint = endPoint + '/$categoryId';
+      }
+      await MainDioHelper.getData(
+        url: endPoint,
+        query: {
+          'platform_id':homes.selectedHomePlatformId
+        },
+
+      ).then((value) async {
+        logg('Provider Blogs info fetched...');
+        logg(value.toString());
+
+
+        myBlogInfoModel = MyBlogInfoModel.fromJson(value.data);
+        logg('Provider blogs info filled');
+        emit(SuccessGettingFeedsState());
+      }).catchError((error, stack) {
+        logg('an error occurred...');
+        logg('an error occurred: ' + error.toString());
+        logg('an error occurred: ' + stack.toString());
+        emit(ErrorGettingFeedsState());
+      });
+    }
+  }
   Future<void> getBlogDetails({String? articleId}) async {
     // feedsModel = null;
     menaArticleDetails = null;
@@ -379,6 +495,7 @@ class FeedsCubit extends Cubit<FeedsState> {
 
   Future<void> getBlogs({String? providerId, String? categoryId}) async {
     // feedsModel = null;
+    log("here");
     if (state is! GettingBlogsItemsState) {
       emit(GettingBlogsItemsState());
       ////
@@ -603,6 +720,49 @@ class FeedsCubit extends Cubit<FeedsState> {
   //   });
   // }
 
+
+  Future<void> updateSelectedSubsMap({
+    required int firstChildId,
+    required String selectedId,
+    required bool clear,
+  }) async {
+    logg('firstChildId: $firstChildId \n'
+        'clear: $clear \n'
+        'selectedId: $selectedId \n');
+
+    if (clear) {
+
+      // logg('clear');
+      //
+
+      if (selectedSubs.containsValue(selectedId)) {
+        selectedSubs.removeWhere((key, value) => selectedId == value);
+        selectedSubs.clear();
+        logg('already added');
+      } else {
+        selectedSubs.clear();
+        selectedSubs.addAll({
+          firstChildId: selectedId,
+        });
+      }
+    } else
+      // else
+      // if(selectedSubs.containsValue(selectedId)){
+      //   logg('selectedsubs contains value $selectedId');
+      //   selectedSubs.removeWhere((key, value) => value==selectedId);
+      // }
+    if (selectedSubs.containsValue(selectedId)) {
+      selectedSubs.removeWhere((key, value) => selectedId == value);
+      logg('already added');
+    } else {
+      selectedSubs.addAll({
+        firstChildId: selectedId,
+      });
+    }
+    logg('selected subs : ${selectedSubs.toString()}');
+    emit(SelectedCatChanged());
+  }
+
   Future<void> toggleLikeStatus(
       {required String feedId, required bool isLiked}) async {
     emit(UpdatingLikeState());
@@ -639,8 +799,8 @@ class FeedsCubit extends Cubit<FeedsState> {
 
   Future<void> likeComment(
       {required String feedId,
-      required String commentId,
-      required bool isLikeOrDislike}) async {
+        required String commentId,
+        required bool isLikeOrDislike}) async {
     emit(UpdatingCommentLikeState());
     ////
     await MainDioHelper.postData(

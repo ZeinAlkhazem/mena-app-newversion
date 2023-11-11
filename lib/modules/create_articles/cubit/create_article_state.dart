@@ -10,6 +10,7 @@ class ArticleLoadingState extends CreateArticleState {}
 class SavingAppointmentState extends CreateArticleState  {}
 class ErrorGettingArticleState extends CreateArticleState {}
 class SuccessGettingArticleState extends  CreateArticleState {}
+class CategoryChanged extends  CreateArticleState {}
 
 class ArticleErrorState extends CreateArticleState {
   final String? error;

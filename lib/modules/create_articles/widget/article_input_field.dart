@@ -113,7 +113,7 @@ class ArticleInputField extends StatelessWidget {
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: unFocusedBorderColor ?? AppColors.lineGray,
+                color: unFocusedBorderColor ?? AppColors.textGray,
                 width: .5),
             borderRadius: BorderRadius.all(
                 Radius.circular(borderRadius ?? defaultRadiusVal))),

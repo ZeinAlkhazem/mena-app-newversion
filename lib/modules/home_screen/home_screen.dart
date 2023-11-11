@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: CircleAvatar(
                             radius: 24.h,
-                            child: Text('Blogs'),
+                            child: FittedBox(child: Text('Blogs')),
                           ),
                         ),
 
@@ -237,16 +237,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         //     child: Text('E-ser'),
                         //   ),
                         // ),
-                        // widthBox(7.w),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     navigateToWithoutNavBar(context, JobsLayout(), 'routeName');
-                        //   },
-                        //   child: CircleAvatar(
-                        //     radius: 33.h,
-                        //     child: Text('Jobs'),
-                        //   ),
-                        // ),
+                        widthBox(7.w),
+                        GestureDetector(
+                          onTap: () {
+                            navigateToWithoutNavBar(context, JobsLayout(), 'routeName');
+                          },
+                          child: CircleAvatar(
+                            radius: 24.h,
+                            child: Text('Jobs'),
+                          ),
+                        ),
+                        widthBox(7.w),
                       ],
                     )
                     // GestureDetector(

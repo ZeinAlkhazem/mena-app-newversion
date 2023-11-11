@@ -3414,7 +3414,7 @@ class DefaultBackTitleAppBar extends StatelessWidget {
                 color: Colors.transparent,
                 child: Center(
                   child: SvgPicture.asset(
-                    'assets/icons/back.svg',
+                    'assets/icons/back_new.svg',
                     color: mainBlueColor,
                   ),
                 ),
@@ -3428,7 +3428,7 @@ class DefaultBackTitleAppBar extends StatelessWidget {
                     style: mainStyle(context, 11, weight: FontWeight.w400, color: Colors.black, isBold: true),
                   ),
             ),
-            suffix ?? SizedBox()
+
           ],
         ),
       ),

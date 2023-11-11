@@ -18,7 +18,8 @@ class BlogActionBar extends StatelessWidget {
     // required this.isMyFeed,
     // this.alreadyInComments = false,
   }) : super(key: key);
-  final MenaArticle article;
+  // final MenaArticle article;
+  final dynamic article;
   // final bool isMyFeed;
   // final bool alreadyInComments;
 
@@ -59,23 +60,6 @@ class BlogActionBar extends StatelessWidget {
                 ),
               ),
               widthBox(15.w),
-              // GestureDetector(
-              //   onTap: () {
-              //     // if (!alreadyInComments) {
-              //     //   navigateToWithoutNavBar(
-              //     //       context,
-              //     //       FeedDetailsLayout(menaFeed: menaFeed),
-              //     //       'routeName');
-              //     // }
-              //   },
-              //   child: IconWithText(
-              //     text: getFormattedNumberWithKandM(
-              //         article.commentsCounter.toString()),
-              //     customSize: 18.sp,
-              //     svgAssetLink: 'assets/svg/icons/comments.svg',
-              //   ),
-              // ),
-              // widthBox(15.w),
               IconWithText(
                 text: '167',
                 customSize: 18.sp,
@@ -86,9 +70,10 @@ class BlogActionBar extends StatelessWidget {
               widthBox(20.w),
               Row(
                 children: [
-                  SvgPicture.asset(
-                    'assets/svg/icons/open_eye.svg',
-                    color: newDarkGreyColor,
+                 Image.asset(
+                    'assets/icons/eye.png',
+                    height: 15,
+                    // color: newDarkGreyColor,
                   ),
                   widthBox(7.w),
                   Text(

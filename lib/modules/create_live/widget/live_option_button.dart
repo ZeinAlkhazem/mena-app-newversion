@@ -9,11 +9,15 @@ class LiveOptionButton extends StatelessWidget {
   final VoidCallback btnClick;
   final double iconSize;
   final double hieght;
+  final double top;
+  final double bottom;
 
   const LiveOptionButton(
       {super.key,
       required this.btnClick,
         this.hieght = 7,
+        this.top = 1,
+        this.bottom = 1,
         this.iconSize = 39.0,
       required this.title,
       required this.icon});
@@ -22,7 +26,8 @@ class LiveOptionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: btnClick,
-      child: Expanded(
+      child: Container(
+        padding: EdgeInsets.only(top: top, bottom: bottom),
         // width: 60.w,
         // height: 100.h,
         // margin: EdgeInsets.symmetric(
@@ -71,24 +76,22 @@ class LiveOptionButtonExtra extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: btnClick,
-      child: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
-            widthBox(width.h),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 10.sp,
-                  fontFamily: 'PNfont',
-                  color: Colors.white.withOpacity(0.5),
-                  fontWeight: FontWeight.w200),
-            ),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
+          widthBox(width.h),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 10.sp,
+                fontFamily: 'PNfont',
+                color: Colors.white.withOpacity(0.5),
+                fontWeight: FontWeight.w200),
+          ),
+        ],
       ),
     );
   }

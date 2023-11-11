@@ -36,6 +36,7 @@ import 'modules/community_space/cubit/community_cubit.dart';
 import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
+import 'modules/initial_onboarding/initial_choose_country.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
 import 'modules/messenger/cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
@@ -63,8 +64,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// set status bar color
-  SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: AppColors.iconsColor));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      // statusBarColor: AppColors.iconsColor
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.dark,
+  ));
+
 
   // await initializeDateFormatting();
 prefs = await SharedPreferences.getInstance();

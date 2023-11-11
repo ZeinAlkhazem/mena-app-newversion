@@ -28,10 +28,10 @@ class MessengerGetStartPage extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding:
-                  EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
+                  EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
                   child: SvgPicture.asset(
-                    'assets/icons/back.svg',
-                    color: Color(0xFF4273B8),
+                    '$messengerAssets/icon_back.svg',
+                    color: AppColors.iconsColor,
                     width: 20.w,
                   ),
                 ),

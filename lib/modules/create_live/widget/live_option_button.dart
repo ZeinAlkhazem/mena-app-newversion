@@ -15,10 +15,10 @@ class LiveOptionButton extends StatelessWidget {
   const LiveOptionButton(
       {super.key,
       required this.btnClick,
-        this.hieght = 7,
-        this.top = 1,
-        this.bottom = 1,
-        this.iconSize = 39.0,
+      this.hieght = 7,
+      this.top = 1,
+      this.bottom = 1,
+      this.iconSize = 39.0,
       required this.title,
       required this.icon});
 
@@ -37,7 +37,12 @@ class LiveOptionButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
+            SvgPicture.asset(
+              icon,
+              width: iconSize,
+              fit: BoxFit.contain,
+              color: Colors.white,
+            ),
             heightBox(hieght.h),
             Text(
               title,
@@ -53,9 +58,7 @@ class LiveOptionButton extends StatelessWidget {
       ),
     );
   }
-
 }
-
 
 class LiveOptionButtonExtra extends StatelessWidget {
   final String icon;
@@ -66,11 +69,11 @@ class LiveOptionButtonExtra extends StatelessWidget {
 
   const LiveOptionButtonExtra(
       {super.key,
-        required this.btnClick,
-        this.iconSize = 60.0,
-        this.width = 7,
-        required this.title,
-        required this.icon});
+      required this.btnClick,
+      this.iconSize = 60.0,
+      this.width = 7,
+      required this.title,
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +83,11 @@ class LiveOptionButtonExtra extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
+          SvgPicture.asset(
+            icon,
+            width: iconSize,
+            fit: BoxFit.contain,
+          ),
           widthBox(width.h),
           Text(
             title,
@@ -95,5 +102,4 @@ class LiveOptionButtonExtra extends StatelessWidget {
       ),
     );
   }
-
 }

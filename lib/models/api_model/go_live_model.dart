@@ -6,7 +6,8 @@ import 'dart:convert';
 
 import 'home_section_model.dart';
 
-GoLiveModel goLiveModelFromJson(String str) => GoLiveModel.fromJson(json.decode(str));
+GoLiveModel goLiveModelFromJson(String str) =>
+    GoLiveModel.fromJson(json.decode(str));
 
 String goLiveModelToJson(GoLiveModel data) => json.encode(data.toJson());
 
@@ -20,14 +21,14 @@ class GoLiveModel {
   Data data;
 
   factory GoLiveModel.fromJson(Map<String, dynamic> json) => GoLiveModel(
-    message: json["message"],
-    data: Data.fromJson(json["data"]),
-  );
+        message: json["message"],
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "message": message,
-    "data": data.toJson(),
-  };
+        "message": message,
+        "data": data.toJson(),
+      };
 }
 
 class Data {
@@ -56,30 +57,32 @@ class Data {
   DateTime createdAt;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["id"],
-    liveNowCategory: LiveNowCategory.fromJson(json["category"]),
-    title: json["title"],
-    goal: json["goal"],
-    topic: json["topic"],
-    duration: 60,
-    roomId: json["room_id"],
-    status: json["status"],
-    provider: User.fromJson(json["provider"]),
-    createdAt: DateTime.parse(json["created_at"]),
-  );
+        id: json["id"],
+        liveNowCategory: json["category"] != null
+            ? LiveNowCategory.fromJson(json["category"])
+            : LiveNowCategory(id: 1, name: 'Default'),
+        title: json["title"] != null ? json["title"] : "",
+        goal: json["goal"] != null ? json["goal"] : "",
+        topic: json["topic"],
+        duration: 60,
+        roomId: json["room_id"],
+        status: json["status"],
+        provider: User.fromJson(json["provider"]),
+        createdAt: DateTime.parse(json["created_at"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "live_now_category": liveNowCategory.toJson(),
-    "title": title,
-    "goal": goal,
-    "topic": topic,
-    "duration": duration,
-    "room_id": roomId,
-    "status": status,
-    "provider": provider.toJson(),
-    "created_at": createdAt.toIso8601String(),
-  };
+        "id": id,
+        "live_now_category": liveNowCategory.toJson(),
+        "title": title,
+        "goal": goal,
+        "topic": topic,
+        "duration": duration,
+        "room_id": roomId,
+        "status": status,
+        "provider": provider.toJson(),
+        "created_at": createdAt.toIso8601String(),
+      };
 }
 
 class LiveNowCategory {
@@ -91,13 +94,14 @@ class LiveNowCategory {
   int id;
   String name;
 
-  factory LiveNowCategory.fromJson(Map<String, dynamic> json) => LiveNowCategory(
-    id: json["id"],
-    name: json["name"],
-  );
+  factory LiveNowCategory.fromJson(Map<String, dynamic> json) =>
+      LiveNowCategory(
+        id: json["id"],
+        name: json["name"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-  };
+        "id": id,
+        "name": name,
+      };
 }

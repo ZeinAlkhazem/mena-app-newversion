@@ -8,6 +8,7 @@ import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
+import 'package:mena/models/api_model/live_categories.dart';
 import 'package:mena/modules/create_live/create_live_screen.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/live_screens/live_screen.dart';
@@ -24,22 +25,15 @@ class LiveMainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var liveCubit = LiveCubit.get(context);
+    liveCubit.changeCurrentView(true);
+    liveCubit.getLivesNowAndUpcomingCategories(filter: 'live');
+    LiveCategories? categories = liveCubit.nowLiveCategoriesModel;
+
+    logg('changing layouts : ${categories?.liveCategories}');
     return Padding(
       padding: EdgeInsets.only(bottom: rainBowBarBottomPadding(context)),
       child: Scaffold(
         backgroundColor: Colors.white,
-        // floatingActionButton: Row(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: const [
-        //     // FloatingLive(
-        //     //   heroTag: 'LiveInLiveScreen',
-        //     // ),
-        //     // widthBox(10.w),
-        //     SharedFloatingMsngr(
-        //       heroTag: 'LiveScreen',
-        //     ),
-        //   ],
-        // ),
         body: MainBackground(
           bodyWidget: BlocConsumer<LiveCubit, LiveState>(
             listener: (context, state) {
@@ -55,115 +49,10 @@ class LiveMainLayout extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        heightBox(12.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () => liveCubit.changeCurrentView(true),
-                              child: Container(
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    heightBox(5.h),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                          'assets/svg/icons/livenow.svg',
-                                          height: 16.h,
-                                          color: liveCubit.liveNowLayout ? mainBlueColor : softGreyColor,
-                                        ),
-                                        widthBox(12.w),
-                                        Text(
-                                          'Live Now',
-                                          style: mainStyle(context, 11,
-                                              weight: FontWeight.w800,
-                                              color: liveCubit.liveNowLayout ? mainBlueColor : softGreyColor),
-                                        )
-                                      ],
-                                    ),
-                                    heightBox(5.h),
-                                    AnimatedContainer(
-                                      duration: const Duration(milliseconds: 100),
-                                      height: 2.h,
-                                      color: liveCubit.liveNowLayout ? mainBlueColor : softGreyColor,
-                                      width: liveCubit.liveNowLayout ? 0.4.sw : 0.3.sw,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            widthBox(30.w),
-                            GestureDetector(
-                              onTap: () => liveCubit.changeCurrentView(false),
-                              child: Container(
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    heightBox(5.h),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                          'assets/svg/icons/upcomingLive.svg',
-                                          height: 16.h,
-                                          color: !liveCubit.liveNowLayout ? mainBlueColor : softGreyColor,
-                                        ),
-                                        widthBox(12.w),
-                                        Text(
-                                          'Upcoming',
-                                          style: mainStyle(context, 11,
-                                              weight: FontWeight.w800,
-                                              color: !liveCubit.liveNowLayout ? mainBlueColor : softGreyColor),
-                                        )
-                                      ],
-                                    ),
-                                    heightBox(5.h),
-                                    AnimatedContainer(
-                                      duration: const Duration(milliseconds: 100),
-                                      height: 2.h,
-                                      color: !liveCubit.liveNowLayout ? mainBlueColor : softGreyColor,
-                                      width: !liveCubit.liveNowLayout ? 0.4.sw : 0.3.sw,
-                                      // borderColor: Colors.transparent,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         heightBox(7.h),
-                        Expanded(child: liveCubit.liveNowLayout ? const LiveNowView() : const UpcomingLiveView())
+                        Expanded(child: const LiveNowView())
                       ],
                     )),
-                    // Center(
-                    //     child: GestureDetector(
-                    //   onTap: () => pushNewScreenLayout(
-                    //       context,
-                    //       const LivePage(
-                    //         liveID: 'test12365656565679876ghvbnvbnv',
-                    //         isHost: false,
-                    //
-                    //         /// audience false
-                    //         /// true for host
-                    //         /// this will change the layout view behaviour
-                    //       ),
-                    //       false),
-                    //   child: Container(
-                    //     color: Colors.red,
-                    //     height: 33,
-                    //     width: 200,
-                    //     child: Center(
-                    //         child: Text(
-                    //       'Go Live..',
-                    //       style: mainStyle(context,
-                    //         26.0,
-                    //         color: Colors.white,
-                    //       ),
-                    //     )),
-                    //   ),
-                    // )),
                   ],
                 ),
               );
@@ -187,18 +76,22 @@ class _LiveNowViewState extends State<LiveNowView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    LiveCubit.get(context)
+        .getLivesNowAndUpcoming(filter: 'live', categoryId: '');
     if (LiveCubit.get(context).selectedNowLiveCat != null) {
-      LiveCubit.get(context)
-          .getLivesNowAndUpcoming(filter: 'live', categoryId: LiveCubit.get(context).selectedNowLiveCat!);
+      LiveCubit.get(context).getLivesNowAndUpcoming(
+          filter: 'live',
+          categoryId: LiveCubit.get(context).selectedNowLiveCat!);
     } else {
-      LiveCubit.get(context).getLivesNowAndUpcoming(filter: 'live', categoryId: '');
+      LiveCubit.get(context)
+          .getLivesNowAndUpcoming(filter: 'live', categoryId: '');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var liveCubit = LiveCubit.get(context)..getLivesNowAndUpcomingCategories(filter: 'live');
+    var liveCubit = LiveCubit.get(context)
+      ..getLivesNowAndUpcomingCategories(filter: 'live');
     return BlocConsumer<LiveCubit, LiveState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -215,44 +108,38 @@ class _LiveNowViewState extends State<LiveNowView> {
                           liveCubit.nowLivesModel == null)
                       ? DefaultLoaderColor()
                       : LivesList(
-                          categories: liveCubit.nowLiveCategoriesModel!.liveCategories,
-                          livesByCategoryItems: liveCubit.nowLivesModel!.data.livesByCategory.livesByCategoryItem,
+                          categories:
+                              liveCubit.nowLiveCategoriesModel!.liveCategories,
+                          livesByCategoryItems: liveCubit.nowLivesModel!.data
+                              .livesByCategory.livesByCategoryItem,
                           isNow: true,
                         ),
                 ],
               ),
             ),
-            if(getCachedToken() != null)
-            Positioned(
-                bottom: 10,
-                right: 10,
-                child: GestureDetector(
-                  onTap: () async {
-                    // navigateToWithoutNavBar(context, StartLiveFormLayout(), 'routeName');
-                    navigateToWithoutNavBar(context, CreateLivePage(), 'routeName');
-                    logg('go live');
-
-
-                  },
-                  child: DefaultContainer(
-                    radius: 35.sp,
-                    backColor: mainBlueColor,
-                    childWidget: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: defaultHorizontalPadding),
-                      child: Text(
-                        'Create',
-                        style: mainStyle(context, 11, color: Colors.white, isBold: true),
-                      ),
+            if (getCachedToken() != null)
+              Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: GestureDetector(
+                    onTap: () async {
+                      // navigateToWithoutNavBar(context, StartLiveFormLayout(), 'routeName');
+                      navigateToWithoutNavBar(
+                          context, CreateLivePage(), 'routeName');
+                      logg('go live');
+                    },
+                    child: DefaultContainer(
+                      radius: 35.sp,
+                      backColor: mainBlueColor,
+                      childWidget: Container(),
                     ),
-                  ),
-                ))
+                  ))
           ],
         );
       },
     );
   }
 }
-
 
 class UpcomingLiveView extends StatefulWidget {
   const UpcomingLiveView({Key? key}) : super(key: key);
@@ -267,16 +154,19 @@ class _UpcomingLiveViewState extends State<UpcomingLiveView> {
     // TODO: implement initState
     super.initState();
     if (LiveCubit.get(context).selectedUpcomingLiveCat != null) {
-      LiveCubit.get(context)
-          .getLivesNowAndUpcoming(filter: 'upcoming', categoryId: LiveCubit.get(context).selectedUpcomingLiveCat!);
+      LiveCubit.get(context).getLivesNowAndUpcoming(
+          filter: 'upcoming',
+          categoryId: LiveCubit.get(context).selectedUpcomingLiveCat!);
     } else {
-      LiveCubit.get(context).getLivesNowAndUpcoming(filter: 'upcoming', categoryId: '');
+      LiveCubit.get(context)
+          .getLivesNowAndUpcoming(filter: 'upcoming', categoryId: '');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var liveCubit = LiveCubit.get(context)..getLivesNowAndUpcomingCategories(filter: 'upcoming');
+    var liveCubit = LiveCubit.get(context)
+      ..getLivesNowAndUpcomingCategories(filter: 'upcoming');
     return BlocConsumer<LiveCubit, LiveState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -288,8 +178,10 @@ class _UpcomingLiveViewState extends State<UpcomingLiveView> {
             ? DefaultLoaderColor()
             : LivesList(
                 isNow: false,
-                categories: liveCubit.upcomingLiveCategoriesModel!.liveCategories,
-                livesByCategoryItems: liveCubit.upcomingLivesModel!.data.livesByCategory.livesByCategoryItem,
+                categories:
+                    liveCubit.upcomingLiveCategoriesModel!.liveCategories,
+                livesByCategoryItems: liveCubit.upcomingLivesModel!.data
+                    .livesByCategory.livesByCategoryItem,
               );
       },
     );

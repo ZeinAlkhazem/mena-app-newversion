@@ -1,7 +1,7 @@
 name: mena
 description: Mena platform
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -110,11 +110,8 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^21.1.38
   table_calendar: ^3.0.9
 
-
   webview_flutter: ^4.2.2
   whiteboard: ^0.0.2
-
-
 
 dev_dependencies:
   flutter_test:
@@ -145,12 +142,14 @@ flutter:
     - assets/images/public/
     - assets/svg/
     - assets/json/
+    - assets/lottie/
     - assets/svg/icons/
     - assets/svg/meetings/
     - assets/svg/icons/profile/
     - assets/flags/
     - assets/video/
     - assets/new_icons/
+    - assets/new_icons/live/
     - assets/new_icons/large/png/
     - assets/new_icons/small/png/
     - assets/fonts/

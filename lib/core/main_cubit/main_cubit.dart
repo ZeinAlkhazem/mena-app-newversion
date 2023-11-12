@@ -20,10 +20,6 @@ import '../../l10n/l10n.dart';
 import '../../models/api_model/config_model.dart';
 import '../../models/local_models.dart';
 import '../../models/my_models/country_model.dart';
-import '../../modules/feeds_screen/blogs/blogs_layout.dart';
-import '../../modules/messenger/cubit/messenger_cubit.dart';
-import '../../modules/messenger/screens/messenger_get_start_page.dart';
-import '../../modules/messenger/screens/messenger_home_page.dart';
 import '../../modules/platform_provider/provider_home/provider_profile_Sections.dart';
 import '../cache/cache.dart';
 import '../constants/my_countries.dart';
@@ -39,10 +35,6 @@ class MainCubit extends Cubit<MainState> {
 
   static MainCubit get(context) => BlocProvider.of(context);
 
-
-
-
-
   IO.Socket socket = IO.io(
       'https://live.menaaii.com:3000',
       IO.OptionBuilder().setTransports(['websocket'])
@@ -52,7 +44,7 @@ class MainCubit extends Cubit<MainState> {
       }) // optional
           .build());
 
-  String currentLogo = 'assets/new_icons/mena_main_logo.svg';
+  String currentLogo = 'assets/svg/mena8.svg';
 
   List<String?> selectedLocalesIsoInDashboard = [];
 
@@ -133,178 +125,6 @@ class MainCubit extends Cubit<MainState> {
           thumbnailLink: 'assets/svg/icons/profile/new slot.svg',
           onClickCallback: () {
             logg('dshjfjkh');
-          },
-        ),
-      ];
-    } else {
-      list = [
-        ItemWithTitleAndCallback(
-          title: 'SOS Video call',
-          thumbnailLink: 'assets/svg/icons/profile/sos.svg',
-          onClickCallback: () {
-            logg('dshjfjkh');
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Request Blood',
-          thumbnailLink: 'assets/svg/icons/profile/Request blood.svg',
-          onClickCallback: () {
-            logg('dshjfjkh');
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Make appointment',
-          thumbnailLink: 'assets/svg/icons/profile/make appointment.svg',
-          onClickCallback: () {
-            logg('dshjfjkh');
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Ask Professionals',
-          thumbnailLink: 'assets/svg/icons/profile/ask professionals.svg',
-          onClickCallback: () {
-            logg('dshjfjkh');
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Post Job',
-          thumbnailLink: 'assets/svg/icons/profile/Post Job.svg',
-          onClickCallback: () {
-            logg('dshjfjkh');
-          },
-        ),
-      ];
-    }
-    return list;
-  }
-
-  List<ItemWithTitleAndCallback> userActionItems1(BuildContext context) {
-    List<ItemWithTitleAndCallback> list = [];
-    if (isUserProvider()) {
-      list = [
-        ItemWithTitleAndCallback(
-          title: '',
-          thumbnailLink: 'assets/new_icons/MenaMessanger.svg',
-          onClickCallback: () {
-            if(getCachedToken() == null){
-              viewMessengerLoginAlertDialog(context);
-            }else if (MessengerCubit.get(context).myMessagesModel!.data.myChats!.isEmpty){
-              navigateToWithoutNavBar(context, const MessengerGetStartPage(), '');
-            }else{
-              navigateToWithoutNavBar(context, const MessengerHomePage(), '');
-            }
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: '',
-          thumbnailLink: 'assets/new_icons/Mena-appointment-colored.svg',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Pay',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Cloud',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Mail',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: '',
-          thumbnailLink: 'assets/new_icons/MenaGPT-colored.svg',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: '',
-          thumbnailLink: 'assets/new_icons/Mena-library.svg',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Blogs',
-          thumbnailLink: '',
-          onClickCallback: () {
-            navigateToWithoutNavBar(context, BlogsLayout(), 'routeName');
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Communication',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Tracking',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Software',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Recruitment',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Tasks',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena SOS',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Tube',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena Weather & Radar',
-          thumbnailLink: '',
-          onClickCallback: () {
-
-          },
-        ),
-        ItemWithTitleAndCallback(
-          title: 'Mena AI',
-          thumbnailLink: '',
-          onClickCallback: () {
-
           },
         ),
       ];
@@ -902,14 +722,4 @@ class MainCubit extends Cubit<MainState> {
     defaultLang = getCachedLocal();
     emit(LocaleChangedState());
   }
-
-  void showPopup() {
-    isPopupVisible: true;
-  }
-  void hidePopup() {
-    isPopupVisible: false;
-  }
-
 }
-
-

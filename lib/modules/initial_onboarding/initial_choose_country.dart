@@ -16,8 +16,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/shared_widgets/shared_widgets.dart';
 
-// import '../../core/shared_widgets/shared_widgets.dart';
-
 class InitialChooseCountry extends StatefulWidget {
   const InitialChooseCountry({Key? key}) : super(key: key);
 
@@ -81,11 +79,11 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                             ],
                           ),
                         ),
-                        SearchBar1(
-                          onFieldChanged: (val) {
-                            mainCubit.updateCountrySearchQuery(val);
-                          },
-                        )
+                        // SearchBar(
+                        //   onFieldChanged: (val) {
+                        //     mainCubit.updateCountrySearchQuery(val);
+                        //   },
+                        // )
                       ],
                     ),
                     heightBox(35.h),

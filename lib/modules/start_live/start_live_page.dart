@@ -75,7 +75,9 @@ class _StartLivePageState extends State<StartLivePage>
         case 'candidate':
           handleCandidate(jsonDecode(data));
           break;
-
+        case 'answer':
+          handleAnswer(jsonDecode(data));
+          break;
         case 'checkMeetingResult':
           if (jsonDecode(data)['result']) {
             logg('true');
@@ -257,10 +259,16 @@ class _StartLivePageState extends State<StartLivePage>
   }
 
   handleAnswer(data) {
-    logg('handleAnswer ssssssssss ${data['fromSocketId']}');
-    var currentConnection = connections[data['fromSocketId']];
-    if (currentConnection) {
-      currentConnection.setRemoteDescription(data['answer']);
+    logg('handleAnswer ssssssssss ${data}');
+    try {
+      var currentConnection = connections[data['fromSocketId']];
+      if (currentConnection != null) {
+        var answer = RTCSessionDescription(
+            data['answer']['sdp'], data['answer']['type']);
+        currentConnection.setRemoteDescription(answer);
+      }
+    } catch (e) {
+      print("handle answer error : ${e}");
     }
   }
 

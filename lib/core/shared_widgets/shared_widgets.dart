@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +41,7 @@ import '../constants/constants.dart';
 import '../constants/validators.dart';
 import '../functions/main_funcs.dart';
 import 'mena_shared_widgets/custom_containers.dart';
+
 
 class DefaultContainer extends StatelessWidget {
   const DefaultContainer(
@@ -94,13 +97,10 @@ class DefaultContainer extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                   )
                 : null,
-            borderRadius: BorderRadius.circular(
-                withoutRadius != null ? 0.0 : radius ?? defaultRadiusVal),
+            borderRadius: BorderRadius.circular(withoutRadius != null ? 0.0 : radius ?? defaultRadiusVal),
             border: withoutBorder == true
                 ? null
-                : Border.all(
-                    width: borderWidth ?? 1.0,
-                    color: borderColor ?? mainBlueColor),
+                : Border.all(width: borderWidth ?? 1.0, color: borderColor ?? mainBlueColor),
           ),
       child: childWidget,
     );
@@ -217,14 +217,8 @@ class DefaultShadowedContainer extends StatelessWidget {
       constraints: boxConstraints,
       decoration: BoxDecoration(
         color: backColor ?? Colors.white,
-        borderRadius: withoutRadius != null
-            ? null
-            : BorderRadius.circular(radius ?? defaultRadiusVal),
-        border: withoutBorder
-            ? null
-            : Border.all(
-                width: borderWidth ?? 1.0,
-                color: borderColor ?? Colors.transparent),
+        borderRadius: withoutRadius != null ? null : BorderRadius.circular(radius ?? defaultRadiusVal),
+        border: withoutBorder ? null : Border.all(width: borderWidth ?? 1.0, color: borderColor ?? Colors.transparent),
         boxShadow: boxShadow ??
             [
               BoxShadow(
@@ -277,15 +271,11 @@ class DefaultImage extends StatelessWidget {
         decoration: decoration ??
             BoxDecoration(
               color: backColor,
-              borderRadius: BorderRadius.circular(
-                  withoutRadius != null ? 0.0 : radius ?? defaultRadiusVal),
-              border: Border.all(
-                  width: borderWidth ?? 0.0,
-                  color: borderColor ?? Colors.transparent),
+              borderRadius: BorderRadius.circular(withoutRadius != null ? 0.0 : radius ?? defaultRadiusVal),
+              border: Border.all(width: borderWidth ?? 0.0, color: borderColor ?? Colors.transparent),
             ),
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(
-                withoutRadius != null ? 0.0 : radius ?? defaultRadiusVal),
+            borderRadius: BorderRadius.circular(withoutRadius != null ? 0.0 : radius ?? defaultRadiusVal),
             child: backGroundImageUrl == ""
                 ? SizedBox()
                 : backGroundImageUrl.endsWith('.svg')
@@ -308,9 +298,8 @@ class DefaultImage extends StatelessWidget {
                           ),
                         ),
                         placeholder: (context, url) => DefaultLoaderGrey(),
-                        errorWidget: (context, url, error) => GestureDetector(
-                            onTap: () {},
-                            child: Center(child: const ImageLoadingError())),
+                        errorWidget: (context, url, error) =>
+                            GestureDetector(onTap: () {}, child: Center(child: const ImageLoadingError())),
                       )
 
             ///
@@ -378,7 +367,7 @@ class DefaultImage extends StatelessWidget {
             ///
             ///
             ///
-            ///
+          ///
             /// FadeInImage
             // FadeInImage.assetNetwork(
 
@@ -414,7 +403,7 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
       this.decoration,
       this.boxConstraints,
       this.customImageCacheHeight,
-      this.isBlog,
+        this.isBlog,
       this.withoutRadius})
       : super(key: key);
   final double? width;
@@ -441,32 +430,29 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
         decoration: decoration ??
             BoxDecoration(
               color: backColor,
-              borderRadius: BorderRadius.circular(withoutRadius != null
-                  ? 0.0
-                  : radius ?? defaultHorizontalPadding),
-              border: Border.all(
-                  width: borderWidth ?? 0.0,
-                  color: borderColor ?? Colors.transparent),
+              borderRadius: BorderRadius.circular(withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+              border: Border.all(width: borderWidth ?? 0.0, color: borderColor ?? Colors.transparent),
             ),
         child: ClipRRect(
-          borderRadius: isBlog == true
-              ? BorderRadius.only(
-                  bottomLeft: Radius.circular(withoutRadius != null
-                      ? 0.0
-                      : radius ?? defaultHorizontalPadding),
-                  bottomRight: Radius.circular(withoutRadius != null
-                      ? 0.0
-                      : radius ?? defaultHorizontalPadding),
-                  topLeft: Radius.circular(withoutRadius != null
-                      ? 0.0
-                      : 30 ?? defaultHorizontalPadding),
-                  topRight: Radius.circular(withoutRadius != null
-                      ? 0.0
-                      : 30 ?? defaultHorizontalPadding),
-                )
-              : BorderRadius.circular(withoutRadius != null
-                  ? 0.0
-                  : radius ?? defaultHorizontalPadding),
+          borderRadius:
+           isBlog ==true ?
+
+
+          BorderRadius.only(
+            bottomLeft:  Radius.circular(
+              withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+           bottomRight:  Radius.circular(
+          withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+            topLeft:  Radius.circular(
+                withoutRadius != null ? 0.0 : 30 ?? defaultHorizontalPadding),
+            topRight:  Radius.circular(
+                withoutRadius != null ? 0.0 : 30?? defaultHorizontalPadding),
+
+
+          )
+          :
+           BorderRadius.circular(  withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding)
+          ,
           child: backGroundImageUrl == ""
               ? SizedBox()
               :
@@ -577,18 +563,15 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
                       height: height,
                       width: width,
                       fit: boxFit ?? BoxFit.cover,
-                      imageErrorBuilder: (context, error, stackTrace) =>
-                          const Center(child: ImageLoadingError()),
-                      placeholderErrorBuilder: (context, error, stackTrace) =>
-                          DefaultLoaderGrey(),
+                      imageErrorBuilder: (context, error, stackTrace) => const Center(child: ImageLoadingError()),
+                      placeholderErrorBuilder: (context, error, stackTrace) => DefaultLoaderGrey(),
                     ),
         ));
   }
 }
 
 class ImageLoadingError extends StatelessWidget {
-  const ImageLoadingError({Key? key, this.customHeight, this.customWidth})
-      : super(key: key);
+  const ImageLoadingError({Key? key, this.customHeight, this.customWidth}) : super(key: key);
   final double? customHeight;
   final double? customWidth;
 
@@ -677,6 +660,9 @@ class ExpandedColoredContainer extends StatelessWidget {
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({Key? key, this.onFieldChanged}) : super(key: key);
 
+
+
+
   final Function(String)? onFieldChanged;
 
   @override
@@ -690,19 +676,19 @@ class SearchBarWidget extends StatelessWidget {
         children: [
           Expanded(
               child: DefaultInputField(
-            // label: '',
-            label: localizationStrings!.search,
-            // labelWidget: Text(
-            //   localizationStrings!.search,
-            //   style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
-            // ),
-            onFieldChanged: onFieldChanged,
-            customHintText: 'Search by country name',
-            suffixIcon: SvgPicture.asset(
-              'assets/svg/search.svg',
-              width: 20.w,
-            ),
-          )),
+                // label: '',
+                label: localizationStrings!.search,
+                // labelWidget: Text(
+                //   localizationStrings!.search,
+                //   style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+                // ),
+                onFieldChanged: onFieldChanged,
+                customHintText: 'Search by country name',
+                suffixIcon: SvgPicture.asset(
+                  'assets/svg/search.svg',
+                  width: 20.w,
+                ),
+              )),
           // SvgPicture.asset('assets/svg/search.svg'),
         ],
       ),
@@ -710,8 +696,8 @@ class SearchBarWidget extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key, this.onFieldChanged}) : super(key: key);
+class SearchBar1 extends StatelessWidget {
+  const SearchBar1({Key? key, this.onFieldChanged}) : super(key: key);
 
   final Function(String)? onFieldChanged;
 
@@ -734,11 +720,7 @@ class SearchBar extends StatelessWidget {
             // ),
             onFieldChanged: onFieldChanged,
             customHintText: 'Search by country name',
-            suffixIcon: Icon(
-              Icons.search,
-              color: mainBlueColor,
-              size: 25,
-            ),
+            suffixIcon: Icon(Icons.search,color: mainBlueColor,size: 25,),
             // SvgPicture.asset(
             //   'assets/svg/search_icon.svg',
             //   color: mainBlueColor,
@@ -793,8 +775,7 @@ class IconLabelInputWidget extends StatelessWidget {
             widthBox(5.w),
             Text(
               labelText,
-              style: mainStyle(context, 12,
-                  color: newDarkGreyColor, weight: FontWeight.w700),
+              style: mainStyle(context, 12, color: newDarkGreyColor, weight: FontWeight.w700),
             ),
           ],
         ),
@@ -825,8 +806,7 @@ class BlurredAndScaledImage extends StatelessWidget {
             height: double.infinity,
           ),
           BackdropFilter(
-            filter:
-                ImageFilter.blur(sigmaX: blurIntensity, sigmaY: blurIntensity),
+            filter: ImageFilter.blur(sigmaX: blurIntensity, sigmaY: blurIntensity),
             child: Container(
               color: Colors.transparent,
               width: double.infinity,
@@ -879,7 +859,7 @@ class AttachmentHandlerAccordingTypeWidget extends StatelessWidget {
                 //       )
                 //     :
 
-                BlurredAndScaledImage(
+            BlurredAndScaledImage(
               imageUrl: file,
               blurIntensity: 12.0,
             ),
@@ -913,8 +893,7 @@ class AttachmentHandlerAccordingTypeWidget extends StatelessWidget {
                             childWidget: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
@@ -933,27 +912,21 @@ class AttachmentHandlerAccordingTypeWidget extends StatelessWidget {
                                       style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero,
                                           // minimumSize: Size(50, 30),
-                                          tapTargetSize:
-                                              MaterialTapTargetSize.shrinkWrap,
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           alignment: Alignment.centerLeft),
                                       onPressed: () async {
                                         logg('launching $file');
                                         if (file.endsWith('.pdf')) {
-                                          navigateToWithoutNavBar(
-                                              context,
-                                              PdfViewerLayout(pdfLink: file),
-                                              '');
+                                          navigateToWithoutNavBar(context, PdfViewerLayout(pdfLink: file), '');
                                         } else {
-                                          if (!await launchUrl(
-                                              Uri.parse(file))) {
+                                          if (!await launchUrl(Uri.parse(file))) {
                                             throw 'Could not launch ${file}';
                                           }
                                         }
                                       },
                                       child: Text(
                                         'Open',
-                                        style: mainStyle(context, 12,
-                                            color: mainBlueColor),
+                                        style: mainStyle(context, 12, color: mainBlueColor),
                                       ))
                                 ],
                               ),
@@ -963,8 +936,7 @@ class AttachmentHandlerAccordingTypeWidget extends StatelessWidget {
                             childWidget: Padding(
                               padding: const EdgeInsets.all(6.0),
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
@@ -981,8 +953,7 @@ class AttachmentHandlerAccordingTypeWidget extends StatelessWidget {
                                       style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero,
                                           // minimumSize: Size(50, 30),
-                                          tapTargetSize:
-                                              MaterialTapTargetSize.shrinkWrap,
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           alignment: Alignment.centerLeft),
                                       onPressed: () async {
                                         if (!await launchUrl(Uri.parse(file))) {
@@ -991,8 +962,7 @@ class AttachmentHandlerAccordingTypeWidget extends StatelessWidget {
                                       },
                                       child: Text(
                                         'Open',
-                                        style: mainStyle(context, 12,
-                                            color: mainBlueColor),
+                                        style: mainStyle(context, 12, color: mainBlueColor),
                                       ))
                                 ],
                               ),
@@ -1011,12 +981,10 @@ class PhotoViewWithZoomContainer extends StatefulWidget {
   final String picture;
 
   @override
-  State<PhotoViewWithZoomContainer> createState() =>
-      _PhotoViewWithZoomContainerState();
+  State<PhotoViewWithZoomContainer> createState() => _PhotoViewWithZoomContainerState();
 }
 
-class _PhotoViewWithZoomContainerState
-    extends State<PhotoViewWithZoomContainer> {
+class _PhotoViewWithZoomContainerState extends State<PhotoViewWithZoomContainer> {
   final keyPhotoView = GlobalKey();
 
   // late PhotoViewControllerBase photoViewControllerBase;
@@ -1164,8 +1132,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
 
   @override
   Widget build(BuildContext context) {
-    bool hasError = widget.hasError1 ??
-        false; // Use hasError1 if provided, default to false
+    bool hasError = widget.hasError1 ?? false; // Use hasError1 if provided, default to false
     String? errorText;
 
     if (widget.validate != null) {
@@ -1187,19 +1154,14 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
         errorMaxLines: 3,
         isDense: true,
         filled: true,
-        errorStyle:
-            mainStyle(context, 11, color: Colors.red, weight: FontWeight.w700),
+        errorStyle: mainStyle(context, 11, color: Colors.red, weight: FontWeight.w700),
         hintText: widget.customHintText ?? widget.label ?? '...',
         floatingLabelAlignment: widget.floatingLabelAlignment,
         // floatingLabelBehavior: floatingLabelBehavior,
-        floatingLabelBehavior:
-            widget.floatingLabelBehavior ?? FloatingLabelBehavior.never,
-        hintStyle: mainStyle(context, 12,
-            color: newDarkGreyColor, weight: FontWeight.w700),
+        floatingLabelBehavior: widget.floatingLabelBehavior ?? FloatingLabelBehavior.never,
+        hintStyle: mainStyle(context, 12, color: newDarkGreyColor, weight: FontWeight.w700),
         contentPadding: widget.edgeInsetsGeometry ??
-            EdgeInsets.symmetric(
-                vertical: Responsive.isMobile(context) ? 15 : 20.0,
-                horizontal: 10.0),
+            EdgeInsets.symmetric(vertical: Responsive.isMobile(context) ? 15 : 20.0, horizontal: 10.0),
         border: const OutlineInputBorder(),
         suffixIcon: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
@@ -1207,15 +1169,12 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
         ),
         prefixIcon: widget.prefixWidget != null
             ? Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: widget.prefixWidget,
               )
             : null,
-        suffixIconConstraints: BoxConstraints(maxHeight: 60.h, maxWidth: 60.w),
-        labelStyle: widget.labelTextStyle ??
-            mainStyle(context, 13,
-                color: newDarkGreyColor, weight: FontWeight.w700),
+        suffixIconConstraints: BoxConstraints(maxHeight: 60.h,maxWidth: 60.w),
+        labelStyle: widget.labelTextStyle ?? mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
         // labelText: label,
         label: Text(widget.label ?? ''),
         // Padding(
@@ -1227,35 +1186,22 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
         focusColor: widget.fillColor ?? newLightGreyColor,
 
         focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: widget.unFocusedBorderColor ?? Colors.red, width: 1),
-            borderRadius: BorderRadius.all(
-                Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.unFocusedBorderColor ?? Colors.red, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
         errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: widget.unFocusedBorderColor ?? Colors.red, width: 1),
-            borderRadius: BorderRadius.all(
-                Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.unFocusedBorderColor ?? Colors.red, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
 
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: widget.focusedBorderColor ?? Color(0xff0077FF),
-                width: 1.0),
-            borderRadius: BorderRadius.all(
-                Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.focusedBorderColor ?? Color(0xff0077FF), width: 1.0),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
 
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: widget.unFocusedBorderColor ?? Color(0xff999B9D),
-                width: 1),
-            borderRadius: BorderRadius.all(
-                Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
         disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: widget.unFocusedBorderColor ?? Color(0xff999B9D),
-                width: 1),
-            borderRadius: BorderRadius.all(
-                Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
+            borderSide: BorderSide(color: widget.unFocusedBorderColor ?? Color(0xff999B9D), width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? defaultRadiusVal))),
       ),
       validator: (val) {
         if (widget.validate != null) {
@@ -1282,6 +1228,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
     );
   }
 }
+
 
 class DefaultInputField29 extends StatefulWidget {
   const DefaultInputField29({
@@ -1312,8 +1259,7 @@ class DefaultInputField29 extends StatefulWidget {
     this.edgeInsetsGeometry,
     this.labelTextStyle,
     this.hasError1 = false,
-    this.errorIconAsset,
-    this.obscureText,
+    this.errorIconAsset, this.obscureText,
   }) : super(key: key);
 
   final String? errorIconAsset;
@@ -1396,8 +1342,7 @@ class _DefaultInputField29State extends State<DefaultInputField29> {
         errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.w700),
         hintText: widget.customHintText ?? widget.label ?? '...',
         floatingLabelAlignment: widget.floatingLabelAlignment,
-        floatingLabelBehavior:
-            widget.floatingLabelBehavior ?? FloatingLabelBehavior.never,
+        floatingLabelBehavior: widget.floatingLabelBehavior ?? FloatingLabelBehavior.never,
         hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
         contentPadding: widget.edgeInsetsGeometry ??
             EdgeInsets.symmetric(
@@ -1411,9 +1356,9 @@ class _DefaultInputField29State extends State<DefaultInputField29> {
         ),
         prefixIcon: widget.prefixWidget != null
             ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: widget.prefixWidget,
-              )
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: widget.prefixWidget,
+        )
             : null,
         suffixIconConstraints: BoxConstraints(maxHeight: 60, maxWidth: 60),
         labelStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
@@ -1422,32 +1367,27 @@ class _DefaultInputField29State extends State<DefaultInputField29> {
         focusColor: widget.fillColor ?? Colors.grey,
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(widget.borderRadius ?? 10.0),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(widget.borderRadius ?? 10.0),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xff0077FF), width: 1.0),
-          borderRadius: BorderRadius.all(
-            Radius.circular(widget.borderRadius ?? 10.0),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xff999B9D), width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(widget.borderRadius ?? 10.0),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
           ),
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xff999B9D), width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(widget.borderRadius ?? 10.0),
+          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius ?? 10.0),
           ),
         ),
       ),
@@ -1476,6 +1416,9 @@ class _DefaultInputField29State extends State<DefaultInputField29> {
     );
   }
 }
+
+
+
 
 class ChatInputField extends StatelessWidget {
   const ChatInputField({
@@ -1541,9 +1484,7 @@ class ChatInputField extends StatelessWidget {
         hintText: customHintText ?? '...',
         hintStyle: mainStyle(context, 12, color: newDarkGreyColor),
         contentPadding: edgeInsetsGeometry ??
-            EdgeInsets.symmetric(
-                vertical: Responsive.isMobile(context) ? 18 : 25.0,
-                horizontal: 10.0),
+            EdgeInsets.symmetric(vertical: Responsive.isMobile(context) ? 18 : 25.0, horizontal: 10.0),
         // border: const OutlineInputBorder(),
         suffixIcon: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
@@ -1557,16 +1498,11 @@ class ChatInputField extends StatelessWidget {
           child: labelWidget,
         ),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: focusedBorderColor ?? mainBlueColor, width: 1.0),
-            borderRadius:
-                BorderRadius.all(Radius.circular(borderRadius ?? 5.0.sp))),
+            borderSide: BorderSide(color: focusedBorderColor ?? mainBlueColor, width: 1.0),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 5.0.sp))),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: unFocusedBorderColor ?? mainBlueColor.withOpacity(0.7),
-                width: 1),
-            borderRadius:
-                BorderRadius.all(Radius.circular(borderRadius ?? 5.0.sp))),
+            borderSide: BorderSide(color: unFocusedBorderColor ?? mainBlueColor.withOpacity(0.7), width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 5.0.sp))),
       ),
       // decoration: InputDecoration(
       //   contentPadding: EdgeInsets.all(10.h),
@@ -1644,26 +1580,18 @@ class DefaultButton extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(radius ?? defaultRadiusVal),
           ),
-          border: Border.all(
-              width: 1.0,
-              color:
-                  isEnabled ? borderColor ?? mainBlueColor : disabledGreyColor),
+          border: Border.all(width: 1.0, color: isEnabled ? borderColor ?? mainBlueColor : disabledGreyColor),
           color: isEnabled ? backColor ?? mainBlueColor : disabledGreyColor,
         ),
-        padding: EdgeInsets.symmetric(
-            horizontal: withoutPadding ? 0 : 5,
-            vertical: withoutPadding ? 0 : 10),
+        padding: EdgeInsets.symmetric(horizontal: withoutPadding ? 0 : 5, vertical: withoutPadding ? 0 : 10),
         child: customChild ??
             Center(
-              child: Text(
+              child:Text(
                 text,
                 textAlign: TextAlign.center,
-                style: mainStyle(
-                    context,
+                style: mainStyle(context,
                     fontFamily: fontName,
-                    isBold: true,
-                    fontSize ?? 14,
-                    color: titleColor ?? Colors.white),
+                    isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
               ),
             ),
       ),
@@ -1714,7 +1642,7 @@ class DefaultButton1 extends StatelessWidget {
           border: Border.all(
               width: 1.0,
               color:
-                  isEnabled ? borderColor ?? mainBlueColor : disabledGreyColor),
+              isEnabled ? borderColor ?? mainBlueColor : disabledGreyColor),
           color: isEnabled ? backColor ?? mainBlueColor : disabledGreyColor,
         ),
         padding: EdgeInsets.symmetric(
@@ -1775,17 +1703,18 @@ class DefaultButtonUserName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+
       onTap: isEnabled
           ? () async {
-              if (validator != null) {
-                final isValid = await validator!();
-                if (isValid) {
-                  onClick();
-                }
-              } else {
-                onClick();
-              }
-            }
+        if (validator != null) {
+          final isValid = await validator!();
+          if (isValid) {
+            onClick();
+          }
+        } else {
+          onClick();
+        }
+      }
           : null,
       child: Container(
         width: width,
@@ -1794,25 +1723,16 @@ class DefaultButtonUserName extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(radius ?? defaultRadiusVal),
           ),
-          border: Border.all(
-              width: 1.0,
-              color:
-                  isEnabled ? borderColor ?? mainBlueColor : disabledGreyColor),
+          border: Border.all(width: 1.0, color: isEnabled ? borderColor ?? mainBlueColor : disabledGreyColor),
           color: isEnabled ? backColor ?? mainBlueColor : disabledGreyColor,
         ),
-        padding: EdgeInsets.symmetric(
-            horizontal: withoutPadding ? 0 : 5,
-            vertical: withoutPadding ? 0 : 10),
+        padding: EdgeInsets.symmetric(horizontal: withoutPadding ? 0 : 5, vertical: withoutPadding ? 0 : 10),
         child: customChild ??
             Center(
-              child: Text(
+              child:Text(
                 text,
                 textAlign: TextAlign.center,
-                style: mainStyle(
-                    context,
-                    isBold: true,
-                    fontSize ?? 14,
-                    color: titleColor ?? Colors.white),
+                style: mainStyle(context, isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
               ),
             ),
       ),
@@ -1863,7 +1783,9 @@ class _ButtonWithLoaderState extends State<ButtonWithLoader> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ButtonStyle(),
+      style: ButtonStyle(
+
+      ),
       onPressed: widget.isLoading ? null : widget.onClick,
       child: Stack(
         alignment: Alignment.center,
@@ -2005,8 +1927,7 @@ class UserProfileDrawer extends StatelessWidget {
                 ),
                 heightBox(15.h),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: defaultHorizontalPadding * 2),
+                  padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
                   child: Column(
                     children: [
                       ProfileDrawerElement(
@@ -2026,8 +1947,7 @@ class UserProfileDrawer extends StatelessWidget {
                               suffixSvgLink: !mainCubit.medicalRecordExpanded
                                   ? 'assets/svg/icons/arrow_down_base.svg'
                                   : 'assets/svg/icons/arrow_up_base.svg',
-                              title: getTranslatedStrings(context)
-                                  .myMedicalRecord),
+                              title: getTranslatedStrings(context).myMedicalRecord),
                           !mainCubit.medicalRecordExpanded
                               ? const SizedBox()
                               : Padding(
@@ -2049,9 +1969,7 @@ class UserProfileDrawer extends StatelessWidget {
                                 padding: EdgeInsets.all(4.0.sp),
                                 child: Center(
                                   child: Text('29',
-                                      style: mainStyle(context, 18,
-                                          color: Colors.white,
-                                          weight: FontWeight.w800)),
+                                      style: mainStyle(context, 18, color: Colors.white, weight: FontWeight.w800)),
                                 ),
                               ),
                             ),
@@ -2068,13 +1986,11 @@ class UserProfileDrawer extends StatelessWidget {
                               suffixSvgLink: !mainCubit.myActivitiesExpanded
                                   ? 'assets/svg/icons/arrow_down_base.svg'
                                   : 'assets/svg/icons/arrow_up_base.svg',
-                              title:
-                                  getTranslatedStrings(context).myActivities),
+                              title: getTranslatedStrings(context).myActivities),
                           !mainCubit.myActivitiesExpanded
                               ? const SizedBox()
                               : Padding(
-                                  padding: REdgeInsets.symmetric(
-                                      horizontal: defaultHorizontalPadding),
+                                  padding: REdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                                   child: const MyActivitiesDrawerColumn(),
                                 ),
                         ],
@@ -2127,8 +2043,7 @@ class DrawerProfileHeader extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(getTranslatedStrings(context).editProfile,
-                          style: mainStyle(context, 12,
-                              color: mainBlueColor, weight: FontWeight.w700)),
+                          style: mainStyle(context, 12, color: mainBlueColor, weight: FontWeight.w700)),
                     ),
                   ),
                   widthBox(5.w),
@@ -2140,9 +2055,8 @@ class DrawerProfileHeader extends StatelessWidget {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Logout',
-                          style: mainStyle(context, 12,
-                              color: alertRedColor, weight: FontWeight.w700)),
+                      child:
+                          Text('Logout', style: mainStyle(context, 12, color: alertRedColor, weight: FontWeight.w700)),
                     ),
                   )
                 ],
@@ -2189,8 +2103,7 @@ class GuestDrawer extends StatelessWidget {
                 children: [
                   heightBox(40.h),
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: defaultHorizontalPadding * 2),
+                    padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -2212,14 +2125,11 @@ class GuestDrawer extends StatelessWidget {
                               children: [
                                 TextButton(
                                   onPressed: () {
-                                    navigateToAndFinishUntil(
-                                        context, SignInScreen());
+                                    navigateToAndFinishUntil(context, SignInScreen());
                                   },
                                   child: Text(
                                     getTranslatedStrings(context).joinUs,
-                                    style: mainStyle(context, 12,
-                                        color: mainBlueColor,
-                                        weight: FontWeight.w700),
+                                    style: mainStyle(context, 12, color: mainBlueColor, weight: FontWeight.w700),
                                   ),
                                 ),
                                 // widthBox(10.w),
@@ -2231,8 +2141,7 @@ class GuestDrawer extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(right: defaultHorizontalPadding * 2),
+                    padding: EdgeInsets.only(right: defaultHorizontalPadding * 2),
                     child: Divider(
                       height: 20.h,
                       thickness: 1,
@@ -2264,13 +2173,11 @@ class SharedDrawerItems extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
+          padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
           child: Column(
             children: [
               ProfileDrawerElement(
-                  svgLink: 'assets/svg/icons/setting.svg',
-                  title: getTranslatedStrings(context).setting),
+                  svgLink: 'assets/svg/icons/setting.svg', title: getTranslatedStrings(context).setting),
               heightBox(5.h),
               Column(
                 children: [
@@ -2288,25 +2195,20 @@ class SharedDrawerItems extends StatelessWidget {
               ),
               heightBox(20.h),
               ProfileDrawerElement(
-                  svgLink: 'assets/svg/icons/helpcenter.svg',
-                  title: getTranslatedStrings(context).helpCenter),
+                  svgLink: 'assets/svg/icons/helpcenter.svg', title: getTranslatedStrings(context).helpCenter),
               heightBox(5.h),
               ProfileDrawerElement(
-                  svgLink: 'assets/svg/icons/rateAndReview.svg',
-                  title: getTranslatedStrings(context).rateAndReview),
+                  svgLink: 'assets/svg/icons/rateAndReview.svg', title: getTranslatedStrings(context).rateAndReview),
               heightBox(5.h),
               ProfileDrawerElement(
-                  svgLink: 'assets/svg/icons/tellafriend.svg',
-                  title: getTranslatedStrings(context).tellAFriend),
+                  svgLink: 'assets/svg/icons/tellafriend.svg', title: getTranslatedStrings(context).tellAFriend),
               heightBox(5.h),
               ProfileDrawerElement(
-                  svgLink: 'assets/svg/icons/feedback.svg',
-                  title: getTranslatedStrings(context).feedback),
+                  svgLink: 'assets/svg/icons/feedback.svg', title: getTranslatedStrings(context).feedback),
               heightBox(5.h),
               ProfileDrawerElement(
                   svgLink: 'assets/svg/icons/follow.svg',
-                  title:
-                      '${getTranslatedStrings(context).follow} MENA Platforms'),
+                  title: '${getTranslatedStrings(context).follow} MENA Platforms'),
               heightBox(2.h),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -2457,8 +2359,7 @@ class ProfileDrawerElement extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: Padding(
-            padding:
-                EdgeInsets.symmetric(vertical: defaultHorizontalPadding / 2),
+            padding: EdgeInsets.symmetric(vertical: defaultHorizontalPadding / 2),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -2539,23 +2440,22 @@ class FloatingPickPlatformsDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.transparent,
-      width: 0.50.sw,
+      width: 0.70.sw,
       elevation: 0.0,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 88.0),
         child: DefaultContainer(
+          backColor: Color(0xfff8f9fb),
           width: 0.33.sw,
-          backColor: drawerColor.withOpacity(0.7),
           withoutBorder: true,
-          withBoxShadow: false,
+          withBoxShadow: true,
           radius: 28.sp,
           childWidget: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(28.sp)),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 13, sigmaY: 13),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14),
+                padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14),
                 child:
                     // SizedBox()
                     Column(
@@ -2565,17 +2465,18 @@ class FloatingPickPlatformsDrawer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          'assets/svg/icons/categories_outline_28.svg',
-                          color: mainBlueColor,
+                          'assets/new_icons/SelectPlatform-colored.svg',
+                          // color: mainBlueColor,
+                          height: 28.h,
                         ),
-                        widthBox(5.w),
+                        widthBox(7.w),
                         Expanded(
                           child: Text(
                             'Select Platform',
                             style: mainStyle(
                               context,
-                              11, isBold: true,
-                              // color: newDarkGreyColor,
+                              13, isBold: true,
+                              color: Color(0xff5B5C5E),
                             ),
                           ),
                         ),
@@ -2592,12 +2493,21 @@ class FloatingPickPlatformsDrawer extends StatelessWidget {
                             button: buttons[index],
                           );
                         },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            Divider(
-                          thickness: 0.3,
-                          color: Colors.black,
-                        ),
+                        separatorBuilder: (BuildContext context, int index) => DottedLine(),
                       ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: (){},
+                            icon: SvgPicture.asset(
+                              'assets/new_icons/arrow_down_circle_12.svg',
+                              color: Color(0xff2788E8),
+                              height: 20.h,
+                            ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -2641,16 +2551,15 @@ class PlatformPickItem extends StatelessWidget {
                   button.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: mainStyle(context, 11,
-                      isBold: true,
-                      color: button.isSelected ? mainBlueColor : null),
+                  style: mainStyle(context, 11, isBold: true, color: Color(0xff5B5C5E)),
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: button.isSelected ? mainBlueColor : null,
-                size: 16.sp,
-              )
+              SvgPicture.asset(
+                'assets/new_icons/arrow_right_circle_outline_24.svg',
+                color: button.isSelected ? Color(0xff2788E8) : Color(0xff5B5C5E),
+                height: 20,
+              ),
+              heightBox(2.h),
             ],
           ),
         ],
@@ -2678,13 +2587,11 @@ class OptionsMenu extends StatelessWidget {
             itemBuilder: (context) => [
               PullDownMenuItem(
                 title: getTranslatedStrings(context).reportToMena,
-                textStyle: mainStyle(context, 13,
-                    weight: FontWeight.w600, color: Colors.black),
+                textStyle: mainStyle(context, 13, weight: FontWeight.w600, color: Colors.black),
                 onTap: () {
                   showAlertConfirmDialog(context,
                       customTitle: getTranslatedStrings(context).reportToMena,
-                      customSubTitle: getTranslatedStrings(context)
-                          .areYouSureReportChat, confirmCallBack: () {
+                      customSubTitle: getTranslatedStrings(context).areYouSureReportChat, confirmCallBack: () {
                     messengerCubit
                         .reportToMENA(
                       chatId: chatId.toString(),
@@ -2700,13 +2607,11 @@ class OptionsMenu extends StatelessWidget {
               const PullDownMenuDivider(),
               PullDownMenuItem(
                 title: getTranslatedStrings(context).block,
-                textStyle: mainStyle(context, 13,
-                    weight: FontWeight.w600, color: Colors.black),
+                textStyle: mainStyle(context, 13, weight: FontWeight.w600, color: Colors.black),
                 onTap: () {
                   showAlertConfirmDialog(context,
                       customTitle: getTranslatedStrings(context).blockUser,
-                      customSubTitle: getTranslatedStrings(context)
-                          .areYouSureBlockUser, confirmCallBack: () {
+                      customSubTitle: getTranslatedStrings(context).areYouSureBlockUser, confirmCallBack: () {
                     messengerCubit
                         .blockUserChat(
                       chatId: chatId.toString(),
@@ -2722,13 +2627,11 @@ class OptionsMenu extends StatelessWidget {
               const PullDownMenuDivider(),
               PullDownMenuItem(
                 title: getTranslatedStrings(context).clearChat,
-                textStyle: mainStyle(context, 13,
-                    weight: FontWeight.w600, color: Colors.black),
+                textStyle: mainStyle(context, 13, weight: FontWeight.w600, color: Colors.black),
                 onTap: () {
                   showAlertConfirmDialog(context,
                       customTitle: getTranslatedStrings(context).clearChat,
-                      customSubTitle: getTranslatedStrings(context)
-                          .areYouSureClearChat, confirmCallBack: () {
+                      customSubTitle: getTranslatedStrings(context).areYouSureClearChat, confirmCallBack: () {
                     messengerCubit
                         .clearChat(
                       chatId: chatId.toString(),
@@ -2783,12 +2686,57 @@ class LivesList extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(color: Colors.white, child: SizedBox()),
+            Container(
+              color: Colors.white,
+              child: categories.isEmpty
+                  ? SizedBox()
+
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          top: 7.0.h, bottom: 5.h, left: defaultHorizontalPadding, right: defaultHorizontalPadding),
+                      child: Row(
+                        children: [
+                          NewSelectorButton(
+                              title: 'ALL',
+                              customHeight: 31.sp - 4,
+                              customFontSize: 10,
+                              isSelected: isNow
+                                  ? liveCubit.selectedNowLiveCat == '-1'
+                                  : liveCubit.selectedUpcomingLiveCat == '-1',
+                              onClick: () {
+                                /// unselected current items in the row and remove the below rows
+                                isNow
+                                    ? liveCubit.changeSelectedNowLiveCat('-1')
+                                    : liveCubit.changeSelectedUpcomingLiveCat('-1');
+                              }),
+                          // Container(width: 4,color: Colors.red,height: 10,),
+                          Expanded(
+                            child: NewHorizontalSelectorScrollable(
+                              buttons: categories
+                                  .map((e) => SelectorButtonModel(
+                                      title: e.name,
+                                      onClickCallback: () {
+                                        isNow
+                                            ? liveCubit.changeSelectedNowLiveCat(e.id.toString())
+                                            : liveCubit.changeSelectedUpcomingLiveCat(e.id.toString());
+                                      },
+                                      isSelected: isNow
+                                          ? liveCubit.selectedNowLiveCat == e.id.toString()
+                                          : liveCubit.selectedUpcomingLiveCat == e.id.toString()))
+                                  .toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+
+
+
+            ),
             heightBox(7.h),
             if (isNow)
               DefaultShadowedContainer(
                 backColor: Colors.white,
-                withoutRadius: true,
                 childWidget: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
@@ -2804,8 +2752,7 @@ class LivesList extends StatelessWidget {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        navigateToWithoutNavBar(context,
-                                            CreateLivePage(), 'routeName');
+                                        navigateToWithoutNavBar(context, CreateLivePage(), 'routeName');
                                         logg('go live');
 
                                         // await Navigator.push(
@@ -2839,18 +2786,15 @@ class LivesList extends StatelessWidget {
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          Lottie.asset(
-                                              'assets/json/livecircle_live_now.json',
-                                              width: 60.sp,
-                                              fit: BoxFit.fill),
+                                          Lottie.asset('assets/json/livecircle_live_now.json',
+                                              width: 60.sp, fit: BoxFit.fill),
                                           SizedBox(height: 8.h),
                                           Text(
                                             'Go live',
                                             textAlign: TextAlign.center,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: mainStyle(context, 9,
-                                                weight: FontWeight.w700),
+                                            style: mainStyle(context, 9, weight: FontWeight.w700),
                                           ),
                                         ],
                                       ),
@@ -2867,7 +2811,7 @@ class LivesList extends StatelessWidget {
                                 ? SizedBox(
                                     height: 82.sp,
                                     // child:
-                                    // Text('empty')
+                                        // Text('empty')
                                     //     ListView.separated(
                                     //   itemBuilder: (context, index) {
                                     //     return LiveProfileBubble(
@@ -2893,31 +2837,19 @@ class LivesList extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         return LiveProfileBubble(
                                           requiredWidth: 60.sp,
-                                          liveId: liveCubit.nowLivesModel!.data
-                                              .lives[index].roomId,
-                                          name: liveCubit.nowLivesModel!.data
-                                              .lives[index].name,
-                                          liveTitle: liveCubit
-                                                  .goLiveModel?.data.title ??
-                                              '',
-                                          liveGoal: liveCubit
-                                                  .goLiveModel?.data.goal ??
-                                              '',
-                                          liveTopic: liveCubit
-                                                  .goLiveModel?.data.topic ??
-                                              '',
-                                          thumbnailUrl: liveCubit.nowLivesModel!
-                                              .data.lives[index].image,
-                                          roomId: liveCubit.nowLivesModel!.data
-                                              .lives[index].roomId,
+                                          liveId: liveCubit.nowLivesModel!.data.lives[index].roomId,
+                                          name: liveCubit.nowLivesModel!.data.lives[index].name,
+                                          liveTitle: liveCubit.goLiveModel?.data.title ?? '',
+                                          liveGoal: liveCubit.goLiveModel?.data.goal ?? '',
+                                          liveTopic: liveCubit.goLiveModel?.data.topic ?? '',
+                                          thumbnailUrl: liveCubit.nowLivesModel!.data.lives[index].image,
                                         );
                                       },
                                       separatorBuilder: (_, i) => widthBox(2.w),
                                       scrollDirection: Axis.horizontal,
                                       shrinkWrap: true,
                                       physics: BouncingScrollPhysics(),
-                                      itemCount: liveCubit
-                                          .nowLivesModel!.data.lives.length,
+                                      itemCount: liveCubit.nowLivesModel!.data.lives.length,
                                     ),
                                   ),
                       ),
@@ -2925,53 +2857,6 @@ class LivesList extends StatelessWidget {
                   ),
                 ),
               ),
-            DefaultShadowedContainer(
-              backColor: Colors.white,
-              withoutRadius: true,
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(41, 255, 255, 255),
-                  offset: Offset(0, 0),
-                  blurRadius: 3,
-                ),
-              ],
-              childWidget: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    widthBox(defaultHorizontalPadding),
-                    SelectorButton(
-                        title: 'ALL',
-                        isSelected: liveCubit.selectedNowLiveCat == null,
-                        onClick: () {
-                          liveCubit.changeSelectedStartLiveCat(null);
-                          liveCubit.changeSelectedNowLiveCat(null);
-                        }),
-                    Expanded(
-                      child: HorizontalSelectorScrollable(
-                          buttons: liveCubit.nowLiveCategoriesModel != null
-                              ? liveCubit.nowLiveCategoriesModel!.liveCategories
-                                  .map((e) => SelectorButtonModel(
-                                      title: e!.name!,
-                                      onClickCallback: () {
-                                        // logg('current Column index = ${i}');
-                                        logg('current value = ${e.id}');
-                                        liveCubit.changeSelectedStartLiveCat(
-                                            e.id.toString());
-
-                                        liveCubit.changeSelectedNowLiveCat(
-                                            e!.id.toString());
-                                      },
-                                      isSelected: e!.id.toString() ==
-                                          liveCubit.selectedNowLiveCat))
-                                  .toList()
-                              : []),
-                    ),
-                  ],
-                ),
-              ),
-            ),
             if (isNow) heightBox(12.h),
             ListView.separated(
               itemBuilder: (context, index) {
@@ -3029,12 +2914,10 @@ class HorizontalSelectorScrollable extends StatefulWidget {
   final double? customFontSize;
 
   @override
-  State<HorizontalSelectorScrollable> createState() =>
-      _HorizontalSelectorScrollableState();
+  State<HorizontalSelectorScrollable> createState() => _HorizontalSelectorScrollableState();
 }
 
-class _HorizontalSelectorScrollableState
-    extends State<HorizontalSelectorScrollable> {
+class _HorizontalSelectorScrollableState extends State<HorizontalSelectorScrollable> {
   // final horizontalScrollController = ScrollController();
   final unSubCategoriesScrollController = ItemScrollController();
 
@@ -3048,9 +2931,7 @@ class _HorizontalSelectorScrollableState
     if (unSubCategoriesScrollController.isAttached)
       try {
         unSubCategoriesScrollController.scrollTo(
-            index: index,
-            duration: const Duration(milliseconds: 130),
-            curve: Curves.linear);
+            index: index, duration: const Duration(milliseconds: 130), curve: Curves.linear);
       } on Exception catch (_) {
         logg('never reached');
       }
@@ -3075,26 +2956,14 @@ class _HorizontalSelectorScrollableState
               ShaderMask(
                 shaderCallback: (Rect rect) {
                   return LinearGradient(
-                    begin: getTranslatedStrings(context)
-                                .currentLanguageDirection ==
-                            'ltr'
+                    begin: getTranslatedStrings(context).currentLanguageDirection == 'ltr'
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      mainBlueColor,
-                      Colors.transparent,
-                      Colors.transparent,
-                      Colors.transparent
-                    ],
+                    colors: [mainBlueColor, Colors.transparent, Colors.transparent, Colors.transparent],
                     stops: widget.buttons.length <= 2
                         ? const [0.0, 0.0, 0.0, 0.0]
-                        : const [
-                            0.15,
-                            0.4,
-                            0.14,
-                            0.051
-                          ], // 10% purple, 80% transparent, 10% purple
+                        : const [0.15, 0.4, 0.14, 0.051], // 10% purple, 80% transparent, 10% purple
                   ).createShader(rect);
                 },
                 blendMode: BlendMode.dstOut,
@@ -3128,27 +2997,21 @@ class _HorizontalSelectorScrollableState
                                     scrollDirection: Axis.horizontal,
                                     shrinkWrap: true,
                                     itemCount: widget.buttons.length,
-                                    itemScrollController:
-                                        unSubCategoriesScrollController,
+                                    itemScrollController: unSubCategoriesScrollController,
                                     // itemPositionsListener:
                                     //     unSubCategoriesScrollListener,
                                     physics: const ClampingScrollPhysics(),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
+                                    itemBuilder: (BuildContext context, int index) {
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
                                         child: SelectorButton(
                                           title: widget.buttons[index].title,
-                                          isSelected:
-                                              widget.buttons[index].isSelected,
+                                          isSelected: widget.buttons[index].isSelected,
                                           customFontSize: widget.customFontSize,
                                           onClick: () {
                                             jumpToCategory(index);
-                                            logg(
-                                                'title: ${widget.buttons[index].title} index: $index clicked uujh');
-                                            widget.buttons[index]
-                                                .onClickCallback();
+                                            logg('title: ${widget.buttons[index].title} index: $index clicked uujh');
+                                            widget.buttons[index].onClickCallback();
                                           },
                                         ),
                                       );
@@ -3156,9 +3019,7 @@ class _HorizontalSelectorScrollableState
                           ),
                           widthBox(widget.buttons.length <= 2
                               ? 0
-                              : getTranslatedStrings(context)
-                                          .currentLanguageDirection ==
-                                      'ltr'
+                              : getTranslatedStrings(context).currentLanguageDirection == 'ltr'
                                   ? defaultHorizontalPadding
                                   : 0)
                         ],
@@ -3179,28 +3040,21 @@ class _HorizontalSelectorScrollableState
                             itemBuilder: (context) => widget.buttons
                                 .map((e) => PullDownMenuItem(
                                       onTap: () {
-                                        jumpToCategory(
-                                            widget.buttons.indexOf(e));
+                                        jumpToCategory(widget.buttons.indexOf(e));
                                         e.onClickCallback();
                                       },
                                       title: e.title,
                                       textStyle: mainStyle(context, 13,
-                                          weight: e.isSelected
-                                              ? FontWeight.w900
-                                              : FontWeight.w600,
-                                          color: e.isSelected
-                                              ? mainBlueColor
-                                              : Colors.black),
+                                          weight: e.isSelected ? FontWeight.w900 : FontWeight.w600,
+                                          color: e.isSelected ? mainBlueColor : Colors.black),
                                     ))
                                 .toList(),
                             position: PullDownMenuPosition.over,
                             backgroundColor: Colors.white.withOpacity(0.75),
                             offset: const Offset(-2, 1),
                             applyOpacity: true,
-                            widthConfiguration:
-                                PullDownMenuWidthConfiguration(0.77.sw),
-                            buttonBuilder: (context, showMenu) =>
-                                CupertinoButton(
+                            widthConfiguration: PullDownMenuWidthConfiguration(0.77.sw),
+                            buttonBuilder: (context, showMenu) => CupertinoButton(
                               onPressed: showMenu,
                               padding: EdgeInsets.zero,
                               child: Icon(
@@ -3232,12 +3086,10 @@ class NewHorizontalSelectorScrollable extends StatefulWidget {
   final double? customFontSize;
 
   @override
-  State<NewHorizontalSelectorScrollable> createState() =>
-      _NewHorizontalSelectorScrollableState();
+  State<NewHorizontalSelectorScrollable> createState() => _NewHorizontalSelectorScrollableState();
 }
 
-class _NewHorizontalSelectorScrollableState
-    extends State<NewHorizontalSelectorScrollable> {
+class _NewHorizontalSelectorScrollableState extends State<NewHorizontalSelectorScrollable> {
   // final horizontalScrollController = ScrollController();
   final unSubCategoriesScrollController = ItemScrollController();
 
@@ -3251,9 +3103,7 @@ class _NewHorizontalSelectorScrollableState
     if (unSubCategoriesScrollController.isAttached)
       try {
         unSubCategoriesScrollController.scrollTo(
-            index: index,
-            duration: const Duration(milliseconds: 130),
-            curve: Curves.linear);
+            index: index, duration: const Duration(milliseconds: 130), curve: Curves.linear);
       } on Exception catch (_) {
         logg('never reached');
       }
@@ -3278,26 +3128,14 @@ class _NewHorizontalSelectorScrollableState
               ShaderMask(
                 shaderCallback: (Rect rect) {
                   return LinearGradient(
-                    begin: getTranslatedStrings(context)
-                                .currentLanguageDirection ==
-                            'ltr'
+                    begin: getTranslatedStrings(context).currentLanguageDirection == 'ltr'
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      mainBlueColor,
-                      Colors.transparent,
-                      Colors.transparent,
-                      Colors.transparent
-                    ],
+                    colors: [mainBlueColor, Colors.transparent, Colors.transparent, Colors.transparent],
                     stops: widget.buttons.length <= 2
                         ? const [0.0, 0.0, 0.0, 0.0]
-                        : const [
-                            0.15,
-                            0.4,
-                            0.14,
-                            0.051
-                          ], // 10% purple, 80% transparent, 10% purple
+                        : const [0.15, 0.4, 0.14, 0.051], // 10% purple, 80% transparent, 10% purple
                   ).createShader(rect);
                 },
                 blendMode: BlendMode.dstOut,
@@ -3330,24 +3168,20 @@ class _NewHorizontalSelectorScrollableState
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               itemCount: widget.buttons.length,
-                              itemScrollController:
-                                  unSubCategoriesScrollController,
+                              itemScrollController: unSubCategoriesScrollController,
                               // itemPositionsListener:
                               //     unSubCategoriesScrollListener,
                               physics: const ClampingScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 0.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
                                   child: NewSelectorButton(
                                     title: widget.buttons[index].title,
-                                    isSelected:
-                                        widget.buttons[index].isSelected,
+                                    isSelected: widget.buttons[index].isSelected,
                                     customFontSize: widget.customFontSize,
                                     onClick: () {
                                       jumpToCategory(index);
-                                      logg(
-                                          'title: ${widget.buttons[index].title} index: $index clicked uujh');
+                                      logg('title: ${widget.buttons[index].title} index: $index clicked uujh');
                                       widget.buttons[index].onClickCallback();
                                     },
                                   ),
@@ -3356,9 +3190,7 @@ class _NewHorizontalSelectorScrollableState
                         ),
                         widthBox(widget.buttons.length <= 2
                             ? 0
-                            : getTranslatedStrings(context)
-                                        .currentLanguageDirection ==
-                                    'ltr'
+                            : getTranslatedStrings(context).currentLanguageDirection == 'ltr'
                                 ? defaultHorizontalPadding
                                 : 0)
                       ],
@@ -3378,28 +3210,21 @@ class _NewHorizontalSelectorScrollableState
                             itemBuilder: (context) => widget.buttons
                                 .map((e) => PullDownMenuItem(
                                       onTap: () {
-                                        jumpToCategory(
-                                            widget.buttons.indexOf(e));
+                                        jumpToCategory(widget.buttons.indexOf(e));
                                         e.onClickCallback();
                                       },
                                       title: e.title,
                                       textStyle: mainStyle(context, 13,
-                                          weight: e.isSelected
-                                              ? FontWeight.w900
-                                              : FontWeight.w600,
-                                          color: e.isSelected
-                                              ? mainBlueColor
-                                              : Colors.black),
+                                          weight: e.isSelected ? FontWeight.w900 : FontWeight.w600,
+                                          color: e.isSelected ? mainBlueColor : Colors.black),
                                     ))
                                 .toList(),
                             position: PullDownMenuPosition.over,
                             backgroundColor: Colors.white.withOpacity(0.75),
                             offset: const Offset(-2, 1),
                             applyOpacity: true,
-                            widthConfiguration:
-                                PullDownMenuWidthConfiguration(0.77.sw),
-                            buttonBuilder: (context, showMenu) =>
-                                CupertinoButton(
+                            widthConfiguration: PullDownMenuWidthConfiguration(0.77.sw),
+                            buttonBuilder: (context, showMenu) => CupertinoButton(
                               onPressed: showMenu,
                               padding: EdgeInsets.zero,
                               child: Icon(
@@ -3438,15 +3263,13 @@ class JobTypesSelectorScrollable extends StatelessWidget {
               itemBuilder: (context) => [
                 PullDownMenuItem(
                   title: 'Platform 1',
-                  textStyle: mainStyle(context, 13,
-                      color: mainBlueColor, weight: FontWeight.w800),
+                  textStyle: mainStyle(context, 13, color: mainBlueColor, weight: FontWeight.w800),
                   onTap: () => {},
                 ),
                 const PullDownMenuDivider(),
                 PullDownMenuItem(
                   title: 'Platform 2',
-                  textStyle: mainStyle(context, 13,
-                      color: mainBlueColor, weight: FontWeight.w800),
+                  textStyle: mainStyle(context, 13, color: mainBlueColor, weight: FontWeight.w800),
                   onTap: () {},
                 ),
               ],
@@ -3522,8 +3345,7 @@ class OthersFeedsEmpty extends StatelessWidget {
           Lottie.asset('assets/json/no feeds.json', height: 0.33.sh),
           Text(
             'There are no posts here yet.',
-            style:
-                mainStyle(context, 14, isBold: true, color: newDarkGreyColor),
+            style: mainStyle(context, 14, isBold: true, color: newDarkGreyColor),
             textAlign: TextAlign.center,
           ),
           Container(
@@ -3531,10 +3353,7 @@ class OthersFeedsEmpty extends StatelessWidget {
             child: Text(
               '\n'
               'The provider has not yet published any content on their MENA feeds.',
-              style: mainStyle(context, 14,
-                  isBold: false,
-                  color: newLightTextGreyColor,
-                  weight: FontWeight.normal),
+              style: mainStyle(context, 14, isBold: false, color: newLightTextGreyColor, weight: FontWeight.normal),
               textAlign: TextAlign.center,
             ),
           ),
@@ -3564,8 +3383,7 @@ class MyFeedsEmpty extends StatelessWidget {
           child: Text(
             '\n'
             'now\'s the perfect time to start!',
-            style:
-                mainStyle(context, 14, isBold: false, color: newDarkGreyColor),
+            style: mainStyle(context, 14, isBold: false, color: newDarkGreyColor),
             textAlign: TextAlign.center,
           ),
         ),
@@ -3621,12 +3439,10 @@ class DefaultBackTitleAppBar extends StatelessWidget {
               child: customTitleWidget ??
                   Text(
                     title ?? '',
-                    style: mainStyle(context, 11,
-                        weight: FontWeight.w400,
-                        color: Colors.black,
-                        isBold: true),
+                    style: mainStyle(context, 11, weight: FontWeight.w400, color: Colors.black, isBold: true),
                   ),
             ),
+
           ],
         ),
       ),
@@ -3642,6 +3458,7 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
     this.suffix,
     this.logo,
   }) : super(key: key);
+
 
   final String? logo;
   final String? title;
@@ -3676,12 +3493,12 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
+                padding: EdgeInsets.only(bottom: 10, right: 5),
                 color: Colors.transparent,
                 child: Center(
                   child: SvgPicture.asset(
-                    logo ?? 'assets/new_icons/mena_main_logo.svg',
-                    fit: BoxFit.cover,
-                    width: 100.w,
+                  logo ??  'assets/new_icons/mena_main_logo.svg',
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -3691,11 +3508,11 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
               child: Text(
                 title ?? '',
                 style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'PNfont',
-                  color: Color(0xff152026),
-                ),
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'PNfont',
+                          color: Color(0xff152026),
+                        ),
               ),
             ),
             suffix ?? SizedBox()
@@ -3740,7 +3557,7 @@ class DefaultOnlyLogoAppbar1 extends StatelessWidget {
                   color: Colors.transparent,
                   child: Center(
                     child: SvgPicture.asset(
-                      logo ?? 'assets/new_icons/back.svg',
+                      logo ??'assets/new_icons/back.svg',
                       color: Color(0xff4273B8),
                     ),
                   ),
@@ -3767,8 +3584,7 @@ class DefaultOnlyLogoAppbar1 extends StatelessWidget {
   }
 }
 
-PreferredSize defaultSearchMessengerAppBar(BuildContext context,
-    {String? title}) {
+PreferredSize defaultSearchMessengerAppBar(BuildContext context, {String? title}) {
   return PreferredSize(
     preferredSize: Size.fromHeight(56.0.h),
     child: SafeArea(
@@ -3905,8 +3721,7 @@ PreferredSize defaultSearchMessengerAppBar(BuildContext context,
   // );
 }
 
-PreferredSize defaultVideoOnlyBackAppBar(BuildContext context,
-    {String? title, Color? customColor}) {
+PreferredSize defaultVideoOnlyBackAppBar(BuildContext context, {String? title, Color? customColor}) {
   return PreferredSize(
     preferredSize: Size.fromHeight(56.0.h),
     child: SafeArea(
@@ -3936,8 +3751,7 @@ PreferredSize defaultVideoOnlyBackAppBar(BuildContext context,
                   widthBox(12.w),
                   Text(
                     title ?? '',
-                    style: mainStyle(context, 11,
-                        weight: FontWeight.w700, color: customColor),
+                    style: mainStyle(context, 11, weight: FontWeight.w700, color: customColor),
                   ),
                 ],
               ),
@@ -4080,29 +3894,25 @@ class ActionItem extends StatelessWidget {
             heightBox(4.h),
             if (title.isNotEmpty)
               Container(
-                constraints:
-                    BoxConstraints(minWidth: 0.22.sw, maxWidth: 0.24.sw),
+                constraints: BoxConstraints(minWidth: 0.22.sw, maxWidth: 0.24.sw),
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: mainStyle(context, 9,
-                      color: newDarkGreyColor, isBold: true, textHeight: 1.3),
+                  style: mainStyle(context, 9, color: newDarkGreyColor, isBold: true, textHeight: 1.3),
                 ),
               ),
             if (subTitle != null && subTitle!.isNotEmpty) heightBox(4.h),
             if (subTitle != null && subTitle!.isNotEmpty)
               Container(
-                constraints:
-                    BoxConstraints(minWidth: 0.22.sw, maxWidth: 0.24.sw),
+                constraints: BoxConstraints(minWidth: 0.22.sw, maxWidth: 0.24.sw),
                 child: Text(
                   subTitle!,
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: mainStyle(context, 10,
-                      color: newDarkGreyColor, isBold: true, textHeight: 1.3),
+                  style: mainStyle(context, 10, color: newDarkGreyColor, isBold: true, textHeight: 1.3),
                 ),
               )
           ],
@@ -4163,10 +3973,10 @@ class LoginWidget extends StatelessWidget {
 class BottomSheetSimple extends StatelessWidget {
   const BottomSheetSimple(
       {super.key,
-      this.onClickCancel,
-      this.onClickConfirm,
-      this.backColorConfirm,
-      this.txetConfirm});
+        this.onClickCancel,
+        this.onClickConfirm,
+        this.backColorConfirm,
+        this.txetConfirm});
 
   final VoidCallback? onClickCancel;
 
@@ -4207,8 +4017,7 @@ class BottomSheetSimple extends StatelessWidget {
   }
 }
 
-Future<void> showMessageDialog(
-    {required BuildContext context, required String message}) async {
+Future<void> showMessageDialog({required BuildContext context,required String message}) async {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: Colors.transparent,

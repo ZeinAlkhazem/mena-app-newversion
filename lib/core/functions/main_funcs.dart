@@ -401,69 +401,7 @@ bool isNumeric(String s) {
   // }
   // return double.parse(s, (e) => null) != null;
 }
-Future<void> showTopicBottomSheet({
-  required BuildContext context,
-  required String title,
-  int? selectedTopic,
-  required String description,
-  bool isDismissible = true,
-  required Widget body,
-  Widget? titleActionWidget,
-}) async {
-  buildShowModalBottomSheet(context,
-      isDismissible: isDismissible,
-      backColor: Colors.transparent,
-      body: Container(
-        constraints: BoxConstraints(maxHeight: 0.7.sh),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(defaultRadiusVal),
-              topRight: Radius.circular(defaultRadiusVal),
-            )),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(top:20.0),
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          title,
-                          textAlign: TextAlign.center,
-                          style: mainStyle(context, 16, isBold: true),
-                        ),
-                      ),
-                   
-                      
-                      if (titleActionWidget != null) titleActionWidget
-                    ],
-                  ),
-                  heightBox(10.h),
-                  Divider(),
-                  heightBox(10.h),
-                  Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Text(
-                            description,
-                            textAlign: TextAlign.justify,
-                            style: mainStyle(context, 13, isBold: false),
-                          ),
-                  ),
-                  
-                  body,
-                ],
-              ),
-            ),
-          ),
-        ),
-      ));
-}
+
 Future<void> showMyBottomSheet({
   required BuildContext context,
   required String title,

@@ -334,7 +334,7 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                                     .goLiveAndGetLiveFromServer(
                                   title: titleController.text,
                                   goal: goalController.text,
-                                  topic: liveCubit.selectedTopicId,
+                                  topic: topicController.text,
                                   liveNowCategoryId: liveCubit.selectedStartLiveCat ?? '',
                                 )
                                     .then((value) async {

@@ -1,27 +1,30 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/constants/constants.dart';
-import 'package:mena/core/constants/my_countries.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/modules/appointments/appointments_layouts/book_appointment_form.dart';
 import 'package:mena/modules/community_space/cme_layout.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
-import 'package:mena/modules/main_layout/weather_banner.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../../../core/constants/my_countries.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/responsive/responsive.dart';
 import '../../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import '../../../models/api_model/home_section_model.dart';
-import '../../appointments/appointments_layouts/book_appointment_form.dart';
 import '../../category_childs_screen/category_details_childs_screen.dart';
+
+import '../../main_layout/categories page.dart';
+import '../../main_layout/weather_banner.dart';
 import '../../nearby_screen/nearby_layout.dart';
 import '../../platform_provider/provider_home/platform_provider_home.dart';
-import '../cubit/home_screen_cubit.dart';
+import 'package:http/http.dart' as http;
 
 class VideoSection extends StatelessWidget {
   const VideoSection({
@@ -136,7 +139,7 @@ class CategoriesSection extends StatelessWidget {
                                     Expanded(
                                       child: Padding(
                                         padding: EdgeInsets.all(1.0.sp),
-                                        child: SmoothBorderContainer(
+                                        child: SmoothBorderContainerModified(
                                           thumbNail:
                                               categoriesSection![index].image!,
                                           cornerRadius:
@@ -153,7 +156,8 @@ class CategoriesSection extends StatelessWidget {
                                     heightBox(5.h),
                                     Text(
                                       categoriesSection![index].name ?? '-',
-                                      style: mainStyle(context, 11),
+                                      style: mainStyle(context, 11,
+                                          weight: FontWeight.w800),
                                       textAlign: TextAlign.center,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -1908,7 +1912,11 @@ class BannerSection extends StatelessWidget {
         childAspectRatio: banners[0].imagesStyle == 'null'
             ? 1
             : 1 / double.parse(banners[0].imagesStyle),
-        padding: const EdgeInsets.all(0),
+        padding: banners[0].resourceId == 'air_quality' ||
+                banners[0].resourceId == 'weather_summary' ||
+                banners[0].resourceId == 'upcoming_days'
+            ? const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10)
+            : const EdgeInsets.all(0),
         shrinkWrap: true,
         mainAxisSpacing: 9.sp,
         crossAxisSpacing: 10.sp,
@@ -1923,12 +1931,23 @@ class BannerSection extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.all(0.0.sp),
-                          child: SmoothBorderContainer(
-                            thumbNail: banners[index].image,
-                            // withShadow: style != '1_1',
-                            cornerRadius: defaultRadiusVal,
-                            // customHeight: Responsive.isMobile(context) ? 0.25.sw : 0.13.sw,
-                          ),
+                          child: banners[index].resourceId == 'air_quality' ||
+                                  banners[index].resourceId ==
+                                      'weather_summary' ||
+                                  banners[index].resourceId == 'upcoming_days'
+                              ?
+                              // _buildConditionalWidget(banners[index].resourceType),
+                              SmoothBorderContainer(
+                                  thumbNail: banners[index].image,
+                                  cornerRadius: 22.r,
+                                  customWidth: 80.w,
+                                )
+                              : SmoothBorderContainer(
+                                  thumbNail: banners[index].image,
+                                  // withShadow: style != '1_1',
+                                  cornerRadius: defaultRadiusVal,
+                                  // customHeight: Responsive.isMobile(context) ? 0.25.sw : 0.13.sw,
+                                ),
                         ),
                       ),
                       // heightBox(5.h),
@@ -1938,36 +1957,6 @@ class BannerSection extends StatelessWidget {
             ),
       ),
     );
-    //   Column(
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: banners
-    //       .map((e) => DefaultImageFadeIn(
-    //             backGroundImageUrl: e.image,
-    //             // width: double.maxFinite,
-    //             boxFit: BoxFit.cover,
-    //             borderColor: Colors.transparent,
-    //             borderWidth: 1,
-    //     // height: 300,
-    //           ))
-    //       .toList(),
-    // );
-    ///
-    //   ListView.separated(
-    //   shrinkWrap: true,
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   itemBuilder: (context, index) => GestureDetector(
-    //     onTap: () => comingSoonAlertDialog(context),
-    //     child: DefaultImage(
-    //       backGroundImageUrl: banners[index].image,
-    //       width: double.maxFinite,
-    //       boxFit: BoxFit.cover,
-    //       borderColor: mainBlueColor,
-    //       borderWidth: 1,
-    //     ),
-    //   ),
-    //   separatorBuilder: (_, index) => heightBox(6.h),
-    //   itemCount: banners.length,
-    // );
   }
 
   Future<void> handleBannerNavigation(BuildContext context,
@@ -1992,14 +1981,14 @@ class BannerSection extends StatelessWidget {
 
         break;
 
-      case 'url':
-        logg('handleBannerNavigation: url');
-
-        if (banner.url != null) {
-          launchUrl(Uri.parse(banner.url!));
-        }
-
-        break;
+      // case 'url':
+      //   logg('handleBannerNavigation: url');
+      //
+      //   if (banner.url != null) {
+      //     launchUrl(Uri.parse(banner.url!));
+      //   }
+      //
+      //   break;
       case 'api':
         logg('handleBannerNavigation: api');
         navigateToWithoutNavBar(
@@ -2017,6 +2006,7 @@ class BannerSection extends StatelessWidget {
         if (banner.url != null) {
           launchUrl(Uri.parse(banner.url!));
         }
+        break;
 
       /// and soo on
     }
@@ -2066,14 +2056,14 @@ class BannerSectionWeather extends StatelessWidget {
                   onTap: () async {
                     String countryName = await getCachedSelectedCountry() ?? "";
                     String countryNameNew = "";
-                    logg('# country name : $countryName');
+                    log('# country name : $countryName');
                     List countryList = MayyaCountries.countryList;
                     for (var item in countryList) {
                       if (item['alpha_3_code'] == countryName) {
                         countryNameNew = item['en_short_name'];
                       }
                     }
-                    logg('# country name  new : $countryNameNew');
+                    log('# country name  new : $countryNameNew');
 
                     banners[index].resourceId == 'upcoming_days'
                         ? showDialog(
@@ -2165,18 +2155,13 @@ class BannerSectionWeather extends StatelessWidget {
             '');
         break;
       case 'api':
-        logg('handleBannerNavigation: api');
-        navigateToWithoutNavBar(
-            context,
-            BookAppointmentFormLayout(
-                currentPlatformId: HomeScreenCubit.get(context)
-                    .selectedHomePlatformId
-                    .toString()),
-            '');
-        // navigateToWithoutNavBar(context, HomeScreen(), '');
         break;
       default:
-        logg('cant handle this navigation');
+        logg('handleBannerNavigation: url');
+
+        if (banner.url != null) {
+          launchUrl(Uri.parse(banner.url!));
+        }
         break;
 
       /// and soo on

@@ -67,14 +67,12 @@ class _ChatLayoutState extends State<ChatLayout> {
         chatId: widget.chatId!,
       );
     }
-   
-    IO.Socket chatSocket = MainCubit.get(context).chatSocket;
-    chatSocket?.on('message', (data) {
+
+    socket = MainCubit.get(context).socket;
+    socket?.on('message', (data) {
       logg('new message socket: $data');
       if (widget.chatId == null) {
         if (widget.user != null) {
-           logg('chat ID : ${widget.chatId}' );
-          logg('User ID : ${widget.user!.id}' );
           messengerCubit.fetchChatMessagesByIdType(
               toIdProviderId: widget.user!.id.toString(), toTypeRoleName: widget.user!.roleName.toString());
         }

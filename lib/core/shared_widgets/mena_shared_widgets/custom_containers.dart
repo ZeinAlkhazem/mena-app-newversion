@@ -210,7 +210,7 @@ class SmoothBorderContainer extends StatelessWidget {
     this.withShadow = true,
   }) : super(key: key);
 
-  final String thumbNail;
+  final String? thumbNail;
   final double? cornerRadius;
   final double? customWidth;
   final double? customHeight;
@@ -232,9 +232,51 @@ class SmoothBorderContainer extends StatelessWidget {
               cornerSmoothing: 0.8,
             ),
             boxShadow: withShadow ? mainBoxShadow : null),
+        child: Container(
+          padding: EdgeInsets.all(2),
+          child: DefaultImage(
+            backGroundImageUrl: thumbNail!,
+            radius: cornerRadius ?? defaultRadiusVal,
+            boxFit: BoxFit.fill,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SmoothBorderContainerModified extends StatelessWidget {
+  const SmoothBorderContainerModified({
+    Key? key,
+    required this.thumbNail,
+    this.cornerRadius,
+    this.customWidth,
+    this.customHeight,
+    this.withShadow = true,
+  }) : super(key: key);
+
+  final String thumbNail;
+  final double? cornerRadius;
+  final double? customWidth;
+  final double? customHeight;
+  final bool withShadow;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(0.0.sp),
+
+      /// this padding important for shadow
+      child: Container(
+        width: 60.w,
+        height: customHeight ?? double.maxFinite,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15.r),
+            boxShadow: withShadow ? mainBoxShadow : null),
         child: DefaultImage(
           backGroundImageUrl: thumbNail,
-          radius: cornerRadius ?? defaultRadiusVal,
+          radius: 15.r,
           boxFit: BoxFit.cover,
         ),
       ),
@@ -285,7 +327,6 @@ class LiveProfileBubble extends StatelessWidget {
     Key? key,
     required this.requiredWidth,
     required this.name,
-    this.roomId,
     required this.liveTitle,
     required this.liveGoal,
     required this.liveTopic,
@@ -300,8 +341,6 @@ class LiveProfileBubble extends StatelessWidget {
   final String liveTopic;
   final String? liveId;
   final String thumbnailUrl;
-  final String? roomId;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -312,10 +351,9 @@ class LiveProfileBubble extends StatelessWidget {
           child: Center(
             child: GestureDetector(
               onTap: () {
-                
                 liveId == null
                     ? null
-                    : navigateToWithoutNavBar(context, WatcherScreen(remoteRoomId: roomId), '',
+                    : navigateToWithoutNavBar(context, WatcherScreen(), '',
                         onBackToScreen: () {
                         logg('khgkajscn');
 
@@ -812,10 +850,9 @@ class LiveContainerLiveNow extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        logg('asdasdasdasdasd ${liveItem.roomId}');
         navigateToWithoutNavBar(
           context,
-          WatcherScreen(remoteRoomId: liveItem.roomId,),
+          WatcherScreen(),
           '',
           onBackToScreen: () {
             logg('ksahfkjlsnkxl');

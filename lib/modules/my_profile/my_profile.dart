@@ -106,32 +106,34 @@ class CustomPullDownItem extends PullDownMenuEntry {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding, vertical: 8),
-        child: Row(
-          children: [
-            svgLink != null
-                ? SvgPicture.asset(
-                    svgLink!,
-                    height: 28.h,
-                  )
-                : SizedBox(
-                    height: 28.h,
-                  ),
-            widthBox(7.w),
-            Expanded(
-              child: Text(
-                title ?? '---',
-                style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+    return Container(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding, vertical: 8),
+          child: Row(
+            children: [
+              svgLink != null
+                  ? SvgPicture.asset(
+                      svgLink!,
+                      height: 22.h,
+                    )
+                  : SizedBox(
+                      height: 28.h,
+                    ),
+              widthBox(7.w),
+              Expanded(
+                child: Text(
+                  title ?? '---',
+                  style: mainStyle(context, 13, color: Color(0xff606360), weight: FontWeight.w900),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
-    throw UnimplementedError();
+
   }
 
   @override
@@ -169,43 +171,41 @@ class MyPullDownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PullDownButton(
-      itemBuilder: (context) => items
-          .map((e) => CustomPullDownItem(
-                    onTap:
-                        // jumpToCategory(widget.buttons.indexOf(e));
-                        e.onClickCallback,
-                    title: e.title,
-                    svgLink: e.thumbnailLink,
-                  )
-              // PullDownMenuItem(
-              //       onTap:
-              //           // jumpToCategory(widget.buttons.indexOf(e));
-              //           e.onClickCallback,
-              //       title: e.title,
-              //
-              //       textStyle: mainStyle(context, 13, weight: FontWeight.w700, color: newDarkGreyColor),
-              //     )
-              )
-          .toList(),
-      position: customPosition ?? PullDownMenuPosition.over,
-      backgroundColor: Colors.white.withOpacity(0.75),
-      offset: customOffset ?? const Offset(-2, 1),
-      applyOpacity: true,
-      widthConfiguration: PullDownMenuWidthConfiguration(customWidth ?? 0.77.sw),
-      buttonBuilder: (context, showMenu) => GestureDetector(
-        onTap: showMenu,
-        child: customButtonWidget ??
-            Container(
-              // color: Colors.red,
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: SvgPicture.asset(
-                  svgLink,
-                  height: svgHeight,
+
+    return Container(
+      child: PullDownButton(
+        itemBuilder: (context) => items
+            .map((e) => CustomPullDownItem(
+                      onTap:
+                          // jumpToCategory(widget.buttons.indexOf(e));
+                          e.onClickCallback,
+                      title: e.title,
+                      svgLink: e.thumbnailLink,
+                    )
+                )
+            .toList(),
+        position: customPosition ?? PullDownMenuPosition.over,
+        backgroundColor: Color(0xfff8f9fb).withOpacity(0.5),
+        offset: customOffset ?? const Offset(-2, 1),
+        applyOpacity: true,
+        widthConfiguration: PullDownMenuWidthConfiguration(customWidth ?? 0.77.sw),
+        buttonBuilder: (context, showMenu) => GestureDetector(
+          onTap: showMenu,
+          child: customButtonWidget ??
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: SvgPicture.asset(
+                    svgLink,
+                    height: svgHeight,
+                  ),
                 ),
               ),
-            ),
+        ),
       ),
     );
   }

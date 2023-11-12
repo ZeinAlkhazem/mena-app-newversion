@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mena/models/api_model/online_users.dart';
 import 'package:meta/meta.dart';
@@ -29,6 +30,8 @@ class MessengerCubit extends Cubit<MessengerState> {
   List<XFile> attachedFiles = [];
 
   int selectedMessengerNewMessageLayout = 0;
+
+  List<Contact>? contacts;
 
   // bool expandChatTools=false;
   // bool isRecording=false;
@@ -367,5 +370,28 @@ class MessengerCubit extends Cubit<MessengerState> {
       logg(stack.toString());
       emit(ErrorGettingMessagesDataState());
     });
+  }
+
+  /// fetch user contact from  device
+  void getContact() async {
+    emit(LoadingContactState());
+    if (await FlutterContacts.requestPermission()) {
+      contacts = await FlutterContacts.getContacts(
+          withProperties: true, withPhoto: true);
+      print(contacts);
+    }
+    emit(ContactDeviceState());
+  }
+
+  bool showSelected = false;
+
+  /// for test
+  void changeShowSelectedState() {
+    if (showSelected) {
+      showSelected = false;
+    } else {
+      showSelected = true;
+    }
+    emit(ShowSelectedCheckBox());
   }
 }

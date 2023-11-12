@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/constants/constants.dart';
 
 class IconButtonWidget extends StatelessWidget {
@@ -8,6 +9,7 @@ class IconButtonWidget extends StatelessWidget {
   final VoidCallback btnClick;
   final double iconWidth;
   final double? iconHeight;
+  final Color? iconColor;
 
   const IconButtonWidget(
       {super.key,
@@ -15,6 +17,7 @@ class IconButtonWidget extends StatelessWidget {
       required this.btnClick,
       required this.iconWidth,
       this.iconHeight,
+      this.iconColor,
       });
 
   @override
@@ -29,6 +32,7 @@ class IconButtonWidget extends StatelessWidget {
         child: SvgPicture.asset(
           iconUrl,
           fit: BoxFit.contain,
+          color: iconColor ?? AppColors.iconsColor,
         ),
       ),
     );

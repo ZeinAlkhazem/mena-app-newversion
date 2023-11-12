@@ -72,6 +72,9 @@ Color drawerColor = const Color(0xffdce0e5);
 Color newDarkGreyColor = const Color(0xff818C99);
 Color newLightTextGreyColor = const Color(0xff818C99);
 
+
+final String messengerAssets = "assets/icons/messenger";
+
 /// shadow
 List<BoxShadow>? mainBoxShadow = [
   const BoxShadow(

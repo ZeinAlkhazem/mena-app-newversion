@@ -11,6 +11,7 @@ import 'package:lottie/lottie.dart' as lottie;
 import 'package:mena/core/constants/validators.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/modules/appointments/appointments_layouts/pick_appointment_insurance.dart';
+import 'package:mena/modules/feeds_screen/blogs/my_blog.dart';
 import 'package:mena/modules/my_profile/cubit/profile_cubit.dart';
 import 'package:mena/modules/platform_provider/provider_home/provider_profile.dart';
 import 'package:mena/modules/platform_provider/provider_home/provider_profile_as_guest.dart';
@@ -29,15 +30,16 @@ import '../../nearby_screen/nearby_layout.dart';
 import '../professionals_layout/professionals_layout.dart';
 
 class ButtonsSection extends StatelessWidget {
-  const ButtonsSection({
-    Key? key,
-    required this.providerId,
-    required this.buttons,
-  }) : super(key: key);
+  const ButtonsSection(
+      {Key? key,
+      required this.providerId,
+      required this.buttons,
+      this.providerInfo})
+      : super(key: key);
 
   final List<Button>? buttons;
   final String providerId;
-
+  final dynamic? providerInfo;
   @override
   Widget build(BuildContext context) {
     return buttons == null
@@ -46,14 +48,15 @@ class ButtonsSection extends StatelessWidget {
             ? SizedBox()
             : ListView.separated(
                 shrinkWrap: true,
-                padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                padding:
+                    EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => ProfileDynamicButton(
-                  providerId: providerId,
-                  title: buttons![index].title,
-                  subtitle: buttons![index].description,
-                  type: buttons![index].type,
-                ),
+                    providerId: providerId,
+                    title: buttons![index].title,
+                    subtitle: buttons![index].description,
+                    type: buttons![index].type,
+                    providerInfo: providerInfo),
                 separatorBuilder: (_, i) => heightBox(10.h),
                 itemCount: buttons!.length,
               );
@@ -100,7 +103,8 @@ class _OurLocationSectionState extends State<OurLocationSection> {
 
   Future<Map<String, BitmapDescriptor>>? markerIconsFuture;
 
-  Future<Map<String, BitmapDescriptor>> loadMarkerIcons({required Map<String, String> markerIconUrls}) async {
+  Future<Map<String, BitmapDescriptor>> loadMarkerIcons(
+      {required Map<String, String> markerIconUrls}) async {
     Map<String, BitmapDescriptor> markerIcons = {};
 
     for (String markerId in markerIconUrls.keys) {
@@ -109,8 +113,12 @@ class _OurLocationSectionState extends State<OurLocationSection> {
       // // BitmapDescriptor markerIcon = BitmapDescriptor.fromBytes(markerIconImageBytes);
       // BitmapDescriptor markerIcon =
 
-      BitmapDescriptor markerIcon = await MarkerIcon.downloadResizePictureCircle(markerIconUrl!,
-          size: 80, addBorder: true, borderColor: mainBlueColor, borderSize: 10);
+      BitmapDescriptor markerIcon =
+          await MarkerIcon.downloadResizePictureCircle(markerIconUrl!,
+              size: 80,
+              addBorder: true,
+              borderColor: mainBlueColor,
+              borderSize: 10);
       // BitmapDescriptor.fromBytes(markerIconImageBytes);
 
       markerIcons[markerId] = markerIcon;
@@ -133,7 +141,8 @@ class _OurLocationSectionState extends State<OurLocationSection> {
     //   'marker2': 'https://www.example.com/marker2.png',
     //   // Add additional marker icons and their URLs here
     // };
-    markerIconsFuture = loadMarkerIcons(markerIconUrls: _markerIconUrls).then((markerIconsFutureData) {
+    markerIconsFuture = loadMarkerIcons(markerIconUrls: _markerIconUrls)
+        .then((markerIconsFutureData) {
       myMarkers = providersNearby
           .map((e) => Marker(
               markerId: MarkerId(e.id.toString()),
@@ -239,26 +248,37 @@ class _OurLocationSectionState extends State<OurLocationSection> {
                       boxShadow: !widget.viewTitleInProfileLayout ? [] : null,
                       childWidget: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: widget.viewTitleInProfileLayout ? defaultHorizontalPadding : 0,
-                            vertical: widget.viewTitleInProfileLayout ? defaultHorizontalPadding : 0),
+                            horizontal: widget.viewTitleInProfileLayout
+                                ? defaultHorizontalPadding
+                                : 0,
+                            vertical: widget.viewTitleInProfileLayout
+                                ? defaultHorizontalPadding
+                                : 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             DefaultShadowedContainer(
                               height: 199.h,
                               childWidget: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(defaultRadiusVal)),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(defaultRadiusVal)),
                                 child: Stack(
                                   children: [
                                     // myMarkers==null?DefaultLoaderColor():
-                                    FutureBuilder<Map<String, BitmapDescriptor>>(
+                                    FutureBuilder<
+                                        Map<String, BitmapDescriptor>>(
                                       future: markerIconsFuture,
                                       builder: (BuildContext context,
-                                          AsyncSnapshot<Map<String, BitmapDescriptor>> snapshot) {
+                                          AsyncSnapshot<
+                                                  Map<String, BitmapDescriptor>>
+                                              snapshot) {
                                         if (snapshot.hasData) {
                                           return DefaultStaticMapView(
                                             myMarkers: myMarkers!,
-                                            customZoom: widget.viewTitleInProfileLayout ? 9.5 : null
+                                            customZoom:
+                                                widget.viewTitleInProfileLayout
+                                                    ? 9.5
+                                                    : null
 
                                             // {
                                             //   Marker(
@@ -292,9 +312,13 @@ class _OurLocationSectionState extends State<OurLocationSection> {
                                         navigateTo(
                                             context,
                                             ProviderLocationsLayout(
-                                              title: widget.provider == null ? 'Home' : widget.provider!.fullName!,
-                                              providersLocations: widget.providersLocations!,
-                                              initialSelectedNearbyProvider: widget.providersLocations![0],
+                                              title: widget.provider == null
+                                                  ? 'Home'
+                                                  : widget.provider!.fullName!,
+                                              providersLocations:
+                                                  widget.providersLocations!,
+                                              initialSelectedNearbyProvider:
+                                                  widget.providersLocations![0],
                                             ));
                                       },
                                       child: Container(
@@ -341,7 +365,10 @@ class ProfileFooterTitle extends StatelessWidget {
             thickness: 1.2,
           ),
           Row(
-            children: [Expanded(child: MyTitle(title: text)), if (tealWidget != null) tealWidget!],
+            children: [
+              Expanded(child: MyTitle(title: text)),
+              if (tealWidget != null) tealWidget!
+            ],
           ),
         ],
       ),
@@ -363,7 +390,8 @@ class DefaultStaticMapView extends StatefulWidget {
 }
 
 class _DefaultStaticMapViewState extends State<DefaultStaticMapView> {
-  final Completer<GoogleMapController> googleMapControllerCompleter = Completer();
+  final Completer<GoogleMapController> googleMapControllerCompleter =
+      Completer();
 
   @override
   Widget build(BuildContext context) {
@@ -377,7 +405,8 @@ class _DefaultStaticMapViewState extends State<DefaultStaticMapView> {
       buildingsEnabled: true,
 
       initialCameraPosition: CameraPosition(
-        target: LatLng(double.parse(widget.myMarkers.first.position.latitude.toString()),
+        target: LatLng(
+            double.parse(widget.myMarkers.first.position.latitude.toString()),
             double.parse(widget.myMarkers.first.position.longitude.toString())),
         zoom: widget.customZoom ?? 12.48746,
       ),
@@ -464,7 +493,10 @@ class _FollowUsSectionState extends State<FollowUsSection> {
 
   @override
   Widget build(BuildContext context) {
-    return socialItems!.where((element) => element.visible == true).toList().isEmpty
+    return socialItems!
+            .where((element) => element.visible == true)
+            .toList()
+            .isEmpty
         ? SizedBox()
         : DefaultShadowedContainer(
             childWidget: Padding(
@@ -488,20 +520,30 @@ class _FollowUsSectionState extends State<FollowUsSection> {
                                 throw 'Could not launch ${socialItems!.where((element) => element.visible == true).toList()[index].redirectLink}';
                               }
                             },
-                            child: socialItems!.where((element) => element.visible == true).toList()[index].jsonLink !=
+                            child: socialItems!
+                                        .where((element) =>
+                                            element.visible == true)
+                                        .toList()[index]
+                                        .jsonLink !=
                                     null
-                                ? lottie.Lottie.asset(
-                                    socialItems!.where((element) => element.visible == true).toList()[index].jsonLink!)
+                                ? lottie.Lottie.asset(socialItems!
+                                    .where((element) => element.visible == true)
+                                    .toList()[index]
+                                    .jsonLink!)
                                 : SvgPicture.asset(
                                     socialItems!
-                                        .where((element) => element.visible == true)
+                                        .where((element) =>
+                                            element.visible == true)
                                         .toList()[index]
                                         .svgAssetLink!,
                                     width: 44.w,
                                   )),
                         scrollDirection: Axis.horizontal,
                         separatorBuilder: (_, i) => widthBox(11.w),
-                        itemCount: socialItems!.where((element) => element.visible == true).toList().length,
+                        itemCount: socialItems!
+                            .where((element) => element.visible == true)
+                            .toList()
+                            .length,
                       ),
                     ),
                   ),
@@ -582,7 +624,10 @@ class _ContactUsSectionState extends State<ContactUsSection> {
 
   @override
   Widget build(BuildContext context) {
-    return socialItems!.where((element) => element.visible == true).toList().isEmpty
+    return socialItems!
+            .where((element) => element.visible == true)
+            .toList()
+            .isEmpty
         ? SizedBox()
         : DefaultShadowedContainer(
             childWidget: Padding(
@@ -615,7 +660,8 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                                 uri = Uri(
                                   scheme: 'mailto',
                                   path: socialItems!
-                                      .where((element) => element.visible == true)
+                                      .where(
+                                          (element) => element.visible == true)
                                       .toList()[index]
                                       .redirectLink!,
                                   query: encodeQueryParameters(<String, String>{
@@ -623,19 +669,22 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                                   }),
                                 );
                               } else if (socialItems!
-                                      .where((element) => element.visible == true)
+                                      .where(
+                                          (element) => element.visible == true)
                                       .toList()[index]
                                       .redirectLink!
                                       .startsWith('0') ||
                                   socialItems!
-                                      .where((element) => element.visible == true)
+                                      .where(
+                                          (element) => element.visible == true)
                                       .toList()[index]
                                       .redirectLink!
                                       .startsWith('+')) {
                                 uri = Uri(
                                     scheme: 'tel',
                                     path: socialItems!
-                                        .where((element) => element.visible == true)
+                                        .where((element) =>
+                                            element.visible == true)
                                         .toList()[index]
                                         .redirectLink!);
                               }
@@ -643,31 +692,59 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                                 throw 'Could not launch ${socialItems!.where((element) => element.visible == true).toList()[index].redirectLink}';
                               }
                             },
-                            child: socialItems!.where((element) => element.visible == true).toList()[index].jsonLink ==
+                            child: socialItems!
+                                        .where((element) =>
+                                            element.visible == true)
+                                        .toList()[index]
+                                        .jsonLink ==
                                     null
                                 ? SvgPicture.asset(
                                     socialItems!
-                                        .where((element) => element.visible == true)
+                                        .where((element) =>
+                                            element.visible == true)
                                         .toList()[index]
                                         .svgAssetLink!,
                                     width: 0.6.sw /
-                                        socialItems!.where((element) => element.visible == true).toList().length,
+                                        socialItems!
+                                            .where((element) =>
+                                                element.visible == true)
+                                            .toList()
+                                            .length,
                                     height: 0.6.sw /
-                                        socialItems!.where((element) => element.visible == true).toList().length,
+                                        socialItems!
+                                            .where((element) =>
+                                                element.visible == true)
+                                            .toList()
+                                            .length,
                                   )
                                 : lottie.Lottie.asset(
-                                    socialItems!.where((element) => element.visible == true).toList()[index].jsonLink!,
+                                    socialItems!
+                                        .where((element) =>
+                                            element.visible == true)
+                                        .toList()[index]
+                                        .jsonLink!,
 
                                     // fit: BoxFit.fill,
                                     width: 0.6.sw /
-                                        socialItems!.where((element) => element.visible == true).toList().length,
+                                        socialItems!
+                                            .where((element) =>
+                                                element.visible == true)
+                                            .toList()
+                                            .length,
                                     height: 0.6.sw /
-                                        socialItems!.where((element) => element.visible == true).toList().length,
+                                        socialItems!
+                                            .where((element) =>
+                                                element.visible == true)
+                                            .toList()
+                                            .length,
                                     // height: 55.sp,
                                   )),
                         scrollDirection: Axis.horizontal,
                         separatorBuilder: (_, i) => widthBox(33.w),
-                        itemCount: socialItems!.where((element) => element.visible == true).toList().length,
+                        itemCount: socialItems!
+                            .where((element) => element.visible == true)
+                            .toList()
+                            .length,
                       ),
                     ),
                   ),
@@ -712,7 +789,8 @@ class AwardsSection extends StatelessWidget {
                         rewards!.length,
                         (index) => GestureDetector(
                               onTap: () {},
-                              child: DefaultImage(backGroundImageUrl: rewards![index].image),
+                              child: DefaultImage(
+                                  backGroundImageUrl: rewards![index].image),
                             ) //getProductObjectAsList
                         ),
                   ),
@@ -761,14 +839,14 @@ class ReviewsSection extends StatelessWidget {
                     : reviews!.data!.isEmpty
                         ? SizedBox()
                         : ListView.separated(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => ReviewItemCard(
-                            menaReviewItem: reviews!.data![index],
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => ReviewItemCard(
+                              menaReviewItem: reviews!.data![index],
+                            ),
+                            separatorBuilder: (_, i) => heightBox(10.h),
+                            itemCount: reviews!.data!.length,
                           ),
-                          separatorBuilder: (_, i) => heightBox(10.h),
-                          itemCount: reviews!.data!.length,
-                        ),
               ),
               reviews!.totalSize < reviews!.data!.length
                   ? SizedBox()
@@ -793,7 +871,8 @@ class ReviewsSection extends StatelessWidget {
 }
 
 class ReviewItemCard extends StatelessWidget {
-  const ReviewItemCard({Key? key, required this.menaReviewItem}) : super(key: key);
+  const ReviewItemCard({Key? key, required this.menaReviewItem})
+      : super(key: key);
 
   final MenaReviewItem menaReviewItem;
 
@@ -811,14 +890,18 @@ class ReviewItemCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      ProfileBubble(isOnline: false, pictureUrl: menaReviewItem.image, radius: 22.sp),
+                      ProfileBubble(
+                          isOnline: false,
+                          pictureUrl: menaReviewItem.image,
+                          radius: 22.sp),
                       widthBox(7.w),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             menaReviewItem.name,
-                            style: mainStyle(context, 12, weight: FontWeight.w500),
+                            style:
+                                mainStyle(context, 12, weight: FontWeight.w500),
                           ),
                           heightBox(4.h),
                           Text(
@@ -870,7 +953,12 @@ class RewardsSection extends StatelessWidget {
             listener: (context, state) {
               // TODO: implement listener
 
-              rewards = MainCubit.get(context).userInfoModel!.data.user.moreData!.rewards;
+              rewards = MainCubit.get(context)
+                  .userInfoModel!
+                  .data
+                  .user
+                  .moreData!
+                  .rewards;
             },
             builder: (context, state) {
               return DefaultShadowedContainer(
@@ -888,12 +976,20 @@ class RewardsSection extends StatelessWidget {
                           if (inEditProfile)
                             ProfileSectionActions(addAction: () {
                               var _formKey = GlobalKey<FormState>();
-                              TextEditingController nameOfUnCertificateCont = TextEditingController();
-                              TextEditingController issuingDateCont = TextEditingController();
+                              TextEditingController nameOfUnCertificateCont =
+                                  TextEditingController();
+                              TextEditingController issuingDateCont =
+                                  TextEditingController();
 
                               DateTime publishedDate = DateTime.now();
-                              viewRewardsModalAddUpdateBottom(context, _formKey, nameOfUnCertificateCont,
-                                  issuingDateCont, profileCubit, publishedDate, false);
+                              viewRewardsModalAddUpdateBottom(
+                                  context,
+                                  _formKey,
+                                  nameOfUnCertificateCont,
+                                  issuingDateCont,
+                                  profileCubit,
+                                  publishedDate,
+                                  false);
                             })
                         ],
                       ),
@@ -905,29 +1001,50 @@ class RewardsSection extends StatelessWidget {
                                 ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) => ProfileSubHeadItem(
+                                  itemBuilder: (context, index) =>
+                                      ProfileSubHeadItem(
                                     title: rewards![index].title,
                                     subTitle: rewards![index].year ?? '-',
-                                    svgPicture: 'assets/svg/icons/profile/Awards-1.svg',
+                                    svgPicture:
+                                        'assets/svg/icons/profile/Awards-1.svg',
                                     actionWidget: Row(
-                                      children: [               if(inEditProfile)
-                                        GestureDetector(
-                                          onTap: () {
-                                            var _formKey = GlobalKey<FormState>();
-                                            TextEditingController nameOfMemberShipCont = TextEditingController();
-                                            TextEditingController nameOfAuthCont = TextEditingController();
-                                            DateTime publishedDate = DateTime.now();
-                                            nameOfMemberShipCont.text = rewards![index].title;
-                                            nameOfAuthCont.text = rewards![index].year.toString();
-                                            viewRewardsModalAddUpdateBottom(context, _formKey, nameOfMemberShipCont,
-                                                nameOfAuthCont, profileCubit, publishedDate, true,
-                                                customId: rewards![index].id.toString());
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/svg/icons/edit.svg',
-                                            width: 22.w,
+                                      children: [
+                                        if (inEditProfile)
+                                          GestureDetector(
+                                            onTap: () {
+                                              var _formKey =
+                                                  GlobalKey<FormState>();
+                                              TextEditingController
+                                                  nameOfMemberShipCont =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  nameOfAuthCont =
+                                                  TextEditingController();
+                                              DateTime publishedDate =
+                                                  DateTime.now();
+                                              nameOfMemberShipCont.text =
+                                                  rewards![index].title;
+                                              nameOfAuthCont.text =
+                                                  rewards![index]
+                                                      .year
+                                                      .toString();
+                                              viewRewardsModalAddUpdateBottom(
+                                                  context,
+                                                  _formKey,
+                                                  nameOfMemberShipCont,
+                                                  nameOfAuthCont,
+                                                  profileCubit,
+                                                  publishedDate,
+                                                  true,
+                                                  customId: rewards![index]
+                                                      .id
+                                                      .toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svg/icons/edit.svg',
+                                              width: 22.w,
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -966,7 +1083,8 @@ Future<void> viewRewardsModalAddUpdateBottom(
           : GestureDetector(
               onTap: () {
                 showMyAlertDialog(context, 'Confirm deletion',
-                    alertDialogContent: Text('You are about deleting entry, Are you sure?'),
+                    alertDialogContent:
+                        Text('You are about deleting entry, Are you sure?'),
                     actions: [
                       BlocConsumer<ProfileCubit, ProfileState>(
                         listener: (context, state) {
@@ -987,7 +1105,10 @@ Future<void> viewRewardsModalAddUpdateBottom(
                                         onPressed: () {
                                           profileCubit
                                               .removeReward(customId.toString())
-                                              .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                              .then((value) =>
+                                                  MainCubit.get(context)
+                                                      .getUserInfo()
+                                                      .then((value) {
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   }));
@@ -1103,7 +1224,9 @@ Future<void> viewRewardsModalAddUpdateBottom(
                                     year: nameOfRewardYearCont.text,
                                     customId: customId,
                                     isUpdateNotAdd: isUpdateNotAdd)
-                                .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                .then((value) => MainCubit.get(context)
+                                        .getUserInfo()
+                                        .then((value) {
                                       Navigator.pop(context);
                                     }));
                           }
@@ -1133,7 +1256,12 @@ class EducationSection extends StatelessWidget {
         : BlocConsumer<MainCubit, MainState>(
             listener: (context, state) {
               // TODO: implement listener
-              educations = MainCubit.get(context).userInfoModel!.data.user.moreData!.educations;
+              educations = MainCubit.get(context)
+                  .userInfoModel!
+                  .data
+                  .user
+                  .moreData!
+                  .educations;
             },
             builder: (context, mainState) {
               return DefaultShadowedContainer(
@@ -1151,12 +1279,23 @@ class EducationSection extends StatelessWidget {
                           if (inEditProfile)
                             ProfileSectionActions(addAction: () {
                               var _formKey = GlobalKey<FormState>();
-                              TextEditingController nameOfUnCont = TextEditingController();
-                              TextEditingController degreeCont = TextEditingController();
-                              TextEditingController startYearCont = TextEditingController();
-                              TextEditingController endYearCont = TextEditingController();
-                              viewEducationModalAddUpdateBottom(context, _formKey, nameOfUnCont, degreeCont,
-                                  startYearCont, profileCubit, endYearCont, false);
+                              TextEditingController nameOfUnCont =
+                                  TextEditingController();
+                              TextEditingController degreeCont =
+                                  TextEditingController();
+                              TextEditingController startYearCont =
+                                  TextEditingController();
+                              TextEditingController endYearCont =
+                                  TextEditingController();
+                              viewEducationModalAddUpdateBottom(
+                                  context,
+                                  _formKey,
+                                  nameOfUnCont,
+                                  degreeCont,
+                                  startYearCont,
+                                  profileCubit,
+                                  endYearCont,
+                                  false);
                             })
                         ],
                       ),
@@ -1172,38 +1311,74 @@ class EducationSection extends StatelessWidget {
                                   shrinkWrap: true,
                                   reverse: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) => ProfileSubHeadItem(
-                                    svgPicture: 'assets/svg/icons/profile/education-1.svg',
-                                    title: educations![index].universityName.toString(),
-                                    subTitle: educations![index].degree.toString(),
+                                  itemBuilder: (context, index) =>
+                                      ProfileSubHeadItem(
+                                    svgPicture:
+                                        'assets/svg/icons/profile/education-1.svg',
+                                    title: educations![index]
+                                        .universityName
+                                        .toString(),
+                                    subTitle:
+                                        educations![index].degree.toString(),
                                     subSubTitle:
                                         '${educations![index].startingYear} - ${educations![index].currentlyPursuing == 1 ? 'present' : educations![index].endingYear}',
                                     actionWidget: Row(
                                       children: [
-                                        if(inEditProfile)
-                                        GestureDetector(
-                                          onTap: () {
-                                            var _formKey = GlobalKey<FormState>();
-                                            TextEditingController nameOfUnCont = TextEditingController();
-                                            TextEditingController degreeCont = TextEditingController();
-                                            TextEditingController startYearCont = TextEditingController();
-                                            TextEditingController endYearCont = TextEditingController();
+                                        if (inEditProfile)
+                                          GestureDetector(
+                                            onTap: () {
+                                              var _formKey =
+                                                  GlobalKey<FormState>();
+                                              TextEditingController
+                                                  nameOfUnCont =
+                                                  TextEditingController();
+                                              TextEditingController degreeCont =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  startYearCont =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  endYearCont =
+                                                  TextEditingController();
 
-                                            nameOfUnCont.text = educations![index].universityName;
-                                            degreeCont.text = educations![index].degree.toString();
-                                            startYearCont.text = educations![index].startingYear.toString();
-                                            endYearCont.text = educations![index].endingYear ?? '';
-                                            profileCubit
-                                                .changeCurrentlyPursuingVal(educations![index].currentlyPursuing == 1);
-                                            viewEducationModalAddUpdateBottom(context, _formKey, nameOfUnCont,
-                                                degreeCont, startYearCont, profileCubit, endYearCont, true,
-                                                customId: educations![index].id.toString());
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/svg/icons/edit.svg',
-                                            width: 22.w,
+                                              nameOfUnCont.text =
+                                                  educations![index]
+                                                      .universityName;
+                                              degreeCont.text =
+                                                  educations![index]
+                                                      .degree
+                                                      .toString();
+                                              startYearCont.text =
+                                                  educations![index]
+                                                      .startingYear
+                                                      .toString();
+                                              endYearCont.text =
+                                                  educations![index]
+                                                          .endingYear ??
+                                                      '';
+                                              profileCubit
+                                                  .changeCurrentlyPursuingVal(
+                                                      educations![index]
+                                                              .currentlyPursuing ==
+                                                          1);
+                                              viewEducationModalAddUpdateBottom(
+                                                  context,
+                                                  _formKey,
+                                                  nameOfUnCont,
+                                                  degreeCont,
+                                                  startYearCont,
+                                                  profileCubit,
+                                                  endYearCont,
+                                                  true,
+                                                  customId: educations![index]
+                                                      .id
+                                                      .toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svg/icons/edit.svg',
+                                              width: 22.w,
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -1240,7 +1415,8 @@ Future<void> viewEducationModalAddUpdateBottom(
           : GestureDetector(
               onTap: () {
                 showMyAlertDialog(context, 'Confirm deletion',
-                    alertDialogContent: Text('You are about deleting entry, Are you sure?'),
+                    alertDialogContent:
+                        Text('You are about deleting entry, Are you sure?'),
                     actions: [
                       BlocConsumer<ProfileCubit, ProfileState>(
                         listener: (context, state) {
@@ -1260,8 +1436,12 @@ Future<void> viewEducationModalAddUpdateBottom(
                                     TextButton(
                                         onPressed: () {
                                           profileCubit
-                                              .removeEducation(customId.toString())
-                                              .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                              .removeEducation(
+                                                  customId.toString())
+                                              .then((value) =>
+                                                  MainCubit.get(context)
+                                                      .getUserInfo()
+                                                      .then((value) {
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   }));
@@ -1312,7 +1492,9 @@ Future<void> viewEducationModalAddUpdateBottom(
                         child: DefaultInputField(
                           label: 'Ending  year',
                           controller: endYearCont,
-                          validate: profileCubit.isCurrentlyPursuing ? null : yearBeforeCurrentValidate(context),
+                          validate: profileCubit.isCurrentlyPursuing
+                              ? null
+                              : yearBeforeCurrentValidate(context),
                         ),
                       ),
                   ],
@@ -1323,10 +1505,12 @@ Future<void> viewEducationModalAddUpdateBottom(
                     Checkbox(
                         value: profileCubit.isCurrentlyPursuing,
                         onChanged: (val) {
-                          logg('before: ' + profileCubit.isCurrentlyPursuing.toString());
+                          logg('before: ' +
+                              profileCubit.isCurrentlyPursuing.toString());
                           logg(val.toString());
                           profileCubit.changeCurrentlyPursuingVal(val!);
-                          logg('after: ' + profileCubit.isCurrentlyPursuing.toString());
+                          logg('after: ' +
+                              profileCubit.isCurrentlyPursuing.toString());
                         }),
                     Expanded(child: Text('Currently pursuing')),
                   ],
@@ -1347,7 +1531,9 @@ Future<void> viewEducationModalAddUpdateBottom(
                                     endingYear: endYearCont.text,
                                     customId: customId,
                                     isUpdateNotAdd: isUpdateNotAdd)
-                                .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                .then((value) => MainCubit.get(context)
+                                        .getUserInfo()
+                                        .then((value) {
                                       Navigator.pop(context);
                                     }));
                           }
@@ -1377,7 +1563,12 @@ class AboutSection extends StatelessWidget {
         : BlocConsumer<MainCubit, MainState>(
             listener: (context, state) {
               // TODO: implement listener
-              about = MainCubit.get(context).userInfoModel!.data.user.moreData!.about;
+              about = MainCubit.get(context)
+                  .userInfoModel!
+                  .data
+                  .user
+                  .moreData!
+                  .about;
             },
             builder: (context, state) {
               return DefaultShadowedContainer(
@@ -1396,7 +1587,8 @@ class AboutSection extends StatelessWidget {
                             GestureDetector(
                               onTap: () {
                                 var _formKey = GlobalKey<FormState>();
-                                TextEditingController aboutController = TextEditingController();
+                                TextEditingController aboutController =
+                                    TextEditingController();
 
                                 /// add value of about form api
                                 aboutController.text = about ?? '';
@@ -1430,10 +1622,13 @@ class AboutSection extends StatelessWidget {
                                   thickness: 1.2,
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.all(defaultHorizontalPadding),
+                                  padding:
+                                      EdgeInsets.all(defaultHorizontalPadding),
                                   child: Text(
                                     about!,
-                                    style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+                                    style: mainStyle(context, 13,
+                                        color: newDarkGreyColor,
+                                        weight: FontWeight.w700),
                                   ),
                                 ),
                               ],
@@ -1447,7 +1642,10 @@ class AboutSection extends StatelessWidget {
   }
 
   Future<void> viewAboutEditBottom(
-      BuildContext context, GlobalKey<FormState> _formKey, TextEditingController aboutCont, ProfileCubit profileCubit,
+      BuildContext context,
+      GlobalKey<FormState> _formKey,
+      TextEditingController aboutCont,
+      ProfileCubit profileCubit,
       {String? customId}) {
     // profileCubit.updateAboutLength(aboutCont.text.length);
     return showMyBottomSheet(
@@ -1496,7 +1694,9 @@ class AboutSection extends StatelessWidget {
                                     customId: customId,
                                     // isUpdateNotAdd: !educations!.isEmpty
                                   )
-                                  .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                  .then((value) => MainCubit.get(context)
+                                          .getUserInfo()
+                                          .then((value) {
                                         Navigator.pop(context);
                                       }));
                             }
@@ -1571,7 +1771,8 @@ class ProfileCompletionSection extends StatelessWidget {
                       thickness: 1.2,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: defaultHorizontalPadding),
                       child: Column(
                         children: [
                           Row(
@@ -1587,7 +1788,9 @@ class ProfileCompletionSection extends StatelessWidget {
                                           height: 50.h,
                                           width: 50.h,
                                           child: CircularProgressIndicator(
-                                            value: mainCubit.completionPercentage / 100,
+                                            value:
+                                                mainCubit.completionPercentage /
+                                                    100,
                                             color: mainBlueColor,
                                             strokeWidth: 3,
                                           ),
@@ -1595,8 +1798,13 @@ class ProfileCompletionSection extends StatelessWidget {
                                       ),
                                       Center(
                                           child: Text(
-                                        mainCubit.completionPercentage.round().toString() + ' %',
-                                        style: mainStyle(context, 11, color: mainBlueColor, weight: FontWeight.w700),
+                                        mainCubit.completionPercentage
+                                                .round()
+                                                .toString() +
+                                            ' %',
+                                        style: mainStyle(context, 11,
+                                            color: mainBlueColor,
+                                            weight: FontWeight.w700),
                                       ))
                                     ],
                                   ),
@@ -1606,7 +1814,9 @@ class ProfileCompletionSection extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   'Did you know that providers over 90% profile completion get most of the views',
-                                  style: mainStyle(context, 11, color: newDarkGreyColor, weight: FontWeight.w700),
+                                  style: mainStyle(context, 11,
+                                      color: newDarkGreyColor,
+                                      weight: FontWeight.w700),
                                 ),
                               ),
                             ],
@@ -1621,22 +1831,34 @@ class ProfileCompletionSection extends StatelessWidget {
                                   child: ListView.separated(
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => GestureDetector(
+                                    itemBuilder: (context, index) =>
+                                        GestureDetector(
                                       // onTap: handleMissedDataBottom(context,mainCubit.uncompletedSections[index].id!),
-                                      onTap: () =>
-                                          handleMissedDataBottom(context, mainCubit.uncompletedSections[index].id!),
+                                      onTap: () => handleMissedDataBottom(
+                                          context,
+                                          mainCubit
+                                              .uncompletedSections[index].id!),
                                       child: DefaultContainer(
                                         // height: double.maxFinite,
-                                        borderColor: newDarkGreyColor.withOpacity(0.5),
+                                        borderColor:
+                                            newDarkGreyColor.withOpacity(0.5),
                                         childWidget: Center(
                                             child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
-                                              if (mainCubit.uncompletedSections[index].thumbnailLink != null)
+                                              if (mainCubit
+                                                      .uncompletedSections[
+                                                          index]
+                                                      .thumbnailLink !=
+                                                  null)
                                                 SvgPicture.asset(
-                                                  mainCubit.uncompletedSections[index].thumbnailLink!,
+                                                  mainCubit
+                                                      .uncompletedSections[
+                                                          index]
+                                                      .thumbnailLink!,
                                                   // color: newDarkGreyColor,
                                                   height: 44.h,
                                                 ),
@@ -1644,15 +1866,18 @@ class ProfileCompletionSection extends StatelessWidget {
                                               Text(
                                                 '${mainCubit.uncompletedSections[index].title}',
                                                 style: mainStyle(context, 12,
-                                                    color: mainBlueColor, weight: FontWeight.w700),
+                                                    color: mainBlueColor,
+                                                    weight: FontWeight.w700),
                                               ),
                                             ],
                                           ),
                                         )),
                                       ),
                                     ),
-                                    separatorBuilder: (context, i) => widthBox(7.w),
-                                    itemCount: mainCubit.uncompletedSections.length,
+                                    separatorBuilder: (context, i) =>
+                                        widthBox(7.w),
+                                    itemCount:
+                                        mainCubit.uncompletedSections.length,
                                   ),
                                 ),
                               ],
@@ -1676,7 +1901,10 @@ class ProfileCompletionSection extends StatelessWidget {
   }
 
   Future<void> viewAboutEditBottom(
-      BuildContext context, GlobalKey<FormState> _formKey, TextEditingController aboutCont, ProfileCubit profileCubit,
+      BuildContext context,
+      GlobalKey<FormState> _formKey,
+      TextEditingController aboutCont,
+      ProfileCubit profileCubit,
       {String? customId}) {
     return showMyBottomSheet(
         context: context,
@@ -1712,7 +1940,9 @@ class ProfileCompletionSection extends StatelessWidget {
                                     customId: customId,
                                     // isUpdateNotAdd: !educations!.isEmpty
                                   )
-                                  .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                  .then((value) => MainCubit.get(context)
+                                          .getUserInfo()
+                                          .then((value) {
                                         Navigator.pop(context);
                                       }));
                             }
@@ -1748,8 +1978,8 @@ class ProfileCompletionSection extends StatelessWidget {
         TextEditingController degreeCont = TextEditingController();
         TextEditingController startYearCont = TextEditingController();
         TextEditingController endYearCont = TextEditingController();
-        viewEducationModalAddUpdateBottom(
-            context, _formKey, nameOfUnCont, degreeCont, startYearCont, profileCubit, endYearCont, false);
+        viewEducationModalAddUpdateBottom(context, _formKey, nameOfUnCont,
+            degreeCont, startYearCont, profileCubit, endYearCont, false);
         break;
 
       case 'experience':
@@ -1758,8 +1988,8 @@ class ProfileCompletionSection extends StatelessWidget {
         TextEditingController designation = TextEditingController();
         TextEditingController startYearCont = TextEditingController();
         TextEditingController endYearCont = TextEditingController();
-        viewExperiencesModalAddUpdateBottom(
-            context, _formKey, placeOfWork, designation, startYearCont, profileCubit, endYearCont, false);
+        viewExperiencesModalAddUpdateBottom(context, _formKey, placeOfWork,
+            designation, startYearCont, profileCubit, endYearCont, false);
         break;
 
       case 'publications':
@@ -1779,8 +2009,17 @@ class ProfileCompletionSection extends StatelessWidget {
         TextEditingController publishedUrl = TextEditingController();
         TextEditingController publishedDateCont = TextEditingController();
         DateTime publishedDate = DateTime.now();
-        viewPublicationsModalAddUpdateBottom(context, _formKey, paperTitle, summary, publisher, publishedUrl,
-            publishedDateCont, profileCubit, publishedDate, false);
+        viewPublicationsModalAddUpdateBottom(
+            context,
+            _formKey,
+            paperTitle,
+            summary,
+            publisher,
+            publishedUrl,
+            publishedDateCont,
+            profileCubit,
+            publishedDate,
+            false);
         break;
 
       case 'certifications':
@@ -1790,7 +2029,13 @@ class ProfileCompletionSection extends StatelessWidget {
 
         DateTime publishedDate = DateTime.now();
         viewCertificationsModalAddUpdateBottom(
-            context, _formKey, nameOfUnCertificateCont, issuingDateCont, profileCubit, publishedDate, false);
+            context,
+            _formKey,
+            nameOfUnCertificateCont,
+            issuingDateCont,
+            profileCubit,
+            publishedDate,
+            false);
         break;
 
       case 'memberships':
@@ -1800,7 +2045,13 @@ class ProfileCompletionSection extends StatelessWidget {
 
         DateTime publishedDate = DateTime.now();
         viewMembershipsModalAddUpdateBottom(
-            context, _formKey, nameOfUnCertificateCont, issuingDateCont, profileCubit, publishedDate, false);
+            context,
+            _formKey,
+            nameOfUnCertificateCont,
+            issuingDateCont,
+            profileCubit,
+            publishedDate,
+            false);
         break;
 
       case 'rewards':
@@ -1810,7 +2061,13 @@ class ProfileCompletionSection extends StatelessWidget {
 
         DateTime publishedDate = DateTime.now();
         viewRewardsModalAddUpdateBottom(
-            context, _formKey, nameOfUnCertificateCont, issuingDateCont, profileCubit, publishedDate, false);
+            context,
+            _formKey,
+            nameOfUnCertificateCont,
+            issuingDateCont,
+            profileCubit,
+            publishedDate,
+            false);
         break;
     }
   }
@@ -1883,7 +2140,12 @@ class ExperienceSection extends StatelessWidget {
         : BlocConsumer<MainCubit, MainState>(
             listener: (context, state) {
               // TODO: implement listener
-              experiences = MainCubit.get(context).userInfoModel!.data.user.moreData!.experiences;
+              experiences = MainCubit.get(context)
+                  .userInfoModel!
+                  .data
+                  .user
+                  .moreData!
+                  .experiences;
             },
             builder: (context, state) {
               return DefaultShadowedContainer(
@@ -1901,12 +2163,23 @@ class ExperienceSection extends StatelessWidget {
                           if (inEditProfile)
                             ProfileSectionActions(addAction: () {
                               var _formKey = GlobalKey<FormState>();
-                              TextEditingController placeOfWork = TextEditingController();
-                              TextEditingController designation = TextEditingController();
-                              TextEditingController startYearCont = TextEditingController();
-                              TextEditingController endYearCont = TextEditingController();
-                              viewExperiencesModalAddUpdateBottom(context, _formKey, placeOfWork, designation,
-                                  startYearCont, profileCubit, endYearCont, false);
+                              TextEditingController placeOfWork =
+                                  TextEditingController();
+                              TextEditingController designation =
+                                  TextEditingController();
+                              TextEditingController startYearCont =
+                                  TextEditingController();
+                              TextEditingController endYearCont =
+                                  TextEditingController();
+                              viewExperiencesModalAddUpdateBottom(
+                                  context,
+                                  _formKey,
+                                  placeOfWork,
+                                  designation,
+                                  startYearCont,
+                                  profileCubit,
+                                  endYearCont,
+                                  false);
                             })
                         ],
                       ),
@@ -1919,37 +2192,76 @@ class ExperienceSection extends StatelessWidget {
                                   shrinkWrap: true,
                                   reverse: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) => ProfileSubHeadItem(
-                                    svgPicture: 'assets/svg/icons/profile/Experiences-1.svg',
-                                    title: experiences![index].placeOfWork.toString(),
-                                    subTitle: experiences![index].designation.toString(),
+                                  itemBuilder: (context, index) =>
+                                      ProfileSubHeadItem(
+                                    svgPicture:
+                                        'assets/svg/icons/profile/Experiences-1.svg',
+                                    title: experiences![index]
+                                        .placeOfWork
+                                        .toString(),
+                                    subTitle: experiences![index]
+                                        .designation
+                                        .toString(),
                                     subSubTitle:
                                         '${experiences![index].startingYear} - ${experiences![index].currentlyWorking == 1 ? 'present' : experiences![index].endingYear}',
                                     actionWidget: Row(
-                                      children: [               if(inEditProfile)
-                                        GestureDetector(
-                                          onTap: () {
-                                            var _formKey = GlobalKey<FormState>();
-                                            TextEditingController placeOfWork = TextEditingController();
-                                            TextEditingController designation = TextEditingController();
-                                            TextEditingController startYearCont = TextEditingController();
-                                            TextEditingController endYearCont = TextEditingController();
+                                      children: [
+                                        if (inEditProfile)
+                                          GestureDetector(
+                                            onTap: () {
+                                              var _formKey =
+                                                  GlobalKey<FormState>();
+                                              TextEditingController
+                                                  placeOfWork =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  designation =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  startYearCont =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  endYearCont =
+                                                  TextEditingController();
 
-                                            placeOfWork.text = experiences![index].placeOfWork;
-                                            designation.text = experiences![index].designation.toString();
-                                            startYearCont.text = experiences![index].startingYear.toString();
-                                            endYearCont.text = experiences![index].endingYear ?? '';
-                                            profileCubit
-                                                .changeCurrentlyPursuingVal(experiences![index].currentlyWorking == 1);
-                                            viewExperiencesModalAddUpdateBottom(context, _formKey, placeOfWork,
-                                                designation, startYearCont, profileCubit, endYearCont, true,
-                                                customId: experiences![index].id.toString());
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/svg/icons/edit.svg',
-                                            width: 22.w,
+                                              placeOfWork.text =
+                                                  experiences![index]
+                                                      .placeOfWork;
+                                              designation.text =
+                                                  experiences![index]
+                                                      .designation
+                                                      .toString();
+                                              startYearCont.text =
+                                                  experiences![index]
+                                                      .startingYear
+                                                      .toString();
+                                              endYearCont.text =
+                                                  experiences![index]
+                                                          .endingYear ??
+                                                      '';
+                                              profileCubit
+                                                  .changeCurrentlyPursuingVal(
+                                                      experiences![index]
+                                                              .currentlyWorking ==
+                                                          1);
+                                              viewExperiencesModalAddUpdateBottom(
+                                                  context,
+                                                  _formKey,
+                                                  placeOfWork,
+                                                  designation,
+                                                  startYearCont,
+                                                  profileCubit,
+                                                  endYearCont,
+                                                  true,
+                                                  customId: experiences![index]
+                                                      .id
+                                                      .toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svg/icons/edit.svg',
+                                              width: 22.w,
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -1986,7 +2298,8 @@ Future<void> viewExperiencesModalAddUpdateBottom(
           : GestureDetector(
               onTap: () {
                 showMyAlertDialog(context, 'Confirm deletion',
-                    alertDialogContent: Text('You are about deleting entry, Are you sure?'),
+                    alertDialogContent:
+                        Text('You are about deleting entry, Are you sure?'),
                     actions: [
                       BlocConsumer<ProfileCubit, ProfileState>(
                         listener: (context, state) {
@@ -2006,8 +2319,12 @@ Future<void> viewExperiencesModalAddUpdateBottom(
                                     TextButton(
                                         onPressed: () {
                                           profileCubit
-                                              .removeExperience(customId.toString())
-                                              .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                              .removeExperience(
+                                                  customId.toString())
+                                              .then((value) =>
+                                                  MainCubit.get(context)
+                                                      .getUserInfo()
+                                                      .then((value) {
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   }));
@@ -2058,7 +2375,9 @@ Future<void> viewExperiencesModalAddUpdateBottom(
                         child: DefaultInputField(
                           label: 'Ending  year',
                           controller: endYearCont,
-                          validate: profileCubit.isCurrentlyPursuing ? null : yearBeforeCurrentValidate(context),
+                          validate: profileCubit.isCurrentlyPursuing
+                              ? null
+                              : yearBeforeCurrentValidate(context),
                         ),
                       ),
                   ],
@@ -2069,10 +2388,12 @@ Future<void> viewExperiencesModalAddUpdateBottom(
                     Checkbox(
                         value: profileCubit.isCurrentlyPursuing,
                         onChanged: (val) {
-                          logg('before: ' + profileCubit.isCurrentlyPursuing.toString());
+                          logg('before: ' +
+                              profileCubit.isCurrentlyPursuing.toString());
                           logg(val.toString());
                           profileCubit.changeCurrentlyPursuingVal(val!);
-                          logg('after: ' + profileCubit.isCurrentlyPursuing.toString());
+                          logg('after: ' +
+                              profileCubit.isCurrentlyPursuing.toString());
                         }),
                     Expanded(child: Text('Currently working')),
                   ],
@@ -2093,7 +2414,9 @@ Future<void> viewExperiencesModalAddUpdateBottom(
                                     endingYear: endYearCont.text,
                                     customId: customId,
                                     isUpdateNotAdd: isUpdateNotAdd)
-                                .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                .then((value) => MainCubit.get(context)
+                                        .getUserInfo()
+                                        .then((value) {
                                       Navigator.pop(context);
                                     }));
                           }
@@ -2122,7 +2445,12 @@ class MembershipSection extends StatelessWidget {
         : BlocConsumer<MainCubit, MainState>(
             listener: (context, state) {
               // TODO: implement listener
-              memberships = MainCubit.get(context).userInfoModel!.data.user.moreData!.memberships;
+              memberships = MainCubit.get(context)
+                  .userInfoModel!
+                  .data
+                  .user
+                  .moreData!
+                  .memberships;
             },
             builder: (context, state) {
               return DefaultShadowedContainer(
@@ -2140,12 +2468,20 @@ class MembershipSection extends StatelessWidget {
                           if (inEditProfile)
                             ProfileSectionActions(addAction: () {
                               var _formKey = GlobalKey<FormState>();
-                              TextEditingController nameOfUnCertificateCont = TextEditingController();
-                              TextEditingController issuingDateCont = TextEditingController();
+                              TextEditingController nameOfUnCertificateCont =
+                                  TextEditingController();
+                              TextEditingController issuingDateCont =
+                                  TextEditingController();
 
                               DateTime publishedDate = DateTime.now();
-                              viewMembershipsModalAddUpdateBottom(context, _formKey, nameOfUnCertificateCont,
-                                  issuingDateCont, profileCubit, publishedDate, false);
+                              viewMembershipsModalAddUpdateBottom(
+                                  context,
+                                  _formKey,
+                                  nameOfUnCertificateCont,
+                                  issuingDateCont,
+                                  profileCubit,
+                                  publishedDate,
+                                  false);
                             })
                         ],
                       ),
@@ -2157,29 +2493,51 @@ class MembershipSection extends StatelessWidget {
                                 ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) => ProfileSubHeadItem(
+                                  itemBuilder: (context, index) =>
+                                      ProfileSubHeadItem(
                                     title: memberships![index].name,
-                                    subTitle: memberships![index].authName ?? '-',
-                                    svgPicture: 'assets/svg/icons/profile/Memberships-1.svg',
+                                    subTitle:
+                                        memberships![index].authName ?? '-',
+                                    svgPicture:
+                                        'assets/svg/icons/profile/Memberships-1.svg',
                                     actionWidget: Row(
-                                      children: [               if(inEditProfile)
-                                        GestureDetector(
-                                          onTap: () {
-                                            var _formKey = GlobalKey<FormState>();
-                                            TextEditingController nameOfMemberShipCont = TextEditingController();
-                                            TextEditingController nameOfAuthCont = TextEditingController();
-                                            DateTime publishedDate = DateTime.now();
-                                            nameOfMemberShipCont.text = memberships![index].name;
-                                            nameOfAuthCont.text = memberships![index].authName.toString();
-                                            viewMembershipsModalAddUpdateBottom(context, _formKey, nameOfMemberShipCont,
-                                                nameOfAuthCont, profileCubit, publishedDate, true,
-                                                customId: memberships![index].id.toString());
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/svg/icons/edit.svg',
-                                            width: 22.w,
+                                      children: [
+                                        if (inEditProfile)
+                                          GestureDetector(
+                                            onTap: () {
+                                              var _formKey =
+                                                  GlobalKey<FormState>();
+                                              TextEditingController
+                                                  nameOfMemberShipCont =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  nameOfAuthCont =
+                                                  TextEditingController();
+                                              DateTime publishedDate =
+                                                  DateTime.now();
+                                              nameOfMemberShipCont.text =
+                                                  memberships![index].name;
+                                              nameOfAuthCont.text =
+                                                  memberships![index]
+                                                      .authName
+                                                      .toString();
+                                              viewMembershipsModalAddUpdateBottom(
+                                                  context,
+                                                  _formKey,
+                                                  nameOfMemberShipCont,
+                                                  nameOfAuthCont,
+                                                  profileCubit,
+                                                  publishedDate,
+                                                  true,
+                                                  customId: memberships![index]
+                                                      .id
+                                                      .toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svg/icons/edit.svg',
+                                              width: 22.w,
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -2218,7 +2576,8 @@ Future<void> viewMembershipsModalAddUpdateBottom(
           : GestureDetector(
               onTap: () {
                 showMyAlertDialog(context, 'Confirm deletion',
-                    alertDialogContent: Text('You are about deleting entry, Are you sure?'),
+                    alertDialogContent:
+                        Text('You are about deleting entry, Are you sure?'),
                     actions: [
                       BlocConsumer<ProfileCubit, ProfileState>(
                         listener: (context, state) {
@@ -2238,8 +2597,12 @@ Future<void> viewMembershipsModalAddUpdateBottom(
                                     TextButton(
                                         onPressed: () {
                                           profileCubit
-                                              .removeMembership(customId.toString())
-                                              .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                              .removeMembership(
+                                                  customId.toString())
+                                              .then((value) =>
+                                                  MainCubit.get(context)
+                                                      .getUserInfo()
+                                                      .then((value) {
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   }));
@@ -2355,7 +2718,9 @@ Future<void> viewMembershipsModalAddUpdateBottom(
                                     authName: nameOfMembershipAuthCont.text,
                                     customId: customId,
                                     isUpdateNotAdd: isUpdateNotAdd)
-                                .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                .then((value) => MainCubit.get(context)
+                                        .getUserInfo()
+                                        .then((value) {
                                       Navigator.pop(context);
                                     }));
                           }
@@ -2385,7 +2750,12 @@ class PublicationSection extends StatelessWidget {
         : BlocConsumer<MainCubit, MainState>(
             listener: (context, state) {
               // TODO: implement listener
-              publications = MainCubit.get(context).userInfoModel!.data.user.moreData!.publications;
+              publications = MainCubit.get(context)
+                  .userInfoModel!
+                  .data
+                  .user
+                  .moreData!
+                  .publications;
             },
             builder: (context, state) {
               return DefaultShadowedContainer(
@@ -2397,7 +2767,8 @@ class PublicationSection extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ProfileSectionHeader(
-                            svgLink: 'assets/svg/icons/profile/Publications.svg',
+                            svgLink:
+                                'assets/svg/icons/profile/Publications.svg',
                             title: 'Publications',
                           ),
                           if (inEditProfile)
@@ -2412,14 +2783,28 @@ class PublicationSection extends StatelessWidget {
                               // DateTime publishedDate,
                               // bool isUpdateNotAdd,
 
-                              TextEditingController paperTitle = TextEditingController();
-                              TextEditingController summary = TextEditingController();
-                              TextEditingController publisher = TextEditingController();
-                              TextEditingController publishedUrl = TextEditingController();
-                              TextEditingController publishedDateCont = TextEditingController();
+                              TextEditingController paperTitle =
+                                  TextEditingController();
+                              TextEditingController summary =
+                                  TextEditingController();
+                              TextEditingController publisher =
+                                  TextEditingController();
+                              TextEditingController publishedUrl =
+                                  TextEditingController();
+                              TextEditingController publishedDateCont =
+                                  TextEditingController();
                               DateTime publishedDate = DateTime.now();
-                              viewPublicationsModalAddUpdateBottom(context, _formKey, paperTitle, summary, publisher,
-                                  publishedUrl, publishedDateCont, profileCubit, publishedDate, false);
+                              viewPublicationsModalAddUpdateBottom(
+                                  context,
+                                  _formKey,
+                                  paperTitle,
+                                  summary,
+                                  publisher,
+                                  publishedUrl,
+                                  publishedDateCont,
+                                  profileCubit,
+                                  publishedDate,
+                                  false);
                             })
                         ],
                       ),
@@ -2431,62 +2816,85 @@ class PublicationSection extends StatelessWidget {
                                 ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) => PublicationSubHeadItem(
+                                  itemBuilder: (context, index) =>
+                                      PublicationSubHeadItem(
                                     publication: publications![index],
                                     actionWidget: Row(
-                                      children: [               if(inEditProfile)
-                                        GestureDetector(
-                                          onTap: () {
-                                            var _formKey = GlobalKey<FormState>();
+                                      children: [
+                                        if (inEditProfile)
+                                          GestureDetector(
+                                            onTap: () {
+                                              var _formKey =
+                                                  GlobalKey<FormState>();
 
-                                            TextEditingController paperTitle = TextEditingController();
-                                            TextEditingController summary = TextEditingController();
-                                            TextEditingController publisher = TextEditingController();
-                                            TextEditingController publishedUrl = TextEditingController();
-                                            TextEditingController publishedDateCont = TextEditingController();
-                                            // DateTime publishedDate = DateTime.now();
+                                              TextEditingController paperTitle =
+                                                  TextEditingController();
+                                              TextEditingController summary =
+                                                  TextEditingController();
+                                              TextEditingController publisher =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  publishedUrl =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  publishedDateCont =
+                                                  TextEditingController();
+                                              // DateTime publishedDate = DateTime.now();
 
-                                            paperTitle.text = publications![index].paperTitle;
-                                            summary.text = publications![index].summary;
-                                            publisher.text = publications![index].publisher;
-                                            publishedUrl.text = publications![index].publishedUrl;
-                                            publishedDateCont.text = publications![index].publishedDate.toString();
-                                            DateTime publishedDate = DateTime.now();
-                                            // viewPublicationsModalAddUpdateBottom(context, _formKey, paperTitle, summary, publisher,
-                                            //     publishedUrl, publishedDateCont, profileCubit, publishedDate, true);
+                                              paperTitle.text =
+                                                  publications![index]
+                                                      .paperTitle;
+                                              summary.text =
+                                                  publications![index].summary;
+                                              publisher.text =
+                                                  publications![index]
+                                                      .publisher;
+                                              publishedUrl.text =
+                                                  publications![index]
+                                                      .publishedUrl;
+                                              publishedDateCont.text =
+                                                  publications![index]
+                                                      .publishedDate
+                                                      .toString();
+                                              DateTime publishedDate =
+                                                  DateTime.now();
+                                              // viewPublicationsModalAddUpdateBottom(context, _formKey, paperTitle, summary, publisher,
+                                              //     publishedUrl, publishedDateCont, profileCubit, publishedDate, true);
 
-                                            viewPublicationsModalAddUpdateBottom(
-                                                context,
-                                                _formKey,
-                                                paperTitle,
-                                                summary,
-                                                publisher,
-                                                publishedUrl,
-                                                publishedDateCont,
-                                                profileCubit,
-                                                publishedDate,
-                                                true,
-                                                customId: publications![index].id.toString());
-                                            // TextEditingController placeOfWork = TextEditingController();
-                                            // TextEditingController designation = TextEditingController();
-                                            // TextEditingController startYearCont = TextEditingController();
-                                            // TextEditingController endYearCont = TextEditingController();
+                                              viewPublicationsModalAddUpdateBottom(
+                                                  context,
+                                                  _formKey,
+                                                  paperTitle,
+                                                  summary,
+                                                  publisher,
+                                                  publishedUrl,
+                                                  publishedDateCont,
+                                                  profileCubit,
+                                                  publishedDate,
+                                                  true,
+                                                  customId: publications![index]
+                                                      .id
+                                                      .toString());
+                                              // TextEditingController placeOfWork = TextEditingController();
+                                              // TextEditingController designation = TextEditingController();
+                                              // TextEditingController startYearCont = TextEditingController();
+                                              // TextEditingController endYearCont = TextEditingController();
 
-                                            // placeOfWork.text = publications![index].placeOfWork;
-                                            // designation.text = publications![index].designation.toString();
-                                            // startYearCont.text = publications![index].startingYear.toString();
-                                            // endYearCont.text = publications![index].endingYear ?? '';
-                                            // profileCubit
-                                            //     .changeCurrentlyPursuingVal(experiences![index].currentlyWorking == 1);
-                                            // viewExperiencesModalAddUpdateBottom(context, _formKey, placeOfWork,
-                                            //     designation, startYearCont, profileCubit, endYearCont, true,
-                                            //     customId: experiences![index].id.toString());
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/svg/icons/edit.svg',
-                                            width: 22.w,
+                                              // placeOfWork.text = publications![index].placeOfWork;
+                                              // designation.text = publications![index].designation.toString();
+                                              // startYearCont.text = publications![index].startingYear.toString();
+                                              // endYearCont.text = publications![index].endingYear ?? '';
+                                              // profileCubit
+                                              //     .changeCurrentlyPursuingVal(experiences![index].currentlyWorking == 1);
+                                              // viewExperiencesModalAddUpdateBottom(context, _formKey, placeOfWork,
+                                              //     designation, startYearCont, profileCubit, endYearCont, true,
+                                              //     customId: experiences![index].id.toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svg/icons/edit.svg',
+                                              width: 22.w,
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -2525,7 +2933,8 @@ Future<void> viewPublicationsModalAddUpdateBottom(
           : GestureDetector(
               onTap: () {
                 showMyAlertDialog(context, 'Confirm deletion',
-                    alertDialogContent: Text('You are about deleting entry, Are you sure?'),
+                    alertDialogContent:
+                        Text('You are about deleting entry, Are you sure?'),
                     actions: [
                       BlocConsumer<ProfileCubit, ProfileState>(
                         listener: (context, state) {
@@ -2545,8 +2954,12 @@ Future<void> viewPublicationsModalAddUpdateBottom(
                                     TextButton(
                                         onPressed: () {
                                           profileCubit
-                                              .removePublication(customId.toString())
-                                              .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                              .removePublication(
+                                                  customId.toString())
+                                              .then((value) =>
+                                                  MainCubit.get(context)
+                                                      .getUserInfo()
+                                                      .then((value) {
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   }));
@@ -2575,7 +2988,8 @@ Future<void> viewPublicationsModalAddUpdateBottom(
                 initialDate: new DateTime.now(),
                 firstDate: new DateTime(2020),
                 lastDate: new DateTime(2030));
-            if (pickedDate != null) publishedDateCont.text = pickedDate.toString();
+            if (pickedDate != null)
+              publishedDateCont.text = pickedDate.toString();
           }
 
           return Form(
@@ -2672,7 +3086,9 @@ Future<void> viewPublicationsModalAddUpdateBottom(
                                     publishedDate: publishedDateCont.text,
                                     customId: customId,
                                     isUpdateNotAdd: isUpdateNotAdd)
-                                .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                .then((value) => MainCubit.get(context)
+                                        .getUserInfo()
+                                        .then((value) {
                                       Navigator.pop(context);
                                     }));
                           }
@@ -2703,7 +3119,12 @@ class CertificationsSection extends StatelessWidget {
         : BlocConsumer<MainCubit, MainState>(
             listener: (context, state) {
               // TODO: implement listener
-              certifications = MainCubit.get(context).userInfoModel!.data.user.moreData!.certifications;
+              certifications = MainCubit.get(context)
+                  .userInfoModel!
+                  .data
+                  .user
+                  .moreData!
+                  .certifications;
             },
             builder: (context, state) {
               return DefaultShadowedContainer(
@@ -2715,18 +3136,27 @@ class CertificationsSection extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ProfileSectionHeader(
-                            svgLink: 'assets/svg/icons/profile/Certifications.svg',
+                            svgLink:
+                                'assets/svg/icons/profile/Certifications.svg',
                             title: 'Certifications',
                           ),
                           if (inEditProfile)
                             ProfileSectionActions(addAction: () {
                               var _formKey = GlobalKey<FormState>();
-                              TextEditingController nameOfUnCertificateCont = TextEditingController();
-                              TextEditingController issuingDateCont = TextEditingController();
+                              TextEditingController nameOfUnCertificateCont =
+                                  TextEditingController();
+                              TextEditingController issuingDateCont =
+                                  TextEditingController();
 
                               DateTime publishedDate = DateTime.now();
-                              viewCertificationsModalAddUpdateBottom(context, _formKey, nameOfUnCertificateCont,
-                                  issuingDateCont, profileCubit, publishedDate, false);
+                              viewCertificationsModalAddUpdateBottom(
+                                  context,
+                                  _formKey,
+                                  nameOfUnCertificateCont,
+                                  issuingDateCont,
+                                  profileCubit,
+                                  publishedDate,
+                                  false);
 
                               // showMyBottomSheet(
                               //     context: context,
@@ -2842,35 +3272,56 @@ class CertificationsSection extends StatelessWidget {
                                 ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) => ProfileSubHeadItem(
-                                    title: certifications![index].certificateName,
-                                    svgPicture: 'assets/svg/icons/profile/Certifications-1.svg',
-                                    subTitle: certifications![index].issueDate.year.toString(),
+                                  itemBuilder: (context, index) =>
+                                      ProfileSubHeadItem(
+                                    title:
+                                        certifications![index].certificateName,
+                                    svgPicture:
+                                        'assets/svg/icons/profile/Certifications-1.svg',
+                                    subTitle: certifications![index]
+                                        .issueDate
+                                        .year
+                                        .toString(),
                                     actionWidget: Row(
-                                      children: [               if(inEditProfile)
-                                        GestureDetector(
-                                          onTap: () {
-                                            var _formKey = GlobalKey<FormState>();
-                                            TextEditingController nameOfUnCertificateCont = TextEditingController();
-                                            TextEditingController issuingDateCont = TextEditingController();
-                                            DateTime publishedDate = DateTime.now();
-                                            nameOfUnCertificateCont.text = certifications![index].certificateName;
-                                            issuingDateCont.text = certifications![index].issueDate.toString();
-                                            viewCertificationsModalAddUpdateBottom(
-                                                context,
-                                                _formKey,
-                                                nameOfUnCertificateCont,
-                                                issuingDateCont,
-                                                profileCubit,
-                                                publishedDate,
-                                                true,
-                                                customId: certifications![index].id.toString());
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/svg/icons/edit.svg',
-                                            width: 22.w,
+                                      children: [
+                                        if (inEditProfile)
+                                          GestureDetector(
+                                            onTap: () {
+                                              var _formKey =
+                                                  GlobalKey<FormState>();
+                                              TextEditingController
+                                                  nameOfUnCertificateCont =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  issuingDateCont =
+                                                  TextEditingController();
+                                              DateTime publishedDate =
+                                                  DateTime.now();
+                                              nameOfUnCertificateCont.text =
+                                                  certifications![index]
+                                                      .certificateName;
+                                              issuingDateCont.text =
+                                                  certifications![index]
+                                                      .issueDate
+                                                      .toString();
+                                              viewCertificationsModalAddUpdateBottom(
+                                                  context,
+                                                  _formKey,
+                                                  nameOfUnCertificateCont,
+                                                  issuingDateCont,
+                                                  profileCubit,
+                                                  publishedDate,
+                                                  true,
+                                                  customId:
+                                                      certifications![index]
+                                                          .id
+                                                          .toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svg/icons/edit.svg',
+                                              width: 22.w,
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -2909,7 +3360,8 @@ Future<void> viewCertificationsModalAddUpdateBottom(
           : GestureDetector(
               onTap: () {
                 showMyAlertDialog(context, 'Confirm deletion',
-                    alertDialogContent: Text('You are about deleting entry, Are you sure?'),
+                    alertDialogContent:
+                        Text('You are about deleting entry, Are you sure?'),
                     actions: [
                       BlocConsumer<ProfileCubit, ProfileState>(
                         listener: (context, state) {
@@ -2929,8 +3381,12 @@ Future<void> viewCertificationsModalAddUpdateBottom(
                                     TextButton(
                                         onPressed: () {
                                           profileCubit
-                                              .removeCertificate(customId.toString())
-                                              .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                              .removeCertificate(
+                                                  customId.toString())
+                                              .then((value) =>
+                                                  MainCubit.get(context)
+                                                      .getUserInfo()
+                                                      .then((value) {
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   }));
@@ -2959,7 +3415,8 @@ Future<void> viewCertificationsModalAddUpdateBottom(
                 initialDate: new DateTime.now(),
                 firstDate: new DateTime(2020),
                 lastDate: new DateTime(2030));
-            if (pickedDate != null) issuingDateCont.text = pickedDate!.toString();
+            if (pickedDate != null)
+              issuingDateCont.text = pickedDate!.toString();
           }
 
           return Form(
@@ -3041,7 +3498,9 @@ Future<void> viewCertificationsModalAddUpdateBottom(
                                     issueDate: issuingDateCont.text,
                                     customId: customId,
                                     isUpdateNotAdd: isUpdateNotAdd)
-                                .then((value) => MainCubit.get(context).getUserInfo().then((value) {
+                                .then((value) => MainCubit.get(context)
+                                        .getUserInfo()
+                                        .then((value) {
                                       Navigator.pop(context);
                                     }));
                           }
@@ -3117,7 +3576,8 @@ class MyTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: mainStyle(context, 14, isBold: true, color: newDarkGreyColor, textHeight: 1),
+      style: mainStyle(context, 14,
+          isBold: true, color: newDarkGreyColor, textHeight: 1),
     );
   }
 }
@@ -3157,24 +3617,27 @@ class DescriptionText extends StatelessWidget {
 }
 
 class ProfileDynamicButton extends StatelessWidget {
-  const ProfileDynamicButton({
-    Key? key,
-    required this.providerId,
-    this.title,
-    this.subtitle,
-    this.type,
-  }) : super(key: key);
+  const ProfileDynamicButton(
+      {Key? key,
+      required this.providerId,
+      this.title,
+      this.subtitle,
+      this.type,
+      this.providerInfo})
+      : super(key: key);
 
   final String providerId;
   final String? title;
   final String? subtitle;
   final String? type;
+  final dynamic? providerInfo;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        handleNavigate(context, type, providerId);
+        logg("jjjj");
+        handleNavigate(context, type, providerId, providerInfo);
       },
       child: Container(
         width: double.maxFinite,
@@ -3193,7 +3656,10 @@ class ProfileDynamicButton extends StatelessWidget {
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Color.fromRGBO(0, 129, 236, 1), Color.fromRGBO(0, 98, 179, 1)]),
+              colors: [
+                Color.fromRGBO(0, 129, 236, 1),
+                Color.fromRGBO(0, 98, 179, 1)
+              ]),
         ),
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         child: Row(
@@ -3206,10 +3672,13 @@ class ProfileDynamicButton extends StatelessWidget {
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   ),
-                  gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [
-                    Color.fromRGBO(68, 198, 160, 1),
-                    Color.fromRGBO(44, 107, 209, 1),
-                  ]),
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Color.fromRGBO(68, 198, 160, 1),
+                        Color.fromRGBO(44, 107, 209, 1),
+                      ]),
                 ),
                 padding: EdgeInsets.symmetric(
                   horizontal: 30,
@@ -3222,12 +3691,16 @@ class ProfileDynamicButton extends StatelessWidget {
                     Text(
                       title ?? '',
                       textAlign: TextAlign.center,
-                      style: mainStyle(context, 14, color: Colors.white, weight: FontWeight.w900, textHeight: 0.6),
+                      style: mainStyle(context, 14,
+                          color: Colors.white,
+                          weight: FontWeight.w900,
+                          textHeight: 0.6),
                     ),
                     SizedBox(height: 8.h),
                     Text(
                       subtitle ?? '',
-                      style: mainStyle(context, 10, color: Colors.white, weight: FontWeight.w600),
+                      style: mainStyle(context, 10,
+                          color: Colors.white, weight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -3252,11 +3725,13 @@ class ProfileDynamicButton extends StatelessWidget {
     );
   }
 
-  void handleNavigate(BuildContext context, String? type, String? providerId) {
+  void handleNavigate(BuildContext context, String? type, String? providerId,
+      dynamic providerInfo) {
     logg('handling navigate type: $type');
     switch (type) {
       case 'professionals':
-        navigateTo(context, ProviderProfessionalLayout(providerId: providerId!));
+        navigateTo(
+            context, ProviderProfessionalLayout(providerId: providerId!));
 
         /// do something
         break;
@@ -3299,7 +3774,19 @@ class ProfileDynamicButton extends StatelessWidget {
         /// do something
         break;
       case 'articles':
-
+        navigateToWithoutNavBar(
+            context,
+            MyBlogLayout(
+                isMyBlog: false,
+                type: type.toString(),
+                providerId: providerId,
+                providerInfo: providerInfo), 'routeName');
+        // navigateTo(context, MyBlogLayout(
+        //   isMyBlog: false,
+        //   type: type.toString(),
+        //   providerId: providerId,
+        //   providerInfo :providerInfo
+        // ));
         /// do something
         break;
       case '':
@@ -3321,7 +3808,8 @@ class ProfileDynamicButton extends StatelessWidget {
 }
 
 class ProviderProfileMainActions extends StatelessWidget {
-  const ProviderProfileMainActions({Key? key, required this.provider}) : super(key: key);
+  const ProviderProfileMainActions({Key? key, required this.provider})
+      : super(key: key);
 
   final User provider;
 
@@ -3343,10 +3831,7 @@ class ProviderProfileMainActions extends StatelessWidget {
           ],
         ),
         onClick: () {
-
-           navigateTo(
-              context,
-             ProviderProfileAsAGuest(user:provider));
+          navigateTo(context, ProviderProfileAsAGuest(user: provider));
         },
       ),
       ActionItem(
@@ -3480,18 +3965,21 @@ class ProfileSubHeadItem extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: mainStyle(context, 13, color: newDarkGreyColor, isBold: true),
+                    style: mainStyle(context, 13,
+                        color: newDarkGreyColor, isBold: true),
                   ),
                   heightBox(5.h),
                   Text(
                     subTitle,
-                    style: mainStyle(context, 12, color: newDarkGreyColor, weight: FontWeight.w700),
+                    style: mainStyle(context, 12,
+                        color: newDarkGreyColor, weight: FontWeight.w700),
                   ),
                   if (subSubTitle != null) heightBox(8.h),
                   if (subSubTitle != null)
                     Text(
                       subSubTitle!,
-                      style: mainStyle(context, 12, color: newDarkGreyColor, weight: FontWeight.w700),
+                      style: mainStyle(context, 12,
+                          color: newDarkGreyColor, weight: FontWeight.w700),
                     ),
                 ],
               ),
@@ -3517,7 +4005,9 @@ class ProfileSubHeadItem extends StatelessWidget {
 // }
 
 class PublicationSubHeadItem extends StatelessWidget {
-  const PublicationSubHeadItem({Key? key, required this.publication, required this.actionWidget}) : super(key: key);
+  const PublicationSubHeadItem(
+      {Key? key, required this.publication, required this.actionWidget})
+      : super(key: key);
 
   final Publication publication;
   final Widget actionWidget;
@@ -3540,7 +4030,8 @@ class PublicationSubHeadItem extends StatelessWidget {
                   children: [
                     Text(
                       publication.paperTitle,
-                      style: mainStyle(context, 13, color: newDarkGreyColor, isBold: true),
+                      style: mainStyle(context, 13,
+                          color: newDarkGreyColor, isBold: true),
                     ),
                     heightBox(5.h),
                     Text(
@@ -3573,13 +4064,16 @@ class PublicationSubHeadItem extends StatelessWidget {
                     heightBox(5.h),
                     GestureDetector(
                       onTap: () async {
-                        if (!await launchUrl(Uri.parse(publication.publishedUrl))) {
+                        if (!await launchUrl(
+                            Uri.parse(publication.publishedUrl))) {
                           throw 'Could not launch ${publication.publishedUrl}';
                         }
                       },
                       child: Text(
                         publication.publishedUrl,
-                        style: mainStyle(context, 11, decoration: TextDecoration.underline, color: mainBlueColor),
+                        style: mainStyle(context, 11,
+                            decoration: TextDecoration.underline,
+                            color: mainBlueColor),
                       ),
                     ),
                   ],

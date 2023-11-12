@@ -26,3 +26,7 @@ class SuccessGettingMyMessagesDataState extends MessengerState {}
 class ErrorGettingMessagesDataState extends MessengerState {}
 
 class ToggleRecordingState extends MessengerState {}
+
+class LoadingContactState extends MessengerState {}
+class ContactDeviceState extends MessengerState {}
+class ShowSelectedCheckBox extends MessengerState {}

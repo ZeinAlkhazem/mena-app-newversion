@@ -52,7 +52,8 @@ class _SignInScreenState extends State<SignInScreen> {
   void initState() {
     super.initState();
     getSelectedLanguage();
-    print('user before logins : ${MainCubit.get(context).userInfoModel?.data.user.fullName}');
+    print(
+        'user before logins : ${MainCubit.get(context).userInfoModel?.data.user.fullName}');
     MainCubit.get(context).checkPermAndSaveLatLng(context).then((value) {
       MainCubit.get(context).getConfigData().then((value) async {
         MainCubit.get(context).getCountersData();
@@ -62,7 +63,7 @@ class _SignInScreenState extends State<SignInScreen> {
           if (value == true) {
             await HomeScreenCubit.get(context)
               ..changeSelectedHomePlatform(
-                  MainCubit.get(context).configModel!.data.platforms[0].id!)
+                      MainCubit.get(context).configModel!.data.platforms[0].id!)
                   .then((value) async {
                 await MainCubit.get(context)
                     .checkSetUpData()
@@ -71,11 +72,12 @@ class _SignInScreenState extends State<SignInScreen> {
                   // moveToRouteEngine(context);
                 });
               });
-          } else{}
+          } else {}
         });
       });
     });
   }
+
   bool isAnimationPlaying = false;
 
   void playAnimation() {
@@ -83,6 +85,7 @@ class _SignInScreenState extends State<SignInScreen> {
       isAnimationPlaying = true;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -108,9 +111,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   // TODO: implement listener
-                  if (state is AuthErrorState) {
-
-                  }
+                  if (state is AuthErrorState) {}
                 },
                 builder: (context, state) {
                   return Column(
@@ -132,7 +133,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                             heightBox(90.h),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: defaultHorizontalPadding * 2),
                               child: Form(
                                   key: formKey,
                                   child: Column(
@@ -141,20 +143,22 @@ class _SignInScreenState extends State<SignInScreen> {
                                         // onFieldChanged: (text){
                                         //   loginEmail = text;
                                         // },
-                                        onTap: (){
+                                        onTap: () {
                                           setState(() {
                                             hasError = false;
                                             emailValidate(context);
                                           });
                                         },
                                         // fillColor: hasError?Color(0xffF2D5D5):null,
-                                        label: '${getTranslatedStrings(context).userLogin}',
+                                        label:
+                                            '${getTranslatedStrings(context).userLogin}',
                                         labelTextStyle: TextStyle(
-                                          fontSize: 13.0,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'PNfont',
-                                          color: Color(0xff999B9D)),
-                                        autoValidateMode: authCubit.autoValidateMode,
+                                            fontSize: 13.0,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'PNfont',
+                                            color: Color(0xff999B9D)),
+                                        autoValidateMode:
+                                            authCubit.autoValidateMode,
                                         controller: emailCont,
                                         validate: normalInputValidate(context),
                                       ),
@@ -164,14 +168,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                         //   loginPass = text;
                                         // },
                                         // fillColor: hasError?Color(0xffF2D5D5):null,
-                                        label: getTranslatedStrings(context).passwordLogin,
+                                        label: getTranslatedStrings(context)
+                                            .passwordLogin,
                                         labelTextStyle: TextStyle(
                                             fontSize: 13.0,
                                             fontWeight: FontWeight.w600,
                                             fontFamily: 'PNfont',
                                             color: Color(0xff999B9D)),
                                         obscureText: !authCubit.passVisible,
-                                        autoValidateMode: authCubit.autoValidateMode,
+                                        autoValidateMode:
+                                            authCubit.autoValidateMode,
                                         controller: passCont,
                                         // validate: passwordValidate(context),
                                         suffixIcon: GestureDetector(
@@ -196,15 +202,20 @@ class _SignInScreenState extends State<SignInScreen> {
                                       ),
                                       heightBox(0.h),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           TextButton(
                                             onPressed: () {
-                                              authCubit.resetPasswordRequestOtp(context: context);
+                                              authCubit.resetPasswordRequestOtp(
+                                                  context: context);
                                             },
                                             child: Text(
-                                              getTranslatedStrings(context).forgotPassword,
-                                              style: mainStyle(context, 14, color: newDarkGreyColor, weight: FontWeight.w700),
+                                              getTranslatedStrings(context)
+                                                  .forgotPassword,
+                                              style: mainStyle(context, 14,
+                                                  color: newDarkGreyColor,
+                                                  weight: FontWeight.w700),
                                             ),
                                           ),
                                         ],
@@ -212,46 +223,55 @@ class _SignInScreenState extends State<SignInScreen> {
                                       heightBox(35.h),
                                       // state is AuthLoadingState
                                       //     ? const DefaultLoaderGrey()
-                                      //     : 
-                                          
-                                          DefaultButton(
-                                              onClick: () {
-                                                if (emailCont.text.isEmpty ||
-                                                    passCont.text.isEmpty) {
-                                                  logInAlertDialog(context);
-                                                  return;
-                                                }
-                                                setState(() {
-                                                  isLoading = true;
-                                                  Future.delayed(Duration(seconds: 2),(){
-                                                    setState(() {
-                                                      isLoading = false;
-                                                    });
-                                                  });
-                                                });
-                                                // Future.delayed(Duration(seconds: 3),(){
-                                                //   setState(() {
-                                                //     isLoading = false;
-                                                //   });
-                                                // });
-                                                logg('userLogin started');
-                                                authCubit.toggleAutoValidate(true);
-                                                if (formKey.currentState!.validate()) {
-                                                  logg('validate');
-                                                  authCubit.userLogin(
-                                                    email: emailCont.text,
-                                                    pass: passCont.text,
-                                                    context: context,
-                                                  );
-                                                }
-                                              },
+                                      //     :
+
+                                      DefaultButton(
+                                        onClick: () {
+                                          if (emailCont.text.isEmpty ||
+                                              passCont.text.isEmpty) {
+                                            logInAlertDialog(context);
+                                            return;
+                                          }
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+
+                                          // Future.delayed(Duration(seconds: 3),(){
+                                          //   setState(() {
+                                          //     isLoading = false;
+                                          //   });
+                                          // });
+                                          logg('userLogin started');
+                                          authCubit.toggleAutoValidate(true);
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            logg('validate');
+                                            authCubit.userLogin(
+                                              email: emailCont.text,
+                                              pass: passCont.text,
+                                              context: context,
+                                            );
+                                          }
+                                        },
                                         customChild: Center(
-                                          child: isLoading ? SizedBox(width: 20,height:20,child: CircularProgressIndicator(color: Colors.white,))
+                                          child: isLoading
+                                              ? SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Colors.white,
+                                                  ))
                                               : Text(
-                                            getTranslatedStrings(context).login,
-                                            textAlign: TextAlign.center,
-                                            style: mainStyle(context, isBold: true, 14, color: Colors.white),
-                                          ),
+                                                  getTranslatedStrings(context)
+                                                      .login,
+                                                  textAlign: TextAlign.center,
+                                                  style: mainStyle(
+                                                      context,
+                                                      isBold: true,
+                                                      14,
+                                                      color: Colors.white),
+                                                ),
                                         ),
                                         text: "",
                                         // text: getTranslatedStrings(context).login,
@@ -266,7 +286,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       // heightBox(10.h),
 
                       Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: defaultHorizontalPadding*2.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: defaultHorizontalPadding * 2.0),
                         child: DefaultButton(
                           text: getTranslatedStrings(context).signUp,
                           backColor: Colors.green,
@@ -290,7 +311,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
 class AgreeTerms extends StatelessWidget {
   const AgreeTerms({
-    Key? key, required this.byText,
+    Key? key,
+    required this.byText,
   }) : super(key: key);
 
   final String byText;
@@ -303,7 +325,9 @@ class AgreeTerms extends StatelessWidget {
             textHeight: 1.5,
             color: newDarkGreyColor,
             weight: FontWeight.w700,
-            fontFamily: getTranslatedStrings(context).language == 'English' ? 'Roboto' : 'Tajawal'),
+            fontFamily: getTranslatedStrings(context).language == 'English'
+                ? 'Roboto'
+                : 'Tajawal'),
         children: <TextSpan>[
           TextSpan(
             text: ' ${byText}',
@@ -311,16 +335,24 @@ class AgreeTerms extends StatelessWidget {
                 textHeight: 1.5,
                 color: newDarkGreyColor,
                 weight: FontWeight.w700,
-                fontFamily: getTranslatedStrings(context).language == 'English' ? 'Roboto' : 'Tajawal'),          ),
+                fontFamily: getTranslatedStrings(context).language == 'English'
+                    ? 'Roboto'
+                    : 'Tajawal'),
+          ),
           TextSpan(
             text: ' ${getTranslatedStrings(context).youAgree} ',
             style: mainStyle(context, 9.0,
                 textHeight: 1.5,
                 color: newDarkGreyColor,
                 weight: FontWeight.w700,
-                fontFamily: getTranslatedStrings(context).language == 'English' ? 'Roboto' : 'Tajawal'),          ), TextSpan(
+                fontFamily: getTranslatedStrings(context).language == 'English'
+                    ? 'Roboto'
+                    : 'Tajawal'),
+          ),
+          TextSpan(
             text: ' ${getTranslatedStrings(context).termsOfUse} ',
-            style: mainStyle(context, 12.0, weight: FontWeight.w800, color: mainBlueColor, textHeight: 1.5),
+            style: mainStyle(context, 12.0,
+                weight: FontWeight.w800, color: mainBlueColor, textHeight: 1.5),
           ),
           TextSpan(
             text: '\n${getTranslatedStrings(context).and} ',
@@ -328,11 +360,14 @@ class AgreeTerms extends StatelessWidget {
                 textHeight: 1.5,
                 weight: FontWeight.w700,
                 color: newDarkGreyColor,
-                fontFamily: getTranslatedStrings(context).language == 'English' ? 'Roboto' : 'Tajawal'),
+                fontFamily: getTranslatedStrings(context).language == 'English'
+                    ? 'Roboto'
+                    : 'Tajawal'),
           ),
           TextSpan(
             text: getTranslatedStrings(context).privacyPolicy,
-            style: mainStyle(context, 12.0, weight: FontWeight.w800, color: mainBlueColor, textHeight: 1.5
+            style: mainStyle(context, 12.0,
+                weight: FontWeight.w800, color: mainBlueColor, textHeight: 1.5
                 // decoration: TextDecoration.lineThrough
                 ),
           ),
@@ -360,14 +395,14 @@ class ContinueGuestButton extends StatelessWidget {
         children: [
           Text(
             getTranslatedStrings(context).exploreMenaApplication,
-            style: mainStyle(context, 14, color: newDarkGreyColor, weight: FontWeight.w700),
+            style: mainStyle(context, 14,
+                color: newDarkGreyColor, weight: FontWeight.w700),
           ),
         ],
       ),
     );
   }
 }
-
 
 // class SVGAnimationWidget extends StatefulWidget {
 //   @override

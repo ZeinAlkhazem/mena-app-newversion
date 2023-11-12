@@ -193,36 +193,50 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           radius: 30.sp,
                           isOnline: true,
                           customRingColor: mainBlueColor,
+                          onlyView: false,
                           pictureUrl:
                           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
                       widthBox(10.w),
-                      Expanded(
-                        // padding: const EdgeInsets.all(8.0),
-                        child:TextField(
-                          controller: titleController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Add Title",
-                            fillColor: Colors.white,
-                            hintStyle: TextStyle(
-                                fontSize: 18.sp,
+                      Container(
+                        padding: EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                          Text(
+                            "Add Title",
+                            style: TextStyle(
+                                fontSize: 16.sp,
                                 fontFamily: 'PNfont',
                                 color: Colors.white,
-                                fontWeight: FontWeight.w500),
+                                fontWeight: FontWeight.bold),
                           ),
-                          style: TextStyle(
-                              fontSize: 18.sp,
-                              fontFamily: 'PNfont',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
+                            widthBox(5.w),
+                            SvgPicture.asset(
+                              "assets/new_icons/Write_title.svg",
+                              fit: BoxFit.contain,
+                              width: 20,
+                            )
+                            // TextField(
+                            //   style: TextStyle(
+                            //     fontSize: 18.sp,
+                            //     fontFamily: 'PNfont',
+                            //     // color: Colors.white,
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            //   decoration: InputDecoration(
+                            //     border: InputBorder.none, // Remove borders
+                            //     enabledBorder: InputBorder.none, // Remove borders
+                            //     focusedBorder: InputBorder.none, // Remove borders
+                            //     hintText: "Add Title", // Placeholder text
+                            //     hintStyle: TextStyle(
+                            //       fontSize: 18.sp,
+                            //       fontFamily: 'PNfont',
+                            //       color: Colors.white.withOpacity(0.5), // Placeholder text color
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
                         ),
                       ),
-                        // widthBox(5.w),
-                        // SvgPicture.asset(
-                        //   "assets/new_icons/Write_title.svg",
-                        //   fit: BoxFit.contain,
-                        //   width: 20,
-                        // ),
                     ],
                   ),
                 ),
@@ -297,74 +311,71 @@ class _CreateLivePageState extends State<CreateLivePage> {
                     ],
                   ),
                 ),
-                heightBox(280.h),
+                heightBox(260.h),
 
                 /// option buttons
                 Wrap(
                   children: [
-                    Row(
+                    Column(
                       children: [
-                        widthBox(55.w),
-                        LiveOptionButton(
-                            title: "Flip",
-                            iconSize: 47,
-                            hieght: 3,
-                            icon: "assets/new_icons/Flip.svg",
-                            btnClick: () async {
-                              startCamera();
-                            }),
-                        widthBox(15.w),
-                        LiveOptionButton(
-                            title: "Poll",
-                            iconSize: 55,
-                            hieght: 0,
-                            icon: "assets/new_icons/Add_poll.svg",
-                            btnClick: () {}),
-                        widthBox(15.w),
-                        LiveOptionButton(
-                            title: "Product",
-                            iconSize: 44,
-                            top: 6,
-                            hieght: 6,
-                            icon: "assets/new_icons/Add_Producat.svg",
-                            btnClick: () {}),
-                        widthBox(15.w),
-                        LiveOptionButton(
-                            title: "Link",
-                            iconSize: 32,
-                            hieght: 11,
-                            top: 11,
-                            icon: "assets/new_icons/Add_Link.svg",
-                            btnClick: () {}),
-                        widthBox(15.w),
-                        LiveOptionButton(
-                            title: "Share",
-                            iconSize: 28,
-                            top: 15,
-                            hieght: 11,
-                            icon: "assets/new_icons/Share_icon_white.svg",
-                            btnClick: () {}),
-                      ],
-                    ),
-                    heightBox(20.h),
-                    Row(
-                      children: [
-                        widthBox(60.w),
-                        LiveOptionButton(
-                            title: "Setting",
-                            iconSize: 34,
-                            top: 8,
-                            hieght: 15,
-                            icon: "assets/new_icons/Device_Camera.svg",
-                            btnClick: () {}),
-                        widthBox(8.w),
-                        LiveOptionButton(
-                            title: "Live Center",
-                            iconSize: 24,
-                            top: 8,
-                            hieght: 12,
-                            icon: "assets/new_icons/home-wifi-svgrepo-com.svg",
-                            btnClick: () {}),
+                        Row(
+                          children: [
+                            widthBox(60.w),
+                            LiveOptionButton(
+                                title: "Flip",
+                                iconSize: 48,
+                                icon: "assets/new_icons/Flip.svg",
+                                btnClick: () async {
+                                  startCamera();
+                                }),
+                            widthBox(25.w),
+                            LiveOptionButton(
+                                title: "Poll",
+                                iconSize: 52,
+                                icon: "assets/new_icons/Add_poll.svg",
+                                btnClick: () {}),
+                            widthBox(25.w),
+                            LiveOptionButton(
+                                title: "Product",
+                                iconSize: 50,
+                                hieght: 9,
+                                icon: "assets/new_icons/Add_Producat.svg",
+                                btnClick: () {}),
+                            widthBox(25.w),
+                            LiveOptionButton(
+                                title: "Link",
+                                iconSize: 34,
+                                hieght: 20,
+                                icon: "assets/new_icons/Add_Link.svg",
+                                btnClick: () {}),
+                          ],
+                        ),
+                        heightBox(12.h),
+                        Row(
+                          children: [
+                            widthBox(65.w),
+                            LiveOptionButton(
+                                title: "Share",
+                                iconSize: 25,
+                                hieght: 15,
+                                icon: "assets/new_icons/Share_icon_white.svg",
+                                btnClick: () {}),
+                            widthBox(25.w),
+                            LiveOptionButton(
+                                title: "Setting",
+                                iconSize: 35,
+                                hieght: 22,
+                                icon: "assets/new_icons/Device_Camera.svg",
+                                btnClick: () {}),
+                            widthBox(15.w),
+                            LiveOptionButton(
+                                title: "Live Center",
+                                iconSize: 25,
+                                hieght: 15,
+                                icon: "assets/new_icons/home-wifi-svgrepo-com.svg",
+                                btnClick: () {}),
+                          ],
+                        ),
                       ],
                     ),
                   ],
@@ -383,30 +394,159 @@ class _CreateLivePageState extends State<CreateLivePage> {
                 heightBox(15.h),
                 Wrap(
                   children: [
-                    Row(
-                      children: [
-                        widthBox(60.w),
-                        LiveOptionButtonExtra(
-                            title: "Voice hub",
-                            iconSize: 20,
-                            // width: 15,
-                            icon: "assets/new_icons/voice-square-svgrepo-com.svg",
-                            btnClick: () {}),
-                        widthBox(40.w),
-                        LiveOptionButtonExtra(
-                            title: "Device camera",
-                            iconSize: 20,
-                            // width: 15,
-                            icon: "assets/new_icons/Device_Camera.svg",
-                            btnClick: () {}),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          widthBox(60.w),
+                          LiveOptionButtonExtra(
+                              title: "Voice hub",
+                              iconSize: 20,
+                              // width: 15,
+                              icon: "assets/new_icons/voice-square-svgrepo-com.svg",
+                              btnClick: () {}),
+                          widthBox(40.w),
+                          LiveOptionButtonExtra(
+                              title: "Device camera",
+                              iconSize: 20,
+                              // width: 15,
+                              icon: "assets/new_icons/Device_Camera.svg",
+                              btnClick: () {}),
+                        ],
+                      ),
                     ),
                   ],
                 ),
+                // Container(
+                //   padding: EdgeInsets.only(left: 50),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       LiveOptionButtonExtra(
+                //           title: "Voice hub",
+                //           iconSize: 25,
+                //           // width: 15,
+                //           icon: "assets/new_icons/voice-square-svgrepo-com.svg",
+                //           btnClick: () {}),
+                //       LiveOptionButtonExtra(
+                //           title: "Device camera",
+                //           iconSize: 25,
+                //           // width: 15,
+                //           icon: "assets/new_icons/Device_Camera.svg",
+                //           btnClick: () {}),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ],
         ),
+        // appBar: defaultAppBarForLive(
+        //   context,
+        // ),
+        // body: Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
+        //   child: Form(
+        //       key: createLiveCubit.formKey,
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: [
+        //           SingleChildScrollView(
+        //             child: Column(children: [
+        //               heightBox(20.h),
+        //               AvatarForLive(
+        //                   radius: 40.sp,
+        //                   isOnline: true,
+        //                   customRingColor: mainBlueColor,
+        //                   pictureUrl:
+        //                       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"),
+        //               heightBox(20.h),
+        //               LiveInputField(
+        //                 label: 'Title',
+        //                 controller: createLiveCubit.title,
+        //                 validate: normalInputValidate(context,
+        //                     customText: 'It cannot be empty'),
+        //               ),
+        //               heightBox(20.h),
+        //               LiveInputField(
+        //                 label: 'Target',
+        //                 controller: createLiveCubit.target,
+        //                 validate: normalInputValidate(context,
+        //                     customText: 'It cannot be empty'),
+        //               ),
+        //               heightBox(20.h),
+        //               LiveInputField(
+        //                 label: 'Goal',
+        //                 controller: createLiveCubit.goal,
+        //                 validate: normalInputValidate(context,
+        //                     customText: 'It cannot be empty'),
+        //               ),
+        //               heightBox(40.h),
+        //               BlocConsumer<CreateLiveCubit, CreateLiveState>(
+        //                   listener: (context, state) {},
+        //                   builder: (context, state) {
+        //                     return MoreOptionRow(
+        //                       title: "Record live streams",
+        //                       onChanged: (value) =>
+        //                           createLiveCubit.onPressRecordlive(value),
+        //                       value: createLiveCubit.valueRecordlive,
+        //                     );
+        //                   }),
+        //               heightBox(20.h),
+        //               BlocConsumer<CreateLiveCubit, CreateLiveState>(
+        //                   listener: (context, state) {},
+        //                   builder: (context, state) {
+        //                     return MoreOptionRow(
+        //                       title: "Share My live on my feed page",
+        //                       onChanged: (value) => createLiveCubit
+        //                           .onPressShareMyLive(context, value),
+        //                       value: createLiveCubit.valueShareMyLive,
+        //                     );
+        //                   }),
+        //             ]),
+        //           ),
+        //           const Spacer(),
+        //           Row(
+        //             crossAxisAlignment: CrossAxisAlignment.center,
+        //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //             children: [
+        //               ElevatedButton(
+        //                 style: ElevatedButton.styleFrom(
+        //                     elevation: 0, backgroundColor: Colors.white),
+        //                 onPressed: () => navigateTo(
+        //                     context, const AddPeopleToLiveScreenPage()),
+        //                 child: SvgPicture.asset(
+        //                   'assets/svg/user_add.svg',
+        //                   height: Responsive.isMobile(context) ? 28.w : 12.w,
+        //                 ),
+        //               ),
+        //               DefaultButton(
+        //                 width: 150.w,
+        //                 text: "Star Streaming",
+        //                 onClick: () {
+        //                   // createLiveCubit.onPressStarStreaming(context);
+        //                   createLiveCubit.createLive();
+        //                 },
+        //               ),
+        //               ElevatedButton(
+        //                 style: ElevatedButton.styleFrom(
+        //                     elevation: 0, backgroundColor: Colors.white),
+        //                 onPressed: () {
+        //                   createLiveCubit.onPressLinked(context);
+        //                 },
+        //                 child: SvgPicture.asset(
+        //                   'assets/svg/linked_outline.svg',
+        //                   height: Responsive.isMobile(context) ? 28.w : 12.w,
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //           heightBox(20.h),
+        //         ],
+        //       )),
+        // ),
       ),
     );
   }

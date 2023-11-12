@@ -189,7 +189,7 @@ class LiveByCategoryItem {
       LiveByCategoryItem(
         id: json["id"],
         image: json["image"],
-        liveNowCategory: json["category"] != null ? LiveNowCategory.fromJson(json["category"]) : null,
+        liveNowCategory: LiveNowCategory.fromJson(json["category"]),
         title: json["title"],
         goal: json["goal"],
         topic: json["topic"],

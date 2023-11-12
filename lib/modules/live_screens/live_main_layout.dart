@@ -28,7 +28,7 @@ class LiveMainLayout extends StatelessWidget {
     liveCubit.changeCurrentView(true);
     liveCubit.getLivesNowAndUpcomingCategories(filter: 'live');
     LiveCategories? categories = liveCubit.nowLiveCategoriesModel;
-   
+
     logg('changing layouts : ${categories?.liveCategories}');
     return Padding(
       padding: EdgeInsets.only(bottom: rainBowBarBottomPadding(context)),
@@ -42,16 +42,15 @@ class LiveMainLayout extends StatelessWidget {
             builder: (context, state) {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: rainBowBarHeight),
+
                 ///rainbow padding for scroll
                 child: Column(
                   children: [
                     Expanded(
                         child: Column(
                       children: [
-                       
                         heightBox(7.h),
-                        Expanded(
-                            child: const LiveNowView())
+                        Expanded(child: const LiveNowView())
                       ],
                     )),
                   ],
@@ -77,7 +76,8 @@ class _LiveNowViewState extends State<LiveNowView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    LiveCubit.get(context).getLivesNowAndUpcoming(filter:'live',categoryId:'');
+    LiveCubit.get(context)
+        .getLivesNowAndUpcoming(filter: 'live', categoryId: '');
     if (LiveCubit.get(context).selectedNowLiveCat != null) {
       LiveCubit.get(context).getLivesNowAndUpcoming(
           filter: 'live',
@@ -90,7 +90,6 @@ class _LiveNowViewState extends State<LiveNowView> {
 
   @override
   Widget build(BuildContext context) {
-    
     var liveCubit = LiveCubit.get(context)
       ..getLivesNowAndUpcomingCategories(filter: 'live');
     return BlocConsumer<LiveCubit, LiveState>(
@@ -135,7 +134,6 @@ class _LiveNowViewState extends State<LiveNowView> {
                       childWidget: Container(),
                     ),
                   ))
-
           ],
         );
       },

@@ -25,7 +25,6 @@ dependencies:
   custom_marker: ^1.0.0
   dio: ^5.2.0
   dotted_border: ^2.0.0+1
-  dropdown_button2: ^2.1.2
   easy_image_viewer: ^1.2.0
   equatable: ^2.0.5
   extended_text: ^11.1.0
@@ -41,7 +40,6 @@ dependencies:
   flutter_cupertino_date_picker_fork: 1.0.7
   flutter_datetime_picker_plus: ^2.1.0
   flutter_holo_date_picker: ^1.1.3
-  flutter_html: null
   flutter_launcher_icons: ^0.11.0
   flutter_localizations:
     sdk: flutter
@@ -50,9 +48,7 @@ dependencies:
   flutter_slidable: ^2.0.0
   flutter_sound: ^9.2.13
   flutter_staggered_grid_view: ^0.6.2
-  flutter_summernote: ^1.1.1
   flutter_svg: ^1.0.1
-  flutter_switch: ^0.3.2
   flutter_webrtc: ^0.9.34
   fluttertoast: ^8.2.2
   geolocator: ^9.0.2
@@ -61,20 +57,16 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   html_editor_enhanced: ^2.5.1
-  http: ^0.13.5
   image_picker: ^0.8.6
   intl: ^0.18.1
   intl_phone_number_input: ^0.7.0+2
   json_store: ^2.0.0
   just_audio: ^0.9.31
-  keyboard_emoji_picker: ^1.0.1
-  like_button: ^2.0.5
   lottie: ^2.2.0
   m_toast: ^0.1.5
   map_launcher: ^2.5.0+1
   multi_select_flutter: ^4.1.2
   outline_gradient_button: ^2.0.1+1
-  package_info_plus: ^3.1.2
   image_cropper: ^3.0.3
 
   get:
@@ -91,10 +83,7 @@ dependencies:
   preload_page_view: ^0.2.0
   pull_down_button: ^0.1.0-beta.6
   pull_to_refresh: ^2.0.0
-  quill_html_editor: null
-  screen_recorder: ^0.2.0
   scrollable_positioned_list: ^0.3.5
-  share_plus: ^6.0.0
   shared_preferences: ^2.0.15
   socket_io_client: ^2.0.3+1
   spinner_date_time_picker: ^0.0.8
@@ -102,13 +91,8 @@ dependencies:
   staggered_grid_view_flutter: ^0.0.4
   syncfusion_flutter_pdfviewer: ^21.1.38
   http: ^0.13.5
-  custom_marker: ^1.0.0
-  map_launcher: ^2.5.0+1
-  outline_gradient_button: ^2.0.1+1
   dropdown_button2: ^2.1.2
   flutter_switch: ^0.3.2
-  add_2_calendar: ^3.0.1
-  socket_io_client: ^2.0.3+1
   flutter_html:
   flutter_summernote: ^1.1.1
   #  html: ^0.15.4
@@ -117,34 +101,24 @@ dependencies:
   #  maps_launcher: ^2.2.0
   #  place_picker: ^0.10.0
   keyboard_emoji_picker: ^1.0.1
-  html_editor_enhanced: ^2.5.1
   whiteboard: ^0.0.2
   webview_flutter: ^4.2.2
   screen_recorder: ^0.2.0
-  m_toast: ^0.1.5
   like_button: ^2.0.5
   share_plus: ^6.0.0
-  flutter_webrtc: ^0.9.34
   quill_html_editor:
-  fluttertoast: ^8.2.2
   # flutter_quill:
   package_info_plus: ^3.1.2
-  camera: ^0.9.7+1
   sdp_transform: ^0.3.2
   table_calendar: ^3.0.9
   transparent_image: ^2.0.0
   url_launcher: ^6.1.10
   video_player: ^2.4.7
   visibility_detector: ^0.3.3
-  webview_flutter: ^4.2.2
-  whiteboard: ^0.0.2
-
-
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-#  flutter_launcher_icons: "^0.10.0"
 flutter_icons:
   android: "launcher_icon"
   ios: true

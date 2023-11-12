@@ -102,7 +102,7 @@ class SelectorButton extends StatelessWidget {
     return GestureDetector(
       onTap: onClick,
       child: Container(
-        height: customHeight ??30.h,
+        height: customHeight ?? 30.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(customRadius ?? 42.sp),
@@ -328,6 +328,7 @@ class LiveProfileBubble extends StatelessWidget {
     required this.requiredWidth,
     required this.name,
     required this.liveTitle,
+    this.roomId,
     required this.liveGoal,
     required this.liveTopic,
     required this.liveId,
@@ -341,6 +342,7 @@ class LiveProfileBubble extends StatelessWidget {
   final String liveTopic;
   final String? liveId;
   final String thumbnailUrl;
+  final String? roomId;
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +355,8 @@ class LiveProfileBubble extends StatelessWidget {
               onTap: () {
                 liveId == null
                     ? null
-                    : navigateToWithoutNavBar(context, WatcherScreen(), '',
+                    : navigateToWithoutNavBar(
+                        context, WatcherScreen(remoteRoomId: roomId), '',
                         onBackToScreen: () {
                         logg('khgkajscn');
 
@@ -852,7 +855,7 @@ class LiveContainerLiveNow extends StatelessWidget {
       onTap: () {
         navigateToWithoutNavBar(
           context,
-          WatcherScreen(),
+          WatcherScreen(remoteRoomId: liveItem.roomId),
           '',
           onBackToScreen: () {
             logg('ksahfkjlsnkxl');

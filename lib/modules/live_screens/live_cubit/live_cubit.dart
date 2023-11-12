@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mena/models/api_model/live_info_model.dart';
+import 'package:mena/modules/create_live/widget/live_topic.dart';
 import 'package:mena/modules/live_screens/meetings/start_meeting_layout.dart';
 import 'package:meta/meta.dart';
 
@@ -35,7 +37,8 @@ class LiveCubit extends Cubit<LiveState> {
   Repeat? pickedMeetingRepeat;
   String passCode = '0';
   Repeat? emptyTimeZoneForViewOnLeft;
-
+  String selectedTopic = "Add Topic";
+  int? selectedTopicId;
   //
   bool allowParticipantToJoin = false;
   bool enableAutoMeetingREcord = false;
@@ -52,9 +55,6 @@ class LiveCubit extends Cubit<LiveState> {
   bool isMyMeeting = true;
 
   ///
-
-  String selectedTopic = "Add Topic";
-  int? selectedTopicId;
 
   String selectedMeetingTypeId = '-1';
 
@@ -166,9 +166,14 @@ class LiveCubit extends Cubit<LiveState> {
   }
 
   void changeSelectedNowLiveCat(String? val) {
-    nowLivesModel!.data.livesByCategory.livesByCategoryItem = [];
+    nowLivesModel != null
+        ? nowLivesModel!.data.livesByCategory.livesByCategoryItem = []
+        : [];
     emit(CurrentViewChanged());
     if (selectedNowLiveCat == val) {
+      selectedNowLiveCat = null;
+      getLivesNowAndUpcoming(filter: 'live', categoryId: '');
+    } else if (val == null) {
       selectedNowLiveCat = null;
       getLivesNowAndUpcoming(filter: 'live', categoryId: '');
     } else {
@@ -323,7 +328,7 @@ class LiveCubit extends Cubit<LiveState> {
   Future<LiveCategory?> goLiveAndGetLiveFromServer({
     required String title,
     required String goal,
-    required String topic,
+    required int? topic,
     required String liveNowCategoryId,
   }) async {
     goLiveModel = null;
@@ -382,6 +387,41 @@ class LiveCubit extends Cubit<LiveState> {
       logg(error.toString());
 
       emit(ErrorUpdatedLiveStatus());
+    });
+  }
+
+  LiveInfoModel? liveInfoModel;
+  getLiveInfo() async {
+    await MainDioHelper.getData(url: getLivesInfo, query: {})
+        .then((value) async {
+      logg('got live info ');
+      logg("${value.toString()}");
+      liveInfoModel = LiveInfoModel.fromJson(value.data);
+    }).catchError((error, stack) {
+      /// read from hive
+      ///
+      ///
+      ///
+      logg('an error occurred ---- got user info');
+      // logg("${error.toString()}");
+      // logg("${stack.toString()}");
+    });
+  }
+
+  void onPressChooseLiveTopic(BuildContext context) {
+    getLiveInfo().then((e) {
+      List<Topic> liveTopic = liveInfoModel!.data.topics;
+      showTopicBottomSheet(
+          context: context,
+          title: "Add Topic:",
+          description:
+              'Topics will help your LIVE videos reach more viewers and the viewers can use topics to find your LIVE videos, more easily.',
+          body: BlocConsumer<LiveCubit, LiveState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return LiveTopic(
+                    topics: liveTopic, selectedTopic: selectedTopic);
+              }));
     });
   }
 

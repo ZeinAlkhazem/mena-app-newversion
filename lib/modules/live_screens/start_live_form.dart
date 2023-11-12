@@ -67,7 +67,8 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                 initialDate: new DateTime.now(),
                 firstDate: new DateTime(2020),
                 lastDate: new DateTime(2030));
-            if (pickedDate != null) publishedDateCont.text = pickedDate.toString();
+            if (pickedDate != null)
+              publishedDateCont.text = pickedDate.toString();
           }
 
           return SafeArea(
@@ -84,7 +85,11 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                       isOnline: true,
                       radius: 44.sp,
                       customRingColor: mainBlueColor,
-                      pictureUrl: MainCubit.get(context).userInfoModel!.data.user.personalPicture,
+                      pictureUrl: MainCubit.get(context)
+                          .userInfoModel!
+                          .data
+                          .user
+                          .personalPicture,
                     ),
                     heightBox(33.h),
                     Expanded(
@@ -95,7 +100,8 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                             ///
                             liveCubit.nowLiveCategoriesModel == null
                                 ? SizedBox()
-                                : liveCubit.nowLiveCategoriesModel!.liveCategories.isEmpty
+                                : liveCubit.nowLiveCategoriesModel!
+                                        .liveCategories.isEmpty
                                     ? SizedBox()
                                     : DropdownButtonFormField2<String>(
                                         decoration: InputDecoration(
@@ -104,18 +110,25 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                                           filled: true,
                                           hintText: '-',
                                           // floatingLabelBehavior: floatingLabelBehavior,
-                                          hintStyle:
-                                              mainStyle(context, 12, color: newDarkGreyColor, weight: FontWeight.w700),
+                                          hintStyle: mainStyle(context, 12,
+                                              color: newDarkGreyColor,
+                                              weight: FontWeight.w700),
                                           contentPadding: EdgeInsets.symmetric(
-                                              vertical: Responsive.isMobile(context) ? 10 : 15.0, horizontal: 0.0),
+                                              vertical:
+                                                  Responsive.isMobile(context)
+                                                      ? 10
+                                                      : 15.0,
+                                              horizontal: 0.0),
                                           border: const OutlineInputBorder(),
                                           // suffixIcon: Padding(
                                           //   padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                                           //   child: suffixIcon,
                                           // ),
-                                          suffixIconConstraints: BoxConstraints(maxHeight: 30.w),
-                                          labelStyle:
-                                              mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+                                          suffixIconConstraints:
+                                              BoxConstraints(maxHeight: 30.w),
+                                          labelStyle: mainStyle(context, 13,
+                                              color: newDarkGreyColor,
+                                              weight: FontWeight.w700),
                                           // labelText: label,
                                           // label: Text( 'sakldkl'),
                                           // Padding(
@@ -124,35 +137,66 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                                           // ),
                                           fillColor: newLightGreyColor,
                                           focusColor: newLightGreyColor,
-                                          focusedErrorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: Colors.red, width: 1),
-                                              borderRadius: BorderRadius.all(Radius.circular(defaultRadiusVal))),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.red,
+                                                      width: 1),
+                                                  borderRadius: BorderRadius
+                                                      .all(Radius.circular(
+                                                          defaultRadiusVal))),
                                           errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: Colors.red.withOpacity(0.6), width: 1),
-                                              borderRadius: BorderRadius.all(Radius.circular(defaultRadiusVal))),
+                                              borderSide: BorderSide(
+                                                  color: Colors.red
+                                                      .withOpacity(0.6),
+                                                  width: 1),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      defaultRadiusVal))),
 
                                           focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: mainBlueColor, width: 1.0),
-                                              borderRadius: BorderRadius.all(Radius.circular(defaultRadiusVal))),
+                                              borderSide: BorderSide(
+                                                  color: mainBlueColor,
+                                                  width: 1.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      defaultRadiusVal))),
 
                                           enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: mainBlueColor.withOpacity(0.7), width: 1),
-                                              borderRadius: BorderRadius.all(Radius.circular(defaultRadiusVal))),
+                                              borderSide: BorderSide(
+                                                  color: mainBlueColor
+                                                      .withOpacity(0.7),
+                                                  width: 1),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      defaultRadiusVal))),
 
                                           disabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: mainBlueColor.withOpacity(0.7), width: 1),
-                                              borderRadius: BorderRadius.all(Radius.circular(defaultRadiusVal))),
+                                              borderSide: BorderSide(
+                                                  color: mainBlueColor
+                                                      .withOpacity(0.7),
+                                                  width: 1),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      defaultRadiusVal))),
                                         ),
                                         isExpanded: true,
                                         hint: Text('Select livestream Category',
                                             style: mainStyle(context, 13,
-                                                color: newDarkGreyColor, weight: FontWeight.w700)),
-                                        items: liveCubit.nowLiveCategoriesModel!.liveCategories
-                                            .map((item) => DropdownMenuItem<String>(
+                                                color: newDarkGreyColor,
+                                                weight: FontWeight.w700)),
+                                        items: liveCubit.nowLiveCategoriesModel!
+                                            .liveCategories
+                                            .map((item) =>
+                                                DropdownMenuItem<String>(
                                                   value: item.id.toString(),
                                                   child: Text(item.name,
-                                                      style: mainStyle(context, 13,
-                                                          color: newDarkGreyColor, weight: FontWeight.w700)),
+                                                      style: mainStyle(
+                                                          context, 13,
+                                                          color:
+                                                              newDarkGreyColor,
+                                                          weight:
+                                                              FontWeight.w700)),
                                                 ))
                                             .toList(),
                                         validator: (value) {
@@ -164,14 +208,16 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                                         value: liveCubit.selectedStartLiveCat,
                                         onChanged: (value) {
                                           //Do something when changing the item if you want.
-                                          liveCubit.changeSelectedStartLiveCat(value.toString());
+                                          liveCubit.changeSelectedStartLiveCat(
+                                              value.toString());
                                         },
                                         onSaved: (value) {
                                           // selectedValue = value.toString();
                                         },
                                         buttonStyleData: const ButtonStyleData(
                                           // height: 60,
-                                          padding: EdgeInsets.only(left: 0, right: 10),
+                                          padding: EdgeInsets.only(
+                                              left: 0, right: 10),
                                         ),
                                         iconStyleData: const IconStyleData(
                                           icon: Icon(
@@ -182,7 +228,8 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                                         ),
                                         dropdownStyleData: DropdownStyleData(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(defaultRadiusVal),
+                                            borderRadius: BorderRadius.circular(
+                                                defaultRadiusVal),
                                           ),
                                         ),
                                       ),
@@ -218,7 +265,8 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                               readOnly: true,
                               onTap: () {
                                 _selectDate();
-                                FocusScope.of(context).requestFocus(new FocusNode());
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
                               },
                               suffixIcon: SvgPicture.asset(
                                 'assets/svg/icons/calendar.svg',
@@ -244,18 +292,23 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                                       return SpinnerDateTimePicker(
                                         initialDateTime: now,
                                         maximumDate: now.add(Duration(days: 7)),
-                                        minimumDate: now.subtract(Duration(days: 1)),
+                                        minimumDate:
+                                            now.subtract(Duration(days: 1)),
                                         mode: CupertinoDatePickerMode.time,
                                         use24hFormat: true,
                                         didSetTime: (value) {
                                           logg("did set time: $value");
-                                          logg("picked time: ${getFormattedDateOnlyTime(value)}");
+                                          logg(
+                                              "picked time: ${getFormattedDateOnlyTime(value)}");
                                           liveCubit.updateTempFromTime(value);
-                                          timeCont.text = liveCubit.pickedLiveTime.toString();
+                                          timeCont.text = liveCubit
+                                              .pickedLiveTime
+                                              .toString();
                                         },
                                       );
                                     });
-                                FocusScope.of(context).requestFocus(new FocusNode());
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
                               },
                               suffixIcon: SvgPicture.asset(
                                 'assets/svg/icons/alarm clock time.svg',
@@ -276,10 +329,13 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                               onTap: () async {
                                 final ImagePicker _picker = ImagePicker();
                                 // Pick an image
-                                final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                                final XFile? image = await _picker.pickImage(
+                                    source: ImageSource.gallery);
                                 liveCubit.updateThumbnailFile(image);
                                 pickedThumbCont.text =
-                                    liveCubit.thumbnailFile!.path.substring(liveCubit.thumbnailFile!.path.length - 10);
+                                    liveCubit.thumbnailFile!.path.substring(
+                                        liveCubit.thumbnailFile!.path.length -
+                                            10);
                               },
                               suffixIcon: SvgPicture.asset(
                                 'assets/svg/icons/picture_plus_outline_28.svg',
@@ -322,6 +378,7 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                       ),
                     ),
                     heightBox(10.h),
+
                     ///
                     ///
                     state is GettingGoLiveAndGetLiveFromServer
@@ -334,21 +391,30 @@ class _StartLiveFormLayoutState extends State<StartLiveFormLayout> {
                                     .goLiveAndGetLiveFromServer(
                                   title: titleController.text,
                                   goal: goalController.text,
-                                  topic: topicController.text,
-                                  liveNowCategoryId: liveCubit.selectedStartLiveCat ?? '',
+                                  topic: 0,
+                                  liveNowCategoryId:
+                                      liveCubit.selectedStartLiveCat ?? '',
                                 )
                                     .then((value) async {
                                   if (liveCubit.goLiveModel != null) {
-                                    Navigator.of(context, rootNavigator: true).pop();
-                                    logg('room id: ${liveCubit.goLiveModel!.data.roomId.toString()}');
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                    logg(
+                                        'room id: ${liveCubit.goLiveModel!.data.roomId.toString()}');
                                     await navigateToWithoutNavBar(
                                         context,
                                         LivePage(
-                                          liveID: liveCubit.goLiveModel!.data.roomId.toString(),
+                                          liveID: liveCubit
+                                              .goLiveModel!.data.roomId
+                                              .toString(),
                                           isHost: true,
-                                          liveTitle: liveCubit.goLiveModel!.data.title,
-                                          liveGoal: liveCubit.goLiveModel!.data.goal,
-                                          liveTopic: liveCubit.goLiveModel!.data.topic,
+                                          liveTitle:
+                                              liveCubit.goLiveModel!.data.title,
+                                          liveGoal:
+                                              liveCubit.goLiveModel!.data.goal,
+                                          liveTopic:
+                                              liveCubit.goLiveModel!.data.topic,
+
                                           /// audience false
                                           /// true for host
                                           /// this will change the layout view behaviour

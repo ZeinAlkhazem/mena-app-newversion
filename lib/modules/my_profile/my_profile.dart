@@ -131,7 +131,7 @@ class CustomPullDownItem extends PullDownMenuEntry {
         ),
       ),
     );
-    throw UnimplementedError();
+
   }
 
   @override
@@ -172,7 +172,7 @@ class MyPullDownButton extends StatelessWidget {
     return PullDownButton(
       itemBuilder: (context) => items
           .map((e) => CustomPullDownItem(
-                    onTap:
+                            onTap:
                         // jumpToCategory(widget.buttons.indexOf(e));
                         e.onClickCallback,
                     title: e.title,
@@ -192,7 +192,7 @@ class MyPullDownButton extends StatelessWidget {
       backgroundColor: Colors.white.withOpacity(0.75),
       offset: customOffset ?? const Offset(-2, 1),
       applyOpacity: true,
-      widthConfiguration: PullDownMenuWidthConfiguration(customWidth ?? 0.77.sw),
+      widthConfiguration: PullDownMenuWidthConfiguration(customWidth ?? 0.77.sw,),
       buttonBuilder: (context, showMenu) => GestureDetector(
         onTap: showMenu,
         child: customButtonWidget ??

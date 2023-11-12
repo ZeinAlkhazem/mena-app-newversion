@@ -8,9 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_svg/svg.dart';
-
-// import 'package:gallery_picker/gallery_picker.dart';
-// import 'package:gallery_picker/models/media_file.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mena/core/constants/constants.dart';
@@ -18,7 +15,7 @@ import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
-import 'package:mena/modules/messenger/msngr_cubit/messenger_cubit.dart';
+import 'package:mena/modules/messenger/cubit/messenger_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';

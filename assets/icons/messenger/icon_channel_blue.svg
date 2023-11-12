@@ -1,0 +1,23 @@
+<svg width="800" height="800" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" overflow="hidden">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_iconCarrier">
+        <path
+            d="M8.5 17.5 5.5 20 5.5 15.5 2.46154 15.5C2.07391 15.5 1.70217 15.346 1.42807 15.0719 1.15398 14.7978 1 14.4261 1 14.0385L1 2.46154C1 2.07391 1.15398 1.70217 1.42807 1.42807 1.70217 1.15398 2.07391 1 2.46154 1L18.5385 1C18.9261 1 19.2978 1.15398 19.5719 1.42807 19.846 1.70217 20 2.07391 20 2.46154L20 6.8119"
+            stroke="#4273B8" stroke-width="1.50005" stroke-linecap="round"
+            stroke-linejoin="round" />
+        <path d="M5 5 16 5" stroke="#4273B8" stroke-width="1.50005" stroke-linecap="round"
+            stroke-linejoin="round" />
+        <path d="M5 9 10 9" stroke="#4273B8" stroke-width="1.50005" stroke-linecap="round"
+            stroke-linejoin="round" />
+        <path
+            d="M17 19C19.2091 19 21 17.2091 21 15 21 12.7909 19.2091 11 17 11 14.7909 11 13 12.7909 13 15 13 17.2091 14.7909 19 17 19Z"
+            stroke="#4273B8" stroke-width="1.50005" stroke-linecap="round"
+            stroke-linejoin="round" />
+        <path
+            d="M22 22C21.5167 21.3959 20.7962 20.8906 19.9155 20.5384 19.0348 20.1861 18.027 20 17 20 15.973 20 14.9652 20.1861 14.0845 20.5384 13.2038 20.8906 12.4833 21.3959 12 22"
+            stroke="#4273B8" stroke-width="1.50005" stroke-linecap="round"
+            stroke-linejoin="round" />
+    </g>
+</svg>

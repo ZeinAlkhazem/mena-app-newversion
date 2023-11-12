@@ -39,8 +39,11 @@ class AvatarForLive extends StatelessWidget {
                     : (radius! - (radius! * 0.001))
                     : radius ?? 30.sp,
                 backgroundColor: Colors.transparent,
+
+                foregroundColor: Colors.transparent,
                 child: CircleAvatar(
                   backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.transparent,
                   radius: (isOnline
                       ? radius == null
                       ? 27.sp
@@ -52,6 +55,9 @@ class AvatarForLive extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(0.0),
                       child: DefaultImage(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         backGroundImageUrl: pictureUrl ?? '',
                         // backColor: newLightGreyColor,
                         boxFit: BoxFit.cover,
@@ -61,12 +67,33 @@ class AvatarForLive extends StatelessWidget {
                 ),
               ),
             ),
+            // if (!onlyView)
+            //   Align(
+            //     alignment: Alignment.bottomRight,
+            //     child: SvgPicture.asset('assets/svg/icons/profileFilled.svg',
+            //         height: 24.sp),
+            //   ),
             if (!onlyView)
-              Align(
-                alignment: Alignment.bottomRight,
-                child: SvgPicture.asset('assets/svg/icons/profileFilled.svg',
-                    height: 24.sp),
-              )
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 25, // Adjust the height as needed
+                  color: Color(0xff363434).withOpacity(0.2), // Set the background color to transparent
+                  child: Center(
+                    child: Text(
+                      'Change',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontFamily: 'PNfont',
+                          color: Colors.white.withOpacity(0.7),
+                        fontWeight: FontWeight.bold // Change text color as needed
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

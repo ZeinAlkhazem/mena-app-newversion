@@ -135,6 +135,7 @@ class _LiveNowViewState extends State<LiveNowView> {
                       childWidget: Container(),
                     ),
                   ))
+
           ],
         );
       },

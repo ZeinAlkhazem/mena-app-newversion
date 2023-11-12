@@ -146,6 +146,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                 Container(
                   padding:
                       EdgeInsets.symmetric(horizontal: 15.h, vertical: 20.w),
+     
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -197,6 +198,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           color: Colors.white,
                         ),
                       ),
+                        
                     ],
                   ),
                 ),
@@ -207,6 +209,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                     horizontal: 40.w,
                   ),
                   padding: EdgeInsets.only(left: 6.w, top: 6.h, bottom: 6.h),
+
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
                       color: Color(0xff363434).withOpacity(0.2)),
@@ -230,15 +233,37 @@ class _CreateLivePageState extends State<CreateLivePage> {
                             fillColor: Colors.white,
                             hintStyle: TextStyle(
                                 fontSize: 18.sp,
+
                                 fontFamily: 'PNfont',
                                 color: Colors.white,
-                                fontWeight: FontWeight.w500),
+                                fontWeight: FontWeight.bold),
                           ),
-                          style: TextStyle(
-                              fontSize: 18.sp,
-                              fontFamily: 'PNfont',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
+                            widthBox(5.w),
+                            SvgPicture.asset(
+                              "assets/new_icons/Write_title.svg",
+                              fit: BoxFit.contain,
+                              width: 20,
+                            )
+                            // TextField(
+                            //   style: TextStyle(
+                            //     fontSize: 18.sp,
+                            //     fontFamily: 'PNfont',
+                            //     // color: Colors.white,
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            //   decoration: InputDecoration(
+                            //     border: InputBorder.none, // Remove borders
+                            //     enabledBorder: InputBorder.none, // Remove borders
+                            //     focusedBorder: InputBorder.none, // Remove borders
+                            //     hintText: "Add Title", // Placeholder text
+                            //     hintStyle: TextStyle(
+                            //       fontSize: 18.sp,
+                            //       fontFamily: 'PNfont',
+                            //       color: Colors.white.withOpacity(0.5), // Placeholder text color
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
                         ),
                       ),
                     ],
@@ -258,6 +283,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                         onTap: () {
                           liveCubit.onPressChooseLiveTopic(context);
                         },
+
                         child: Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 5.w, vertical: 6.h),
@@ -301,6 +327,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                         child: Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.w, vertical: 1.h),
+
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
                               color: Color(0xff363434).withOpacity(0.2)),
@@ -346,6 +373,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                   ),
                 ),
                 heightBox(280.h),
+
 
                 /// option buttons
                 Wrap(
@@ -426,6 +454,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                           ),
                         ],
                       ),
+                   
                     ),
                   ],
                 ),
@@ -454,6 +483,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                         }
                       });
                       logg('now test response and navigate');
+
                     }),
                 heightBox(15.h),
                 Wrap(
@@ -479,6 +509,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
                     ),
                   ],
                 ),
+
               ],
             ),
             Visibility(
@@ -507,3 +538,4 @@ class _CreateLivePageState extends State<CreateLivePage> {
     );
   }
 }
+

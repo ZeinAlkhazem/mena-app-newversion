@@ -11,6 +11,7 @@ import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/modules/create_articles/cubit/create_article_cubit.dart';
 
+import '../../../core/shared_widgets/shared_widgets.dart';
 import '../../create_live/widget/default_button.dart';
 
 class AddServiceImagePicker extends StatefulWidget {
@@ -131,7 +132,7 @@ class _AddServiceImagePickerState extends State<AddServiceImagePicker> {
                   Text(
                     'Upload Article Header Cover',
                     style: mainStyle(context, 13,
-                        color: AppColors.lineGray, weight: FontWeight.w600),
+                        color: AppColors.textGray, weight: FontWeight.w600),
                   ),
                   Spacer(),
                   Image.asset(
@@ -148,7 +149,7 @@ class _AddServiceImagePickerState extends State<AddServiceImagePicker> {
           Divider(
             height: 1,
             thickness: .5,
-            color: AppColors.lineGray,
+            color: AppColors.textGray,
           ),
           BlocBuilder<CreateArticleCubit, CreateArticleState>(
               builder: (context, state) {
@@ -179,7 +180,7 @@ class _AddServiceImagePickerState extends State<AddServiceImagePicker> {
                           },
                      
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            padding: const EdgeInsets.symmetric(horizontal: 22 ,vertical: 13),
                             child: const Icon(
                               Icons.delete,
                               color: Colors.red,

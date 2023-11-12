@@ -72,6 +72,7 @@ class _ProviderProfileLayoutState extends State<ProviderProfileLayout> {
                             // Divider(color: mainBlueColor, thickness: 0.8),
                             ButtonsSection(
                                 buttons: providerDetailed!.user.moreData!.buttons,
+                                providerInfo :providerDetailed!.user,
                                 providerId: providerDetailed!.user.id.toString()),
                             // heightBox(10.h),
                             // OurProfileSection(

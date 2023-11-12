@@ -6,16 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mena/core/constants/app_toasts.dart';
+import 'package:mena/core/constants/constants.dart';
+import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 import 'package:mena/models/api_model/blogs_info_model.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/network/dio_helper.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:mena/core/network/network_constants.dart';
 part 'create_article_state.dart';
 
 class CreateArticleCubit extends Cubit<CreateArticleState> {
   CreateArticleCubit() : super(CreateArticleInitial());
-
 
   GlobalKey formKey = GlobalKey<FormState>();
 
@@ -50,36 +52,32 @@ class CreateArticleCubit extends Cubit<CreateArticleState> {
   }
 
   FilePickerResult? res;
-  pickFile(
-    context,
-  ) async {
-    res = await FilePicker.platform.pickFiles(type: FileType.image);
-
-    if (res != null) {
-      imagePath = res!.files.first.path!;
-      emit(ImageUploaded());
-    }
-  }
+  // pickFile(
+  //   context,
+  // ) async {
+  //   res = await FilePicker.platform.pickFiles(type: FileType.image);
+  //
+  //   if (res != null) {
+  //     imagePath = res!.files.first.path!;
+  //     emit(ImageUploaded());
+  //   }
+  // }
 
   pickFromCamera(
     context,
   ) async {
     final ImagePicker picker = ImagePicker();
 // Pick an image.
-// final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-// // Capture a photo.
     final XFile? photo = await picker.pickImage(source: ImageSource.camera);
 
-    // if (image != null) {
-    //   imagePath = image.path;
-    //   emit(ImageUploaded());
-    // }
-
     if (photo != null) {
-      imagePath = photo.path;
+      // imagePath = photo.path;
+      File? img = File(photo.path);
+      img = await _cropImage(imageFile: img);
+      imagePath = img!.path;
       emit(ImageUploaded());
     }
-        Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   pickFromGallery(
@@ -88,12 +86,41 @@ class CreateArticleCubit extends Cubit<CreateArticleState> {
     final ImagePicker picker = ImagePicker();
 //Pick an image.
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
     if (image != null) {
-      imagePath = image.path;
+      // imagePath = image.path;
+      File? img = File(image.path);
+      img = await _cropImage(imageFile: img);
+      imagePath = img!.path;
       emit(ImageUploaded());
     }
     Navigator.pop(context);
+  }
+
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+
+      // aspectRatioPresets: [
+      //     CropAspectRatioPreset.ratio16x9
+      //     ],
+
+      aspectRatio: CropAspectRatio(ratioX: 16, ratioY: 9),
+
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: mainBlueColor,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: mainBlueColor,
+            // initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: true),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
   }
 
   BlogsInfoModel? blogsInfoModel;
@@ -137,7 +164,7 @@ class CreateArticleCubit extends Cubit<CreateArticleState> {
     BuildContext context,
   ) async {
     emit(ArticleLoadingState());
-
+    var feedsCubit = FeedsCubit.get(context);
     Map<String, dynamic> toSendData = {
       // 'banner': imagePath,
       'title': title.text,
@@ -158,6 +185,8 @@ class CreateArticleCubit extends Cubit<CreateArticleState> {
 
       logg('publish article response: ');
       Navigator.pop(context);
+      feedsCubit.getMyBlogs(context);
+       feedsCubit.getBlogs();
       AppToasts.errorToast('Your article has been published successfully');
       emit(SuccessGettingArticleState());
     }).catchError((error) {

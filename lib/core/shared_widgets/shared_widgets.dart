@@ -28,12 +28,13 @@ import '../../models/api_model/live_categories.dart';
 import '../../models/api_model/lives_model.dart';
 import '../../models/local_models.dart';
 import '../../modules/appointments/appointments_layouts/my_appointments.dart';
+import '../../modules/create_live/widget/avatar_for_live.dart';
 import '../../modules/create_live/widget/radius_20_container.dart';
 import '../../modules/feeds_screen/post_a_feed.dart';
 import '../../modules/live_screens/start_live_form.dart';
 import '../../modules/main_layout/main_layout.dart';
+import '../../modules/messenger/cubit/messenger_cubit.dart';
 import '../../modules/messenger/messenger_layout.dart';
-import '../../modules/messenger/msngr_cubit/messenger_cubit.dart';
 import '../constants/constants.dart';
 import '../constants/validators.dart';
 import '../functions/main_funcs.dart';
@@ -400,6 +401,7 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
       this.decoration,
       this.boxConstraints,
       this.customImageCacheHeight,
+        this.isBlog,
       this.withoutRadius})
       : super(key: key);
   final double? width;
@@ -407,6 +409,7 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
   final Color? backColor;
   final Color? borderColor;
   final double? borderWidth;
+  final bool? isBlog;
   final String backGroundImageUrl;
   final bool? withoutRadius;
   final double? radius;
@@ -429,7 +432,25 @@ class DefaultImageFadeInOrSvg extends StatelessWidget {
               border: Border.all(width: borderWidth ?? 0.0, color: borderColor ?? Colors.transparent),
             ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+          borderRadius:
+           isBlog ==true ?
+
+
+          BorderRadius.only(
+            bottomLeft:  Radius.circular(
+              withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+           bottomRight:  Radius.circular(
+          withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding),
+            topLeft:  Radius.circular(
+                withoutRadius != null ? 0.0 : 30 ?? defaultHorizontalPadding),
+            topRight:  Radius.circular(
+                withoutRadius != null ? 0.0 : 30?? defaultHorizontalPadding),
+
+
+          )
+          :
+           BorderRadius.circular(  withoutRadius != null ? 0.0 : radius ?? defaultHorizontalPadding)
+          ,
           child: backGroundImageUrl == ""
               ? SizedBox()
               :
@@ -631,6 +652,45 @@ class ExpandedColoredContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(child: Container(color: color));
+  }
+}
+
+class SearchBarWidget extends StatelessWidget {
+  const SearchBarWidget({Key? key, this.onFieldChanged}) : super(key: key);
+
+
+
+
+  final Function(String)? onFieldChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    ///
+    var localizationStrings = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Expanded(
+              child: DefaultInputField(
+                // label: '',
+                label: localizationStrings!.search,
+                // labelWidget: Text(
+                //   localizationStrings!.search,
+                //   style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
+                // ),
+                onFieldChanged: onFieldChanged,
+                customHintText: 'Search by country name',
+                suffixIcon: SvgPicture.asset(
+                  'assets/svg/search.svg',
+                  width: 20.w,
+                ),
+              )),
+          // SvgPicture.asset('assets/svg/search.svg'),
+        ],
+      ),
+    );
   }
 }
 
@@ -1489,6 +1549,7 @@ class DefaultButton extends StatelessWidget {
     this.withoutPadding = false,
     this.isEnabled = true,
     this.isLoading = false,
+    this.fontName,
   }) : super(key: key);
   final String text;
   final Function() onClick;
@@ -1504,6 +1565,7 @@ class DefaultButton extends StatelessWidget {
   final Color? titleColor;
   final bool isEnabled;
   final bool isLoading;
+  final String? fontName;
 
   @override
   Widget build(BuildContext context) {
@@ -1525,7 +1587,9 @@ class DefaultButton extends StatelessWidget {
               child:Text(
                 text,
                 textAlign: TextAlign.center,
-                style: mainStyle(context, isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
+                style: mainStyle(context,
+                    fontFamily: fontName,
+                    isBold: true, fontSize ?? 14, color: titleColor ?? Colors.white),
               ),
             ),
       ),
@@ -2612,7 +2676,48 @@ class LivesList extends StatelessWidget {
               color: Colors.white,
               child: categories.isEmpty
                   ? SizedBox()
-                  : SizedBox(),
+
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          top: 7.0.h, bottom: 5.h, left: defaultHorizontalPadding, right: defaultHorizontalPadding),
+                      child: Row(
+                        children: [
+                          NewSelectorButton(
+                              title: 'ALL',
+                              customHeight: 31.sp - 4,
+                              customFontSize: 10,
+                              isSelected: isNow
+                                  ? liveCubit.selectedNowLiveCat == '-1'
+                                  : liveCubit.selectedUpcomingLiveCat == '-1',
+                              onClick: () {
+                                /// unselected current items in the row and remove the below rows
+                                isNow
+                                    ? liveCubit.changeSelectedNowLiveCat('-1')
+                                    : liveCubit.changeSelectedUpcomingLiveCat('-1');
+                              }),
+                          // Container(width: 4,color: Colors.red,height: 10,),
+                          Expanded(
+                            child: NewHorizontalSelectorScrollable(
+                              buttons: categories
+                                  .map((e) => SelectorButtonModel(
+                                      title: e.name,
+                                      onClickCallback: () {
+                                        isNow
+                                            ? liveCubit.changeSelectedNowLiveCat(e.id.toString())
+                                            : liveCubit.changeSelectedUpcomingLiveCat(e.id.toString());
+                                      },
+                                      isSelected: isNow
+                                          ? liveCubit.selectedNowLiveCat == e.id.toString()
+                                          : liveCubit.selectedUpcomingLiveCat == e.id.toString()))
+                                  .toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+
+
+
             ),
             heightBox(7.h),
             if (isNow)
@@ -3358,7 +3463,7 @@ class DefaultBackTitleAppBar extends StatelessWidget {
                 color: Colors.transparent,
                 child: Center(
                   child: SvgPicture.asset(
-                    'assets/svg/icons/back.svg',
+                    'assets/icons/back_new.svg',
                     color: mainBlueColor,
                   ),
                 ),
@@ -3372,7 +3477,7 @@ class DefaultBackTitleAppBar extends StatelessWidget {
                     style: mainStyle(context, 11, weight: FontWeight.w400, color: Colors.black, isBold: true),
                   ),
             ),
-            suffix ?? SizedBox()
+
           ],
         ),
       ),

@@ -58,6 +58,8 @@ class ArticleUnderLineInputField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       onTap: onTap,
+      style:mainStyle(context, 12,
+          color: AppColors.textGray, weight: FontWeight.w400) ,
       onChanged: onFieldChanged,
       keyboardType: customTextInputType,
       obscureText: obscureText ?? false,
@@ -78,7 +80,7 @@ class ArticleUnderLineInputField extends StatelessWidget {
                 vertical: Responsive.isMobile(context) ? 15 : 20.0,
                 horizontal: 10.0),
         border: UnderlineInputBorder(
-            borderSide: BorderSide(color: AppColors.lineGray)),
+            borderSide: BorderSide(color: AppColors.textGray)),
         suffixIcon: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
           child: suffixIcon,
@@ -86,7 +88,8 @@ class ArticleUnderLineInputField extends StatelessWidget {
         suffixIconConstraints: BoxConstraints(maxHeight: 30.w),
         labelStyle: mainStyle(context, 13,
             color:  AppColors.textGray, weight: FontWeight.w600),
-        label: Text(label ?? ''),
+        label: Text(label ?? '' ,style: mainStyle(context, 13,
+            color:  AppColors.textGray, weight: FontWeight.w600)),
         focusColor: newLightGreyColor,
         focusedErrorBorder: UnderlineInputBorder(
             borderSide:
@@ -106,7 +109,7 @@ class ArticleUnderLineInputField extends StatelessWidget {
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
         enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-                color: unFocusedBorderColor ?? newDarkGreyColor, width: 1),
+                color: unFocusedBorderColor ??     AppColors.textGray, width: 1),
             borderRadius: BorderRadius.all(
                 Radius.circular(borderRadius ?? defaultRadiusVal))),
       ),

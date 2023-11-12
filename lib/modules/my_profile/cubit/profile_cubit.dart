@@ -5,12 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
+import 'package:mena/modules/feeds_screen/blogs/my_blog.dart';
 import 'package:meta/meta.dart';
 
+import '../../../core/cache/cache.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
 import '../../../models/local_models.dart';
 import '../../feeds_screen/feeds_screen.dart';
+import '../../messenger/messenger_layout.dart';
 import '../edit_profile.dart';
 
 part 'profile_state.dart';
@@ -75,8 +78,14 @@ class ProfileCubit extends Cubit<ProfileState> {
         ItemWithTitleAndCallback(
           title: 'My messenger',
           thumbnailLink: 'assets/svg/icons/profile/messanger.svg',
-          count: '9',
-          onClickCallback: () {},
+          count:  MainCubit.get(context).countersModel == null
+              ? '0'
+              : MainCubit.get(context).countersModel!.data.messages.toString(),
+          onClickCallback: () {
+            getCachedToken() == null
+                ? viewMessengerLoginAlertDialog(context)
+                : navigateToWithoutNavBar(context, const MessengerLayout(), '');
+          },
         ),
         ItemWithTitleAndCallback(
           title: 'Manage Appointment',
@@ -115,7 +124,10 @@ class ProfileCubit extends Cubit<ProfileState> {
           title: 'My blog',
           thumbnailLink: 'assets/svg/icons/profile/my blog.svg',
           count: '0',
-          onClickCallback: () {},
+          onClickCallback: () {
+
+            navigateToWithoutNavBar(context, MyBlogLayout( isMyBlog: true), 'routeName');
+          },
         ),
         ItemWithTitleAndCallback(
           title: 'Events and webinars',

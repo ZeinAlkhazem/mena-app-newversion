@@ -26,6 +26,7 @@ import '../../../models/api_model/feeds_model.dart';
 import '../../../models/api_model/home_section_model.dart';
 import '../../../models/api_model/lives_model.dart';
 import '../../../models/local_models.dart';
+import '../../../modules/create_live/widget/default_button.dart';
 import '../../../modules/feeds_screen/feed_details.dart';
 import '../../../modules/feeds_screen/feed_videos_scroll.dart';
 import '../../../modules/feeds_screen/feeds_screen.dart';
@@ -101,7 +102,7 @@ class SelectorButton extends StatelessWidget {
     return GestureDetector(
       onTap: onClick,
       child: Container(
-        height: customHeight,
+        height: customHeight ??30.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(customRadius ?? 42.sp),
@@ -110,7 +111,7 @@ class SelectorButton extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(
           horizontal: 15.w,
-          vertical: 7.h,
+          vertical: 2.h,
         ),
         child: Center(
           child: Text(
@@ -607,8 +608,8 @@ class ProfileBubble extends StatelessWidget {
             },
       child: CircleAvatar(
         radius: radius != null ? radius! + 1.sp : 30.sp,
-        backgroundColor:
-            isOnline ? customRingColor ?? mainGreenColor : Colors.transparent,
+        backgroundColor: Colors.white,
+        //     isOnline ? customRingColor ?? mainGreenColor : Colors.transparent,
         child: Stack(
           children: [
             Center(

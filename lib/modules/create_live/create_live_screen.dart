@@ -44,6 +44,10 @@ class _CreateLivePageState extends State<CreateLivePage> {
   @override
   void initState() {
     super.initState();
+    LiveCubit liveCubit = LiveCubit.get(context);
+    liveCubit.selectedTopic = "Add Topic";
+    liveCubit.selectedTopicId = null;
+
     startCamera();
     // _initializeCamera();
   }

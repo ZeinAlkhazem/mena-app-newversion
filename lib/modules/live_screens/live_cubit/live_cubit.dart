@@ -325,6 +325,11 @@ class LiveCubit extends Cubit<LiveState> {
     emit(UpdatePickedLiveTime());
   }
 
+  emptyTopic() {
+    selectedTopic = "";
+    selectedTopicId = null;
+  }
+
   Future<LiveCategory?> goLiveAndGetLiveFromServer({
     required String title,
     required String goal,

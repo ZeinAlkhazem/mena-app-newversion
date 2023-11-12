@@ -425,27 +425,26 @@ class _WatcherScreenState extends State<WatcherScreen>
                                   ? 0.15.sh
                                   : startLiveCubit.heightComments,
                             ),
-                            Visibility(
-                              visible: !keyboardVisible,
-                              child: Container(
-                                alignment: Alignment.bottomRight,
-                                height: 40.h,
-                                child: IconButton(
-                                  onPressed: () =>
-                                      startLiveCubit.onShowDescription(context),
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_up_outlined,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Visibility(
+                            //   visible: !keyboardVisible,
+                            //   child: Container(
+                            //     alignment: Alignment.bottomRight,
+                            //     height: 40.h,
+                            //     child: IconButton(
+                            //       onPressed: () =>
+                            //           startLiveCubit.onShowDescription(context),
+                            //       icon: const Icon(
+                            //         Icons.keyboard_arrow_up_outlined,
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         );
                       },
                     );
                   },
-
                 ),
                 Row(
                   children: [
@@ -478,26 +477,26 @@ class _WatcherScreenState extends State<WatcherScreen>
                         ),
                       ),
                     ),
-                    Visibility(
-                      visible: !keyboardVisible,
-                      child: IconButton(
-                        onPressed: () {
-                          switchCamera();
-                        },
-                        icon: SvgPicture.asset(
-                          'assets/svg/camera_outline_gray.svg',
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: !keyboardVisible,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(
-                          'assets/svg/user_add_gray.svg',
-                        ),
-                      ),
-                    ),
+                    // Visibility(
+                    //   visible: !keyboardVisible,
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       switchCamera();
+                    //     },
+                    //     icon: SvgPicture.asset(
+                    //       'assets/svg/camera_outline_gray.svg',
+                    //     ),
+                    //   ),
+                    // ),
+                    // Visibility(
+                    //   visible: !keyboardVisible,
+                    //   child: IconButton(
+                    //     onPressed: () {},
+                    //     icon: SvgPicture.asset(
+                    //       'assets/svg/user_add_gray.svg',
+                    //     ),
+                    //   ),
+                    // ),
                     Visibility(
                       visible: !keyboardVisible,
                       child: LikeButton(

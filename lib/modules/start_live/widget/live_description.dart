@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mena/models/api_model/provider_model.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
@@ -12,11 +13,14 @@ class LiveDescription extends StatelessWidget {
       {super.key,
       required this.liveTitle,
       required this.targetDescription,
-      required this.goalDescription});
+      required this.goalDescription,
+      required this.providers});
 
   final String liveTitle;
   final String targetDescription;
   final String goalDescription;
+
+  final List<ProviderData>? providers;
 
   @override
   Widget build(BuildContext context) {
@@ -84,31 +88,33 @@ class LiveDescription extends StatelessWidget {
                 fontWeight: FontWeight.w900,
               ),
             ),
-            SizedBox(
-              height: 0.25.sh,
-              child: RawScrollbar(
-                thumbColor: mainBlueColor,
-                radius: Radius.circular(20.r),
-                thickness: 5,
-                thumbVisibility: true,
-                trackVisibility: true,
-                child: ListView.builder(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
-                    itemCount: 5,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return const AddPeopleCard(
-                          name: "Dr.NaKaren A",
-                          subName: "Specialist",
-                          pictureUrl:
-                              "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                          isOnline: true,
-                          isCoHost: true,
-                          isverified: true);
-                    }),
-              ),
-            ),
+            providers != null
+                ? SizedBox(
+                    height: 0.25.sh,
+                    child: RawScrollbar(
+                      thumbColor: mainBlueColor,
+                      radius: Radius.circular(20.r),
+                      thickness: 5,
+                      thumbVisibility: true,
+                      trackVisibility: true,
+                      child: ListView.builder(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 20.h),
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return AddPeopleCard(
+                                name: providers![index].user_name,
+                                subName: "Specialist",
+                                pictureUrl:
+                                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                                isOnline: true,
+                                isCoHost: false,
+                                isverified: true);
+                          }),
+                    ),
+                  )
+                : SizedBox(),
             DefaultButton(
               text: "Back",
               onClick: () => Navigator.pop(context),

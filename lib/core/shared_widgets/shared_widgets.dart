@@ -2723,6 +2723,7 @@ class LivesList extends StatelessWidget {
             if (isNow)
               DefaultShadowedContainer(
                 backColor: Colors.white,
+                withoutRadius: true,
                 childWidget: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
@@ -2829,6 +2830,7 @@ class LivesList extends StatelessWidget {
                                           liveGoal: liveCubit.goLiveModel?.data.goal ?? '',
                                           liveTopic: liveCubit.goLiveModel?.data.topic ?? '',
                                           thumbnailUrl: liveCubit.nowLivesModel!.data.lives[index].image,
+                                          roomId: liveCubit.nowLivesModel!.data.lives[index].roomId,
                                         );
                                       },
                                       separatorBuilder: (_, i) => widthBox(2.w),
@@ -2842,6 +2844,53 @@ class LivesList extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+              DefaultShadowedContainer(
+                backColor: Colors.white,
+                withoutRadius: true,
+                boxShadow:  [
+              BoxShadow(
+                color: Color.fromARGB(41, 255, 255, 255),
+                offset: Offset(0, 0),
+                blurRadius: 3,
+              ),
+            ],
+                childWidget: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            widthBox(defaultHorizontalPadding),
+                            SelectorButton(
+                                title: 'ALL',
+                                isSelected:
+                                    liveCubit.selectedNowLiveCat == null,
+                                onClick: () {
+                                  liveCubit.changeSelectedStartLiveCat(null);
+                                  liveCubit.changeSelectedNowLiveCat(null);
+                                }),
+                            Expanded(
+                              child: HorizontalSelectorScrollable(
+                                buttons: liveCubit.nowLiveCategoriesModel != null ? liveCubit.nowLiveCategoriesModel!.liveCategories
+                                    .map((e) => SelectorButtonModel(
+                                        title: e!.name!,
+                                        onClickCallback: () {
+                                          // logg('current Column index = ${i}');
+                                          logg('current value = ${e.id}');
+                                          liveCubit.changeSelectedStartLiveCat(
+                                              e.id.toString());
+
+                                          liveCubit.changeSelectedNowLiveCat(
+                                              e!.id.toString());
+                                        },
+                                        isSelected: e!.id.toString() ==
+                                            liveCubit.selectedNowLiveCat))
+                                    .toList():[]
+                              ),
+                            ),
+                          ],
+                        ),
+                        ),
               ),
             if (isNow) heightBox(12.h),
             ListView.separated(

@@ -15,6 +15,7 @@ import 'package:mena/core/responsive/responsive.dart';
 import 'package:mena/main.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
+import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/messenger/screens/messenger_get_start_page.dart';
 import 'package:mena/modules/messenger/screens/messenger_home_page.dart';
 
@@ -70,6 +71,8 @@ class _MainLayoutState extends State<MainLayout> {
         ..fetchOnlineUsers();
     });
 
+    LiveCubit liveCubit = LiveCubit.get(context); 
+    liveCubit.getLivesNowAndUpcomingCategories(filter: 'filter');
     // if (getCachedToken() != null) {
     //   checkPhoneVerified();
     // }

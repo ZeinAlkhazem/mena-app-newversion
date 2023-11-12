@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mena/models/api_model/live_info_model.dart';
+import 'package:mena/modules/create_live/widget/live_topic.dart';
 import 'package:mena/modules/live_screens/meetings/start_meeting_layout.dart';
 import 'package:meta/meta.dart';
 
@@ -35,7 +37,8 @@ class LiveCubit extends Cubit<LiveState> {
   Repeat? pickedMeetingRepeat;
   String passCode = '0';
   Repeat? emptyTimeZoneForViewOnLeft;
-
+  String selectedTopic = "Add Topic";
+  int? selectedTopicId;
   //
   bool allowParticipantToJoin = false;
   bool enableAutoMeetingREcord = false;
@@ -125,7 +128,8 @@ class LiveCubit extends Cubit<LiveState> {
             title: 'Create upcoming',
             thumbnailLink: 'assets/svg/meetings/upcoming.svg',
             onClickCallback: () {
-              navigateToWithoutNavBar(context, CreateUpcomingMeeting(), 'routeName');
+              navigateToWithoutNavBar(
+                  context, CreateUpcomingMeeting(), 'routeName');
             }),
         ItemWithTitleAndImage(
             title: 'Join meeting',
@@ -162,9 +166,14 @@ class LiveCubit extends Cubit<LiveState> {
   }
 
   void changeSelectedNowLiveCat(String? val) {
-    nowLivesModel!.data.livesByCategory.livesByCategoryItem = [];
+    nowLivesModel != null
+        ? nowLivesModel!.data.livesByCategory.livesByCategoryItem = []
+        : [];
     emit(CurrentViewChanged());
     if (selectedNowLiveCat == val) {
+      selectedNowLiveCat = null;
+      getLivesNowAndUpcoming(filter: 'live', categoryId: '');
+    } else if (val == null) {
       selectedNowLiveCat = null;
       getLivesNowAndUpcoming(filter: 'live', categoryId: '');
     } else {
@@ -319,7 +328,7 @@ class LiveCubit extends Cubit<LiveState> {
   Future<LiveCategory?> goLiveAndGetLiveFromServer({
     required String title,
     required String goal,
-    required String topic,
+    required int? topic,
     required String liveNowCategoryId,
   }) async {
     goLiveModel = null;
@@ -329,7 +338,7 @@ class LiveCubit extends Cubit<LiveState> {
     Map<String, dynamic> toSendData = {
       'title': title,
       'goal': goal,
-      'topic_id': 2,
+      'topic_id': topic,
       'live_now_category_id': 5,
     };
     if (thumbnailFile != null) {
@@ -342,7 +351,8 @@ class LiveCubit extends Cubit<LiveState> {
 
     formData = FormData.fromMap(toSendData);
     print('to send Data : ${toSendData}');
-    await MainDioHelper.postDataWithFormData(url: goLiveEnd, data: formData).then((value) {
+    await MainDioHelper.postDataWithFormData(url: goLiveEnd, data: formData)
+        .then((value) {
       logg('goLiveAndGetLiveFromServer');
       logg(value.toString());
       goLiveModel = GoLiveModel.fromJson(value.data);
@@ -357,9 +367,18 @@ class LiveCubit extends Cubit<LiveState> {
     return null;
   }
 
+  updateTopic(topicId, topicTitle) {
+    selectedTopicId = topicId;
+    selectedTopic = topicTitle;
+    emit(UpdatedLiveStatus());
+    logg('udated live state');
+  }
+
   Future<void> setLiveStatusToServer({required bool isStart}) async {
     emit(UpdatingLiveStatus());
-    await MainDioHelper.postData(url: isStart ? setLiveStartEnd : setLiveEndedEnd, data: {}).then((value) {
+    await MainDioHelper.postData(
+        url: isStart ? setLiveStartEnd : setLiveEndedEnd,
+        data: {}).then((value) {
       logg('UpdatedLiveStatus');
 
       emit(UpdatedLiveStatus());
@@ -371,27 +390,66 @@ class LiveCubit extends Cubit<LiveState> {
     });
   }
 
-  Future<void> saveAndEditMeeting({required String title, required bool isEdit}) async {
+  LiveInfoModel? liveInfoModel;
+  getLiveInfo() async {
+    await MainDioHelper.getData(url: getLivesInfo, query: {})
+        .then((value) async {
+      logg('got live info ');
+      logg("${value.toString()}");
+      liveInfoModel = LiveInfoModel.fromJson(value.data);
+    }).catchError((error, stack) {
+      /// read from hive
+      ///
+      ///
+      ///
+      logg('an error occurred ---- got user info');
+      // logg("${error.toString()}");
+      // logg("${stack.toString()}");
+    });
+  }
+
+  void onPressChooseLiveTopic(BuildContext context) {
+    getLiveInfo().then((e) {
+      List<Topic> liveTopic = liveInfoModel!.data.topics;
+      showTopicBottomSheet(
+          context: context,
+          title: "Add Topic:",
+          description:
+              'Topics will help your LIVE videos reach more viewers and the viewers can use topics to find your LIVE videos, more easily.',
+          body: BlocConsumer<LiveCubit, LiveState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return LiveTopic(
+                    topics: liveTopic, selectedTopic: selectedTopic);
+              }));
+    });
+  }
+
+  Future<void> saveAndEditMeeting(
+      {required String title, required bool isEdit}) async {
     emit(UpdatingMeetingStatus());
-    await MainDioHelper.postData(url: !isEdit ? saveMeetingEnd : editMeetingEnd, data: {
-      'title': '$title',
-      'date': '${pickedMeetingDate}',
-      'from': '${pickedMeetingFromTime}',
-      'to': '${pickedMeetingToTime}',
-      'time_zone': '${pickedMeetingTimezone}',
-      'repeat': '${pickedMeetingRepeat == null ? null : pickedMeetingRepeat!.id}',
-      'require_passcode': '${requireMeetingPassCode ? 1 : 0}',
-      'waiting_room': '${enableWaitingRoom ? 1 : 0}',
-      'partipant_before_host': '${allowParticipantToJoin ? 1 : 0}',
-      'auto_record': '${enableAutoMeetingREcord ? 1 : 0}',
-      'to_calendar': '${addToCalendar ? 1 : 0}',
-      'publish_to_feed': '${publishToFeed ? 1 : 0}',
-      'publish_to_live': '${publishTheLiveToMenaLivePage ? 1 : 0}',
-      'participants_type': '${selectedParticipantTypeId}',
-      'meeting_type': '${selectedMeetingTypeId}',
-      'passcode': '${passCode}',
-      'share_permission': '1',
-    }).then((value) {
+    await MainDioHelper.postData(
+        url: !isEdit ? saveMeetingEnd : editMeetingEnd,
+        data: {
+          'title': '$title',
+          'date': '${pickedMeetingDate}',
+          'from': '${pickedMeetingFromTime}',
+          'to': '${pickedMeetingToTime}',
+          'time_zone': '${pickedMeetingTimezone}',
+          'repeat':
+              '${pickedMeetingRepeat == null ? null : pickedMeetingRepeat!.id}',
+          'require_passcode': '${requireMeetingPassCode ? 1 : 0}',
+          'waiting_room': '${enableWaitingRoom ? 1 : 0}',
+          'partipant_before_host': '${allowParticipantToJoin ? 1 : 0}',
+          'auto_record': '${enableAutoMeetingREcord ? 1 : 0}',
+          'to_calendar': '${addToCalendar ? 1 : 0}',
+          'publish_to_feed': '${publishToFeed ? 1 : 0}',
+          'publish_to_live': '${publishTheLiveToMenaLivePage ? 1 : 0}',
+          'participants_type': '${selectedParticipantTypeId}',
+          'meeting_type': '${selectedMeetingTypeId}',
+          'passcode': '${passCode}',
+          'share_permission': '1',
+        }).then((value) {
       logg('Meeting saved/edited');
       emit(UpdatedLiveStatus());
     }).catchError((error) {
@@ -418,7 +476,8 @@ class LiveCubit extends Cubit<LiveState> {
     });
   }
 
-  Future<void> getLivesNowAndUpcomingCategories({required String filter}) async {
+  Future<void> getLivesNowAndUpcomingCategories(
+      {required String filter}) async {
     emit(GettingLiveCategories());
     await MainDioHelper.getData(
         url: filter == 'live'
@@ -427,7 +486,7 @@ class LiveCubit extends Cubit<LiveState> {
                 ? getUpcomingLiveCategoriesEnd
                 : getLivesNowEnd,
         query: {}).then((value) {
-      logg('got getLivesNowAndUpcoming');
+      logg('got getLivesNowAndUpcoming cats');
       logg(value.toString());
       if (filter == 'live') {
         nowLiveCategoriesModel = LiveCategories.fromJson(value.data);
@@ -436,7 +495,7 @@ class LiveCubit extends Cubit<LiveState> {
       }
       // getSelectedVariationDetails(sku);
       emit(SuccessGetLivesNowAndUpcoming());
-    }).catchError((error,stack) {
+    }).catchError((error, stack) {
       logg('an error occurred');
       logg(error.toString());
       logg(stack.toString());
@@ -451,9 +510,10 @@ class LiveCubit extends Cubit<LiveState> {
     logg('getting lives ');
     emit(GettingLivesState());
     await MainDioHelper.getData(
-        url: '${getLivesEnd}?type=$filter${categoryId.isEmpty ? '' : '&category_id=$categoryId'}',
+        url:
+            '${getLivesEnd}?type=$filter${categoryId.isEmpty ? '' : '&category_id=$categoryId'}',
         query: {}).then((value) {
-      logg('got getLivesNowAndUpcoming currently live ${filter} ${categoryId}' );
+      logg('got getLivesNowAndUpcoming currently live ${filter} ${categoryId}');
       logg(value.toString());
       if (filter == 'live') {
         nowLivesModel = LivesModel.fromJson(value.data);
@@ -487,7 +547,8 @@ class LiveCubit extends Cubit<LiveState> {
   /// meetings
   Future<void> getMeetingsConfig() async {
     emit(GettingLiveCategories());
-    await MainDioHelper.getData(url: getMeetingsConfigEnd, query: {}).then((value) {
+    await MainDioHelper.getData(url: getMeetingsConfigEnd, query: {})
+        .then((value) {
       logg('got getLivesNowAndUpcoming');
       logg(value.toString());
       meetingsConfigModel = MeetingsConfigModel.fromJson(value.data);
@@ -517,5 +578,5 @@ class LiveCubit extends Cubit<LiveState> {
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
 
-String getRandomString(int length) =>
-    String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));

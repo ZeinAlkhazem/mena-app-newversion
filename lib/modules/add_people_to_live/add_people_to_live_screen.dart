@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mena/models/api_model/provider_model.dart';
 import 'package:mena/modules/add_people_to_live/widget/add_people_card.dart';
+import 'package:mena/modules/create_live/cubit/create_live_cubit.dart';
 
 import '../../core/functions/main_funcs.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
@@ -18,6 +20,7 @@ class AddPeopleToLiveScreenPage extends StatefulWidget {
 class _AddPeopleToLiveScreenPageState extends State<AddPeopleToLiveScreenPage> {
   @override
   Widget build(BuildContext context) {
+    CreateLiveCubit createLiveCubit = CreateLiveCubit.get(context);
     // AddPeopleToLiveCubit addPeopleToLiveCubit =
     //     AddPeopleToLiveCubit.get(context);
 
@@ -44,7 +47,7 @@ class _AddPeopleToLiveScreenPageState extends State<AddPeopleToLiveScreenPage> {
                 style: mainStyle(context, 16.sp),
               ),
               heightBox(20.h),
-              const AddPeopleCard(
+              AddPeopleCard(
                   name: "Dr.NaKaren A",
                   subName: "Specialist",
                   pictureUrl:

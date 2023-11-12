@@ -5,7 +5,7 @@ import '../../../core/constants/constants.dart';
 import '../../../core/shared_widgets/shared_widgets.dart';
 
 class HeaderLiveBubble extends StatelessWidget {
-  const HeaderLiveBubble({
+   HeaderLiveBubble({
     Key? key,
     this.radius,
     this.pictureUrl,

@@ -285,6 +285,7 @@ class LiveProfileBubble extends StatelessWidget {
     Key? key,
     required this.requiredWidth,
     required this.name,
+    this.roomId,
     required this.liveTitle,
     required this.liveGoal,
     required this.liveTopic,
@@ -299,6 +300,8 @@ class LiveProfileBubble extends StatelessWidget {
   final String liveTopic;
   final String? liveId;
   final String thumbnailUrl;
+  final String? roomId;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -309,9 +312,10 @@ class LiveProfileBubble extends StatelessWidget {
           child: Center(
             child: GestureDetector(
               onTap: () {
+                
                 liveId == null
                     ? null
-                    : navigateToWithoutNavBar(context, WatcherScreen(), '',
+                    : navigateToWithoutNavBar(context, WatcherScreen(remoteRoomId: roomId), '',
                         onBackToScreen: () {
                         logg('khgkajscn');
 
@@ -808,9 +812,10 @@ class LiveContainerLiveNow extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        logg('asdasdasdasdasd ${liveItem.roomId}');
         navigateToWithoutNavBar(
           context,
-          WatcherScreen(),
+          WatcherScreen(remoteRoomId: liveItem.roomId,),
           '',
           onBackToScreen: () {
             logg('ksahfkjlsnkxl');

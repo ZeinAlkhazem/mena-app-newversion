@@ -40,10 +40,8 @@ class _MessengerLayoutState extends State<MessengerLayout> {
       ..fetchMyMessages()
       ..fetchOnlineUsers();
 
-    MainCubit.get(context).chatSocketInit();
-    IO.Socket chatSocket = MainCubit.get(context).chatSocket;
-
-    chatSocket.on('new-message', (data) {
+    socket = MainCubit.get(context).socket;
+    socket?.on('new-message', (data) {
       logg('new message socket: $data');
       messengerCubit
         ..fetchMyMessages()

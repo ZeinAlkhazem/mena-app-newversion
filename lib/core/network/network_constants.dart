@@ -19,7 +19,6 @@ const String verifyCodeEnd = '/users/register/verify-code';
 const String verifyCodeResetPassword = '/users/forget-verify-code';
 
 const String sendCodeNewUser = '/send_code/';
-
 /// user info
 const String userInfoEnd = '/users/info';
 
@@ -44,16 +43,14 @@ const String getOnlineUsersEnd = '/chat/online';
 
 ///appointments
 const String getInsuranceProvidersListEnd = '/appointments/insurance_providers';
-const String searchAppointmentsProfessionalFacilitiesEnd =
-    '/appointments/search';
+const String searchAppointmentsProfessionalFacilitiesEnd = '/appointments/search';
 const String getAppointmentsSlotsEnd = '/appointments/slots';
 const String saveAppointmentsEnd = '/appointments/save';
 const String getClientAppointmentsEnd = '/appointments/client-appointments';
 const String getMySLotsEnd = '/appointments/my-slots';
 const String getAppHistoryEnd = '/appointments/history';
 const String deleteSlotEnd = '/appointments/slots/delete';
-const String updateClientAppointmentEnd =
-    '/appointments/client-appointments/update';
+const String updateClientAppointmentEnd = '/appointments/client-appointments/update';
 const String getProfProvidersListEnd = '/appointments/slots/prof-fac';
 const String saveSlotEnd = '/appointments/slots/create';
 const String updateSlotEnd = '/appointments/slots/update';
@@ -125,13 +122,10 @@ const String homeSectionEnd = '/home-section';
 
 /// live
 const String goLiveEnd = '/live/go-live';
-const String goLiveStop = '/live/set-not-live';
 const String setLiveStartEnd = '/live/set-live';
 const String setLiveEndedEnd = '/live/set-not-live';
 const String getLivesEnd = '/live/get-lives';
 const String getCategoriesEnd = '/live/get-categories';
-const String getLivesInfo = '/live/info';
-const String getProviderList = '/providers';
 
 ///
 const String getLivesNowEnd = '/live/live-categories';

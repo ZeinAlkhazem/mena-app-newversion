@@ -22,5 +22,3 @@ class OnPressFollowState extends StartLiveState {}
 class OnHideCommentsState extends StartLiveState {}
 
 class OnPick4PhotoState extends StartLiveState {}
-
-class OnloadGetProviders extends StartLiveState {}

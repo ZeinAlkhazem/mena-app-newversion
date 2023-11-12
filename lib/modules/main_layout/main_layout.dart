@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mena/core/cache/cache.dart';
@@ -15,13 +16,14 @@ import 'package:mena/core/responsive/responsive.dart';
 import 'package:mena/main.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
-import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
+import 'package:mena/modules/main_layout/weather_banner.dart';
 import 'package:mena/modules/messenger/screens/messenger_get_start_page.dart';
 import 'package:mena/modules/messenger/screens/messenger_home_page.dart';
 
 // import 'package:mena/modules/test/test_layout.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 
 import '../../MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
 import '../../core/constants/constants.dart';
@@ -37,6 +39,10 @@ import '../live_screens/live_main_layout.dart';
 import '../live_screens/meetings/meetings_layout.dart';
 import '../messenger/cubit/messenger_cubit.dart';
 import '../messenger/messenger_layout.dart';
+import '../my_profile/my_profile.dart';
+import '../my_profile/my_profile.dart';
+import '../my_profile/my_profile.dart';
+import '../my_profile/my_profile.dart';
 import '../my_profile/my_profile.dart';
 import '../splash_screen/route_engine.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -71,8 +77,6 @@ class _MainLayoutState extends State<MainLayout> {
         ..fetchOnlineUsers();
     });
 
-    LiveCubit liveCubit = LiveCubit.get(context); 
-    liveCubit.getLivesNowAndUpcomingCategories(filter: 'filter');
     // if (getCachedToken() != null) {
     //   checkPhoneVerified();
     // }
@@ -112,97 +116,113 @@ class _MainLayoutState extends State<MainLayout> {
     return [
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
-          'assets/svg/icons/home.svg',
-          color: mainBlueColor,
-          fit: BoxFit.contain,
-          // height: 33.h,
+          'assets/new_icons/Home fılled ın green.svg',
+          height: 26,
         ),
         inactiveIcon: SvgPicture.asset(
-          'assets/svg/icons/home.svg',
-          fit: BoxFit.contain,
-          color: Colors.black.withOpacity(0.5),
-          // height: 30.h,
+          'assets/new_icons/home_outline_24.svg',
+          height: 26,
         ),
-        title: getTranslatedStrings(context).home.toUpperCase(),
-        textStyle: mainStyle(context, 10.0, isBold: true),
-        activeColorPrimary: mainBlueColor,
-        inactiveColorPrimary: Colors.grey,
-        inactiveColorSecondary: Colors.purple,
-      ),
-      PersistentBottomNavBarItem(
-        icon: SvgPicture.asset(
-          'assets/svg/icons/promotion.svg',
-          fit: BoxFit.contain,
-          color: mainBlueColor,
-        ),
-        inactiveIcon: SvgPicture.asset(
-          'assets/svg/icons/promotion.svg',
-          fit: BoxFit.contain,
-          color: Colors.black.withOpacity(0.5),
-        ),
-        title: getTranslatedStrings(context).deals.toUpperCase(),
-        textStyle: mainStyle(context, 10.0, isBold: true),
-        activeColorPrimary: mainBlueColor,
-        inactiveColorPrimary: Colors.grey,
-        inactiveColorSecondary: Colors.purple,
+        title: getTranslatedStrings(context).home,
+        textStyle: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PNfont',
+            color: Color(0xff97A0A8)),
+        activeColorPrimary: Color(0xff97A0A8),
+        inactiveColorPrimary: Color(0xff97A0A8),
+        inactiveColorSecondary: Color(0xff97A0A8),
       ),
       PersistentBottomNavBarItem(
         icon: Padding(
-          padding: const EdgeInsets.all(0),
+          padding: const EdgeInsets.only(right: 5),
           child: SvgPicture.asset(
-            'assets/svg/icons/live screencast.svg',
-            color: mainBlueColor,
-            // fit: BoxFit.contain,
-            // height: 28.h,
+            'assets/new_icons/market_circle_fill_yellow_20.svg',
+            height: 26,
           ),
         ),
-        inactiveIcon: SvgPicture.asset(
-          'assets/svg/icons/live screencast.svg',
-          fit: BoxFit.contain,
-          color: newDarkGreyColor,
-          // height: 28.h,
+        inactiveIcon: Padding(
+          padding: const EdgeInsets.only(right: 5),
+          child: SvgPicture.asset(
+            'assets/new_icons/market_outline_24.svg',
+            height: 26,
+          ),
         ),
-        title: getTranslatedStrings(context).live.toUpperCase(),
-        textStyle: mainStyle(context, 10.0, isBold: true),
-        activeColorPrimary: mainBlueColor,
-        inactiveColorPrimary: Colors.grey,
-        inactiveColorSecondary: Colors.purple,
+        title: getTranslatedStrings(context).deals,
+        textStyle: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PNfont',
+            color: Color(0xff97A0A8)),
+        activeColorPrimary: Color(0xff97A0A8),
+        inactiveColorPrimary: Color(0xff97A0A8),
+        inactiveColorSecondary: Color(0xff97A0A8),
+      ),
+      PersistentBottomNavBarItem(
+        icon: Padding(
+          padding: const EdgeInsets.only(left: 1),
+          child: SvgPicture.asset(
+            'assets/new_icons/video_camera_circle_fill_red_28.svg',
+            // fit: BoxFit.contain,
+            height: 26.h,
+          ),
+        ),
+        inactiveIcon: Padding(
+          padding: const EdgeInsets.only(left: 1),
+          child: SvgPicture.asset(
+            'assets/new_icons/videocam_outline_24.svg',
+            height: 26.h,
+          ),
+        ),
+        title: getTranslatedStrings(context).live,
+        textStyle: TextStyle(
+            fontSize: 11.0,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PNfont',
+            color: Color(0xff97A0A8)),
+        activeColorPrimary: Color(0xff97A0A8),
+        inactiveColorPrimary: Color(0xff97A0A8),
+        inactiveColorSecondary: Color(0xff97A0A8),
       ),
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
-          'assets/svg/icons/community.svg',
-          color: mainBlueColor,
-          fit: BoxFit.contain,
+          'assets/new_icons/users filled in blue.svg',
+          height: 26,
           // height: 30.h,
         ),
         inactiveIcon: SvgPicture.asset(
-          'assets/svg/icons/community.svg',
-          fit: BoxFit.contain,
-          color: Colors.black.withOpacity(0.5),
+          'assets/new_icons/users_3_outline_24.svg',
+          height: 26,
           // height: 28.h,
         ),
-        title: getTranslatedStrings(context).meetings.toUpperCase(),
-        textStyle: mainStyle(context, 10.0, isBold: true),
-        activeColorPrimary: mainBlueColor,
-        inactiveColorPrimary: Colors.grey,
-        inactiveColorSecondary: Colors.purple,
+        title: getTranslatedStrings(context).meetings,
+        textStyle: TextStyle(
+            fontSize: 11.0,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PNfont',
+            color: Color(0xff97A0A8)),
+        activeColorPrimary: Color(0xff97A0A8),
+        inactiveColorPrimary: Color(0xff97A0A8),
+        inactiveColorSecondary: Color(0xff97A0A8),
       ),
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
-          'assets/svg/icons/feeds.svg',
-          fit: BoxFit.contain,
-          color: mainBlueColor,
+          'assets/new_icons/story_circle_fill_violet_28.svg',
+          height: 26,
         ),
         inactiveIcon: SvgPicture.asset(
-          'assets/svg/icons/feeds.svg',
-          color: Colors.black.withOpacity(0.5),
-          fit: BoxFit.contain,
+          'assets/new_icons/story_outline_24.svg',
+          height: 26,
         ),
-        title: getTranslatedStrings(context).feeds.toUpperCase(),
-        textStyle: mainStyle(context, 10.0, isBold: true),
-        activeColorPrimary: mainBlueColor,
-        inactiveColorPrimary: Colors.grey,
-        inactiveColorSecondary: Colors.purple,
+        title: getTranslatedStrings(context).feeds,
+        textStyle: TextStyle(
+            fontSize: 11.0,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PNfont',
+            color: Color(0xff97A0A8)),
+        activeColorPrimary: Color(0xff97A0A8),
+        inactiveColorPrimary: Color(0xff97A0A8),
+        inactiveColorSecondary: Color(0xff97A0A8),
       ),
     ];
   }
@@ -244,7 +264,7 @@ class _MainLayoutState extends State<MainLayout> {
       },
       child: Scaffold(
         // appBar: AppBar(),
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xffFBFDFB),
         // floatingActionButton: FloatingActionButton(
         //   // onPressed: (){
         //   //   MainCubit.get(context).updateMenaViewedLogo('assets/svg/icons/menalive.svg');
@@ -332,109 +352,113 @@ class _MainLayoutState extends State<MainLayout> {
                           mainCubit.isHeaderVisible
                               ? Padding(
                                   padding: EdgeInsets.only(
-                                      right: defaultHorizontalPadding,
+                                      // right: defaultHorizontalPadding,
                                       left: defaultHorizontalPadding,
                                       top: Responsive.isMobile(context)
                                           ? defaultHorizontalPadding / 8
                                           : defaultHorizontalPadding / 2),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 5.0),
+                                    padding: const EdgeInsets.only(bottom: 6.0,top:5),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              mainCubit.currentLogo,
-                                              height:
-                                                  Responsive.isMobile(context)
-                                                      ? 22.w
-                                                      : 12.w,
-                                            ),
-                                          ],
+                                          GestureDetector(
+                                          onTap: () {
+                                            logg('profile bubble clicked');
+                                            navigateToWithoutNavBar(
+                                                context,
+                                                getCachedToken() == null
+                                                    ? SignInScreen()
+                                                    : MyProfile(),
+                                                '');
+                                          },
+                                          child: getCachedToken() == null
+                                              ? SvgPicture.asset(
+                                            'assets/svg/icons/profileFilled.svg',
+                                            height:
+                                            Responsive.isMobile(
+                                                context)
+                                                ? 30.w
+                                                : 12.w,
+                                          )
+                                              : ProfileBubble(
+                                            isOnline: true,
+                                            customRingColor:
+                                            Colors.transparent,
+                                            pictureUrl: MainCubit.get(
+                                                context)
+                                                .userInfoModel ==
+                                                null
+                                                ? ''
+                                                : MainCubit.get(
+                                                context)
+                                                .userInfoModel!
+                                                .data
+                                                .user
+                                                .personalPicture,
+                                            onlyView: true,
+                                            radius:
+                                            Responsive.isMobile(
+                                                context)
+                                                ? 14.w
+                                                : 5.w,
+                                          ),
                                         ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            SvgPicture.asset(
-                                              'assets/svg/icons/searchFilled.svg',
-                                              height:
-                                                  Responsive.isMobile(context)
-                                                      ? 30.w
-                                                      : 12.w,
-                                            ),
-                                            widthBox(10.w),
-                                            MessengerIconBubble(),
-                                            widthBox(10.w),
-                                            GestureDetector(
-                                              onTap: () {
-                                                logg('profile bubble clicked');
-                                                navigateToWithoutNavBar(
-                                                    context,
-                                                    getCachedToken() == null
-                                                        ? SignInScreen()
-                                                        : MyProfile(),
-                                                    '');
-                                                // getCachedToken() == null ? SignInScreen() : MyProfile(), '');
+                                        // widthBox(0.5.w),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 3),
+                                          child: Text(
+                                            "Home",
+                                            style: TextStyle(
+                                              fontSize: 23.0,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'Tajawal',
+                                              color: Color(0xff444444),),
+                                          ),
+                                        ),
+                                        widthBox(110.w),
 
-                                                // viewComingSoonAlertDialog(context,
-                                                //     customAddedWidget: DefaultButton(
-                                                //         text: getCachedToken() == null ? 'Login' : 'Logout',
-                                                //         onClick: () {
-                                                //           // AuthCubit.get(context).lo
-                                                //
-                                                //           if (getCachedToken() == null) {
-                                                //             navigateToAndFinishUntil(context, SignInScreen());
-                                                //           } else {
-                                                //             removeToken();
-                                                //             MainCubit.get(context).removeUserModel();
-                                                //             navigateToAndFinishUntil(context, SignInScreen());
-                                                //           }
-                                                //         }));
-                                              },
-                                              child: getCachedToken() == null
-                                                  ? SvgPicture.asset(
-                                                      'assets/svg/icons/profileFilled.svg',
-                                                      height:
-                                                          Responsive.isMobile(
-                                                                  context)
-                                                              ? 30.w
-                                                              : 12.w,
-                                                    )
-                                                  : ProfileBubble(
-                                                      isOnline: true,
-                                                      customRingColor:
-                                                          mainBlueColor,
-                                                      pictureUrl: MainCubit.get(
-                                                                      context)
-                                                                  .userInfoModel ==
-                                                              null
-                                                          ? ''
-                                                          : MainCubit.get(
-                                                                  context)
-                                                              .userInfoModel!
-                                                              .data
-                                                              .user
-                                                              .personalPicture,
-                                                      onlyView: true,
-                                                      radius:
-                                                          Responsive.isMobile(
-                                                                  context)
-                                                              ? 14.w
-                                                              : 5.w,
-                                                    ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 3),
+                                          child: MyPullDownButton(
+                                            svgHeight: Responsive.isMobile(context) ? 25.w : 12.w,
+                                            customWidth: 0.485.sw,
+                                            customOffset: Offset(-30, 12),
+                                            customPosition: PullDownMenuPosition.under,
+                                            customButtonWidget: Padding(
+                                              padding: const EdgeInsets.only(top: 2),
+                                              child: SvgPicture.asset(
+                                                "assets/new_icons/add_circle_outline_28.svg",
+                                                color: Color(0xff2A87EA),
+                                                width: 28,
+                                              ),
                                             ),
-                                          ],
+                                            items: MainCubit.get(context).userActionItems(context),
+                                            svgLink: "assets/new_icons/add_circle_outline_28.svg",
+                                          ),
+                                        ),
+
+                                        widthBox(4.w),
+                                        MessengerIconBubble(),
+                                        // widthBox(3.w),
+                                        AppBarIcons(
+                                          btnClick: () {  },
+                                          icon: 'assets/new_icons/notifications_28.svg',
+                                          iconSize: 28,
+                                          width: 12,
+                                          top: 1,
+                                          bottom: 4,
+                                          // right: 3,
                                         ),
                                       ],
                                     ),
                                   ),
                                 )
                               : const SizedBox(),
+                          Divider(),
                           Expanded(
                             child: PersistentTabView(
                               context,
@@ -442,28 +466,25 @@ class _MainLayoutState extends State<MainLayout> {
                                   ? kBottomNavigationBarHeight * 1
                                   : kBottomNavigationBarHeight * 1.3,
                               controller: _controller,
-                              // floatingActionButton: Container(
-                              //   c
-                              // ),
-                              onItemSelected: (index) {
-                                if (index == 1) {
-                                  MainCubit.get(context)
-                                      .changeHeaderVisibility(false);
-                                }
-                                // mainCubit.changeHeaderVisibility(true);
-                                if (index == 2) {
-                                  MainCubit.get(context).updateMenaViewedLogo(
-                                      'assets/svg/icons/menalive.svg');
-                                } else if (index == 4) {
-                                  /// feeds public
-                                  MainCubit.get(context).updateMenaViewedLogo(
-                                      'assets/svg/mena8.svg');
-                                  //        FeedsCubit.get(context).getFeeds();
-                                } else {
-                                  MainCubit.get(context).updateMenaViewedLogo(
-                                      'assets/svg/mena8.svg');
-                                }
-                              },
+
+                              // // floatingActionButton: Container(
+                              // //   c
+                              // // ),
+                              // onItemSelected: (index) {
+                              //   // mainCubit.changeHeaderVisibility(true);
+                              //   if (index == 2) {
+                              //     MainCubit.get(context).updateMenaViewedLogo(
+                              //         'assets/svg/icons/menalive.svg');
+                              //   } else if (index == 4) {
+                              //     /// feeds public
+                              //     MainCubit.get(context).updateMenaViewedLogo(
+                              //         'assets/svg/mena8.svg');
+                              //     //        FeedsCubit.get(context).getFeeds();
+                              //   } else {
+                              //     MainCubit.get(context).updateMenaViewedLogo(
+                              //         'assets/svg/mena8.svg');
+                              //   }
+                              // },
                               screens: _buildScreens(),
                               items: _navBarsItems(),
                               confineInSafeArea: true,
@@ -524,6 +545,7 @@ class _MainLayoutState extends State<MainLayout> {
                               navBarStyle: NavBarStyle.style6,
                             ),
                           ),
+
                         ],
                       ),
                     ),
@@ -543,6 +565,7 @@ class MessengerIconBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
+    bool hasMessages = mainCubit.countersModel != null && mainCubit.countersModel!.data.messages > 0;
     return GestureDetector(
       onTap: () {
         if (getCachedToken() == null) {
@@ -557,37 +580,43 @@ class MessengerIconBubble extends StatelessWidget {
           navigateToWithoutNavBar(context, const MessengerHomePage(), '');
         }
       },
-      child: SizedBox(
-        height: Responsive.isMobile(context) ? 30.w : 12.w,
-        width: Responsive.isMobile(context) ? 30.w : 12.w,
-        child: BlocConsumer<MainCubit, MainState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            return Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svg/icons/msngrFilled.svg',
-                      height: Responsive.isMobile(context) ? 29.w : 12.w,
-                      width: Responsive.isMobile(context) ? 29.w : 12.w,
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: NotificationCounterBubble(
-                      counter: mainCubit.countersModel == null
-                          ? '0'
-                          : mainCubit.countersModel!.data.messages.toString()),
-                ),
-              ],
-            );
-          },
-        ),
+      child: BlocConsumer<MainCubit, MainState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AppBarIcons(
+                    btnClick: () {
+                      if(getCachedToken() == null){
+                      viewMessengerLoginAlertDialog(context);
+                    }else if (MessengerCubit.get(context).myMessagesModel!.data.myChats!.isEmpty){
+                      navigateToWithoutNavBar(context, const MessengerGetStartPage(), '');
+                    }else{
+                      navigateToWithoutNavBar(context, const MessengerHomePage(), '');
+                    } },
+                    icon: "assets/new_icons/message_outline_28.svg",
+                    iconSize: 28,
+                    bottom: 3,
+                    // top: 3,
+                    // right: 6,
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: NotificationCounterBubble(
+                    counter: mainCubit.countersModel == null
+                        ? '0'
+                        : mainCubit.countersModel!.data.messages.toString()),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -608,8 +637,8 @@ class NotificationIconBubble extends StatelessWidget {
         //     : navigateToWithoutNavBar(context, const MessengerLayout(), '');
       },
       child: SizedBox(
-        height: Responsive.isMobile(context) ? 30.w : 12.w,
-        width: Responsive.isMobile(context) ? 30.w : 12.w,
+        height: Responsive.isMobile(context) ? 27.w : 12.w,
+        width: Responsive.isMobile(context) ? 27.w : 12.w,
         child: BlocConsumer<MainCubit, MainState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -645,4 +674,100 @@ class NotificationIconBubble extends StatelessWidget {
       ),
     );
   }
+}
+
+
+class AppBarIcons extends StatelessWidget {
+  final String icon;
+  final VoidCallback btnClick;
+  final double iconSize;
+  final double width;
+  final String title;
+  final double top;
+  final double bottom;
+  final double right;
+
+  const AppBarIcons(
+      {super.key,
+        required this.btnClick,
+        this.top = 1,
+        this.width = 7,
+        this.title = "",
+        this.bottom = 1,
+        this.right = 1,
+        this.iconSize = 39.0,
+        required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: btnClick,
+      child: Container(
+        padding: EdgeInsets.only(top: top, bottom: bottom,right: right),
+        child: Row(
+          children: [
+            SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,color: Color(
+                0xff2788E8),),
+            widthBox(width),
+            Text(
+              title,
+              style: TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PNfont',
+                  color: Color(0xff6a7279)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+}
+
+class NavBarIcons extends StatelessWidget {
+  final String icon;
+  final VoidCallback btnClick;
+  final double iconSize;
+  final double height;
+  final String title;
+  final double top;
+  final double bottom;
+  final double right;
+
+  const NavBarIcons(
+      {super.key,
+        required this.btnClick,
+        this.top = 1,
+        this.height = 1,
+        this.title = "",
+        this.bottom = 1,
+        this.right = 1,
+        this.iconSize = 39.0,
+        required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: btnClick,
+      child: Container(
+        padding: EdgeInsets.only(top: top, bottom: bottom,right: right),
+        child: Column(
+          children: [
+            SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
+            heightBox(height.h),
+            Text(
+              title,
+              style: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'PNfont',
+                  color: Color(0xff999B9D)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

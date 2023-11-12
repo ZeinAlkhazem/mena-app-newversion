@@ -20,6 +20,10 @@ import '../../l10n/l10n.dart';
 import '../../models/api_model/config_model.dart';
 import '../../models/local_models.dart';
 import '../../models/my_models/country_model.dart';
+import '../../modules/feeds_screen/blogs/blogs_layout.dart';
+import '../../modules/messenger/cubit/messenger_cubit.dart';
+import '../../modules/messenger/screens/messenger_get_start_page.dart';
+import '../../modules/messenger/screens/messenger_home_page.dart';
 import '../../modules/platform_provider/provider_home/provider_profile_Sections.dart';
 import '../cache/cache.dart';
 import '../constants/my_countries.dart';
@@ -35,6 +39,10 @@ class MainCubit extends Cubit<MainState> {
 
   static MainCubit get(context) => BlocProvider.of(context);
 
+
+
+
+
   IO.Socket socket = IO.io(
       'https://live.menaaii.com:3000',
       IO.OptionBuilder().setTransports(['websocket'])
@@ -44,16 +52,7 @@ class MainCubit extends Cubit<MainState> {
       }) // optional
           .build());
 
-  IO.Socket chatSocket = IO.io(
-      'https://chat.menaaii.com:3000',
-      IO.OptionBuilder().setTransports(['websocket'])
-          // for Flutter or Dart VM
-          .setExtraHeaders({
-        'foo': 'bar',
-      }) // optional
-          .build());
-
-  String currentLogo = 'assets/svg/mena8.svg';
+  String currentLogo = 'assets/new_icons/mena_main_logo.svg';
 
   List<String?> selectedLocalesIsoInDashboard = [];
 
@@ -134,6 +133,178 @@ class MainCubit extends Cubit<MainState> {
           thumbnailLink: 'assets/svg/icons/profile/new slot.svg',
           onClickCallback: () {
             logg('dshjfjkh');
+          },
+        ),
+      ];
+    } else {
+      list = [
+        ItemWithTitleAndCallback(
+          title: 'SOS Video call',
+          thumbnailLink: 'assets/svg/icons/profile/sos.svg',
+          onClickCallback: () {
+            logg('dshjfjkh');
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Request Blood',
+          thumbnailLink: 'assets/svg/icons/profile/Request blood.svg',
+          onClickCallback: () {
+            logg('dshjfjkh');
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Make appointment',
+          thumbnailLink: 'assets/svg/icons/profile/make appointment.svg',
+          onClickCallback: () {
+            logg('dshjfjkh');
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Ask Professionals',
+          thumbnailLink: 'assets/svg/icons/profile/ask professionals.svg',
+          onClickCallback: () {
+            logg('dshjfjkh');
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Post Job',
+          thumbnailLink: 'assets/svg/icons/profile/Post Job.svg',
+          onClickCallback: () {
+            logg('dshjfjkh');
+          },
+        ),
+      ];
+    }
+    return list;
+  }
+
+  List<ItemWithTitleAndCallback> userActionItems1(BuildContext context) {
+    List<ItemWithTitleAndCallback> list = [];
+    if (isUserProvider()) {
+      list = [
+        ItemWithTitleAndCallback(
+          title: '',
+          thumbnailLink: 'assets/new_icons/MenaMessanger.svg',
+          onClickCallback: () {
+            if(getCachedToken() == null){
+              viewMessengerLoginAlertDialog(context);
+            }else if (MessengerCubit.get(context).myMessagesModel!.data.myChats!.isEmpty){
+              navigateToWithoutNavBar(context, const MessengerGetStartPage(), '');
+            }else{
+              navigateToWithoutNavBar(context, const MessengerHomePage(), '');
+            }
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: '',
+          thumbnailLink: 'assets/new_icons/Mena-appointment-colored.svg',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Pay',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Cloud',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Mail',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: '',
+          thumbnailLink: 'assets/new_icons/MenaGPT-colored.svg',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: '',
+          thumbnailLink: 'assets/new_icons/Mena-library.svg',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Blogs',
+          thumbnailLink: '',
+          onClickCallback: () {
+            navigateToWithoutNavBar(context, BlogsLayout(), 'routeName');
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Communication',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Tracking',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Software',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Recruitment',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Tasks',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena SOS',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Tube',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena Weather & Radar',
+          thumbnailLink: '',
+          onClickCallback: () {
+
+          },
+        ),
+        ItemWithTitleAndCallback(
+          title: 'Mena AI',
+          thumbnailLink: '',
+          onClickCallback: () {
+
           },
         ),
       ];
@@ -487,66 +658,6 @@ class MainCubit extends Cubit<MainState> {
     });
   }
 
-  void chatSocketInit() async {
-    chatSocket = await IO.io(
-        'https://chat.menaaii.com:3000',
-        IO.OptionBuilder().setTransports(['websocket'])
-            // for Flutter or Dart VM
-            .setExtraHeaders({
-          'foo': 'bar',
-        }) // optional
-            .build());
-
-    ///
-    // IO.Socket socket =await IO.io('https://menaplatforms.com:3001');
-    chatSocket.onConnect((_) {
-      print('chatSocket connection established');
-
-      if (userInfoModel != null) {
-        chatSocket.emit('join', [
-          {
-            'user_id': '${userInfoModel!.data.user.id}',
-            'type': '${isUserProvider() ? 'provider' : 'client'}'
-          },
-        ]);
-
-        logg('emitted');
-      }
-      chatSocket.emit('msg', 'chatSocket test');
-    });
-
-    chatSocket.on('event', (data) => print('chatSocket ' + data));
-    chatSocket.on('message', (data) {
-      jsonDecode(data);
-
-      logg(
-          'this is the data returned from server : ${jsonDecode(data)['type']}');
-      switch (jsonDecode(data)['type']) {
-        case 'join':
-          handleJoin(jsonDecode(data));
-          break;
-      }
-    });
-    chatSocket.on('counters', (data) {
-      print('chatSocket: ${data.toString()}');
-      getCountersData();
-    });
-    // chatSocket.on('new-message', (data) => print('chatSocket: ' + data));
-    chatSocket.onAny((event, data) {
-      print('chatSocket: event: ' + event);
-      print('chatSocket: data:  ${data ?? 'Null data'}');
-    });
-
-    chatSocket.onerror((err) => {logg('chatSocket error : $err')});
-
-    chatSocket.onConnectError((data) => logg(data.toString()));
-
-    chatSocket.onDisconnect((_) => print('chatSocket disconnect'));
-
-    // chatSocket.on
-    chatSocket.on('fromServer', (_) => logg('chatSocketssssssss ' + _));
-  }
-
   void socketInitial() async {
     /// Socket connect
     print('establishing socket connection');
@@ -559,6 +670,10 @@ class MainCubit extends Cubit<MainState> {
         }) // optional
             .build());
 
+    ///
+    // IO.Socket socket =await IO.io('https://menaplatforms.com:3001');
+
+    logg(socket.json.connected.toString());
     socket.onConnect((_) {
       print('socket connection established');
 
@@ -576,15 +691,18 @@ class MainCubit extends Cubit<MainState> {
     });
 
     socket.on('event', (data) => print('socket ' + data));
-    socket.on('message', (data) {
-      jsonDecode(data);
 
-      logg(
-          'this is the data returned from server : ${jsonDecode(data)['type']}');
-      switch (jsonDecode(data)['type']) {
+    socket.on('message', (data) {
+       jsonDecode(data);
+
+      logg('this is the data returned from server : ${jsonDecode(data)['type']}');
+      switch(jsonDecode(data)['type']){
         case 'join':
           handleJoin(jsonDecode(data));
-          break;
+        break;
+        case 'checkMeetingResult':
+          handleCheckMeeting(jsonDecode(data));
+        break;
       }
     });
     socket.on('counters', (data) {
@@ -604,18 +722,20 @@ class MainCubit extends Cubit<MainState> {
     socket.onDisconnect((_) => print('socket disconnect'));
 
     // socket.on
-    socket.on('fromServer', (_) => logg('socketssssssss ' + _));
+    socket.on('fromServer', (_) => print('socket ' + _));
   }
 
-  handleJoin(data) {}
+  
+  handleJoin(data){
+    logg('handleJoin : ${data}');
+  }
 
-  handleCheckMeeting(data) {
+  handleCheckMeeting(data){
     logg('handle CheckMeeting : ${data}');
   }
 
-  sendMessage(data) {
-    logg('socektId : ${socket.id}');
-    socket.emit('message', jsonEncode(data));
+  sendMessage(data){
+     socket.emit('message', jsonEncode(data));
   }
 
   Future<bool> checkConnectivity() async {
@@ -782,4 +902,14 @@ class MainCubit extends Cubit<MainState> {
     defaultLang = getCachedLocal();
     emit(LocaleChangedState());
   }
+
+  void showPopup() {
+    isPopupVisible: true;
+  }
+  void hidePopup() {
+    isPopupVisible: false;
+  }
+
 }
+
+

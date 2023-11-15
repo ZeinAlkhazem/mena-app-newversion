@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
@@ -15,24 +16,36 @@ import 'package:mena/core/responsive/responsive.dart';
 import 'package:mena/main.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
+import 'package:mena/modules/main_layout/weather_banner.dart';
 import 'package:mena/modules/messenger/screens/messenger_get_start_page.dart';
 import 'package:mena/modules/messenger/screens/messenger_home_page.dart';
+
 // import 'package:mena/modules/test/test_layout.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:pull_down_button/pull_down_button.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
 import '../../core/constants/constants.dart';
 import '../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
 import '../../models/local_models.dart';
+import '../auth_screens/cubit/auth_cubit.dart';
+import '../auth_screens/cubit/auth_state.dart';
 import '../auth_screens/sign_in_screen.dart';
+import '../feeds_screen/cubit/feeds_cubit.dart';
 import '../home_screen/home_screen.dart';
 import '../live_screens/live_main_layout.dart';
 import '../live_screens/meetings/meetings_layout.dart';
 import '../messenger/cubit/messenger_cubit.dart';
+import '../messenger/messenger_layout.dart';
 import '../my_profile/my_profile.dart';
+import '../my_profile/my_profile.dart';
+import '../my_profile/my_profile.dart';
+import '../my_profile/my_profile.dart';
+import '../my_profile/my_profile.dart';
+import '../splash_screen/route_engine.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class MainLayout extends StatefulWidget {
   const MainLayout({Key? key}) : super(key: key);

@@ -70,7 +70,9 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
 
       if (widget.feed!.lat != null && widget.feed!.lng != null) {
         FeedsCubit.get(context).updatePickedFeedLocation(PickedLocationModel(
-            name: 'Location picked', latLng: LatLng(double.tryParse(widget.feed!.lat!) ?? 0, double.tryParse(widget.feed!.lng!) ?? 0)));
+            name: 'Location picked',
+            latLng: LatLng(double.tryParse(widget.feed!.lat!) ?? 0,
+                double.tryParse(widget.feed!.lng!) ?? 0)));
       }
 
       /// make loop on files thn update attached files
@@ -89,6 +91,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
 
     return BlocConsumer<FeedsCubit, FeedsState>(
       listener: (context, state) {
+        print("this is the feed state : ${state}");
         // TODO: implement listener
         if (state is NoDataToSendState) {
           showMyAlertDialog(context, 'Please add a content to share');
@@ -97,6 +100,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
         if (state is SuccessSendingFeedState) {
           feedsCubit.resetAttachedFiles();
           feedsCubit.updatePickedFeedLocation(null);
+
           ///
           ///
           ///
@@ -127,62 +131,68 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
           child: Scaffold(
               resizeToAvoidBottomInset: false,
               backgroundColor: newLightGreyColor,
-              appBar: PreferredSize(
-                preferredSize: Size.fromHeight(56.0.h),
-                child: DefaultBackTitleAppBar(
-                  title: getTranslatedStrings(context).newPost,
-                  suffix: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+              // appBar: PreferredSize(
+              //   preferredSize: Size.fromHeight(56.0.h),
+              //   child: DefaultBackTitleAppBar(
+              //     title: getTranslatedStrings(context).newPost,
+              //     suffix: Padding(
+              //       padding: EdgeInsets.symmetric(
+              //           horizontal: defaultHorizontalPadding),
+              //       child: DefaultButton(
+              //           width: 0.2.sw,
+              //           height: 25.h,
+              //           fontSize: 10,
+              //           withoutPadding: true,
+              //           text: getTranslatedStrings(context).share.toUpperCase(),
+              //           onClick: () {
+              //             // if (feedInputController.text.isNotEmpty || feedsCubit.attachedFiles.isNotEmpty) {
+              //             feedsCubit.postFeed(
+              //                 feed: widget.feed,
+              //                 feedText: feedInputController.text);
+              //             // }
+              //           }),
+              //     ),
+              //     // suffix: GestureDetector(
+              //     //   onTap: () {},
+              //     //   child: Padding(
+              //     //     padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              //     //     child: SvgPicture.asset('assets/svg/icons/search.svg'),
+              //     //   ),
+              //     // ),
+              //   ),
+              // ),
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: state is SendingFeedState
                         ? DefaultLoaderColor()
                         : DefaultButton(
                             width: 0.2.sw,
-                            height: 25.h,
-                            fontSize: 10,
-                            withoutPadding: true,
-                            text: getTranslatedStrings(context).share.toUpperCase(),
+                            fontSize: 12,
+                            text: getTranslatedStrings(context)
+                                .share
+                                .toUpperCase(),
                             onClick: () {
-                              // if (feedInputController.text.isNotEmpty || feedsCubit.attachedFiles.isNotEmpty) {
-                                feedsCubit.postFeed(feed: widget.feed, feedText: feedInputController.text);
-                              // }
+                              feedsCubit.postFeed(
+                                  feed: widget.feed,
+                                  feedText: feedInputController.text);
                             }),
-                  ),
-                  // suffix: GestureDetector(
-                  //   onTap: () {},
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  //     child: SvgPicture.asset('assets/svg/icons/search.svg'),
-                  //   ),
-                  // ),
+                  )
+                ],
+                iconTheme: IconThemeData(color: mainBlueColor),
+                elevation: 0.3,
+                title: Text(
+                  'New Post',
+                  style: mainStyle(context, 13, color: mainBlueColor),
                 ),
+                centerTitle: true,
               ),
-              // appBar: AppBar(
-              //   backgroundColor: Colors.white,
-              //   actions: [
-              //     Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: state is SendingFeedState
-              //           ? DefaultLoaderColor()
-              //           : DefaultButton(
-              //               width: 0.2.sw,
-              //               fontSize: 12,
-              //               text: getTranslatedStrings(context).share.toUpperCase(),
-              //               onClick: () {
-              //                 feedsCubit.postFeed(feed: widget.feed, feedText: feedInputController.text);
-              //               }),
-              //     )
-              //   ],
-              //   iconTheme: IconThemeData(color: mainBlueColor),
-              //   elevation: 0.3,
-              //   title: Text(
-              //     '',
-              //     style: mainStyle(context, 13, color: mainBlueColor),
-              //   ),
-              //   centerTitle: true,
-              // ),
               body: SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: defaultHorizontalPadding),
+                  padding: EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: defaultHorizontalPadding),
                   child: Column(
                     children: [
                       Divider(
@@ -205,44 +215,71 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
 
                                   GestureDetector(
                                       onTap: () {
-                                        showMyAlertDialog(context, getTranslatedStrings(context).privacy,
-                                            alertDialogContent: BlocConsumer<FeedsCubit, FeedsState>(
+                                        showMyAlertDialog(
+                                            context,
+                                            getTranslatedStrings(context)
+                                                .privacy,
+                                            alertDialogContent: BlocConsumer<
+                                                FeedsCubit, FeedsState>(
                                               listener: (context, state) {
                                                 // TODO: implement listener
                                               },
                                               builder: (context, state) {
                                                 return Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      getTranslatedStrings(context).whoCanViewPost,
-                                                      style: mainStyle(context, 12,
-                                                          color: newDarkGreyColor, weight: FontWeight.w700),
+                                                      getTranslatedStrings(
+                                                              context)
+                                                          .whoCanViewPost,
+                                                      style: mainStyle(
+                                                          context, 12,
+                                                          color:
+                                                              newDarkGreyColor,
+                                                          weight:
+                                                              FontWeight.w700),
                                                     ),
                                                     heightBox(7.h),
                                                     Column(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: ['Everyone', 'Providers', 'Only me']
-                                                          .map((e) => Padding(
-                                                                padding: const EdgeInsets.all(4.0),
-                                                                child: GestureDetector(
-                                                                  onTap: () {
-                                                                    feedsCubit.updateFeedAudience(e);
-                                                                  },
-                                                                  child: AlertDialogSelectorItem(
-                                                                    label: privacyAudienceTranslatedText(context, e),
-                                                                    isSelected: feedsCubit.currentAudience == e,
-                                                                    customFontColor: feedsCubit.currentAudience == e
-                                                                        ? Colors.white
-                                                                        : mainBlueColor,
-                                                                    customColor: feedsCubit.currentAudience == e
-                                                                        ? mainBlueColor
-                                                                        : softBlueColor,
-                                                                  ),
-                                                                ),
-                                                              ))
-                                                          .toList(),
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children:
+                                                          [
+                                                        'Everyone',
+                                                        'Providers',
+                                                        'Only me'
+                                                      ]
+                                                              .map(
+                                                                  (e) =>
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            4.0),
+                                                                        child:
+                                                                            GestureDetector(
+                                                                          onTap:
+                                                                              () {
+                                                                            feedsCubit.updateFeedAudience(e);
+                                                                          },
+                                                                          child:
+                                                                              AlertDialogSelectorItem(
+                                                                            label:
+                                                                                privacyAudienceTranslatedText(context, e),
+                                                                            isSelected:
+                                                                                feedsCubit.currentAudience == e,
+                                                                            customFontColor: feedsCubit.currentAudience == e
+                                                                                ? Colors.white
+                                                                                : mainBlueColor,
+                                                                            customColor: feedsCubit.currentAudience == e
+                                                                                ? mainBlueColor
+                                                                                : softBlueColor,
+                                                                          ),
+                                                                        ),
+                                                                      ))
+                                                              .toList(),
                                                     ),
                                                   ],
                                                 );
@@ -254,7 +291,8 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                         backColor: Colors.transparent,
                                         borderColor: newDarkGreyColor,
                                         childWidget: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 6.0, horizontal: 8),
                                           child: Row(
                                             children: [
                                               SvgPicture.asset(
@@ -266,7 +304,8 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                               Text(
                                                 feedsCubit.currentAudience,
                                                 style: mainStyle(context, 10,
-                                                    color: newDarkGreyColor, weight: FontWeight.w700),
+                                                    color: newDarkGreyColor,
+                                                    weight: FontWeight.w700),
                                               ),
                                               widthBox(10.w),
                                               SvgPicture.asset(
@@ -356,7 +395,8 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                 controller: feedInputController,
                                 unFocusedBorderColor: Colors.transparent,
                                 focusedBorderColor: Colors.transparent,
-                                label: getTranslatedStrings(context).shareYourThoughts,
+                                label: getTranslatedStrings(context)
+                                    .shareYourThoughts,
                                 // labelWidget: Text(
                                 //   getTranslatedStrings(context).shareYourThoughts,
                                 //   style: mainStyle(context, 14, isBold: true, color: newDarkGreyColor),
@@ -414,12 +454,14 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                     Expanded(
                                       child: Text(
                                         '${feedsCubit.pickedFeedLocation!.name}',
-                                        style: mainStyle(context, 12, color: mainBlueColor),
+                                        style: mainStyle(context, 12,
+                                            color: mainBlueColor),
                                       ),
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        feedsCubit.updatePickedFeedLocation(null);
+                                        feedsCubit
+                                            .updatePickedFeedLocation(null);
                                       },
                                       child: Container(
                                         color: Colors.transparent,
@@ -454,45 +496,74 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                       color: Colors.white,
                                       child: SafeArea(
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12.0, vertical: 12),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Text(
-                                                getTranslatedStrings(context).pickImagesVideos,
-                                                style: mainStyle(context, 14, color: newDarkGreyColor, isBold: true),
+                                                getTranslatedStrings(context)
+                                                    .pickImagesVideos,
+                                                style: mainStyle(context, 14,
+                                                    color: newDarkGreyColor,
+                                                    isBold: true),
                                               ),
                                               heightBox(15.h),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: [
                                                   Expanded(
                                                     child: DefaultButton(
                                                         // color: Colors.white,
-                                                        backColor: newLightGreyColor,
-                                                        borderColor: Colors.transparent,
+                                                        backColor:
+                                                            newLightGreyColor,
+                                                        borderColor:
+                                                            Colors.transparent,
                                                         height: 0.07.sh,
                                                         // width: 33.w,
-                                                        text: getTranslatedStrings(context).image,
+                                                        text:
+                                                            getTranslatedStrings(
+                                                                    context)
+                                                                .image,
                                                         customChild: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             Text(
-                                                              getTranslatedStrings(context).images,
-                                                              style: mainStyle(context, 13,
-                                                                  color: newDarkGreyColor, isBold: true),
+                                                              getTranslatedStrings(
+                                                                      context)
+                                                                  .images,
+                                                              style: mainStyle(
+                                                                  context, 13,
+                                                                  color:
+                                                                      newDarkGreyColor,
+                                                                  isBold: true),
                                                             ),
                                                             widthBox(7.w),
-                                                            SvgPicture.asset('assets/svg/icons/camera.svg')
+                                                            SvgPicture.asset(
+                                                                'assets/svg/icons/camera.svg')
                                                           ],
                                                         ),
                                                         onClick: () async {
                                                           logg('picking file');
-                                                          final ImagePicker _picker = ImagePicker();
-                                                          final List<XFile>? photos = await _picker.pickMultiImage();
+                                                          final ImagePicker
+                                                              _picker =
+                                                              ImagePicker();
+                                                          final List<XFile>?
+                                                              photos =
+                                                              await _picker
+                                                                  .pickMultiImage();
                                                           if (photos != null) {
-                                                            feedsCubit.updateAttachedFile(null, xFiles: photos);
-                                                            Navigator.pop(context);
+                                                            feedsCubit
+                                                                .updateAttachedFile(
+                                                                    null,
+                                                                    xFiles:
+                                                                        photos);
+                                                            Navigator.pop(
+                                                                context);
                                                           }
                                                         }),
                                                   ),
@@ -500,30 +571,52 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                                   Expanded(
                                                     child: DefaultButton(
                                                       height: 0.07.sh,
-                                                      backColor: newLightGreyColor,
-                                                      borderColor: Colors.transparent,
-                                                      text: getTranslatedStrings(context).video,
+                                                      backColor:
+                                                          newLightGreyColor,
+                                                      borderColor:
+                                                          Colors.transparent,
+                                                      text:
+                                                          getTranslatedStrings(
+                                                                  context)
+                                                              .video,
                                                       customChild: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           Text(
-                                                            getTranslatedStrings(context).videos,
-                                                            style: mainStyle(context, 13,
-                                                                color: newDarkGreyColor, isBold: true),
+                                                            getTranslatedStrings(
+                                                                    context)
+                                                                .videos,
+                                                            style: mainStyle(
+                                                                context, 13,
+                                                                color:
+                                                                    newDarkGreyColor,
+                                                                isBold: true),
                                                           ),
                                                           widthBox(7.w),
-                                                          SvgPicture.asset('assets/svg/icons/video camera.svg')
+                                                          SvgPicture.asset(
+                                                              'assets/svg/icons/video camera.svg')
                                                         ],
                                                       ),
                                                       onClick: () async {
                                                         logg('picking video');
-                                                        final ImagePicker _picker = ImagePicker();
+                                                        final ImagePicker
+                                                            _picker =
+                                                            ImagePicker();
                                                         final XFile? photo =
-                                                            await _picker.pickVideo(source: ImageSource.gallery);
+                                                            await _picker.pickVideo(
+                                                                source:
+                                                                    ImageSource
+                                                                        .gallery);
                                                         if (photo != null) {
-                                                          logg('adding video to attachment');
-                                                          feedsCubit.updateAttachedFile(photo);
-                                                          Navigator.pop(context);
+                                                          logg(
+                                                              'adding video to attachment');
+                                                          feedsCubit
+                                                              .updateAttachedFile(
+                                                                  photo);
+                                                          Navigator.pop(
+                                                              context);
                                                         }
                                                       },
                                                     ),
@@ -536,8 +629,6 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                       ),
                                     );
                                   });
-                         
-                         
                             },
                           ),
                           // Divider(
@@ -580,45 +671,72 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                       color: Colors.white,
                                       child: SafeArea(
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12.0, vertical: 12),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Text(
-                                                getTranslatedStrings(context).takePhotoRecordVideo,
-                                                style: mainStyle(context, 14, color: newDarkGreyColor, isBold: true),
+                                                getTranslatedStrings(context)
+                                                    .takePhotoRecordVideo,
+                                                style: mainStyle(context, 14,
+                                                    color: newDarkGreyColor,
+                                                    isBold: true),
                                               ),
                                               heightBox(15.h),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: [
                                                   Expanded(
                                                     child: DefaultButton(
                                                         // color: Colors.white,
-                                                        backColor: newLightGreyColor,
-                                                        borderColor: Colors.transparent,
+                                                        backColor:
+                                                            newLightGreyColor,
+                                                        borderColor:
+                                                            Colors.transparent,
                                                         height: 0.07.sh,
                                                         // width: 33.w,
-                                                        text: getTranslatedStrings(context).image,
+                                                        text:
+                                                            getTranslatedStrings(
+                                                                    context)
+                                                                .image,
                                                         customChild: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             Text(
-                                                              getTranslatedStrings(context).images,
-                                                              style: mainStyle(context, 13,
-                                                                  color: newDarkGreyColor, isBold: true),
+                                                              getTranslatedStrings(
+                                                                      context)
+                                                                  .images,
+                                                              style: mainStyle(
+                                                                  context, 13,
+                                                                  color:
+                                                                      newDarkGreyColor,
+                                                                  isBold: true),
                                                             ),
                                                             widthBox(7.w),
-                                                            SvgPicture.asset('assets/svg/icons/camera.svg')
+                                                            SvgPicture.asset(
+                                                                'assets/svg/icons/camera.svg')
                                                           ],
                                                         ),
                                                         onClick: () async {
-                                                          final ImagePicker _picker = ImagePicker();
+                                                          final ImagePicker
+                                                              _picker =
+                                                              ImagePicker();
                                                           final XFile? photo =
-                                                              await _picker.pickImage(source: ImageSource.camera);
+                                                              await _picker.pickImage(
+                                                                  source:
+                                                                      ImageSource
+                                                                          .camera);
                                                           if (photo != null) {
-                                                            feedsCubit.updateAttachedFile(photo);
-                                                            Navigator.pop(context);
+                                                            feedsCubit
+                                                                .updateAttachedFile(
+                                                                    photo);
+                                                            Navigator.pop(
+                                                                context);
                                                           }
                                                         }),
                                                   ),
@@ -626,28 +744,50 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                                                   Expanded(
                                                     child: DefaultButton(
                                                       height: 0.07.sh,
-                                                      backColor: newLightGreyColor,
-                                                      borderColor: Colors.transparent,
-                                                      text: getTranslatedStrings(context).video,
+                                                      backColor:
+                                                          newLightGreyColor,
+                                                      borderColor:
+                                                          Colors.transparent,
+                                                      text:
+                                                          getTranslatedStrings(
+                                                                  context)
+                                                              .video,
                                                       customChild: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           Text(
-                                                            getTranslatedStrings(context).videos,
-                                                            style: mainStyle(context, 13,
-                                                                color: newDarkGreyColor, isBold: true),
+                                                            getTranslatedStrings(
+                                                                    context)
+                                                                .videos,
+                                                            style: mainStyle(
+                                                                context, 13,
+                                                                color:
+                                                                    newDarkGreyColor,
+                                                                isBold: true),
                                                           ),
                                                           widthBox(7.w),
-                                                          SvgPicture.asset('assets/svg/icons/video camera.svg')
+                                                          SvgPicture.asset(
+                                                              'assets/svg/icons/video camera.svg')
                                                         ],
                                                       ),
                                                       onClick: () async {
-                                                        final ImagePicker _picker = ImagePicker();
+                                                        final ImagePicker
+                                                            _picker =
+                                                            ImagePicker();
                                                         final XFile? photo =
-                                                            await _picker.pickVideo(source: ImageSource.camera,);
+                                                            await _picker
+                                                                .pickVideo(
+                                                          source: ImageSource
+                                                              .camera,
+                                                        );
                                                         if (photo != null) {
-                                                          feedsCubit.updateAttachedFile(photo);
-                                                          Navigator.pop(context);
+                                                          feedsCubit
+                                                              .updateAttachedFile(
+                                                                  photo);
+                                                          Navigator.pop(
+                                                              context);
                                                         }
                                                       },
                                                     ),
@@ -674,7 +814,8 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                             ),
                             fn: () async {
                               logg('picking file');
-                              FilePickerResult? result = await FilePicker.platform.pickFiles(
+                              FilePickerResult? result =
+                                  await FilePicker.platform.pickFiles(
                                 type: FileType.custom,
                                 allowedExtensions: [
                                   // 'jpg',
@@ -801,7 +942,8 @@ class _PlacePickerLayoutState extends State<PlacePickerLayout> {
         );
       },*/
       // outsideOfPickAreaText: 'This area not available',
-      selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
+      selectedPlaceWidgetBuilder:
+          (_, selectedPlace, state, isSearchBarFocused) {
         return isSearchBarFocused
             ? Container()
             // Use FloatingCard or just create your own Widget.
@@ -823,7 +965,8 @@ class _PlacePickerLayoutState extends State<PlacePickerLayout> {
                           children: [
                             Text(
                               '${selectedPlace?.formattedAddress}',
-                              style: mainStyle(context, 16, color: mainBlueColor),
+                              style:
+                                  mainStyle(context, 16, color: mainBlueColor),
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(
@@ -840,12 +983,14 @@ class _PlacePickerLayoutState extends State<PlacePickerLayout> {
                                 //         selectedPlace.geometry!.location.lng),
                                 //     selectedPlace.formattedAddress ?? '--');
 
-                                feedsCubit.updatePickedFeedLocation(PickedLocationModel(
+                                feedsCubit.updatePickedFeedLocation(
+                                    PickedLocationModel(
                                   name: selectedPlace?.name ??
                                       selectedPlace?.formattedAddress ??
                                       selectedPlace?.adrAddress,
                                   latLng: LatLng(
-                                      selectedPlace!.geometry!.location.lat, selectedPlace.geometry!.location.lng),
+                                      selectedPlace!.geometry!.location.lat,
+                                      selectedPlace.geometry!.location.lng),
                                 ));
                                 Navigator.of(context).pop();
                               },

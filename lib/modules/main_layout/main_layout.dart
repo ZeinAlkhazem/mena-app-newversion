@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
@@ -16,36 +15,24 @@ import 'package:mena/core/responsive/responsive.dart';
 import 'package:mena/main.dart';
 import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 import 'package:mena/modules/home_screen/cubit/home_screen_cubit.dart';
-import 'package:mena/modules/main_layout/weather_banner.dart';
 import 'package:mena/modules/messenger/screens/messenger_get_start_page.dart';
 import 'package:mena/modules/messenger/screens/messenger_home_page.dart';
-
 // import 'package:mena/modules/test/test_layout.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:pull_down_button/pull_down_button.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
 import '../../core/constants/constants.dart';
 import '../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import '../../core/shared_widgets/shared_widgets.dart';
 import '../../models/local_models.dart';
-import '../auth_screens/cubit/auth_cubit.dart';
-import '../auth_screens/cubit/auth_state.dart';
 import '../auth_screens/sign_in_screen.dart';
-import '../feeds_screen/cubit/feeds_cubit.dart';
 import '../home_screen/home_screen.dart';
 import '../live_screens/live_main_layout.dart';
 import '../live_screens/meetings/meetings_layout.dart';
 import '../messenger/cubit/messenger_cubit.dart';
-import '../messenger/messenger_layout.dart';
 import '../my_profile/my_profile.dart';
-import '../my_profile/my_profile.dart';
-import '../my_profile/my_profile.dart';
-import '../my_profile/my_profile.dart';
-import '../my_profile/my_profile.dart';
-import '../splash_screen/route_engine.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class MainLayout extends StatefulWidget {
   const MainLayout({Key? key}) : super(key: key);
@@ -317,7 +304,8 @@ class _MainLayoutState extends State<MainLayout> {
                         log("hhhh");
                         myScaffoldKey.currentState?.closeEndDrawer();
                         homeCubit.changeSelectedHomePlatform(e.id.toString());
-                       await  prefs.setString('platformName' , e.name.toString());
+                        await prefs.setString(
+                            'platformName', e.name.toString());
                       },
                       isSelected: homeCubit.selectedHomePlatformId == e.id,
                     ),
@@ -358,14 +346,15 @@ class _MainLayoutState extends State<MainLayout> {
                                           ? defaultHorizontalPadding / 8
                                           : defaultHorizontalPadding / 2),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 6.0,top:5),
+                                    padding: const EdgeInsets.only(
+                                        bottom: 6.0, top: 5),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                          GestureDetector(
+                                        GestureDetector(
                                           onTap: () {
                                             logg('profile bubble clicked');
                                             navigateToWithoutNavBar(
@@ -377,67 +366,74 @@ class _MainLayoutState extends State<MainLayout> {
                                           },
                                           child: getCachedToken() == null
                                               ? SvgPicture.asset(
-                                            'assets/svg/icons/profileFilled.svg',
-                                            height:
-                                            Responsive.isMobile(
-                                                context)
-                                                ? 30.w
-                                                : 12.w,
-                                          )
+                                                  'assets/svg/icons/profileFilled.svg',
+                                                  height: Responsive.isMobile(
+                                                          context)
+                                                      ? 30.w
+                                                      : 12.w,
+                                                )
                                               : ProfileBubble(
-                                            isOnline: true,
-                                            customRingColor:
-                                            Colors.transparent,
-                                            pictureUrl: MainCubit.get(
-                                                context)
-                                                .userInfoModel ==
-                                                null
-                                                ? ''
-                                                : MainCubit.get(
-                                                context)
-                                                .userInfoModel!
-                                                .data
-                                                .user
-                                                .personalPicture,
-                                            onlyView: true,
-                                            radius:
-                                            Responsive.isMobile(
-                                                context)
-                                                ? 14.w
-                                                : 5.w,
-                                          ),
+                                                  isOnline: true,
+                                                  customRingColor:
+                                                      Colors.transparent,
+                                                  pictureUrl: MainCubit.get(
+                                                                  context)
+                                                              .userInfoModel ==
+                                                          null
+                                                      ? ''
+                                                      : MainCubit.get(context)
+                                                          .userInfoModel!
+                                                          .data
+                                                          .user
+                                                          .personalPicture,
+                                                  onlyView: true,
+                                                  radius: Responsive.isMobile(
+                                                          context)
+                                                      ? 14.w
+                                                      : 5.w,
+                                                ),
                                         ),
                                         // widthBox(0.5.w),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 3),
+                                          padding:
+                                              const EdgeInsets.only(top: 3),
                                           child: Text(
                                             "Home",
                                             style: TextStyle(
                                               fontSize: 23.0,
                                               fontWeight: FontWeight.w700,
                                               fontFamily: 'Tajawal',
-                                              color: Color(0xff444444),),
+                                              color: Color(0xff444444),
+                                            ),
                                           ),
                                         ),
                                         widthBox(110.w),
 
                                         Padding(
-                                          padding: const EdgeInsets.only(bottom: 3),
+                                          padding:
+                                              const EdgeInsets.only(bottom: 3),
                                           child: MyPullDownButton(
-                                            svgHeight: Responsive.isMobile(context) ? 25.w : 12.w,
+                                            svgHeight:
+                                                Responsive.isMobile(context)
+                                                    ? 25.w
+                                                    : 12.w,
                                             customWidth: 0.485.sw,
                                             customOffset: Offset(-30, 12),
-                                            customPosition: PullDownMenuPosition.under,
+                                            customPosition:
+                                                PullDownMenuPosition.under,
                                             customButtonWidget: Padding(
-                                              padding: const EdgeInsets.only(top: 2),
+                                              padding:
+                                                  const EdgeInsets.only(top: 2),
                                               child: SvgPicture.asset(
                                                 "assets/new_icons/add_circle_outline_28.svg",
                                                 color: Color(0xff2A87EA),
                                                 width: 28,
                                               ),
                                             ),
-                                            items: MainCubit.get(context).userActionItems(context),
-                                            svgLink: "assets/new_icons/add_circle_outline_28.svg",
+                                            items: MainCubit.get(context)
+                                                .userActionItems(context),
+                                            svgLink:
+                                                "assets/new_icons/add_circle_outline_28.svg",
                                           ),
                                         ),
 
@@ -445,8 +441,9 @@ class _MainLayoutState extends State<MainLayout> {
                                         MessengerIconBubble(),
                                         // widthBox(3.w),
                                         AppBarIcons(
-                                          btnClick: () {  },
-                                          icon: 'assets/new_icons/notifications_28.svg',
+                                          btnClick: () {},
+                                          icon:
+                                              'assets/new_icons/notifications_28.svg',
                                           iconSize: 28,
                                           width: 12,
                                           top: 1,
@@ -458,7 +455,7 @@ class _MainLayoutState extends State<MainLayout> {
                                   ),
                                 )
                               : const SizedBox(),
-                          Divider(),
+                          mainCubit.isHeaderVisible ? Divider() : SizedBox(),
                           Expanded(
                             child: PersistentTabView(
                               context,
@@ -470,6 +467,11 @@ class _MainLayoutState extends State<MainLayout> {
                               // // floatingActionButton: Container(
                               // //   c
                               // // ),
+                              onItemSelected: (index) {
+                                if (index == 1) {
+                                  mainCubit.changeHeaderVisibility(false);
+                                }
+                              },
                               // onItemSelected: (index) {
                               //   // mainCubit.changeHeaderVisibility(true);
                               //   if (index == 2) {
@@ -545,7 +547,6 @@ class _MainLayoutState extends State<MainLayout> {
                               navBarStyle: NavBarStyle.style6,
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -565,7 +566,8 @@ class MessengerIconBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
-    bool hasMessages = mainCubit.countersModel != null && mainCubit.countersModel!.data.messages > 0;
+    bool hasMessages = mainCubit.countersModel != null &&
+        mainCubit.countersModel!.data.messages > 0;
     return GestureDetector(
       onTap: () {
         if (getCachedToken() == null) {
@@ -592,13 +594,20 @@ class MessengerIconBubble extends StatelessWidget {
                 children: [
                   AppBarIcons(
                     btnClick: () {
-                      if(getCachedToken() == null){
-                      viewMessengerLoginAlertDialog(context);
-                    }else if (MessengerCubit.get(context).myMessagesModel!.data.myChats!.isEmpty){
-                      navigateToWithoutNavBar(context, const MessengerGetStartPage(), '');
-                    }else{
-                      navigateToWithoutNavBar(context, const MessengerHomePage(), '');
-                    } },
+                      if (getCachedToken() == null) {
+                        viewMessengerLoginAlertDialog(context);
+                      } else if (MessengerCubit.get(context)
+                          .myMessagesModel!
+                          .data
+                          .myChats!
+                          .isEmpty) {
+                        navigateToWithoutNavBar(
+                            context, const MessengerGetStartPage(), '');
+                      } else {
+                        navigateToWithoutNavBar(
+                            context, const MessengerHomePage(), '');
+                      }
+                    },
                     icon: "assets/new_icons/message_outline_28.svg",
                     iconSize: 28,
                     bottom: 3,
@@ -676,7 +685,6 @@ class NotificationIconBubble extends StatelessWidget {
   }
 }
 
-
 class AppBarIcons extends StatelessWidget {
   final String icon;
   final VoidCallback btnClick;
@@ -689,25 +697,29 @@ class AppBarIcons extends StatelessWidget {
 
   const AppBarIcons(
       {super.key,
-        required this.btnClick,
-        this.top = 1,
-        this.width = 7,
-        this.title = "",
-        this.bottom = 1,
-        this.right = 1,
-        this.iconSize = 39.0,
-        required this.icon});
+      required this.btnClick,
+      this.top = 1,
+      this.width = 7,
+      this.title = "",
+      this.bottom = 1,
+      this.right = 1,
+      this.iconSize = 39.0,
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: btnClick,
       child: Container(
-        padding: EdgeInsets.only(top: top, bottom: bottom,right: right),
+        padding: EdgeInsets.only(top: top, bottom: bottom, right: right),
         child: Row(
           children: [
-            SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,color: Color(
-                0xff2788E8),),
+            SvgPicture.asset(
+              icon,
+              width: iconSize,
+              fit: BoxFit.contain,
+              color: Color(0xff2788E8),
+            ),
             widthBox(width),
             Text(
               title,
@@ -722,7 +734,6 @@ class AppBarIcons extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class NavBarIcons extends StatelessWidget {
@@ -737,24 +748,28 @@ class NavBarIcons extends StatelessWidget {
 
   const NavBarIcons(
       {super.key,
-        required this.btnClick,
-        this.top = 1,
-        this.height = 1,
-        this.title = "",
-        this.bottom = 1,
-        this.right = 1,
-        this.iconSize = 39.0,
-        required this.icon});
+      required this.btnClick,
+      this.top = 1,
+      this.height = 1,
+      this.title = "",
+      this.bottom = 1,
+      this.right = 1,
+      this.iconSize = 39.0,
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: btnClick,
       child: Container(
-        padding: EdgeInsets.only(top: top, bottom: bottom,right: right),
+        padding: EdgeInsets.only(top: top, bottom: bottom, right: right),
         child: Column(
           children: [
-            SvgPicture.asset(icon,width: iconSize, fit: BoxFit.contain,),
+            SvgPicture.asset(
+              icon,
+              width: iconSize,
+              fit: BoxFit.contain,
+            ),
             heightBox(height.h),
             Text(
               title,
@@ -769,5 +784,4 @@ class NavBarIcons extends StatelessWidget {
       ),
     );
   }
-
 }

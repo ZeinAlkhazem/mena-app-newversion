@@ -6,9 +6,10 @@ import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 
+import '../../../../../core/cache/cache.dart';
 import '../widgets/button_with_label.dart';
 import '../widgets/search_controll.dart';
-import 'health_care_market.dart';
+import '../../../healthcare/presentation/pages/health_care_market.dart';
 
 class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
@@ -18,6 +19,7 @@ class MarketScreen extends StatefulWidget {
 }
 
 class _MarketScreenState extends State<MarketScreen> {
+  String platformName = CacheHelper.getData(key: 'platformName');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +54,7 @@ class _MarketScreenState extends State<MarketScreen> {
               Positioned(
                 left: 0,
                 right: 0,
-                bottom: -30.h,
+                bottom: -25.h,
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10.w),
                   height: 160.h,
@@ -85,14 +87,14 @@ class _MarketScreenState extends State<MarketScreen> {
       ),
       body: Column(
         children: [
-          heightBox(50.h),
+          heightBox(40.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ButtonWithLabel(
                 btnIcon: "assets/menamarket/market_circle_fill_yellow_20.svg",
-                label: "Healthcare\nMarket",
+                label: "$platformName\nMarket",
                 onTap: () async {
                   navigateToWithoutNavBar(
                       context, HealthCareMarket(), 'routeName');
@@ -100,17 +102,17 @@ class _MarketScreenState extends State<MarketScreen> {
               ),
               ButtonWithLabel(
                 btnIcon: "assets/menamarket/discount_outline_20.svg",
-                label: "Healthcare\nDeals",
+                label: "$platformName\nDeals",
                 onTap: () {},
               ),
               ButtonWithLabel(
                 btnIcon: "assets/menamarket/discount_outline_20.svg",
-                label: "Healthcare\nCampaigns",
+                label: "$platformName\nCampaigns",
                 onTap: () {},
               ),
               ButtonWithLabel(
                 btnIcon: "assets/menamarket/discount_outline_20.svg",
-                label: "Healthcare\nAuctions",
+                label: "$platformName\nAuctions",
                 onTap: () {},
               ),
             ],
@@ -118,7 +120,7 @@ class _MarketScreenState extends State<MarketScreen> {
           heightBox(20.h),
           SizedBox(
             // color: Colors.grey,
-            height: context.height / 4.0,
+            height: context.height / 4.5,
             child: CarouselSlider.builder(
               itemCount: 3,
               carouselController: CarouselController(),

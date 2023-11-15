@@ -184,7 +184,7 @@ class _PostAFeedLayoutState extends State<PostAFeedLayout> {
                 iconTheme: IconThemeData(color: mainBlueColor),
                 elevation: 0.3,
                 title: Text(
-                  'New Post',
+                 getTranslatedStrings(context).newPost,
                   style: mainStyle(context, 13, color: mainBlueColor),
                 ),
                 centerTitle: true,

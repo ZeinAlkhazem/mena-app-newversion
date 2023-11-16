@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 import '../responsive/responsive.dart';
 
@@ -44,14 +46,11 @@ String databaseStoredJsonTableName = 'json_table';
 double rainBowBarBottomPadding(BuildContext context) => 0;
 
 double topScreenPadding = 1.h;
+
 /// icons size
 
 double iconAppBarWidth = 10.w;
 double iconAppBarHeight = 10.w;
-
-
-
-
 
 /// colors
 Color blackColor = const Color.fromRGBO(0, 0, 0, 1);
@@ -72,7 +71,6 @@ Color drawerColor = const Color(0xffdce0e5);
 Color newDarkGreyColor = const Color(0xff818C99);
 Color newLightTextGreyColor = const Color(0xff818C99);
 
-
 final String messengerAssets = "assets/icons/messenger";
 
 /// shadow
@@ -85,14 +83,18 @@ List<BoxShadow>? mainBoxShadow = [
 ];
 
 List<BoxShadow>? softBoxShadow = const [
-  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.30000001192092896), offset: Offset(0, 1), blurRadius: 3)
+  BoxShadow(
+      color: Color.fromRGBO(0, 0, 0, 0.30000001192092896),
+      offset: Offset(0, 1),
+      blurRadius: 3)
 ];
 
 AppLocalizations getTranslatedStrings(BuildContext context) {
   return AppLocalizations.of(context)!;
 }
 
-String privacyAudienceTranslatedText(BuildContext context, String textInEnglish) {
+String privacyAudienceTranslatedText(
+    BuildContext context, String textInEnglish) {
   if (textInEnglish.toLowerCase() == 'everyone') {
     return getTranslatedStrings(context).everyOne;
   } else if (textInEnglish.toLowerCase() == 'providers') {
@@ -101,4 +103,67 @@ String privacyAudienceTranslatedText(BuildContext context, String textInEnglish)
     return getTranslatedStrings(context).onlyMe;
   }
   return textInEnglish;
+}
+
+String getChatTime({required DateTime chatTime}) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final yesterday1 = DateTime(now.year, now.month, now.day - 1);
+  final yesterday2 = DateTime(now.year, now.month, now.day - 2);
+  final yesterday3 = DateTime(now.year, now.month, now.day - 3);
+  final yesterday4 = DateTime(now.year, now.month, now.day - 4);
+  final yesterday5 = DateTime(now.year, now.month, now.day - 5);
+  final yesterday6 = DateTime(now.year, now.month, now.day - 6);
+  final yesterday7 = DateTime(now.year, now.month, now.day - 7);
+
+  final dateToCheck = chatTime;
+  final aDate = DateTime(dateToCheck.year, dateToCheck.month, dateToCheck.day);
+  String newChatTime = "";
+  if (aDate == today) {
+    newChatTime = DateFormat('hh:mm a', 'en').format(dateToCheck);
+  } else if (aDate == yesterday1) {
+    newChatTime = "yesterday";
+  } else if (aDate == yesterday2 ||
+      aDate == yesterday3 ||
+      aDate == yesterday4 ||
+      aDate == yesterday5 ||
+      aDate == yesterday6 ||
+      aDate == yesterday7) {
+    newChatTime = DateFormat('EEEE').format(dateToCheck);
+  } else {
+    newChatTime = DateFormat('yyyy/MM/dd', 'en').format(dateToCheck);
+  }
+  return newChatTime;
+}
+
+Widget checkMessageType({required String messageType}) {
+  if (messageType == "text") {
+    return SizedBox();
+  } else if (messageType == "image") {
+    return SizedBox(
+        width: 19.w,
+        height: 19.w,
+        child: SvgPicture.asset('$messengerAssets/chat/icon_chat_photo_read.svg'));
+  } else if (messageType == "audio") {
+    return SizedBox(
+        width: 19.w,
+        height: 19.w,
+        child: SvgPicture.asset('$messengerAssets/chat/icon_chat_voice_read.svg'));
+  } else if (messageType == "gif") {
+    return SizedBox(
+        width: 19.w,
+        height: 19.w,
+        child: SvgPicture.asset('$messengerAssets/chat/icon_photo.svg'));
+  } else if (messageType == "video") {
+    return SizedBox(
+        width: 19.w,
+        height: 19.w,
+        child: SvgPicture.asset('$messengerAssets/chat/icon_chat_video_read.svg'));
+  } else if (messageType == "file") {
+    return SizedBox(
+        width: 19.w,
+        height: 19.w,
+        child: SvgPicture.asset('$messengerAssets/chat/icon_chat_file_read.svg'));
+  }
+  return SizedBox();
 }

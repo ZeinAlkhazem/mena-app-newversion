@@ -114,6 +114,7 @@ dependencies:
 
   webview_flutter: ^4.2.2
   whiteboard: ^0.0.2
+  timeago_flutter: ^3.6.0
 
 dev_dependencies:
   flutter_test:
@@ -141,6 +142,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/messenger/
+    - assets/icons/messenger/chat/
     - assets/images/public/
     - assets/svg/
     - assets/json/
@@ -155,7 +157,7 @@ flutter:
     - assets/new_icons/large/png/
     - assets/new_icons/small/png/
     - assets/fonts/
-    - lib/modules/messenger/widget/
+
 
   fonts:
     - family: Tajawal
@@ -207,4 +209,19 @@ flutter:
         - asset: assets/fonts/open_sans/OpenSans-Regular.ttf
           weight: 400
         - asset: assets/fonts/open_sans/OpenSans-Light.ttf
+          weight: 200
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/inter/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/inter/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/inter/Inter-Light.ttf
           weight: 200

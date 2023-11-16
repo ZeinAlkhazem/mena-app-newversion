@@ -483,6 +483,8 @@ class _MainLayoutState extends State<MainLayout> {
                               onItemSelected: (index) {
                                 if (index == 1) {
                                   mainCubit.changeHeaderVisibility(false);
+                                }else{
+                                   mainCubit.changeHeaderVisibility(true);
                                 }
                               },
                               // onItemSelected: (index) {

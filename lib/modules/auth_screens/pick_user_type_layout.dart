@@ -27,7 +27,6 @@ import '../create_new_user/username_page.dart';
 
 String? emailConfirmation = "";
 String? phoneConfirmation = '';
-
 class PickUserTypeLayout extends StatefulWidget {
   const PickUserTypeLayout({Key? key}) : super(key: key);
 

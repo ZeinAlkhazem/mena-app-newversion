@@ -468,7 +468,7 @@ class _MainLayoutState extends State<MainLayout> {
                                   ),
                                 )
                               : const SizedBox(),
-                          Divider(),
+                          mainCubit.isHeaderVisible ? Divider() : SizedBox(),
                           Expanded(
                             child: PersistentTabView(
                               context,
@@ -480,6 +480,13 @@ class _MainLayoutState extends State<MainLayout> {
                               // // floatingActionButton: Container(
                               // //   c
                               // // ),
+                              onItemSelected: (index) {
+                                if (index == 1) {
+                                  mainCubit.changeHeaderVisibility(false);
+                                }else{
+                                   mainCubit.changeHeaderVisibility(true);
+                                }
+                              },
                               // onItemSelected: (index) {
                               //   // mainCubit.changeHeaderVisibility(true);
                               //   if (index == 2) {

@@ -10,7 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mena/core/constants/Colors.dart';
+import 'package:mena/MenaMarketPlace/features/healthcare/presentation/cubit/healthcare_cubit.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
@@ -22,6 +22,7 @@ import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import "MenaMarketPlace/injection_container.dart" as di;
 import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
@@ -36,7 +37,6 @@ import 'modules/community_space/cubit/community_cubit.dart';
 import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
-import 'modules/initial_onboarding/initial_choose_country.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
 import 'modules/messenger/cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
@@ -62,18 +62,18 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
+  di.init();
 
   /// set status bar color
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      // statusBarColor: AppColors.iconsColor
+    // statusBarColor: AppColors.iconsColor
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
     statusBarBrightness: Brightness.dark,
   ));
 
-
   // await initializeDateFormatting();
-prefs = await SharedPreferences.getInstance();
+  prefs = await SharedPreferences.getInstance();
   String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
 
   // Get the default phone language and set it as the default language
@@ -181,7 +181,6 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => ChildsCubit()),
         BlocProvider(create: (BuildContext context) => MessengerCubit()),
         BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
-
         BlocProvider(create: (BuildContext context) => LiveCubit()),
         BlocProvider(create: (BuildContext context) => PromotionsCubit()),
         BlocProvider(create: (BuildContext context) => AuthCubit()),
@@ -200,6 +199,9 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => MeetingCubit()),
         BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
         // ChangeNotifierProvider(create: (context) => ErrorNotifier()),
+        BlocProvider(
+          create: (context) => di.sl<HealthcareCubit>(),
+        ),
       ],
       child: const MainMaterialApp(),
     );

@@ -15,7 +15,8 @@ class AppColors {
   static Color indigoBlue = const Color(0xFF1c3f91);
   static Color grayDarkColor = const Color(0xFF5B5C5E);
   static Color grayGreenColor = const Color(0xFF6A767F);
-  static Color blueDarkColor = const Color(0xFF227FA8);
+  static Color grayColor = const Color(0xFF999B9D);
+  static Color blueDarkColor = const Color(0xFF1FA2FF);
   static Color whiteCreamColor = const Color(0xFFFFF9FD);
   static Color blackColor = const Color(0xFF2A87EA);
   static Color blackgreyColor = const Color(0xFF252525);
@@ -31,4 +32,5 @@ class AppColors {
 
 class AppFonts{
   static String openSansFont ="OpenSans";
+  static String interFont ="Inter";
 }

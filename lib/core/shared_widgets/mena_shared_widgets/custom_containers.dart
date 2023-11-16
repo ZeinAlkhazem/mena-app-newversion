@@ -26,6 +26,7 @@ import '../../../models/api_model/feeds_model.dart';
 import '../../../models/api_model/home_section_model.dart';
 import '../../../models/api_model/lives_model.dart';
 import '../../../models/local_models.dart';
+import '../../../modules/category_childs_screen/category_details_childs_screen.dart';
 import '../../../modules/create_live/widget/default_button.dart';
 import '../../../modules/feeds_screen/feed_details.dart';
 import '../../../modules/feeds_screen/feed_videos_scroll.dart';
@@ -244,6 +245,7 @@ class SmoothBorderContainer extends StatelessWidget {
     );
   }
 }
+
 
 class SmoothBorderContainerModified extends StatelessWidget {
   const SmoothBorderContainerModified({

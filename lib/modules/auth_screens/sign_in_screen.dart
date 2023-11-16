@@ -277,7 +277,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                       // heightBox(30.h),
-                      const ContinueGuestButton(),
+                      // const ContinueGuestButton(),
                     ],
                   );
                 },

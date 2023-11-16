@@ -2029,28 +2029,16 @@ class BannerSectionWeather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var mainCubit = MainCubit.get(context);
     return Center(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 85),
-            child: Text(
-              'Wellness Monitoring Widgets',
-              style: TextStyle(
-                fontSize: 23.0,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Tajawal',
-                color: Color(0xff444444),
-              ),
-            ),
-          ),
           SizedBox(
             height: 100.h,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: banners.length,
-              // physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () async {
@@ -2076,14 +2064,14 @@ class BannerSectionWeather extends StatelessWidget {
                             ? showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return PopupWidgetUpComing(countryNameNew);
+                                  return PopupWidgetAir(countryNameNew);
                                 },
                               )
                             : banners[index].resourceId == 'weather_summary'
                                 ? showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return PopupWidgetUpComing(
+                                      return PopupWidgetSummary(
                                           countryNameNew);
                                     },
                                   )
@@ -2095,7 +2083,7 @@ class BannerSectionWeather extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: 15, bottom: 15, left: 10, right: 10),
+                              top: 8, bottom: 8, left: 10, right: 10),
                           child: banners[index].resourceId == 'air_quality' ||
                                   banners[index].resourceId ==
                                       'weather_summary' ||
@@ -2111,29 +2099,159 @@ class BannerSectionWeather extends StatelessWidget {
                                 ),
                         ),
                       ),
+                      Text(
+                        banners[index].title.length >= 14? banners[index].title.substring(0, 10) : banners[index].title,
+                        style: mainStyle(context, 11,
+                            weight: FontWeight.w800),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
                     ],
                   ),
                 );
               },
             ),
           ),
+
           Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'more',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'Tajawal',
-                    color: Color(0xff97A0A8),
-                  ),
-                ),
-              ],
-            ),
-          ),
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap: () {
+                  ///
+                  /// show all categories list bottom sheet
+                  ///
+                  if ((style == '4_1' && banners!.length > 4) ||
+                      (style == '3_1' && banners!.length > 3) ||
+                      (style == '2_1' && banners!.length > 2) ||
+                      (style == '1_1' && banners!.length > 1)) {
+                    showMyBottomSheet(
+                      context: context,
+                      title: 'Wellness Monitoring Widgets',
+                      body: Expanded(
+                        child: ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          itemCount: banners!.length,
+                          itemBuilder: (context, index) => GestureDetector(
+                            onTap: () async {
+                              String countryName = await getCachedSelectedCountry() ?? "";
+                              String countryNameNew = "";
+                              log('# country name : $countryName');
+                              List countryList = MayyaCountries.countryList;
+                              for (var item in countryList) {
+                                if (item['alpha_3_code'] == countryName) {
+                                  countryNameNew = item['en_short_name'];
+                                }
+                              }
+                              banners[index].resourceId == 'upcoming_days'
+                                  ? showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return PopupWidgetUpComing(countryNameNew);
+                                },
+                              )
+                                  : banners[index].resourceId == 'air_quality'
+                                  ? showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return PopupWidgetAir(countryNameNew);
+                                },
+                              )
+                                  : banners[index].resourceId == 'weather_summary'
+                                  ? showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return PopupWidgetSummary(
+                                      countryNameNew);
+                                },
+                              )
+                                  : handleBannerNavigation(context,
+                                  banner: banners[index]);
+                              // comingSoonAlertDialog(context);
+                              // navigateToWithoutNavBar(
+                              //     context,
+                              //     CategoryChildsScreen(
+                              //       currentCategoryToViewId:
+                              //       banners![index]
+                              //           .id
+                              //           .toString(),
+                              //     ),
+                              //     '');
+                              // navigateToWithoutNavBar(
+                              //     context, const PlatformProviderHomePage(), '');
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(1.0.sp),
+                                    child: Container(
+                                      width: 80,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(15.r),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x29000000),
+                                            offset: Offset(0, 2),
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: SmoothBorderContainer(
+                                        thumbNail:
+                                        banners![index].image!,
+                                        customWidth: 0.2.sw,
+                                        cornerRadius:
+                                        Responsive.isMobile(context)
+                                            ? 18.r
+                                            : 18.r,
+                                        customHeight: 0.2.sw,
+                                      ),
+                                    ),
+                                  ),
+                                  widthBox(8.w),
+                                  Expanded(
+                                    child: Text(
+                                      banners![index].title ?? '-',
+                                      style: mainStyle(context, 13,
+                                          isBold: true,
+                                          color: newDarkGreyColor),
+                                      textAlign: TextAlign.start,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  widthBox(8.w),
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: newDarkGreyColor,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          separatorBuilder:
+                              (BuildContext context, int index) {
+                            return Divider();
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: CategoriesTail(
+                  title: 'Wellness Monitoring Widgets',
+                  viewAllOption: ((style == '4_1' &&
+                      banners!.length > 4) ||
+                      (style == '3_1' && banners!.length > 3) ||
+                      (style == '2_1' && banners!.length > 2) ||
+                      (style == '1_1' && banners!.length > 1)),
+                )),
+          )
         ],
       ),
     );

@@ -106,6 +106,10 @@ String privacyAudienceTranslatedText(
 }
 
 String getChatTime({required DateTime chatTime}) {
+  var date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(chatTime.toString(), true);
+  var local = date.toLocal();
+
+
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
   final yesterday1 = DateTime(now.year, now.month, now.day - 1);
@@ -116,7 +120,7 @@ String getChatTime({required DateTime chatTime}) {
   final yesterday6 = DateTime(now.year, now.month, now.day - 6);
   final yesterday7 = DateTime(now.year, now.month, now.day - 7);
 
-  final dateToCheck = chatTime;
+  final dateToCheck = local;
   final aDate = DateTime(dateToCheck.year, dateToCheck.month, dateToCheck.day);
   String newChatTime = "";
   if (aDate == today) {

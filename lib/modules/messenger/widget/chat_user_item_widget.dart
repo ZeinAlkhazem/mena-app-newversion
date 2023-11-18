@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:mena/core/constants/Colors.dart';
 
 import '../../../core/constants/constants.dart';
@@ -25,6 +28,11 @@ class ChatUserItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color fontColor = Color(0xff979797);
+    // var date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(chatItem.createdAt.toString(), true);
+    // var local = date.toLocal().toString();
+    // log("# user :${chatItem.user!.fullName}");
+    // log("# time :$local");
+
     return chatItem.user != null
         ? GestureDetector(
             onTap: () {
@@ -161,7 +169,6 @@ class ChatUserItemWidget extends StatelessWidget {
                       SizedBox(
                         width: 85.w,
                         child: Text(
-                          // chatItem.createdAt.toString().substring(0,10),
                           getChatTime(chatTime: chatItem.createdAt!),
                           textAlign: TextAlign.end,
                           maxLines: 1,

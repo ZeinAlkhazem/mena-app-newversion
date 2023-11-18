@@ -7,6 +7,7 @@ import 'package:mena/modules/messenger/widget/chat_user_item_widget.dart';
 import 'package:mena/modules/messenger/screens/messenger_chat_screen.dart';
 import 'package:mena/modules/messenger/widget/my_store_widget.dart';
 import 'package:mena/modules/messenger/widget/tab_item_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/Colors.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
@@ -28,6 +29,8 @@ class _MessengerHomePageState extends State<MessengerHomePage>
   IO.Socket? socket;
   TabController? _tabController;
   int index = 0;
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
 
   Color selectedColor = Color(0xff202226);
   Color unSelectedColor = Color(0xff999B9D);
@@ -59,6 +62,14 @@ class _MessengerHomePageState extends State<MessengerHomePage>
     super.initState();
   }
 
+  void _onRefresh() async {
+    var messengerCubit = MessengerCubit.get(context);
+    messengerCubit
+      ..fetchMyMessages()
+      ..fetchOnlineUsers();
+    _refreshController.refreshCompleted();
+  }
+
   @override
   void dispose() {
     _tabController!.dispose();
@@ -78,14 +89,30 @@ class _MessengerHomePageState extends State<MessengerHomePage>
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Color(0xFFFDFDFD),
-                leading: SizedBox(),
-                leadingWidth: 0,
+                // leading: SizedBox(),
+                // leadingWidth: 0,
+                // titleSpacing: 0,
+                leading: Padding(
+                  padding: EdgeInsets.only(left: 15.w, right: 5.w),
+                  child: SizedBox(
+                    width: 24.w,
+                    height: 24.w,
+                    child: SvgPicture.asset(
+                      "$messengerAssets/icon_messenger_user.svg",
+                    ),
+                  ),
+                ),
                 titleSpacing: 0,
-                title: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: SvgPicture.asset(
-                    "$messengerAssets/icon_mena_messenger_color_hor.svg",
-                    height: 25.h,
+                title: Text(
+                  "Messenger",
+                  style: mainStyle(
+                    context,
+                    18.sp,
+                    fontFamily: AppFonts.interFont,
+                    weight: FontWeight.w500,
+                    color: Color(0xFF444444),
+                    textHeight: 0,
+                    letterSpacing: 0.33,
                   ),
                 ),
                 elevation: 1,
@@ -255,6 +282,10 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                             SizedBox(
                                               height: 10.h,
                                             ),
+
+                                            ///
+                                            ///  Archive Section
+                                            ///
                                             Padding(
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 19.w),
@@ -279,16 +310,14 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                                     getTranslatedStrings(
                                                             context)
                                                         .messengerArchived,
-
                                                     style: mainStyle(
-                                                      context,
-                                                      14.sp,
-                                                      fontFamily:
-                                                          AppFonts.interFont,
-                                                      weight: FontWeight.w600,
-                                                      color: Color(0xFF19191A),
-                                                      textHeight: 1.1
-                                                    ),
+                                                        context, 14.sp,
+                                                        fontFamily:
+                                                            AppFonts.interFont,
+                                                        weight: FontWeight.w600,
+                                                        color:
+                                                            Color(0xFF19191A),
+                                                        textHeight: 1.1),
                                                   ),
                                                 ],
                                               ),
@@ -296,24 +325,39 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                             SizedBox(
                                               height: 10.h,
                                             ),
-                                            ListView.separated(
-                                              shrinkWrap: true,
-                                              padding: EdgeInsets.zero,
-                                              itemBuilder: (context, index) {
-                                                return ChatUserItemWidget(
-                                                    index: index,
-                                                    chatItem: messengerCubit
-                                                        .myMessagesModel!
-                                                        .data
-                                                        .myChats![index]);
-                                              },
-                                              separatorBuilder: (_, i) =>
-                                                  heightBox(0.h),
-                                              itemCount: messengerCubit
-                                                  .myMessagesModel!
-                                                  .data
-                                                  .myChats!
-                                                  .length,
+
+                                            ///
+                                            ///  chats Section
+                                            ///
+
+                                            Expanded(
+                                              child:
+                                              SmartRefresher(
+                                                enablePullDown: true,
+                                                controller: _refreshController,
+                                                onRefresh: _onRefresh,
+                                                child:
+
+                                              ListView.separated(
+                                                shrinkWrap: true,
+                                                primary: true,
+                                                padding: EdgeInsets.zero,
+                                                itemBuilder: (context, index) {
+                                                  return ChatUserItemWidget(
+                                                      index: index,
+                                                      chatItem: messengerCubit
+                                                          .myMessagesModel!
+                                                          .data
+                                                          .myChats![index]);
+                                                },
+                                                separatorBuilder: (_, i) =>
+                                                    heightBox(0.h),
+                                                itemCount: messengerCubit
+                                                    .myMessagesModel!
+                                                    .data
+                                                    .myChats!
+                                                    .length,
+                                              ),),
                                             ),
                                           ],
                                         ),

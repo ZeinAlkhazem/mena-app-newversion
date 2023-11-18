@@ -48,15 +48,15 @@ class _BlogArticlesListLayoutState extends State<BlogArticlesListLayout> {
         builder: (context, state) {
           return state is GettingBlogsItemsState
               ? DefaultLoaderColor()
-              : feedsCubit.blogsItemsModel!.data.articles.isEmpty
+              : feedsCubit.blogsItemsModel!.data.data.isEmpty
                   ? SizedBox()
                   : ListView.separated(
                       padding: EdgeInsets.all(defaultHorizontalPadding),
                       physics: BouncingScrollPhysics(),
                       itemBuilder: (context, index) =>
-                          ArticleCard(article: feedsCubit.blogsItemsModel!.data.articles[index]),
+                          ArticleCard(article: feedsCubit.blogsItemsModel!.data.data[index]),
                       separatorBuilder: (context, index) => heightBox(10.h),
-                      itemCount: feedsCubit.blogsItemsModel!.data.articles.length,
+                      itemCount: feedsCubit.blogsItemsModel!.data.data.length,
                     );
         },
       ),

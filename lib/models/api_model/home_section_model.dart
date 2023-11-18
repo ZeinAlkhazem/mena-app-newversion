@@ -596,6 +596,19 @@ class User {
     this.roleId,
     this.specialities,
     this.moreData,
+    this.category,
+    this.userName,
+ this.emailVerifiedAt,
+this.createdAt,
+this.updatedAt,
+  this.recoveryEmail,
+ this.fax,
+    this.providerTypeFields,
+  this.qualificationCertificate,
+    this.professionalLicense,
+    this.specialitiesGroup,
+  this.features,
+
   });
 
   int id;
@@ -634,6 +647,18 @@ class User {
   String? roleName;
   List<MenaCategory>? specialities;
   MoreData? moreData;
+  String? userName;
+  DateTime? emailVerifiedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  dynamic? recoveryEmail;
+  dynamic? fax;
+  dynamic? providerTypeFields;
+  String? qualificationCertificate;
+  String? professionalLicense;
+  List<dynamic>? category;
+  List<dynamic>? specialitiesGroup;
+  List<dynamic>? features;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
@@ -674,6 +699,19 @@ class User {
             ? null
             : List<MenaCategory>.from(json["specialities"].map((x) => MenaCategory.fromJson(x))),
         moreData: json["more_data"] == null ? null : MoreData.fromJson(json["more_data"]),
+    userName: json["user_name"],
+    emailVerifiedAt: json["email_verified_at"] == null ? null : DateTime.parse(json["email_verified_at"]),
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    recoveryEmail: json["recovery_email"],
+    fax: json["fax"],
+    providerTypeFields: json["provider_type_fields"],
+    qualificationCertificate: json["qualification_certificate"],
+    professionalLicense: json["professional_license"],
+    category: List<dynamic>.from(json["category"].map((x) => x)),
+    specialitiesGroup: List<dynamic>.from(json["specialities_group"].map((x) => x)),
+    features: List<dynamic>.from(json["features"].map((x) => x)),
+
       );
 
   Map<String, dynamic> toJson() => {
@@ -696,6 +734,9 @@ class User {
         "reviews_count": reviewsCount,
         "is_following": isFollowing,
         "distance": distance,
+
+
+
       };
 }
 

@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/modules/feeds_screen/blogs/my_blog.dart';
+import 'package:mena/modules/feeds_screen/my_blog/my_blog.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/cache/cache.dart';
@@ -126,7 +127,7 @@ class ProfileCubit extends Cubit<ProfileState> {
           count: '0',
           onClickCallback: () {
 
-            navigateToWithoutNavBar(context, MyBlogLayout( isMyBlog: true), 'routeName');
+            navigateToWithoutNavBar(context, MyBlogPage( isMyBlog: true), 'routeName');
           },
         ),
         ItemWithTitleAndCallback(

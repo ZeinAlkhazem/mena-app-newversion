@@ -10,7 +10,10 @@ import 'package:mena/models/api_model/blogs_items_model.dart';
 import 'package:mena/models/api_model/comments_model.dart';
 import 'package:mena/models/api_model/like_comment_model.dart';
 import 'package:mena/models/api_model/my_blog_info_model.dart';
+import 'package:mena/modules/feeds_screen/my_blog/cubit/myBlog_cubit.dart';
+import 'package:mena/modules/feeds_screen/my_blog/cubit/myBlog_state.dart';
 import 'package:meta/meta.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/main_cubit/main_cubit.dart';
@@ -20,12 +23,14 @@ import '../../../models/api_model/blogs_info_model.dart';
 import '../../../models/api_model/comment_response_feed.dart';
 import '../../../models/api_model/feeds_model.dart';
 import '../../../models/api_model/home_section_model.dart';
+import '../../../models/api_model/share_model.dart';
 import '../../home_screen/cubit/home_screen_cubit.dart';
 
 part 'feeds_state.dart';
 
 class FeedsCubit extends Cubit<FeedsState> {
   List<MenaFeed> menaFeedsList = [];
+  List<MenaArticle> menablogsList = [];
   List<MenaFeed> menaProviderFeedsList = [];
   List<MenaFeed> feedsVideosList = [];
 
@@ -316,7 +321,6 @@ class FeedsCubit extends Cubit<FeedsState> {
       });
     }
   }
-
   Future<void> getBlogsInfo(BuildContext context,{String? providerId}) async {
     // feedsModel = null;
     var homes = HomeScreenCubit.get(context);
@@ -360,10 +364,6 @@ class FeedsCubit extends Cubit<FeedsState> {
       });
     }
   }
-
-
-
-
   Future<void> getMyBlogs(BuildContext context,{String? providerId, String? categoryId}) async {
 
     var homes = HomeScreenCubit.get(context);
@@ -411,7 +411,6 @@ class FeedsCubit extends Cubit<FeedsState> {
 
 
 
-
   Future<void> getProviderBlogs(BuildContext context,{String? providerId, String? categoryId}) async {
 
     var homes = HomeScreenCubit.get(context);
@@ -446,6 +445,7 @@ class FeedsCubit extends Cubit<FeedsState> {
 
 
         myBlogInfoModel = MyBlogInfoModel.fromJson(value.data);
+        menablogsList +=   myBlogInfoModel!.data.data!;
         logg('Provider blogs info filled');
         emit(SuccessGettingFeedsState());
       }).catchError((error, stack) {
@@ -523,6 +523,7 @@ class FeedsCubit extends Cubit<FeedsState> {
         // var response = FeedsModel.fromJson(value.data);
         // loginModel = response.data!;
         blogsItemsModel = BlogsItemsModel.fromJson(value.data);
+        menablogsList +=  blogsItemsModel!.data.data!;
         logg('blogs items filled');
         emit(SuccessGettingFeedsState());
       }).catchError((error, stack) {
@@ -796,6 +797,206 @@ class FeedsCubit extends Cubit<FeedsState> {
       emit(ErrorUpdatingLikeState());
     });
   }
+  Future<bool> toggleLikeBlogStatus(
+      {required String blogId, required bool isLiked,bool fromProvider=false}) async {
+    bool result=false;
+     MainDioHelper.postData(
+      url: likeBlogEnd,
+      data: {
+        'blog_id': blogId,
+
+      },
+    ).then((value) {
+      result=true;
+      logg('feed liked...');
+      menablogsList
+          .firstWhere((element) => element.id.toString() == blogId)
+          .isLiked = !isLiked;
+      log(menablogsList
+          .firstWhere((element) => element.id.toString() == blogId)
+          .isLiked.toString());
+      logg('feed liked...');
+      if (isLiked) {
+        log('11111');
+        menablogsList
+            .firstWhere((element) => element.id.toString() == blogId)
+            .likesCount -= 1;
+        menablogsList
+            .firstWhere((element) => element.id.toString() == blogId)
+            .isLiked = false;
+      } else {
+        log('22222');
+        menablogsList
+            .firstWhere((element) => element.id.toString() == blogId)
+            .likesCount += 1;
+        menablogsList
+            .firstWhere((element) => element.id.toString() == blogId)
+            .isLiked = true;
+      }
+      if(!fromProvider){
+        log('222224222');
+        blogsItemsModel?.data.data=menablogsList;
+        menaArticleDetails = menablogsList[0];
+
+      }else{
+
+        log('22222222');
+        myBlogInfoModel?.data.data=menablogsList;
+        menaArticleDetails = menablogsList[0];
+      }
+
+
+      logg(value.toString());
+      emit(SuccessUpdatingLikeState());
+    }).catchError((error) {
+
+      emit(ErrorUpdatingLikeState());
+    });
+    return result;
+  }
+
+  Future<bool> toggleFollowBlogStatus(
+      {required String blogId, required bool isLiked}) async {
+    bool result=false;await MainDioHelper.postData(
+      url: likeBlogEnd,
+      data: {
+        'blog_id': blogId,
+
+      },
+    ).then((value) {
+      logg('feed liked...');
+      result=true;
+      // ujg
+      menablogsList
+          .firstWhere((element) => element.id.toString() == blogId)
+          .isLiked = !isLiked;
+      if (isLiked) {
+        menablogsList
+            .firstWhere((element) => element.id.toString() == blogId)
+            .likesCount -= 1;
+      } else {
+        menablogsList
+            .firstWhere((element) => element.id.toString() == blogId)
+            .likesCount += 1;
+      }  logg(value.toString());
+      emit(SuccessUpdatingLikeState());
+    }).catchError((error) {
+
+      emit(ErrorUpdatingLikeState());
+    });
+    return result;
+  }
+
+
+  Future<void> shareProduct( BuildContext context,String Link ,String blogId , {bool isMyBlog = false}) async {
+    try {
+      // await Share.share(Link);
+      final result = await Share.shareWithResult(Link);
+
+      if (result.status == ShareResultStatus.success) {
+        print('Thank you for sharing my website!');
+        await shareBlog( context , blogId: blogId ,isMyBlog :isMyBlog, );
+      }
+
+
+    } catch (e, s) {
+      log("$e $s");
+    }
+  }
+
+  Future<bool> shareBlog(
+      BuildContext context ,
+      {required String blogId , required bool isMyBlog,
+
+      }) async {
+    bool result=false;
+    await MainDioHelper.postData(
+      url: shareBlogEnd,
+      data: {
+        'blog_id': blogId,
+
+      },
+    ).then((value) {
+      logg('feed share liked...');
+      result=true;
+     var json = value.data['data'];
+      logg('feed share 7liked...'+ value.data.toString());
+      ShareModel shareModel = ShareModel.fromJson(json);
+      logg('feed share 7liked...');
+      if (isMyBlog){
+        log("Before Share Count " + shareModel.sharesCount.toString());
+        MyBlogCubit.get(context).myBlogsInfoModel!.data.data
+            .firstWhere((element) => element.id.toString() == blogId)
+            .sharesCount = shareModel.sharesCount!;
+        menaArticleDetails?.sharesCount  = shareModel!.sharesCount!;
+        log("shhhhhhhh After Share Count " + shareModel.sharesCount.toString());
+        MyBlogCubit.get(context).emit(SuccessUpdateShareState());
+      }
+      else {
+        menaArticleDetails?.sharesCount  = shareModel!.sharesCount!;
+
+        log("shhhhhhfhh 222 After Share Count " + shareModel.sharesCount.toString());
+        blogsItemsModel!.data.data
+            .firstWhere((element) => element.id.toString() == blogId)
+            .sharesCount = shareModel!.sharesCount!;
+        myBlogInfoModel!.data.data
+            .firstWhere((element) => element.id.toString() == blogId)
+            .sharesCount = shareModel!.sharesCount!;
+
+
+        log("shhhhhhhh 222 After Share Count " + shareModel.sharesCount.toString());
+        emit(SuccessUpdatingShareState());
+      }
+
+
+    }).catchError((error) {
+
+      emit(ErrorUpdatingShareState());
+    });
+    return result;
+  }
+
+
+
+
+
+  //
+  // Future<void> toggleLikeBlogStatus(
+  //     {required String blogId, required bool isLiked}) async {
+  //   emit(UpdatingLikeState());
+  //   ////
+  //   await MainDioHelper.postData(
+  //     url: likeBlogEnd,
+  //     data: {
+  //       'blog_id': blogId,
+  //
+  //     },
+  //   ).then((value) {
+  //     logg('feed liked...');
+  //     // ujg
+  //     menablogsList
+  //         .firstWhere((element) => element.id.toString() == blogId)
+  //         .isLiked = !isLiked;
+  //     if (isLiked) {
+  //       menablogsList
+  //           .firstWhere((element) => element.id.toString() == blogId)
+  //           .likesCount -= 1;
+  //     } else {
+  //       menablogsList
+  //           .firstWhere((element) => element.id.toString() == blogId)
+  //           .likesCount += 1;
+  //     }
+  //
+  //
+  //
+  //     logg(value.toString());
+  //     emit(SuccessUpdatingLikeState());
+  //   }).catchError((error) {
+  //     logg('an error occurred');
+  //     logg(error.toString());
+  //     emit(ErrorUpdatingLikeState());
+  //   });
+  // }
 
   Future<void> likeComment(
       {required String feedId,

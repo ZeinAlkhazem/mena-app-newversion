@@ -12,6 +12,7 @@ import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
+import 'package:mena/models/api_model/my_blog_info_model.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,17 +20,14 @@ import '../../../../core/constants/validators.dart';
 import '../../../../core/functions/main_funcs.dart';
 import '../../../../core/main_cubit/main_cubit.dart';
 import '../../../../core/responsive/responsive.dart';
-import '../../../../models/api_model/my_blog_info_model.dart';
-import '../../../../models/api_model/home_section_model.dart';
-import '../../../../models/local_models.dart';
-import '../../../my_profile/cubit/profile_cubit.dart';
-import '../../../my_profile/my_profile.dart';
+
 import '../../../platform_provider/provider_home/provider_profile.dart';
 
 
 
-class MyBlogSimpleUserCard extends StatefulWidget {
-  const MyBlogSimpleUserCard({
+
+class MyBlogUserCard extends StatefulWidget {
+  const MyBlogUserCard({
     Key? key,
     this.justView = false,
     this.isInEdit = false,
@@ -41,16 +39,16 @@ class MyBlogSimpleUserCard extends StatefulWidget {
 
   final bool justView;
   final bool isInEdit;
-  final Data provider;
+  final MyBlogInfoModel provider;
   final String? currentLayout;
   final Function()? customCallback;
   final Function()? customBubbleCallback;
 
   @override
-  State<MyBlogSimpleUserCard> createState() => _MyBlogSimpleUserCardState();
+  State< MyBlogUserCard> createState() => _MyBlogUserCardState();
 }
 
-class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
+class _MyBlogUserCardState extends State< MyBlogUserCard> {
   @override
   Widget build(BuildContext context) {
     var feedsCubit = FeedsCubit.get(context);
@@ -66,7 +64,7 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
         navigateToWithoutNavBar(
             context,
             ProviderProfileLayout(
-              providerId: widget.provider.provider.id.toString(),
+              providerId: widget.provider.data.provider.id.toString(),
               lastPageAppbarTitle: widget.currentLayout ?? 'back',
             ),
             '');
@@ -89,22 +87,22 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
                     onTap:
                     (){
                       if (widget.isInEdit) log(feedsCubit.isChangeIcon.toString() );
-                      if ( widget.provider.provider.isFollowing!) {
+                      if ( widget.provider.data.provider.isFollowing!) {
                         /// unfollow
-                        mainCubit.unfollowUser(userId:  widget.provider.provider!.id.toString(), userType: widget.provider.provider!.roleName ?? '')
+                        mainCubit.unfollowUser(userId:  widget.provider.data.provider!.id.toString(), userType: widget.provider.data.provider!.roleName ?? '')
                             .then((value) {
-                          widget.provider..provider!.isFollowing = false;
+                          widget.provider.data.provider!.isFollowing = false;
                         });
                       } else {
                         /// follow
-                        mainCubit.followUser(userId: widget.provider.provider!.id.toString(),
-                            userType:widget.provider.provider!.roleName ?? '')
+                        mainCubit.followUser(userId: widget.provider.data.provider!.id.toString(),
+                            userType:widget.provider.data.provider!.roleName ?? '')
                             .then((value) {
-                          widget.provider.provider!.isFollowing = true;
+                          widget.provider.data.provider!.isFollowing = true;
                         });
                       }
 
-                      setState(() =>   widget.provider.provider!.isFollowing = !  widget.provider.provider!.isFollowing!);
+                      setState(() =>   widget.provider.data.provider!.isFollowing = !  widget.provider.data.provider!.isFollowing!);
 
                       log(feedsCubit.isChangeIcon.toString() );
 
@@ -114,7 +112,7 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
                         radius: 33.sp,
                         isOnline: true,
                         customRingColor: mainBlueColor,
-                        pictureUrl: widget.provider.provider.personalPicture),
+                        pictureUrl: widget.provider.data.provider.personalPicture),
                   ),
                 ),
                 if (widget.isInEdit)
@@ -128,7 +126,7 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
                           backgroundColor: newLightGreyColor,
                           radius: 10.sp,
                           child:
-                          widget.provider.provider.isFollowing == true ?
+                          widget.provider.data.provider.isFollowing == true ?
                           SvgPicture.asset(
                             'assets/icons/follow.svg',
                             width: 16.sp,
@@ -143,7 +141,7 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
             ),
             heightBox(5.h),
             Text(
-              '${widget.provider.provider.fullName}',
+              '${widget.provider.data.provider.fullName}',
               style: mainStyle(context
                   , 16,
                   isBold: true,
@@ -153,13 +151,13 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
             heightBox(2.h),
             Text(
               '${
-                  widget.provider.provider.platform.name
+                  widget.provider.data.provider.platform.name
             }',
               style: mainStyle(context, 12, isBold: false, color: AppColors.gray, textHeight: 1.5),
             ),
 
             Text(
-              '${widget.provider.followers.toString() + " Followers"}',
+              '${widget.provider.data.followers.toString() + " Followers"}',
               style: mainStyle(context, 10, isBold: false,color: AppColors.gray, textHeight: 1.5),
             ),
             heightBox(5.h),
@@ -177,7 +175,7 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
                         color: Color(0XFF2A87EA),
                       ),
                       Text(
-                        ' ${widget.provider.blogsCount} Articles',
+                        ' ${widget.provider.data.blogsCount} Articles',
                         style: mainStyle(context, 12, isBold: false,color: AppColors.gray, textHeight: 1.5),
                       ),
                     ],),
@@ -190,7 +188,7 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
                         width: 22.sp,
                       ),
                       Text(
-                        '${widget.provider.totalReaders.toString()} Reader',
+                        '${widget.provider.data.totalReaders.toString()} Reader',
                         style: mainStyle(context, 12, isBold: false,color: AppColors.gray, textHeight: 1.5),
                       ),
                     ],),

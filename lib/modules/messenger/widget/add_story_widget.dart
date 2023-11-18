@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/constants/Colors.dart';
 import '../../../core/functions/main_funcs.dart';
+import '../../../core/shared_widgets/shared_widgets.dart';
 
 class AddStoryWidget extends StatelessWidget {
   const AddStoryWidget({super.key});
@@ -16,17 +17,18 @@ class AddStoryWidget extends StatelessWidget {
         Stack(
           children: [
             Container(
-              width: 75.w,
-              height: 75.w,
+              width: 65.w,
+              height: 65.w,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.r),
-                  color: AppColors.iconsColor,
+                  borderRadius: BorderRadius.circular(65.r),
+                  // color: AppColors.iconsColor,
                   border: Border.all(color: Colors.white, width: 2.w)),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(50.r),
-                child: Image.network(
-                    fit: BoxFit.fill,
-                    "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                borderRadius: BorderRadius.circular(65.r),
+                child:
+                DefaultImage(
+                  backGroundImageUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                ),
               ),
             ),
             Positioned(
@@ -49,10 +51,10 @@ class AddStoryWidget extends StatelessWidget {
         ),
         Text(
           "My Story",
-          style: mainStyle(context, 10.sp,
-              weight: FontWeight.w700,
-              color: AppColors.grayDarkColor,
-              fontFamily: AppFonts.openSansFont,
+          style: mainStyle(context, 9.sp,
+              weight: FontWeight.normal,
+              color: Colors.black,
+              fontFamily: AppFonts.interFont,
               textHeight: 1.1),
         ),
       ],

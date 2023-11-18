@@ -19,13 +19,15 @@ dependencies:
   cached_network_image: ^3.2.1
   camera: ^0.9.7+1
   carousel_slider: ^4.1.1
-  country_pickers: ^2.0.0
   cloud_firestore: ^4.3.1
   connectivity_plus: ^3.0.2
+  country_pickers: ^2.0.0
   cupertino_icons: ^1.0.2
   custom_marker: ^1.0.0
+  dartz: ^0.10.1
   dio: ^5.2.0
   dotted_border: ^2.0.0+1
+  dotted_line: ^3.2.2
   dropdown_button2: ^2.1.2
   easy_image_viewer: ^1.2.0
   equatable: ^2.0.5
@@ -36,9 +38,10 @@ dependencies:
   flick_video_player: ^0.5.0
   flutter:
     sdk: flutter
+  flutter_barcode_scanner: ^2.0.0
   flutter_bloc: ^8.1.1
   flutter_cache_manager: ^3.3.0
-  flutter_barcode_scanner: ^2.0.0
+  flutter_contacts: ^1.1.7+1
   flutter_cupertino_date_picker_fork: 1.0.7
   flutter_datetime_picker_plus: ^2.1.0
   flutter_holo_date_picker: ^1.1.3
@@ -56,25 +59,30 @@ dependencies:
   flutter_switch: ^0.3.2
   flutter_webrtc: ^0.9.34
   fluttertoast: ^8.2.2
+  geocoding: ^2.0.2
   geolocator: ^9.0.2
+  get: null
+  get_it: ^7.6.4
   google_maps_flutter: ^2.2.1
   google_maps_place_picker_mb: ^3.0.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   html_editor_enhanced: ^2.5.1
   http: ^0.13.5
+  image_cropper: ^3.0.3
   image_picker: ^0.8.6
   intl: ^0.18.1
   intl_phone_number_input: ^0.7.0+2
   json_store: ^2.0.0
-
+  audioplayers: ^5.2.1
+  syncfusion_flutter_sliders: ^21.2.10
+  percent_indicator: ^4.2.3
+  linear_progress_bar: ^1.1.0
   scrollable_positioned_list: ^0.3.5
   video_player: ^2.4.7
   visibility_detector: ^0.3.3
-  dotted_line: ^3.2.2
   multi_select_flutter: ^4.1.2
   url_launcher: ^6.1.10
-  geocoding: ^2.0.2
   transparent_image: ^2.0.0
   permission_handler: ^10.2.0
   just_audio: ^0.9.31
@@ -85,16 +93,7 @@ dependencies:
   map_launcher: ^2.5.0+1
   outline_gradient_button: ^2.0.1+1
   package_info_plus: ^3.1.2
-  image_cropper: ^3.0.3
-
-  get:
-  # lib for import all device contact
-  flutter_contacts: ^1.1.7+1
-  # lib for show bottom sheet
-  wolt_modal_sheet: ^0.1.4
-
   page_transition: ^2.0.9
-
   path_provider: ^2.0.11
   persistent_bottom_nav_bar_v2: ^4.2.4
   pin_code_fields: ^7.4.0
@@ -111,9 +110,13 @@ dependencies:
   staggered_grid_view_flutter: ^0.0.4
   syncfusion_flutter_pdfviewer: ^21.1.38
   table_calendar: ^3.0.9
-
   webview_flutter: ^4.2.2
   whiteboard: ^0.0.2
+
+  timeago_flutter: ^3.6.0
+
+  wolt_modal_sheet: ^0.1.4
+
 
 dev_dependencies:
   flutter_test:
@@ -141,6 +144,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/messenger/
+    - assets/icons/messenger/chat/
     - assets/images/public/
     - assets/svg/
     - assets/json/
@@ -155,7 +159,7 @@ flutter:
     - assets/new_icons/large/png/
     - assets/new_icons/small/png/
     - assets/fonts/
-    - lib/modules/messenger/widget/
+
 
   fonts:
     - family: Tajawal
@@ -207,4 +211,19 @@ flutter:
         - asset: assets/fonts/open_sans/OpenSans-Regular.ttf
           weight: 400
         - asset: assets/fonts/open_sans/OpenSans-Light.ttf
+          weight: 200
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/inter/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/inter/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/inter/Inter-Light.ttf
           weight: 200

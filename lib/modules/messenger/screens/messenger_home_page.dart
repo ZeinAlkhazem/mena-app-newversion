@@ -29,11 +29,16 @@ class _MessengerHomePageState extends State<MessengerHomePage>
   TabController? _tabController;
   int index = 0;
 
+  Color selectedColor = Color(0xff202226);
+  Color unSelectedColor = Color(0xff999B9D);
+  Color indicatorColor = Color(0xff2788E8);
+  Color iconColor = Color(0xff2788E8);
+
   @override
   void initState() {
     // TODO: implement initState
     var messengerCubit = MessengerCubit.get(context);
-    _tabController = new TabController(vsync: this, length: 3)
+    _tabController = new TabController(vsync: this, length: 4)
       ..addListener(() {
         setState(() {
           index = _tabController!.index;
@@ -67,42 +72,41 @@ class _MessengerHomePageState extends State<MessengerHomePage>
       builder: (context, state) {
         var messengerCubit = MessengerCubit.get(context);
         return Scaffold(
-
+          backgroundColor: Colors.white,
           body: DefaultTabController(
-            length: 3,
+            length: 4,
             child: Scaffold(
-              backgroundColor: Colors.white,
               appBar: AppBar(
+                backgroundColor: Color(0xFFFDFDFD),
                 leading: SizedBox(),
                 leadingWidth: 0,
                 titleSpacing: 0,
                 title: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: SvgPicture.asset(
-                    "assets/icons/messenger/icon_mena_messenger_color_hor.svg",
+                    "$messengerAssets/icon_mena_messenger_color_hor.svg",
                     height: 25.h,
                   ),
                 ),
-                elevation: 0,
-                flexibleSpace: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                ),
+                elevation: 1,
                 actions: [
                   IconButtonWidget(
-                    iconUrl: "assets/icons/messenger/icon_phone_call.svg",
+                    iconUrl: "$messengerAssets/icon_video_call.svg",
                     btnClick: () {},
-                    iconWidth: 26.w,
-                    iconHeight: 30.h,
+                    iconWidth: 31.w,
+                    iconHeight: 31.h,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  IconButtonWidget(
+                    iconUrl: "$messengerAssets/icon_search.svg",
+                    btnClick: () {},
+                    iconWidth: 25.w,
+                    iconHeight: 25.h,
                   ),
                   SizedBox(
                     width: 5.w,
-                  ),
-                  IconButtonWidget(
-                    iconUrl: "assets/icons/messenger/icon_search.svg",
-                    btnClick: () {},
-                    iconWidth: 26.w,
                   ),
                   IconButton(
                     padding: EdgeInsets.zero,
@@ -114,55 +118,125 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                     ),
                   ),
                 ],
+                bottom: TabBar(
+                  padding: EdgeInsets.zero,
+                  unselectedLabelColor: unSelectedColor,
+                  controller: _tabController,
+                  indicator: UnderlineTabIndicator(
+                      borderSide: BorderSide(width: 2.w, color: indicatorColor),
+                      borderRadius: BorderRadius.circular(5.r),
+                      insets: EdgeInsets.symmetric(horizontal: 15.w)),
+                  isScrollable: true,
+                  tabs: [
+                    Tab(
+                      height: 15.h,
+                      child: Text(
+                        getTranslatedStrings(context).messengerChat,
+                        style: mainStyle(
+                          context,
+                          12.sp,
+                          fontFamily: AppFonts.interFont,
+                          weight: FontWeight.w600,
+                          color: _tabController!.index == 0
+                              ? selectedColor
+                              : unSelectedColor,
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        getTranslatedStrings(context).messengerChatGroups,
+                        style: mainStyle(
+                          context,
+                          12.sp,
+                          fontFamily: AppFonts.interFont,
+                          weight: FontWeight.w600,
+                          color: _tabController!.index == 1
+                              ? selectedColor
+                              : unSelectedColor,
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        getTranslatedStrings(context).messengerChannels,
+                        style: mainStyle(
+                          context,
+                          12.sp,
+                          fontFamily: AppFonts.interFont,
+                          weight: FontWeight.w600,
+                          color: _tabController!.index == 2
+                              ? selectedColor
+                              : unSelectedColor,
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        getTranslatedStrings(context).messengerCalls,
+                        style: mainStyle(
+                          context,
+                          12.sp,
+                          fontFamily: AppFonts.interFont,
+                          weight: FontWeight.w600,
+                          color: _tabController!.index == 3
+                              ? selectedColor
+                              : unSelectedColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               body: Column(
                 children: [
-                  Divider(color: Color(0xffF2F2F2)),
-                  MyStoryWidget(),
-                  Divider(color: Color(0xffF2F2F2)),
-                  Container(
-                    height: 65.h,
-                    width: 1.sw,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 5.w
-                    ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          TabItemWidget(
-                              title: getTranslatedStrings(context).messengerChat,
-                              btnClick: () {
-                                _tabController!.index = 0;
-                              },
-                              isSelected:
-                                  _tabController!.index == 0 ? true : false),
-                          TabItemWidget(
-                              title: getTranslatedStrings(context)
-                                  .messengerChatGroups,
-                              btnClick: () {
-                                _tabController!.index = 1;
-                              },
-                              isSelected:
-                                  _tabController!.index == 1 ? true : false),
-                          TabItemWidget(
-                              title:
-                                  getTranslatedStrings(context).messengerChannels,
-                              btnClick: () {
-                                _tabController!.index = 2;
-                              },
-                              isSelected:
-                                  _tabController!.index == 2 ? true : false),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Divider(color: Color(0xffF2F2F2)),
+
+                  // Divider(color: Color(0xffF2F2F2)),
+                  // Container(
+                  //   height: 65.h,
+                  //   width: 1.sw,
+                  //   padding: EdgeInsets.symmetric(
+                  //     horizontal: 5.w
+                  //   ),
+                  //   child: SingleChildScrollView(
+                  //     scrollDirection: Axis.horizontal,
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.start,
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       children: [
+                  //         TabItemWidget(
+                  //             title: getTranslatedStrings(context).messengerChat,
+                  //             btnClick: () {
+                  //               _tabController!.index = 0;
+                  //             },
+                  //             isSelected:
+                  //                 _tabController!.index == 0 ? true : false),
+                  //         TabItemWidget(
+                  //             title: getTranslatedStrings(context)
+                  //                 .messengerChatGroups,
+                  //             btnClick: () {
+                  //               _tabController!.index = 1;
+                  //             },
+                  //             isSelected:
+                  //                 _tabController!.index == 1 ? true : false),
+                  //         TabItemWidget(
+                  //             title:
+                  //                 getTranslatedStrings(context).messengerChannels,
+                  //             btnClick: () {
+                  //               _tabController!.index = 2;
+                  //             },
+                  //             isSelected:
+                  //                 _tabController!.index == 2 ? true : false),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   Expanded(
                     child: TabBarView(
                       controller: _tabController,
                       children: [
+                        // MessengerChatScreen(),
                         /// chat page
                         messengerCubit.myMessagesModel == null
                             ? DefaultLoaderGrey()
@@ -174,33 +248,77 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                                     ? MessengerChatScreen()
                                     : Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 10.w),
-                                        child: ListView.separated(
-                                          shrinkWrap: true,
-                                          padding: EdgeInsets.zero,
-                                          itemBuilder: (context, index) {
-                                            return ChatUserItemWidget(
-                                                type: index == 0
-                                                    ? "send"
-                                                    : index == 1
-                                                        ? "receive"
-                                                        : "done",
-                                                user: messengerCubit
-                                                    .myMessagesModel!
-                                                    .data
-                                                    .myChats![index]
-                                                    .user!);
-                                          },
-                                          separatorBuilder: (_, i) =>
-                                              heightBox(5.h),
-                                          itemCount: messengerCubit
-                                              .myMessagesModel!
-                                              .data
-                                              .myChats!
-                                              .length,
+                                            horizontal: 7.w),
+                                        child: Column(
+                                          children: [
+                                            MyStoryWidget(count: 10),
+                                            SizedBox(
+                                              height: 10.h,
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 19.w),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    height: 20.w,
+                                                    width: 20.w,
+                                                    child: SvgPicture.asset(
+                                                      "$messengerAssets/icon_archived.svg",
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10.w,
+                                                  ),
+                                                  Text(
+                                                    getTranslatedStrings(
+                                                            context)
+                                                        .messengerArchived,
 
+                                                    style: mainStyle(
+                                                      context,
+                                                      14.sp,
+                                                      fontFamily:
+                                                          AppFonts.interFont,
+                                                      weight: FontWeight.w600,
+                                                      color: Color(0xFF19191A),
+                                                      textHeight: 1.1
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10.h,
+                                            ),
+                                            ListView.separated(
+                                              shrinkWrap: true,
+                                              padding: EdgeInsets.zero,
+                                              itemBuilder: (context, index) {
+                                                return ChatUserItemWidget(
+                                                    index: index,
+                                                    chatItem: messengerCubit
+                                                        .myMessagesModel!
+                                                        .data
+                                                        .myChats![index]);
+                                              },
+                                              separatorBuilder: (_, i) =>
+                                                  heightBox(0.h),
+                                              itemCount: messengerCubit
+                                                  .myMessagesModel!
+                                                  .data
+                                                  .myChats!
+                                                  .length,
+                                            ),
+                                          ],
                                         ),
                                       ),
+                        ComingSoonWidget(),
                         ComingSoonWidget(),
                         ComingSoonWidget(),
                       ],
@@ -209,11 +327,13 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                 ],
               ),
               floatingActionButton: Container(
-                width: 65.w,
-                height: 65.w,
+                width: 48.w,
+                height: 48.w,
+                margin: EdgeInsets.symmetric(vertical: 25.h, horizontal: 10.w),
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.h),
+                  color: iconColor,
+                  borderRadius: BorderRadius.circular(50.h),
                 ),
                 child: InkWell(
                   onTap: () {
@@ -223,11 +343,11 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                   child: SizedBox(
                     child: _tabController!.index == 0
                         ? SvgPicture.asset(
-                            "assets/icons/messenger/icon_write_message.svg",
+                            "$messengerAssets/icon_message.svg",
                           )
                         : SvgPicture.asset(
                             color: AppColors.iconsColor,
-                            "assets/icons/messenger/icon_plus_blue.svg",
+                            "$messengerAssets/icon_plus_blue.svg",
                           ),
                   ),
                 ),

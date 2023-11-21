@@ -14,8 +14,10 @@ class HeaderVisibilityChanged extends MainState {}
 class ConnectionStateChanged extends MainState {}
 class ExpandedChanged extends MainState {}
 class SelectedCountryUpdated extends MainState {}
+class SelectedLanguageUpdated extends MainState {}
 class SelectedPlatformUpdated extends MainState {}
 class CountrySearchQueryUpdated extends MainState {}
+class LanguageSearchQueryUpdated extends MainState{}
 class SelectedItemIdChanged extends MainState {}
 class LocaleChangedState extends MainState {}
 

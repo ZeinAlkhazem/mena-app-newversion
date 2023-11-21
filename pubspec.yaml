@@ -113,6 +113,7 @@ dependencies:
   webview_flutter: ^4.2.2
   whiteboard: ^0.0.2
   wolt_modal_sheet: ^0.1.4
+  locale_plus: ^1.4.1
 
 dev_dependencies:
   flutter_test:
@@ -192,6 +193,10 @@ flutter:
     - family: PNfont
       fonts:
         - asset: assets/fonts/PN-Font.otf
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter.ttf
 
     - family: OpenSans
       fonts:

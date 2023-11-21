@@ -1341,6 +1341,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  locale_plus:
+    dependency: "direct main"
+    description:
+      name: locale_plus
+      sha256: "493103e8dcc772fdb023464a825ebbd09965072affcf7581378125a1fca31824"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.1"
   logger:
     dependency: transitive
     description:

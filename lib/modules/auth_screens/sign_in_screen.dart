@@ -94,13 +94,6 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(56.0.h),
-          child: const DefaultOnlyLogoAppbar1(
-            withBack: true,
-            // title: 'Back',
-          ),
-        ),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -116,21 +109,25 @@ class _SignInScreenState extends State<SignInScreen> {
                   return Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(top: 8),
+                        padding: EdgeInsets.only(top: 70),
                         constraints: BoxConstraints(maxHeight: 0.7.sh),
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // const Expanded(child: SizedBox()),
-                                SvgPicture.asset(
-                                  'assets/new_icons/mena_black.svg',
-                                  width: 90.w,
-                                ),
-                              ],
+                            SvgPicture.asset(
+                              'assets/new_icons/mena_black.svg',
+                              width: 57.w,
                             ),
-                            heightBox(90.h),
+                            heightBox(10.h),
+                            Text(
+                              "Sign in to Mena",
+                              style: TextStyle(
+                                color: Color(0xff191919),
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                              ),
+                            ),
+                            heightBox(40.h),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding * 2),
                               child: Form(
@@ -138,9 +135,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   child: Column(
                                     children: [
                                       DefaultInputField(
-                                        // onFieldChanged: (text){
-                                        //   loginEmail = text;
-                                        // },
+                                        unFocusedBorderColor: Color(0xffe3e3e3),
+                                        fillColor: Color(0xfff2f3f5),
                                         onTap: (){
                                           setState(() {
                                             hasError = false;
@@ -150,26 +146,24 @@ class _SignInScreenState extends State<SignInScreen> {
                                         // fillColor: hasError?Color(0xffF2D5D5):null,
                                         label: '${getTranslatedStrings(context).userLogin}',
                                         labelTextStyle: TextStyle(
-                                          fontSize: 13.0,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'PNfont',
-                                          color: Color(0xff999B9D)),
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'Inter',
+                                          color: Color(0xff979797)),
                                         autoValidateMode: authCubit.autoValidateMode,
                                         controller: emailCont,
                                         validate: normalInputValidate(context),
                                       ),
-                                      heightBox(10.h),
+                                      heightBox(12.h),
                                       DefaultInputField(
-                                        // onFieldChanged: (text){
-                                        //   loginPass = text;
-                                        // },
-                                        // fillColor: hasError?Color(0xffF2D5D5):null,
+                                        fillColor: Color(0xfff2f3f5),
+                                        unFocusedBorderColor: Color(0xffe3e3e3),
                                         label: getTranslatedStrings(context).passwordLogin,
                                         labelTextStyle: TextStyle(
-                                            fontSize: 13.0,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'PNfont',
-                                            color: Color(0xff999B9D)),
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Inter',
+                                            color: Color(0xff979797)),
                                         obscureText: !authCubit.passVisible,
                                         autoValidateMode: authCubit.autoValidateMode,
                                         controller: passCont,
@@ -182,21 +176,19 @@ class _SignInScreenState extends State<SignInScreen> {
                                             /// HERE ADD CONDITION IF VISIBLE ASSET LINK WILL BE DEIFFERENT
                                             authCubit.passVisible
                                                 ? 'assets/new_icons/opened_eye.svg'
-                                                : 'assets/new_icons/closed_eye.svg',
+                                                : 'assets/new_icons/eye_slash_outline_12.svg',
                                             fit: BoxFit.contain,
-                                            width: 20.w,
-                                            height: 20.h,
-                                            color: Color(0xff999B9D),
+                                            width: 18.w,
+                                            height: 18.h,
+                                            color: Color(0xff979797),
                                             theme: SvgTheme(
-                                              currentColor: Color(0xff999B9D),
+                                              currentColor: Color(0xff979797),
                                               fontSize: 13,
                                             ),
                                           ),
                                         ),
                                       ),
-                                      heightBox(0.h),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           TextButton(
                                             onPressed: () {
@@ -204,7 +196,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                             },
                                             child: Text(
                                               getTranslatedStrings(context).forgotPassword,
-                                              style: mainStyle(context, 14, color: newDarkGreyColor, weight: FontWeight.w700),
+                                              style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: 'Inter',
+                                                  color: Color(0xff747474)),
                                             ),
                                           ),
                                         ],
@@ -215,6 +211,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       //     : 
                                           
                                           DefaultButton(
+                                            backColor: Color(0xff4272B7),
                                               onClick: () {
                                                 if (emailCont.text.isEmpty ||
                                                     passCont.text.isEmpty) {
@@ -250,7 +247,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                               : Text(
                                             getTranslatedStrings(context).login,
                                             textAlign: TextAlign.center,
-                                            style: mainStyle(context, isBold: true, 14, color: Colors.white),
+                                            style: mainStyle(context,fontFamily: 'Inter' ,isBold: true, 13, color: Colors.white, weight: FontWeight.w600),
                                           ),
                                         ),
                                         text: "",
@@ -263,17 +260,24 @@ class _SignInScreenState extends State<SignInScreen> {
                           ],
                         ),
                       ),
-                      // heightBox(10.h),
+                      heightBox(40.h),
 
                       Padding(
                         padding:  EdgeInsets.symmetric(horizontal: defaultHorizontalPadding*2.0),
                         child: DefaultButton(
-                          text: getTranslatedStrings(context).signUp,
-                          backColor: Colors.green,
+                          backColor: Color(0xff4AB34C),
                           borderColor: Colors.transparent,
                           onClick: () {
                             navigateTo(context, PickUserTypeLayout());
                           },
+                          customChild: Center(
+                            child: isLoading ? SizedBox(width: 20,height:20,child: CircularProgressIndicator(color: Colors.white,))
+                                : Text(
+                              getTranslatedStrings(context).signUp,
+                              textAlign: TextAlign.center,
+                              style: mainStyle(context,fontFamily: 'Inter' ,isBold: true, 13, color: Colors.white, weight: FontWeight.w600),
+                            ),
+                          ), text: '',
                         ),
                       ),
                       // heightBox(30.h),

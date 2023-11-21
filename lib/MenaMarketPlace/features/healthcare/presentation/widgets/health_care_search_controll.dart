@@ -14,7 +14,7 @@ class HealthCareSearchControll extends StatelessWidget {
     return Row(
       children: [
         widthBox(8.w),
-        Flexible(child: SearchBox()),
+        // Flexible(child: SearchBox()),
         CountryPickerDrop(
           onValuePicked: (country) {},
         ),

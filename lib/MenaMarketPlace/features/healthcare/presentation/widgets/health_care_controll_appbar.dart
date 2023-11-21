@@ -12,34 +12,38 @@ class HealthCareControllAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         InkWell(
           onTap: () {
             Navigator.pop(context);
           },
           child: Icon(
+            size: 18,
             Icons.arrow_back_ios,
             color: AppColors.whiteCreamColor,
           ),
         ),
-        Icon(
-          Icons.account_circle,
-          color: AppColors.whiteCreamColor,
-        ),
         Text(
           "Healthcare Market",
-          style: mainStyle(context, 20.sp,
-              weight: FontWeight.w900,
-              fontFamily: "VisbyBold",
+          style: mainStyle(context, 18.sp,
+              weight: FontWeight.w500,
+              fontFamily: "Roboto",
               color: AppColors.whiteCreamColor),
         ),
+        Spacer(),
         Icon(
           Icons.add_circle_outline,
           color: AppColors.whiteCreamColor,
         ),
+        widthBox(15.w),
         SvgPicture.asset(
           "assets/menamarket/shopping_cart_outline_28.svg",
+          color: AppColors.whiteCreamColor,
+        ),
+        widthBox(15.w),
+        SvgPicture.asset(
+          "assets/menamarket/menu_28.svg",
           color: AppColors.whiteCreamColor,
         ),
       ],

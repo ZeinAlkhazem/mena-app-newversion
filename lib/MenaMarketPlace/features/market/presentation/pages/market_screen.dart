@@ -1,14 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
+import 'package:mena/MenaMarketPlace/features/market/presentation/cubit/market_cubit.dart';
 import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 
 import '../../../../../core/cache/cache.dart';
 import '../widgets/button_with_label.dart';
-import '../widgets/search_controll.dart';
+import '../widgets/search_box.dart';
 import '../../../healthcare/presentation/pages/health_care_market.dart';
 
 class MarketScreen extends StatefulWidget {
@@ -19,16 +23,22 @@ class MarketScreen extends StatefulWidget {
 }
 
 class _MarketScreenState extends State<MarketScreen> {
+  CarouselController carouselController = CarouselController();
   String platformName = CacheHelper.getData(key: 'platformName');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 200.h),
+        preferredSize: Size(double.infinity, 80.h),
         child: AppBar(
+          backgroundColor: Colors.transparent,
+          // systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+          //   statusBarColor: AppColors.hardBlue,
+          // ),
           // systemOverlayStyle: SystemUiOverlayStyle(
           //   // Status bar color
-          //   statusBarColor: Colors.transparent,
+          //   statusBarColor: Colors.red,
 
           //   // Status bar brightness (optional)
           //   statusBarIconBrightness:
@@ -36,58 +46,26 @@ class _MarketScreenState extends State<MarketScreen> {
           //   statusBarBrightness: Brightness.light, // For iOS (dark icons)
           // ),
           automaticallyImplyLeading: false, // hides default back button
-          flexibleSpace: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          AppColors.softBlue,
-                          AppColors.hardBlue,
-                        ]),
-                  )),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: -25.h,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10.w),
-                  height: 160.h,
-                  child: Center(
-                    child: Text(
-                      "",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          AppColors.softBlue,
-                          AppColors.hardBlue,
-                        ]),
-                  ),
-                ),
-              )
-            ],
-          ),
-          title: SearchControll(),
+          flexibleSpace: Container(
+              height: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(10.r)),
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      AppColors.softBlue,
+                      AppColors.hardBlue,
+                    ]),
+              )),
+          title: SearchBox(hint: "Search"),
           centerTitle: true,
         ),
       ),
       body: Column(
         children: [
-          heightBox(40.h),
+          heightBox(13.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,34 +95,50 @@ class _MarketScreenState extends State<MarketScreen> {
               ),
             ],
           ),
-          heightBox(20.h),
+          heightBox(13.h),
           SizedBox(
             // color: Colors.grey,
-            height: context.height / 4.5,
+            height: context.height / 5,
             child: CarouselSlider.builder(
-              itemCount: 3,
-              carouselController: CarouselController(),
-              itemBuilder: (context, index, realIndex) => SliderItem(
-                title: "Smart Expo",
-                btnLable: "More Expos",
-                description: "2023 Jinagsw import & Export Fair",
-                subDescription:
-                    "Health & Medicine JiangSulumport Right Now In Expo UAE",
-                time: "Nov 1 - Nov10 , 2023 \nUTC +8:00",
+              itemCount: 6,
+              carouselController: carouselController,
+              itemBuilder: (context, index, realIndex) => Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 5.w),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/menamarket/offer1.png"))),
               ),
               options: CarouselOptions(
                 autoPlay: false,
+                onPageChanged: (index, reason) {
+                  context.read<MarketCubit>().changeCaroselPosition(index);
+                },
                 reverse: false,
-                viewportFraction: 0.95,
+                viewportFraction: 0.90,
                 height: double.maxFinite,
                 enableInfiniteScroll: true,
                 // enlargeCenterPage: true,
-                aspectRatio: 16 / 9,
+                // aspectRatio: 16 / 9,
                 initialPage: 0,
                 scrollPhysics: ClampingScrollPhysics(),
               ),
             ),
           ),
+          BlocBuilder<MarketCubit, MarketState>(
+            builder: (context, state) {
+              var cubit = context.read<MarketCubit>();
+              return DotsIndicator(
+                dotsCount: 6,
+                position: cubit.i,
+                decorator: DotsDecorator(
+                    activeSize: Size.square(6),
+                    activeColor: Color(0xff6D9BCB),
+                    size: Size.square(6),
+                    spacing: EdgeInsets.all(3)),
+              );
+            },
+          )
         ],
       ),
     );

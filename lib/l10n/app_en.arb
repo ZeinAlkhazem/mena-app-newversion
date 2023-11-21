@@ -152,6 +152,9 @@
   "areYouSureBlockUser": "Are you sure you want to block this user..",
   "clearChat": "Clear chat",
   "areYouSureClearChat": "Are you sure you want to clear this chat..",
+
+
+  "menaMessenger": "Mena Messenger",
   "newMessage": "New message",
   "message": "Message",
   "welcomeToMenaMessenger": "Welcome to Mena Messenger",
@@ -220,16 +223,13 @@
   "confirmDeletion" : "Confirm Deletion",
   "messenger" : "Messenger",
   "termsOfService" : "Terms of Service ",
-  "termsOfServiceDescriptionPart1" : "When you tap the 'Get Started' button, you are indicating your acceptance of the ",
+  "termsOfServiceDescriptionPart1" : "When you tap the 'Agree and continue' button, you are indicating your acceptance of the ",
   "termsOfServiceDescriptionPart2" : "for Mena Messenger.",
-  "messengerDescription1" : "Discover MENA Messenger's features:",
-  "messengerDescription2" : "- One-to-One Chat.",
-  "messengerDescription3" : "- Chat Groups ( Up to 250000 Members ) and create, join chat groups",
-  "messengerDescription4" : "- Create Channel for unlimited audiences and find channels",
-  "messengerWelcomeText" : "Welcome to the messenger! It looks like you don't have any chats yet. You can start by writing messages, sending and sharing media and files, including high-resolution images and videos. To begin, simply click on the button at the bottom of this page",
-  "messengerChat" : "Chat",
-  "messengerChatGroups" : "Chat Group",
-  "messengerChannels" : "Channel",
+  "messengerDescription" : "Explore MENA Messenger for seamless one-on-one chats, effortless engagement in group discussions with up to 250,000 members, and the creation of unlimited channels to reach and join unlimited audiences effortlessly.",
+   "messengerEmptyChatText" : "Your messenger inbox is currently empty;\n check requested messages or click the 'Write message' Icon at the bottom of the page to initiate a conversation.",
+  "messengerChat" : "Chats",
+  "messengerChatGroups" : "Chats Group",
+  "messengerChannels" : "Channels",
   "messengerCalls" : "Calls",
   "requestEmptyText" : "You do not currently have any pending messages or requests from other users",
   "messengerNewMessage" : "New Message",
@@ -249,5 +249,6 @@
   "messengerBlockAlert1" : "They won't be able to send you messages, access your profile, or view your content on the Mena Application",
   "messengerBlockAlert2" : "They will not receive a notification that you have blocked them",
   "messengerBlockAlert3" : "You can unblock them at any time in your settings",
-  "messengerAcceptMessage" : "The messages from the specified username will be moved to your primary messages"
+  "messengerAcceptMessage" : "The messages from the specified username will be moved to your primary messages",
+  "agreeAndContinue" : "Agree and continue"
 }

@@ -186,14 +186,13 @@ class _MainLayoutState extends State<MainLayout> {
       ),
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
-          'assets/new_icons/messages_circle_fill_yellow_28.svg',
+          'assets/new_icons/users filled in blue.svg',
           height: 26,
           // height: 30.h,
         ),
         inactiveIcon: SvgPicture.asset(
-          'assets/new_icons/message_outline_28.svg',
+          'assets/new_icons/users_3_outline_24.svg',
           height: 26,
-          color: Color(0xff97A0A8),
           // height: 28.h,
         ),
         title: getTranslatedStrings(context).meetings,

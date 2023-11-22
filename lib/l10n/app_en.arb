@@ -227,7 +227,7 @@
   "messengerChatGroups" : "Chats Group",
   "messengerChannels" : "Channels",
   "messengerCalls" : "Calls",
-  "requestEmptyText" : "You do not currently have any pending messages or requests from other users",
+  "requestEmptyText" : "You don't currently have any pending messages or requested from other users",
   "messengerNewMessage" : "New Message",
   "messengerPrimary" : "Primary",
   "messengerMyContact" : "My Contact",

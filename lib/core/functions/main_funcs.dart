@@ -1299,7 +1299,10 @@ Future<void> buildShowModalBottomSheet(BuildContext context,
   );
 }
 
-String getFormattedDate(DateTime date) {
+String getFormattedDate(DateTime currentDate) {
+  var dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss").parse(currentDate.toString(), true);
+  var date = dateFormat.toLocal();
+
   DateTime now = new DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
   final yesterday = DateTime(now.year, now.month, now.day - 1);
@@ -1314,7 +1317,10 @@ String getFormattedDate(DateTime date) {
   // return '${date.year}/${date.month}/${date.day}   ${date.hour < 10 ? date.hour.toString().padLeft(2, '0') : date.hour.toString()}:${date.minute < 10 ? date.minute.toString().padLeft(2, '0') : date.minute.toString()}';
 }
 
-String getFormattedDateWithAMPM(DateTime date) {
+String getFormattedDateWithAMPM(DateTime currentDate) {
+
+  var dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss").parse(currentDate.toString(), true);
+  var date = dateFormat.toLocal();
   DateTime now = new DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
   final yesterday = DateTime(now.year, now.month, now.day - 1);

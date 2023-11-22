@@ -18,7 +18,7 @@ void blockUserBottomSheetDialog(BuildContext context) {
     backgroundColor:  AppColors.alertBgColor,
     builder: (BuildContext context) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.horizontal(
           left: Radius.circular(15.r),
@@ -30,10 +30,10 @@ void blockUserBottomSheetDialog(BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             SizedBox(
-              height: 10.h,
+              height: 5.h,
             ),
             Container(
-              height: 5.h,
+              height: 3.h,
               width: 40.w,
               decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.8),
@@ -57,13 +57,13 @@ void blockUserBottomSheetDialog(BuildContext context) {
             ),
             Text(
               'Block Username',
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.center,
               style: mainStyle(
                 context,
-                12.sp,
-                weight: FontWeight.w700,
-                color: Colors.black,
-                fontFamily: AppFonts.openSansFont,
+                15.sp,
+                weight: FontWeight.w500,
+                color: Color(0xFF19191A),
+                fontFamily: AppFonts.interFont,
               ),
             ),
             SizedBox(
@@ -74,10 +74,10 @@ void blockUserBottomSheetDialog(BuildContext context) {
               textAlign: TextAlign.center,
               style: mainStyle(
                 context,
-                12.sp,
+                10.sp,
                 weight: FontWeight.w400,
-                color: Color(0xff7F7F7F),
-                fontFamily: AppFonts.openSansFont,
+                color: Color(0xFF445154),
+                fontFamily: AppFonts.interFont,
               ),
             ),
             SizedBox(
@@ -109,18 +109,18 @@ void blockUserBottomSheetDialog(BuildContext context) {
               child: DefaultButton(
                 onClick: ()=>Navigator.of(context).pop(),
                 text: getTranslatedStrings(context).block,
-                height: 0.06.sh,
-                width: 1.sw,
+                height: 40.h,
+                width: 281.w,
                 radius: 10.r,
                 backColor: AppColors.lineBlue,
                 borderColor: Colors.white,
                 customChild: Center(
                   child: Text(
                     getTranslatedStrings(context).block,
-                    style: mainStyle(context, 12.sp,
+                    style: mainStyle(context, 14.sp,
                         color: Colors.white,
-                        fontFamily: AppFonts.openSansFont,
-                        weight: FontWeight.w700),
+                        fontFamily: AppFonts.interFont,
+                        weight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -160,9 +160,9 @@ Widget rowItemWidget({
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
             style: mainStyle(context, 10.sp,
-                color: AppColors.grayDarkColor,
-                fontFamily: AppFonts.openSansFont,
-                weight: FontWeight.w700),
+                color: Color(0xFF445154),
+                fontFamily: AppFonts.interFont,
+                weight: FontWeight.w400),
           ),
         ),
       ],

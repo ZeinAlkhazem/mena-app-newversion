@@ -25,7 +25,6 @@ class IconButtonWidget extends StatelessWidget {
     return InkWell(
       onTap: btnClick,
       child: Container(
-        // color: Colors.white,
         margin: EdgeInsets. symmetric(vertical: 5.h, horizontal: 5.w),
         width: iconWidth,
         height: iconHeight ?? 10.h,

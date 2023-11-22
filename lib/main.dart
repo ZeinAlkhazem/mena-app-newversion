@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'dart:math';
+import 'dart:ui' as ui;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,6 @@ import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import "MenaMarketPlace/injection_container.dart" as di;
 import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
@@ -38,6 +38,7 @@ import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/feeds_screen/my_blog/cubit/myBlog_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
+import 'modules/initial_onboarding/initial_choose_lang.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
 import 'modules/messenger/cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
@@ -46,6 +47,7 @@ import 'modules/platform_provider/cubit/provider_cubit.dart';
 import 'modules/promotions_screen/cubit/promotions_cubit.dart';
 import 'modules/start_live/cubit/start_live_cubit.dart';
 import 'modules/tools/cubit/tools_cubit.dart';
+import 'package:locale_plus/locale_plus.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -61,10 +63,11 @@ class MyHttpOverrides extends HttpOverrides {
 late SharedPreferences prefs;
 void main() async {
   HttpOverrides.global = MyHttpOverrides();
-
   WidgetsFlutterBinding.ensureInitialized();
   di.init();
-
+  await PatchAllLocales.patchNumberSeperators();
+  final regionCode = await LocalePlus().getRegionCode();
+  final languageCode = await LocalePlus().getLanguageCode();
   /// set status bar color
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     // statusBarColor: AppColors.iconsColor
@@ -81,9 +84,11 @@ void main() async {
   Locale myLocale = WidgetsBinding.instance.window.locale;
   if (myLocale.languageCode == 'ar') {
     selectedLanguage = 'Arabic';
+    logg('my device language is : ${selectedLanguage}');
   } else {
     selectedLanguage =
         'English'; // You can set other default languages if needed
+    logg('my device language is : ${selectedLanguage}');
   }
   await prefs.setString('selectedLanguage', selectedLanguage);
 
@@ -173,7 +178,6 @@ void main() async {
 
 class MainAppProvider extends StatelessWidget {
   const MainAppProvider({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -218,10 +222,23 @@ class MainMaterialApp extends StatefulWidget {
 }
 
 class _MainMaterialAppState extends State<MainMaterialApp> {
+  Locale _deviceLocale = const Locale('en'); // Default language if locale detection fails
+
+
+  Future<void> _getDeviceLocale() async {
+    ui.window.onLocaleChanged = () {
+      setState(() {
+        _deviceLocale = ui.window.locale;
+      });
+    };
+    setState(() {
+      _deviceLocale = ui.window.locale;
+    });
+  }
   @override
   void initState() {
     super.initState();
-
+    _getDeviceLocale();
     /// to get databases location for stored json
     // preCacheProcesses(context);
 
@@ -279,9 +296,9 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          locale: mainCubit.appLocale,
-          supportedLocales: L10n.all,
 
+          locale: _deviceLocale,
+          supportedLocales: L10n.all,
           ///
           routes: {
             "/create_slot": (context) => PickAppointmentTypeInSlotLayout(),

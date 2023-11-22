@@ -1,5 +1,6 @@
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -713,9 +714,10 @@ class SearchBarWidget extends StatelessWidget {
 }
 
 class SearchBar1 extends StatelessWidget {
-  const SearchBar1({Key? key, this.onFieldChanged}) : super(key: key);
+  const SearchBar1({Key? key, this.onFieldChanged, this.hintText}) : super(key: key);
 
   final Function(String)? onFieldChanged;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -728,27 +730,21 @@ class SearchBar1 extends StatelessWidget {
         children: [
           Expanded(
               child: DefaultInputField(
-            // label: '',
-            label: localizationStrings!.search,
-            // labelWidget: Text(
-            //   localizationStrings!.search,
-            //   style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
-            // ),
-            onFieldChanged: onFieldChanged,
-            customHintText: 'Search by country name',
-            suffixIcon: Icon(
-              Icons.search,
-              color: mainBlueColor,
-              size: 25,
+                fillColor: Color(0xfff2f3f5),
+                unFocusedBorderColor: Colors.transparent,
+                focusedBorderColor: Colors.transparent,
+                borderRadius: 24.r,
+                label: hintText,
+                onFieldChanged: onFieldChanged,
+                customHintText: hintText,
+                prefixWidget: SvgPicture.asset(
+                  'assets/new_icons/search_20.svg',
+                  color: Color(0xff979797),
+                  height: 23.h,
+                  width: 23.w,
+                ),
             ),
-            // SvgPicture.asset(
-            //   'assets/svg/search_icon.svg',
-            //   color: mainBlueColor,
-            //   alignment: Alignment.centerRight,
-            //   fit: BoxFit.cover,
-            // ),
-          )),
-          // SvgPicture.asset('assets/svg/search.svg'),
+          ),
         ],
       ),
     );
@@ -1217,7 +1213,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
         suffixIconConstraints: BoxConstraints(maxHeight: 60.h, maxWidth: 60.w),
         labelStyle: widget.labelTextStyle ??
             mainStyle(context, 13,
-                color: newDarkGreyColor, weight: FontWeight.w700),
+                color: Color(0xff979797), weight: FontWeight.w500,fontFamily: 'Inter'),
         // labelText: label,
         label: Text(widget.label ?? ''),
         // Padding(
@@ -3654,65 +3650,69 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
     this.title,
     this.suffix,
     this.logo,
+    this.backgroundColor,
   }) : super(key: key);
 
   final String? logo;
   final String? title;
   final bool withBack;
   final Widget? suffix;
+  final Colors? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            widthBox(defaultHorizontalPadding),
-            if (withBack)
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  height: 30.h,
-                  width: 30.w,
-                  color: Colors.transparent,
-                  child: Center(
-                    child: SvgPicture.asset(
-                      'assets/new_icons/back.svg',
-                      // color: mainBlueColor,
+    return Container(
+      color: Colors.transparent,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              widthBox(defaultHorizontalPadding),
+              if (withBack)
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    height: 28.h,
+                    width: 20.w,
+                    color: Colors.transparent,
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/new_icons/chevron_back_28.svg',
+                        color: Color(0xff565656),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            widthBox(0.02.sw),
-            GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                padding: EdgeInsets.only(bottom: 10, right: 5),
-                color: Colors.transparent,
-                child: Center(
-                  child: SvgPicture.asset(
-                    logo ?? 'assets/new_icons/mena_main_logo.svg',
-                    fit: BoxFit.contain,
+              widthBox(0.02.sw),
+              // GestureDetector(
+              //   onTap: () => Navigator.pop(context),
+              //   child: Container(
+              //     padding: EdgeInsets.only(bottom: 10, right: 5),
+              //     child: Center(
+              //       child: SvgPicture.asset(
+              //         logo ?? '',
+              //         fit: BoxFit.contain,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // widthBox(0.02.sw),
+              Expanded(
+                child: Text(
+                  title ?? '',
+                  style: TextStyle(
+                    fontSize: 19.0,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Inter',
+                    color: Color(0xff565656),
                   ),
                 ),
               ),
-            ),
-            widthBox(0.02.sw),
-            Expanded(
-              child: Text(
-                title ?? '',
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'PNfont',
-                  color: Color(0xff152026),
-                ),
-              ),
-            ),
-            suffix ?? SizedBox()
-          ],
+              suffix ?? SizedBox()
+            ],
+          ),
         ),
       ),
     );
@@ -3746,7 +3746,7 @@ class DefaultOnlyLogoAppbar1 extends StatelessWidget {
             widthBox(defaultHorizontalPadding),
             if (withBack)
               GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: onTap ?? () => Navigator.pop(context),
                 child: Container(
                   height: 30.h,
                   width: 30.w,

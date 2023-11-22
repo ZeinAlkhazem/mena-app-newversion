@@ -7,6 +7,7 @@ import 'package:mena/modules/messenger/widget/chat_user_item_widget.dart';
 import 'package:mena/modules/messenger/screens/messenger_chat_screen.dart';
 import 'package:mena/modules/messenger/widget/my_store_widget.dart';
 import 'package:mena/modules/messenger/widget/tab_item_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/Colors.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
@@ -28,6 +29,8 @@ class _MessengerHomePageState extends State<MessengerHomePage>
   IO.Socket? socket;
   TabController? _tabController;
   int index = 0;
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
 
   Color selectedColor = Color(0xff202226);
   Color unSelectedColor = Color(0xff999B9D);
@@ -36,7 +39,8 @@ class _MessengerHomePageState extends State<MessengerHomePage>
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
+
     var messengerCubit = MessengerCubit.get(context);
     _tabController = new TabController(vsync: this, length: 4)
       ..addListener(() {
@@ -56,14 +60,9 @@ class _MessengerHomePageState extends State<MessengerHomePage>
         ..fetchMyMessages()
         ..fetchOnlineUsers();
     });
-    super.initState();
   }
 
-  @override
-  void dispose() {
-    _tabController!.dispose();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +77,30 @@ class _MessengerHomePageState extends State<MessengerHomePage>
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Color(0xFFFDFDFD),
-                leading: SizedBox(),
-                leadingWidth: 0,
+                // leading: SizedBox(),
+                // leadingWidth: 0,
+                // titleSpacing: 0,
+                leading: Padding(
+                  padding: EdgeInsets.only(left: 15.w, right: 5.w),
+                  child: SizedBox(
+                    width: 24.w,
+                    height: 24.w,
+                    child: SvgPicture.asset(
+                      "$messengerAssets/icon_messenger_user.svg",
+                    ),
+                  ),
+                ),
                 titleSpacing: 0,
-                title: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: SvgPicture.asset(
-                    "$messengerAssets/icon_mena_messenger_color_hor.svg",
-                    height: 25.h,
+                title: Text(
+                  "Messenger",
+                  style: mainStyle(
+                    context,
+                    18.sp,
+                    fontFamily: AppFonts.interFont,
+                    weight: FontWeight.w500,
+                    color: Color(0xFF444444),
+                    textHeight: 0,
+                    letterSpacing: 0.33,
                   ),
                 ),
                 elevation: 1,
@@ -236,88 +251,7 @@ class _MessengerHomePageState extends State<MessengerHomePage>
                     child: TabBarView(
                       controller: _tabController,
                       children: [
-                        // MessengerChatScreen(),
-                        /// chat page
-                        messengerCubit.myMessagesModel == null
-                            ? DefaultLoaderGrey()
-                            : messengerCubit.myMessagesModel!.data.myChats ==
-                                    null
-                                ? DefaultLoaderGrey()
-                                : messengerCubit
-                                        .myMessagesModel!.data.myChats!.isEmpty
-                                    ? MessengerChatScreen()
-                                    : Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 7.w),
-                                        child: Column(
-                                          children: [
-                                            MyStoryWidget(count: 10),
-                                            SizedBox(
-                                              height: 10.h,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 19.w),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    height: 20.w,
-                                                    width: 20.w,
-                                                    child: SvgPicture.asset(
-                                                      "$messengerAssets/icon_archived.svg",
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10.w,
-                                                  ),
-                                                  Text(
-                                                    getTranslatedStrings(
-                                                            context)
-                                                        .messengerArchived,
-
-                                                    style: mainStyle(
-                                                      context,
-                                                      14.sp,
-                                                      fontFamily:
-                                                          AppFonts.interFont,
-                                                      weight: FontWeight.w600,
-                                                      color: Color(0xFF19191A),
-                                                      textHeight: 1.1
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10.h,
-                                            ),
-                                            ListView.separated(
-                                              shrinkWrap: true,
-                                              padding: EdgeInsets.zero,
-                                              itemBuilder: (context, index) {
-                                                return ChatUserItemWidget(
-                                                    index: index,
-                                                    chatItem: messengerCubit
-                                                        .myMessagesModel!
-                                                        .data
-                                                        .myChats![index]);
-                                              },
-                                              separatorBuilder: (_, i) =>
-                                                  heightBox(0.h),
-                                              itemCount: messengerCubit
-                                                  .myMessagesModel!
-                                                  .data
-                                                  .myChats!
-                                                  .length,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                        MessengerChatScreen(),
                         ComingSoonWidget(),
                         ComingSoonWidget(),
                         ComingSoonWidget(),

@@ -41,9 +41,11 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
     var feedCubit = FeedsCubit.get(context);
     feedCubit.selectedSubs = {};
     feedCubit.selectedSub = -1;
+
     if(widget.isMyBlogEnd==true){
+
       int temp=feedCubit.myBlogInfoModel!.data.data[0].categoryId;
-      for( myblogModel.DataDatum item in feedCubit.myBlogInfoModel!.data.data){
+      for(MenaArticle item in feedCubit.myBlogInfoModel!.data.data){
         if(item.categoryId!=temp){
           temp=-1000;
           return ;
@@ -60,9 +62,12 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
             clear: (false));
       }
     }
-    else if (widget.isMyBlogEnd==false && widget.type =='articles'){
+    else if (
+    // widget.isMyBlogEnd==false ||
+
+        widget.type =='articles'){
       int temp=feedCubit.myBlogInfoModel!.data.data[0].categoryId;
-      for( myblogModel.DataDatum item in feedCubit.myBlogInfoModel!.data.data){
+      for( MenaArticle item in feedCubit.myBlogInfoModel!.data.data){
         if(item.categoryId!=temp){
           temp=-1000;
           return ;
@@ -83,8 +88,8 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
 
 
     else{
-      int temp=feedCubit.blogsItemsModel!.data.articles[0].categoryId;
-      for(MenaArticle item in feedCubit.blogsItemsModel!.data.articles){
+      int temp=feedCubit.blogsItemsModel!.data.data[0].categoryId;
+      for(MenaArticle item in feedCubit.blogsItemsModel!.data.data){
         if(item.categoryId!=temp){
           temp=-1000;
           return ;

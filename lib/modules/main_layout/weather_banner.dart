@@ -12,6 +12,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:flutter/widgets.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../models/my_models/weather_model.dart';
 
@@ -1688,7 +1689,7 @@ class PopupWidgetSummary extends StatefulWidget {
 
 class _PopupWidgetSummaryState extends State<PopupWidgetSummary> {
   final player = AudioPlayer();
-
+  late WebViewController _webViewController;
   bool isPlaying = false;
 
   Duration duration = Duration.zero;

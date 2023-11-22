@@ -25,6 +25,7 @@ import '../../../models/api_model/home_section_model.dart';
 import '../../../models/api_model/provider_details_model.dart';
 import '../../../models/local_models.dart';
 import '../../appointments/appointments_layouts/appointments_facilities_result.dart';
+import '../../feeds_screen/blogs/provider_widgets/provider_blog.dart';
 import '../../feeds_screen/feeds_screen.dart';
 import '../../nearby_screen/nearby_layout.dart';
 import '../professionals_layout/professionals_layout.dart';
@@ -3776,8 +3777,7 @@ class ProfileDynamicButton extends StatelessWidget {
       case 'articles':
         navigateToWithoutNavBar(
             context,
-            MyBlogLayout(
-                isMyBlog: false,
+            ProviderBlogLayout(
                 type: type.toString(),
                 providerId: providerId,
                 providerInfo: providerInfo), 'routeName');

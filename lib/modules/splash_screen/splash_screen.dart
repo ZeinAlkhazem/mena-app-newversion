@@ -1,8 +1,9 @@
 import 'dart:math';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:locale_plus/locale_plus.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
@@ -33,7 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
     logg('ConnectionErrorScreen');
     navigateToAndFinishUntil(context, const ConnectionErrorScreen());
   }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -46,7 +46,9 @@ class _SplashScreenState extends State<SplashScreen> {
         MainCubit.get(context).getCountersData();
         /// commented for now
         MainCubit.get(context).checkConnectivity().then((value) async {
+
           if (value == true) {
+            logg("# config model :${MainCubit.get(context).configModel}");
             await HomeScreenCubit.get(context)
               ..changeSelectedHomePlatform(MainCubit.get(context).configModel!.data.platforms[0].id!).then((value) async{
             await    MainCubit.get(context).checkSetUpData().then((value) async{
@@ -86,7 +88,6 @@ class _SplashScreenState extends State<SplashScreen> {
     logg('dispose splash');
     // _controller.dispose().then((value) => logg('video player disposed'));
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,9 +111,27 @@ class _SplashScreenState extends State<SplashScreen> {
                       ],
                     ),
                   ),
-                  Text(
-                    'COPYRIGHT @2023 MenaAI',
-                    style: mainStyle(context, 18, color: newDarkGreyColor, weight: FontWeight.w700),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 27),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/new_icons/copyright_outline_20.svg',
+                          width: 20.w,
+                        ),
+                        widthBox(4.w),
+                        Text(
+                          'MenaAi information Technology 2023',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xff565656),
+                              // fontWeight: FontWeight.w600,
+                              fontFamily: 'Inter'
+                          ),
+
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),

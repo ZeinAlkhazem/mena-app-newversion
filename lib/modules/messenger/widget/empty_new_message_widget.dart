@@ -8,7 +8,8 @@ import '../../../core/functions/main_funcs.dart';
 
 class EmptyNewMessageWidget extends StatelessWidget {
   final String content;
-  const EmptyNewMessageWidget({super.key,required this.content});
+
+  const EmptyNewMessageWidget({super.key, required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -18,22 +19,25 @@ class EmptyNewMessageWidget extends StatelessWidget {
       children: [
         Container(
           width: ScreenUtil().screenWidth * 0.75,
-          height: 250.h,
+          height: 200.h,
           padding: EdgeInsets.zero,
           child: Lottie.asset(
-            'assets/icons/messenger/chat_bubble_animate.json',
+            '$messengerAssets/chat_bubble_animate.json',
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 35.w),
-          child: Text(
-            content,
-            textAlign: TextAlign.justify,
-            style: mainStyle(context, 10.sp,
-                weight: FontWeight.w400,
-                color: AppColors.grayGreenColor,
-                fontFamily: AppFonts.openSansFont,
-                textHeight: 1.1),
+        Center(
+          child: Container(
+            width: 325.w,
+            padding: EdgeInsets.symmetric(horizontal: 35.w),
+            child: Text(
+              content,
+              textAlign: TextAlign.center,
+              style: mainStyle(context, 10.sp,
+                  weight: FontWeight.normal,
+                  color: Color(0xFF999B9D),
+                  fontFamily: AppFonts.interFont,
+                  textHeight: 1.1),
+            ),
           ),
         ),
       ],

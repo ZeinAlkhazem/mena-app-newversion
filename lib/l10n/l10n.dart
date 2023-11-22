@@ -8,7 +8,6 @@ class L10n {
     const Locale('fr'),// france
     const Locale('zh'),// china
     const Locale('hi'),// india
-    // const Locale('fil'),// philipin
     const Locale('ru'),// russian
     const Locale('es'),// spinach
   ];

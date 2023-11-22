@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mena/core/cache/cache.dart';
+import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/responsive/responsive.dart';
@@ -738,11 +739,12 @@ class AppBarIcons extends StatelessWidget {
             widthBox(width),
             Text(
               title,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'PNfont',
-                  color: Color(0xff6a7279)),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: AppFonts.interFont,
+                  color: Color(0xFFE46258)),
             ),
           ],
         ),

@@ -138,7 +138,7 @@ class ChatUserItemWidget extends StatelessWidget {
                                   )
                                 : SizedBox(),
                             SizedBox(width: 2.5.w),
-                            checkMessageType(messageType:chatItem.messageType! ),
+                            checkMessageType(messageType:chatItem.messageType??"text" ),
                             // checkMessageType(
                             //     messageType: index == 1
                             //         ? "image"

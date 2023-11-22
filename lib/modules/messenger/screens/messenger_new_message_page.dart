@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mena/modules/messenger/messenger_constant.dart';
 import 'package:mena/modules/messenger/widget/tab_item_widget.dart';
 
 import '../../../core/constants/Colors.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/shared_widgets/shared_widgets.dart';
+import '../widget/back_button_widget.dart';
 import '../widget/icon_button_widget.dart';
 import '../widget/search_field_widget.dart';
 import 'messenger_my_contact_page.dart';
@@ -69,45 +71,13 @@ class _MessengerNewMessagePageState extends State<MessengerNewMessagePage>
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: bgAppBarColor,
-            leading: InkWell(
-                onTap: () => Navigator.of(context).pop(),
-                child: Container(
-                  width: 20.w,
-                  height: 28.h,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(),
-                  padding: EdgeInsets.only(left: 13.w, right: 8.w),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Container(
-                          width: 20.w,
-                          height: 28.h,
-                          child: Stack(children: [
-                            SvgPicture.asset(
-                              "$messengerAssets/icon_back.svg",
-                              // fit: BoxFit.contain,
-                            ),
-                          ]),
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
+            leading: BackButtonWidget(),
             centerTitle: false,
             titleSpacing: 0,
             elevation: 0,
             title: Text(
               getTranslatedStrings(context).messengerNewMessage,
-              style: mainStyle(
-                context,
-                18.sp,
-                fontFamily: AppFonts.interFont,
-                weight: FontWeight.w500,
-                color: Color(0xFF444444),
-                textHeight: 0,
-                letterSpacing: 0.33,
-              ),
+              style: MessengerConstant().titleStyle(context),
             ),
             actions: [
               IconButtonWidget(
@@ -223,7 +193,7 @@ class _MessengerNewMessagePageState extends State<MessengerNewMessagePage>
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    Expanded(child: MessengerPrimaryPage()),
+                    MessengerPrimaryPage(),
                     ComingSoonWidget(),
                     ComingSoonWidget(),
                   ],

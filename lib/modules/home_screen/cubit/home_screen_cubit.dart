@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_store/json_store.dart';
@@ -17,6 +19,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   HomeSectionModel? homeSectionModel;
   String? selectedHomePlatformId;
   Future<void> changeSelectedHomePlatform(String id) async{
+    log("# change select home platform :$id ");
     homeSectionModel=null;
     selectedHomePlatformId = id;
     await getHomeSections(id);

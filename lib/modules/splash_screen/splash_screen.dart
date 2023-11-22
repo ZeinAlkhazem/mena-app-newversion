@@ -46,7 +46,9 @@ class _SplashScreenState extends State<SplashScreen> {
         MainCubit.get(context).getCountersData();
         /// commented for now
         MainCubit.get(context).checkConnectivity().then((value) async {
+
           if (value == true) {
+            logg("# config model :${MainCubit.get(context).configModel}");
             await HomeScreenCubit.get(context)
               ..changeSelectedHomePlatform(MainCubit.get(context).configModel!.data.platforms[0].id!).then((value) async{
             await    MainCubit.get(context).checkSetUpData().then((value) async{

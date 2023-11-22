@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
@@ -10,11 +11,10 @@ class DioHelper {
   static Dio? dio;
 
   static init() {
-    dio = Dio(
-      BaseOptions(
-        baseUrl: baseUrl,
-        receiveDataWhenStatusError: true,
-      ));
+    dio = Dio(BaseOptions(
+      baseUrl: baseUrl,
+      receiveDataWhenStatusError: true,
+    ));
   }
 
   static Future<Response> getData({
@@ -95,7 +95,7 @@ class MainDioHelper {
           baseUrl: baseUrl,
           receiveDataWhenStatusError: true,
           connectTimeout: Duration(seconds: 60), // 60 seconds
-          receiveTimeout: Duration(seconds:120)),
+          receiveTimeout: Duration(seconds: 120)),
     );
   }
 
@@ -129,11 +129,12 @@ class MainDioHelper {
       'lng': '${getCachedLng()}',
       'Accept': 'application/json',
     };
-
-    return await dio!.get(
+    var response = await dio!.get(
       url,
       queryParameters: query,
     );
+    log("# get data response :${response.data}");
+    return response;
   }
 
   static Future<Response> postData({
@@ -220,7 +221,7 @@ class MainDioHelper {
       'lng': '${getCachedLng()}',
       'Accept': 'application/json',
     };
-    
+
     return dio!.post(
       url,
       queryParameters: query,

@@ -837,9 +837,9 @@ class MainCubit extends Cubit<MainState> {
       logg('selectedLocalesInDashboard: ${selectedLocalesInDashboard}');
       emit(DataLoadedSuccessState());
     }).catchError((error, stack) {
-      logg('an error occurred');
-      logg(error.toString());
-      logg(stack.toString());
+      logg('an error occurred -- start');
+      logg("# error  ${error.toString()}");
+      logg("# stack  ${stack.toString()}");
       emit(ErrorLoadingDataState());
     });
   }

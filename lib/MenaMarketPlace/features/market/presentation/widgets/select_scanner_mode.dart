@@ -26,11 +26,12 @@ void selectScannerMode(
               controller: scrollController,
               child: Container(
                   // color: Colors.grey.shade300,
-                  padding: const EdgeInsets.all(20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Column(children: [
                     Container(
-                      width: 50,
-                      height: 6,
+                      width: 40,
+                      height: 2,
                       margin: const EdgeInsets.only(bottom: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(2.5),
@@ -38,10 +39,9 @@ void selectScannerMode(
                       ),
                     ),
                     SizedBox(
-                      height: 10.h,
+                      height: 30.h,
                     ),
-                    SelectScanner(
-                      icon: Icons.barcode_reader,
+                    SelectScanner(icon: Icons.barcode_reader,
                       textLabel: 'Scan Barcode',
                       ontap: () async {
                         await FlutterBarcodeScanner.scanBarcode(
@@ -54,14 +54,13 @@ void selectScannerMode(
                     const Center(
                       child: Text(
                         'OR',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 12, fontFamily: "LatoBold"),
                       ),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
-                    SelectScanner(
-                      icon: Icons.qr_code_scanner,
+                    SelectScanner(icon: Icons.qr_code,
                       textLabel: 'Scan QRcode',
                       ontap: () async {
                         await FlutterBarcodeScanner.scanBarcode(

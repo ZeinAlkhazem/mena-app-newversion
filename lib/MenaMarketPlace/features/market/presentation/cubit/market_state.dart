@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'market_cubit.dart';
 
 abstract class MarketState extends Equatable {
@@ -8,3 +9,12 @@ abstract class MarketState extends Equatable {
 }
 
 class MarketInitial extends MarketState {}
+
+class MarketChangeCaroselIndexState extends MarketState {
+  final int index;
+  MarketChangeCaroselIndexState({
+    required this.index,
+  });
+    @override
+  List<Object> get props => [index];
+}

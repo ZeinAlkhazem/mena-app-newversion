@@ -22,6 +22,10 @@ import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'MenaMarketPlace/features/market/presentation/cubit/market_cubit.dart';
+import 'MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
+
 import "MenaMarketPlace/injection_container.dart" as di;
 import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
@@ -202,6 +206,7 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => StartLiveCubit()),
         BlocProvider(create: (BuildContext context) => AddPeopleToLiveCubit()),
         BlocProvider(create: (BuildContext context) => MeetingCubit()),
+        BlocProvider(create: (BuildContext context) => MarketCubit()),
         BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
         BlocProvider(create: (BuildContext context) => MyBlogCubit()),
         // ChangeNotifierProvider(create: (context) => ErrorNotifier()),

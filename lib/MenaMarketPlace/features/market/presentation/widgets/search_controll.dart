@@ -16,19 +16,9 @@ class SearchControll extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        InkWell(
-          onTap: ()  {
-             selectScannerMode(context,
-                                         );
-          
-          },
-          child: SvgPicture.asset(
-            "assets/menamarket/qr_code_outline_28.svg",
-            color: AppColors.whiteCreamColor,
-          ),
-        ),
+       
         widthBox(8.w),
-        Flexible(child: SearchBox()),
+        // Flexible(child: SearchBox()),
         widthBox(8.w),
          SvgPicture.asset(
           "assets/menamarket/menu_28.svg",

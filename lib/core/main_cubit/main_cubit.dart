@@ -16,6 +16,7 @@ import 'package:mena/modules/feeds_screen/blogs/add_articles.dart';
 import 'package:mena/modules/feeds_screen/post_a_feed.dart';
 // import 'package:mena/modules/messenger/widget/messenger_empty_widget.dart';
 import 'package:mena/modules/my_profile/cubit/profile_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../l10n/l10n.dart';
 import '../../models/api_model/config_model.dart';
 import '../../models/local_models.dart';
@@ -380,6 +381,12 @@ class MainCubit extends Cubit<MainState> {
 
   void removeUserModel() {
     userInfoModel = null;
+  }
+
+  Future<void> updateLanguage(String selectedLanguage, String langCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedLanguage', selectedLanguage);
+    // Store language code or perform any other necessary operations
   }
 
   void calcCompletionPercentage() {

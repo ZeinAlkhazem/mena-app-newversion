@@ -110,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 25),
+                    padding: const EdgeInsets.only(left: 27),
                     child: Row(
                       children: [
                         SvgPicture.asset(

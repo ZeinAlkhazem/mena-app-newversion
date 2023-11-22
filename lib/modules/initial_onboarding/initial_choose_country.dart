@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mena/core/cache/cache.dart';
 import 'package:mena/core/constants/my_countries.dart';
@@ -34,7 +35,16 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
     MainCubit.get(context).updateSelectedCountry('');
     super.initState();
   }
-
+  void showToast(String selectedOption) {
+    Fluttertoast.showToast(
+      msg: '$selectedOption is Selected',
+      toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should appear
+      gravity: ToastGravity.BOTTOM, // Position of the toast message
+      backgroundColor: Color(0xff0A0E10).withOpacity(0.4), // Background color of the toast
+      textColor: Colors.white, // Text color of the toast message
+      fontSize: 16.0, // Font size of the toast message
+    );
+  }
   @override
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
@@ -118,6 +128,9 @@ class _InitialChooseCountryState extends State<InitialChooseCountry> {
                                     saveCachedSelectedCountry(mainCubit.selectedCountryAlpha3Code);
                                     navigateToAndFinishUntil(context, const RouteEngine());
                                   }
+                                  selectedOption = mainCubit.mayyaCountries[index]
+                                      .nameTranslations![mainCubit.appLocale!.languageCode];
+                                  showToast(selectedOption!);
                                 },
                                 child: Container(
                                   color: Colors.white,

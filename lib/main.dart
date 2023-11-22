@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:math';
-
+import 'dart:ui' as ui;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -220,10 +220,23 @@ class MainMaterialApp extends StatefulWidget {
 }
 
 class _MainMaterialAppState extends State<MainMaterialApp> {
+  Locale _deviceLocale = const Locale('en'); // Default language if locale detection fails
+
+
+  Future<void> _getDeviceLocale() async {
+    ui.window.onLocaleChanged = () {
+      setState(() {
+        _deviceLocale = ui.window.locale;
+      });
+    };
+    setState(() {
+      _deviceLocale = ui.window.locale;
+    });
+  }
   @override
   void initState() {
     super.initState();
-
+    _getDeviceLocale();
     /// to get databases location for stored json
     // preCacheProcesses(context);
 
@@ -281,9 +294,9 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          locale: mainCubit.appLocale,
-          supportedLocales: L10n.all,
 
+          locale: _deviceLocale,
+          supportedLocales: L10n.all,
           ///
           routes: {
             "/create_slot": (context) => PickAppointmentTypeInSlotLayout(),

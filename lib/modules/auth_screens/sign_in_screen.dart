@@ -119,7 +119,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                             heightBox(10.h),
                             Text(
-                              "Sign in to Mena",
+                              getTranslatedStrings(context).signInToMena,
                               style: TextStyle(
                                 color: Color(0xff191919),
                                 fontFamily: 'Inter',
@@ -271,8 +271,10 @@ class _SignInScreenState extends State<SignInScreen> {
                             navigateTo(context, PickUserTypeLayout());
                           },
                           customChild: Center(
-                            child: isLoading ? SizedBox(width: 20,height:20,child: CircularProgressIndicator(color: Colors.white,))
-                                : Text(
+                            child:
+                            // isLoading ? SizedBox(width: 20,height:20,child: CircularProgressIndicator(color: Colors.white,))
+                            //     :
+                            Text(
                               getTranslatedStrings(context).signUp,
                               textAlign: TextAlign.center,
                               style: mainStyle(context,fontFamily: 'Inter' ,isBold: true, 13, color: Colors.white, weight: FontWeight.w600),

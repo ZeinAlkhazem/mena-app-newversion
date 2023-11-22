@@ -2,6 +2,7 @@
   "@@locale": "en",
   "language": "English",
   "userLogin": "Username, email or mobile number",
+  "signInTitle":"Sign In to Mena",
   "passwordLogin": "Password",
   "currentLanguageDirection": "ltr",
   "validationSection": "validationSection",

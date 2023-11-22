@@ -323,12 +323,6 @@
 //   }
 // }
 //
-// class LanguageData {
-//   final String name;
-//   final String code;
-//
-//   LanguageData(this.name, this.code);
-// }
 //
 // class RadioData {
 //   final String name;
@@ -342,6 +336,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
@@ -362,7 +357,16 @@ import 'initial_choose_country.dart';
 
 class InitialChooseLang extends StatelessWidget {
   const InitialChooseLang({Key? key}) : super(key: key);
-
+  void showToast(String selectedOption) {
+    Fluttertoast.showToast(
+      msg: '$selectedOption is Selected',
+      toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should appear
+      gravity: ToastGravity.BOTTOM, // Position of the toast message
+      backgroundColor: Color(0xff0A0E10).withOpacity(0.4), // Background color of the toast
+      textColor: Colors.white, // Text color of the toast message
+      fontSize: 16.0, // Font size of the toast message
+    );
+  }
   @override
   Widget build(BuildContext context) {
     var mainCubit = MainCubit.get(context);
@@ -451,8 +455,32 @@ class InitialChooseLang extends StatelessWidget {
                                     return GestureDetector(
                                       onTap: () {
                                         logg('setting locale');
-                                        mainCubit.setLocale(filteredLanguages[index],
-                                            context, false);
+                                        logg('apppapappapappa:${ mainCubit.selectedLocalesInDashboard[index]}');
+                                        MainCubit.get(context).setLocale(
+                                            mainCubit.selectedLocalesInDashboard[index], context, false);
+                                        selectedOption = mainCubit.selectedLocalesInDashboard[index].languageCode;
+                                        showToast( selectedOption == 'ar'
+                                            ? 'العربية'
+                                            : selectedOption == 'en'
+                                            ? 'English'
+                                            : selectedOption == 'hi'
+                                            ? 'हिन्दी'
+                                            : selectedOption ==
+                                            'ru'
+                                            ? 'русский'
+                                            : selectedOption ==
+                                            'zh'
+                                            ? '中國人'
+                                            : selectedOption ==
+                                            'tr'
+                                            ? 'Türkçe'
+                                            : selectedOption ==
+                                            'es'
+                                            ? 'española'
+                                            : selectedOption ==
+                                            'fr'
+                                            ? 'Français'
+                                            : 'ْunknown lang',);
                                         navigateTo(context,
                                             const InitialChooseCountry());
                                       },
@@ -472,9 +500,14 @@ class InitialChooseLang extends StatelessWidget {
                                                         .selectedLocalesInDashboard[index]
                                                         .languageCode,
                                                     groupValue: selectedOption,
+                                                    activeColor: Color(0xff2788E8),
+                                                    focusColor: Color(0xff2788E8),
+                                                    hoverColor: Color(0xff2788E8),
                                                     onChanged: (value) {
                                                       selectedOption = value as String?;
-                                                      _updateLanguage(selectedOption!, mainCubit
+                                                      logg('apppapappapappa:${selectedOption}');
+                                                      showToast(selectedOption!);
+                                                      mainCubit.updateLanguage(selectedOption!, mainCubit
                                                           .selectedLocalesInDashboard[index]
                                                           .languageCode);
                                                     },
@@ -579,12 +612,17 @@ class InitialChooseLang extends StatelessWidget {
         return 'Unknown';
     }
   }
-  Future<void> _updateLanguage(String selectedLanguage, String langCode) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedLanguage', selectedLanguage);
-    // Store language code or perform any other necessary operations
-  }
+  // Future<void> _updateLanguage(String selectedLanguage, String langCode) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('selectedLanguage', selectedLanguage);
+  //   // Store language code or perform any other necessary operations
+  // }
 }
+class LanguageData {
+  final String name;
+  final String code;
 
+  LanguageData(this.name, this.code);
+}
 
 // navigateTo(context, const InitialChooseCountry());

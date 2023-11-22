@@ -8,7 +8,7 @@ import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/shared_widgets/shared_widgets.dart';
 import '../../add_people_to_live/widget/add_people_card.dart';
-import '../../create_live/widget/radius_20_container.dart';
+import 'radius_20_container.dart';
 
 // ignore: must_be_immutable
 class LiveTopic extends StatefulWidget {

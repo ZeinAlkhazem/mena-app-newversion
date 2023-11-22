@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final myBlogInfoModel = myBlogInfoModelFromJson(jsonString);
+//     final myBlogsInfoModel = myBlogsInfoModelFromJson(jsonString);
 
 import 'dart:convert';
 
-MyBlogInfoModel myBlogInfoModelFromJson(String str) =>
-    MyBlogInfoModel.fromJson(json.decode(str));
+import 'package:mena/models/api_model/blogs_info_model.dart';
 
-String myBlogInfoModelToJson(MyBlogInfoModel data) =>
-    json.encode(data.toJson());
+MyBlogInfoModel myBlogsInfoModelFromJson(String str) => MyBlogInfoModel.fromJson(json.decode(str));
+
+String myBlogsInfoModelToJson(MyBlogInfoModel data) => json.encode(data.toJson());
 
 class MyBlogInfoModel {
   String message;
@@ -19,26 +19,31 @@ class MyBlogInfoModel {
     required this.data,
   });
 
-  factory MyBlogInfoModel.fromJson(Map<String, dynamic> json) =>
-      MyBlogInfoModel(
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
-      );
+  factory MyBlogInfoModel.fromJson(Map<String, dynamic> json) => MyBlogInfoModel(
+    message: json["message"],
+    data: Data.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "message": message,
-        "data": data.toJson(),
-      };
+    "message": message,
+    "data": data.toJson(),
+  };
 }
 
 class Data {
+  List<Category> categories;
+  int totalShares;
+  int totalLikes;
   int totalReaders;
   int blogsCount;
   int followers;
   Provider provider;
-  List<DataDatum> data;
+  List<MenaArticle> data;
 
   Data({
+    required this.categories,
+    required this.totalShares,
+    required this.totalLikes,
     required this.totalReaders,
     required this.blogsCount,
     required this.followers,
@@ -47,86 +52,26 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        totalReaders: json["total_readers"],
-        blogsCount: json["blogs_count"],
-        followers: json["followers"],
-        provider: Provider.fromJson(json["provider"]),
-        data: List<DataDatum>.from(
-            json["data"].map((x) => DataDatum.fromJson(x))),
-      );
+    categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
+    totalShares: json["total_shares"],
+    totalLikes: json["total_likes"],
+    totalReaders: json["total_readers"],
+    blogsCount: json["blogs_count"],
+    followers: json["followers"],
+    provider: Provider.fromJson(json["provider"]),
+    data: List<MenaArticle>.from(json["data"].map((x) => MenaArticle.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "total_readers": totalReaders,
-        "blogs_count": blogsCount,
-        "followers": followers,
-        "provider": provider.toJson(),
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
-}
-
-class DataDatum {
-  int id;
-  String banner;
-  String title;
-  String content;
-  int categoryId;
-  dynamic subCategoryId;
-  int providerId;
-  Category category;
-  dynamic subCategory;
-  Provider provider;
-  DateTime createdAt;
-  int view;
-  bool isMine;
-
-  DataDatum({
-    required this.id,
-    required this.banner,
-    required this.title,
-    required this.content,
-    required this.categoryId,
-    required this.subCategoryId,
-    required this.providerId,
-    required this.category,
-    required this.subCategory,
-    required this.provider,
-    required this.createdAt,
-    required this.view,
-    required this.isMine,
-  });
-
-  factory DataDatum.fromJson(Map<String, dynamic> json) => DataDatum(
-        id: json["id"],
-        banner: json["banner"],
-        title: json["title"],
-        content: json["content"],
-        categoryId: json["category_id"],
-        subCategoryId: json["sub_category_id"],
-        providerId: json["provider_id"],
-        category: Category.fromJson(json["category"]),
-        subCategory: json["sub_category"],
-        provider: Provider.fromJson(json["provider"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        view: json["view"],
-        isMine: json["is_mine"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "banner": banner,
-        "title": title,
-        "content": content,
-        "category_id": categoryId,
-        "sub_category_id": subCategoryId,
-        "provider_id": providerId,
-        "category": category.toJson(),
-        "sub_category": subCategory,
-        "provider": provider.toJson(),
-        "created_at":
-            "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
-        "view": view,
-        "is_mine": isMine,
-      };
+    "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+    "total_shares": totalShares,
+    "total_likes": totalLikes,
+    "total_readers": totalReaders,
+    "blogs_count": blogsCount,
+    "followers": followers,
+    "provider": provider.toJson(),
+    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+  };
 }
 
 class Category {
@@ -134,7 +79,7 @@ class Category {
   String title;
   String image;
   int platformId;
-  List<dynamic> children;
+  List<Category> children;
 
   Category({
     required this.id,
@@ -145,21 +90,105 @@ class Category {
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
-        title: json["title"],
-        image: json["image"],
-        platformId: json["platform_id"],
-        children: List<dynamic>.from(json["children"].map((x) => x)),
-      );
+    id: json["id"],
+    title: json["title"],
+    image: json["image"],
+    platformId: json["platform_id"],
+    children: List<Category>.from(json["children"].map((x) => Category.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "image": image,
-        "platform_id": platformId,
-        "children": List<dynamic>.from(children.map((x) => x)),
-      };
+    "id": id,
+    "title": title,
+    "image": image,
+    "platform_id": platformId,
+    "children": List<dynamic>.from(children.map((x) => x.toJson())),
+  };
 }
+
+// class MenaArticle {
+//   int id;
+//   String banner;
+//   String title;
+//   String slug;
+//   String content;
+//   int categoryId;
+//   dynamic subCategoryId;
+//   int providerId;
+//   Category category;
+//   dynamic subCategory;
+//   Provider provider;
+//   DateTime createdAt;
+//   int view;
+//   String shareLink;
+//   int sharesCount;
+//   int likesCount;
+//   bool isMine;
+//   bool isLiked;
+//
+//   MenaArticle({
+//     required this.id,
+//     required this.banner,
+//     required this.title,
+//     required this.slug,
+//     required this.content,
+//     required this.categoryId,
+//     required this.subCategoryId,
+//     required this.providerId,
+//     required this.category,
+//     required this.subCategory,
+//     required this.provider,
+//     required this.createdAt,
+//     required this.view,
+//     required this.shareLink,
+//     required this.sharesCount,
+//     required this.likesCount,
+//     required this.isMine,
+//     required this.isLiked,
+//   });
+//
+//   factory MenaArticle.fromJson(Map<String, dynamic> json) => MenaArticle(
+//     id: json["id"],
+//     banner: json["banner"],
+//     title: json["title"],
+//     slug: json["slug"],
+//     content: json["content"],
+//     categoryId: json["category_id"],
+//     subCategoryId: json["sub_category_id"],
+//     providerId: json["provider_id"],
+//     category: Category.fromJson(json["category"]),
+//     subCategory: json["sub_category"],
+//     provider: Provider.fromJson(json["provider"]),
+//     createdAt: DateTime.parse(json["created_at"]),
+//     view: json["view"],
+//     shareLink: json["share_link"],
+//     sharesCount: json["shares_count"],
+//     likesCount: json["likes_count"],
+//     isMine: json["is_mine"],
+//     isLiked: json["is_liked"],
+//   );
+//
+//   Map<String, dynamic> toJson() => {
+//     "id": id,
+//     "banner": banner,
+//     "title": title,
+//     "slug": slug,
+//     "content": content,
+//     "category_id": categoryId,
+//     "sub_category_id": subCategoryId,
+//     "provider_id": providerId,
+//     "category": category.toJson(),
+//     "sub_category": subCategory,
+//     "provider": provider.toJson(),
+//     "created_at": "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
+//     "view": view,
+//     "share_link": shareLink,
+//     "shares_count": sharesCount,
+//     "likes_count": likesCount,
+//     "is_mine": isMine,
+//     "is_liked": isLiked,
+//   };
+// }
 
 class Provider {
   int id;
@@ -257,102 +286,100 @@ class Provider {
   });
 
   factory Provider.fromJson(Map<String, dynamic> json) => Provider(
-        id: json["id"],
-        personalPicture: json["personal_picture"],
-        fullName: json["full_name"],
-        userName: json["user_name"],
-        email: json["email"],
-        phone: json["phone"] != null ? json["phone"] : "",
-        phoneVerifiedAt: json["phone_verified_at"],
-        emailVerifiedAt: json["email_verified_at"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        roleId: json["role_id"],
-        roleName: json["role_name"],
-        recoveryEmail: json["recovery_email"],
-        website: json["website"],
-        fax: json["fax"],
-        whatsapp: json["whatsapp"],
-        instagram: json["instagram"],
-        facebook: json["facebook"],
-        tiktok: json["tiktok"],
-        youtube: json["youtube"],
-        linkedin: json["linkedin"],
-        providerTypeFields: json["provider_type_fields"],
-        address: json["address"],
-        qualificationCertificate: json["qualification_certificate"],
-        professionalLicense: json["professional_license"],
-        abbreviation: json["abbreviation"],
-        expertise: json["expertise"],
-        summary: json["summary"],
-        subscription: json["subscription"],
-        registrationNumber: json["registration_number"],
-        lat: json["lat"],
-        lng: json["lng"],
-        likes: json["likes"],
-        followers: json["followers"],
-        reviewsRate: json["reviews_rate"],
-        reviewsCount: json["reviews_count"],
-        isFollowing: json["is_following"],
-        distance: json["distance"],
-        verified: json["verified"],
-        platform: Platform.fromJson(json["platform"]),
-        category: List<dynamic>.from(json["category"].map((x) => x)),
-        specialitiesGroup:
-            List<dynamic>.from(json["specialities_group"].map((x) => x)),
-        specialities: List<dynamic>.from(json["specialities"].map((x) => x)),
-        features: List<dynamic>.from(json["features"].map((x) => x)),
-        moreData: MoreData.fromJson(json["more_data"]),
-      );
+    id: json["id"],
+    personalPicture: json["personal_picture"],
+    fullName: json["full_name"],
+    userName: json["user_name"],
+    email: json["email"],
+    phone: json["phone"],
+    phoneVerifiedAt: json["phone_verified_at"],
+    emailVerifiedAt: json["email_verified_at"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    roleId: json["role_id"],
+    roleName: json["role_name"],
+    recoveryEmail: json["recovery_email"],
+    website: json["website"],
+    fax: json["fax"],
+    whatsapp: json["whatsapp"],
+    instagram: json["instagram"],
+    facebook: json["facebook"],
+    tiktok: json["tiktok"],
+    youtube: json["youtube"],
+    linkedin: json["linkedin"],
+    providerTypeFields: json["provider_type_fields"],
+    address: json["address"],
+    qualificationCertificate: json["qualification_certificate"],
+    professionalLicense: json["professional_license"],
+    abbreviation: json["abbreviation"],
+    expertise: json["expertise"],
+    summary: json["summary"],
+    subscription: json["subscription"],
+    registrationNumber: json["registration_number"],
+    lat: json["lat"],
+    lng: json["lng"],
+    likes: json["likes"],
+    followers: json["followers"],
+    reviewsRate: json["reviews_rate"],
+    reviewsCount: json["reviews_count"],
+    isFollowing: json["is_following"],
+    distance: json["distance"],
+    verified: json["verified"],
+    platform: Platform.fromJson(json["platform"]),
+    category: List<dynamic>.from(json["category"].map((x) => x)),
+    specialitiesGroup: List<dynamic>.from(json["specialities_group"].map((x) => x)),
+    specialities: List<dynamic>.from(json["specialities"].map((x) => x)),
+    features: List<dynamic>.from(json["features"].map((x) => x)),
+    moreData: MoreData.fromJson(json["more_data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "personal_picture": personalPicture,
-        "full_name": fullName,
-        "user_name": userName,
-        "email": email,
-        "phone": phone,
-        "phone_verified_at": phoneVerifiedAt,
-        "email_verified_at": emailVerifiedAt,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "role_id": roleId,
-        "role_name": roleName,
-        "recovery_email": recoveryEmail,
-        "website": website,
-        "fax": fax,
-        "whatsapp": whatsapp,
-        "instagram": instagram,
-        "facebook": facebook,
-        "tiktok": tiktok,
-        "youtube": youtube,
-        "linkedin": linkedin,
-        "provider_type_fields": providerTypeFields,
-        "address": address,
-        "qualification_certificate": qualificationCertificate,
-        "professional_license": professionalLicense,
-        "abbreviation": abbreviation,
-        "expertise": expertise,
-        "summary": summary,
-        "subscription": subscription,
-        "registration_number": registrationNumber,
-        "lat": lat,
-        "lng": lng,
-        "likes": likes,
-        "followers": followers,
-        "reviews_rate": reviewsRate,
-        "reviews_count": reviewsCount,
-        "is_following": isFollowing,
-        "distance": distance,
-        "verified": verified,
-        "platform": platform.toJson(),
-        "category": List<dynamic>.from(category.map((x) => x)),
-        "specialities_group":
-            List<dynamic>.from(specialitiesGroup.map((x) => x)),
-        "specialities": List<dynamic>.from(specialities.map((x) => x)),
-        "features": List<dynamic>.from(features.map((x) => x)),
-        "more_data": moreData.toJson(),
-      };
+    "id": id,
+    "personal_picture": personalPicture,
+    "full_name": fullName,
+    "user_name": userName,
+    "email": email,
+    "phone": phone,
+    "phone_verified_at": phoneVerifiedAt,
+    "email_verified_at": emailVerifiedAt,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "role_id": roleId,
+    "role_name": roleName,
+    "recovery_email": recoveryEmail,
+    "website": website,
+    "fax": fax,
+    "whatsapp": whatsapp,
+    "instagram": instagram,
+    "facebook": facebook,
+    "tiktok": tiktok,
+    "youtube": youtube,
+    "linkedin": linkedin,
+    "provider_type_fields": providerTypeFields,
+    "address": address,
+    "qualification_certificate": qualificationCertificate,
+    "professional_license": professionalLicense,
+    "abbreviation": abbreviation,
+    "expertise": expertise,
+    "summary": summary,
+    "subscription": subscription,
+    "registration_number": registrationNumber,
+    "lat": lat,
+    "lng": lng,
+    "likes": likes,
+    "followers": followers,
+    "reviews_rate": reviewsRate,
+    "reviews_count": reviewsCount,
+    "is_following": isFollowing,
+    "distance": distance,
+    "verified": verified,
+    "platform": platform.toJson(),
+    "category": List<dynamic>.from(category.map((x) => x)),
+    "specialities_group": List<dynamic>.from(specialitiesGroup.map((x) => x)),
+    "specialities": List<dynamic>.from(specialities.map((x) => x)),
+    "features": List<dynamic>.from(features.map((x) => x)),
+    "more_data": moreData.toJson(),
+  };
 }
 
 class MoreData {
@@ -389,40 +416,38 @@ class MoreData {
   });
 
   factory MoreData.fromJson(Map<String, dynamic> json) => MoreData(
-        rawards: List<dynamic>.from(json["rawards"].map((x) => x)),
-        educations: List<dynamic>.from(json["educations"].map((x) => x)),
-        experiences: List<dynamic>.from(json["experiences"].map((x) => x)),
-        memberships: List<dynamic>.from(json["memberships"].map((x) => x)),
-        publications: List<dynamic>.from(json["publications"].map((x) => x)),
-        vacations: List<dynamic>.from(json["vacations"].map((x) => x)),
-        about: json["about"],
-        pointsCme: json["points_cme"],
-        locations: List<Location>.from(
-            json["locations"].map((x) => Location.fromJson(x))),
-        avgRate: json["avg_rate"],
-        totalRates: json["total_rates"],
-        reviews: Reviews.fromJson(json["reviews"]),
-        buttons:
-            List<Button>.from(json["buttons"].map((x) => Button.fromJson(x))),
-        awards: List<Award>.from(json["awards"].map((x) => Award.fromJson(x))),
-      );
+    rawards: List<dynamic>.from(json["rawards"].map((x) => x)),
+    educations: List<dynamic>.from(json["educations"].map((x) => x)),
+    experiences: List<dynamic>.from(json["experiences"].map((x) => x)),
+    memberships: List<dynamic>.from(json["memberships"].map((x) => x)),
+    publications: List<dynamic>.from(json["publications"].map((x) => x)),
+    vacations: List<dynamic>.from(json["vacations"].map((x) => x)),
+    about: json["about"],
+    pointsCme: json["points_cme"],
+    locations: List<Location>.from(json["locations"].map((x) => Location.fromJson(x))),
+    avgRate: json["avg_rate"],
+    totalRates: json["total_rates"],
+    reviews: Reviews.fromJson(json["reviews"]),
+    buttons: List<Button>.from(json["buttons"].map((x) => Button.fromJson(x))),
+    awards: List<Award>.from(json["awards"].map((x) => Award.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "rawards": List<dynamic>.from(rawards.map((x) => x)),
-        "educations": List<dynamic>.from(educations.map((x) => x)),
-        "experiences": List<dynamic>.from(experiences.map((x) => x)),
-        "memberships": List<dynamic>.from(memberships.map((x) => x)),
-        "publications": List<dynamic>.from(publications.map((x) => x)),
-        "vacations": List<dynamic>.from(vacations.map((x) => x)),
-        "about": about,
-        "points_cme": pointsCme,
-        "locations": List<dynamic>.from(locations.map((x) => x.toJson())),
-        "avg_rate": avgRate,
-        "total_rates": totalRates,
-        "reviews": reviews.toJson(),
-        "buttons": List<dynamic>.from(buttons.map((x) => x.toJson())),
-        "awards": List<dynamic>.from(awards.map((x) => x.toJson())),
-      };
+    "rawards": List<dynamic>.from(rawards.map((x) => x)),
+    "educations": List<dynamic>.from(educations.map((x) => x)),
+    "experiences": List<dynamic>.from(experiences.map((x) => x)),
+    "memberships": List<dynamic>.from(memberships.map((x) => x)),
+    "publications": List<dynamic>.from(publications.map((x) => x)),
+    "vacations": List<dynamic>.from(vacations.map((x) => x)),
+    "about": about,
+    "points_cme": pointsCme,
+    "locations": List<dynamic>.from(locations.map((x) => x.toJson())),
+    "avg_rate": avgRate,
+    "total_rates": totalRates,
+    "reviews": reviews.toJson(),
+    "buttons": List<dynamic>.from(buttons.map((x) => x.toJson())),
+    "awards": List<dynamic>.from(awards.map((x) => x.toJson())),
+  };
 }
 
 class Award {
@@ -435,19 +460,23 @@ class Award {
   });
 
   factory Award.fromJson(Map<String, dynamic> json) => Award(
-        link: linkValues.map[json["link"]]!,
-        image: json["image"],
-      );
+    link: linkValues.map[json["link"]]!,
+    image: json["image"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "link": linkValues.reverse[link],
-        "image": image,
-      };
+    "link": linkValues.reverse[link],
+    "image": image,
+  };
 }
 
-enum Link { EMPTY }
+enum Link {
+  EMPTY
+}
 
-final linkValues = EnumValues({"#": Link.EMPTY});
+final linkValues = EnumValues({
+  "#": Link.EMPTY
+});
 
 class Button {
   String type;
@@ -461,19 +490,22 @@ class Button {
   });
 
   factory Button.fromJson(Map<String, dynamic> json) => Button(
-        type: json["type"],
-        title: json["title"],
-        description: descriptionValues.map[json["description"]]!,
-      );
+    type: json["type"],
+    title: json["title"],
+    description: descriptionValues.map[json["description"]]!,
+  );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "title": title,
-        "description": descriptionValues.reverse[description],
-      };
+    "type": type,
+    "title": title,
+    "description": descriptionValues.reverse[description],
+  };
 }
 
-enum Description { LEARN_MORE_ABOUT, PROFESSIONALS_WORK_WITH_US }
+enum Description {
+  LEARN_MORE_ABOUT,
+  PROFESSIONALS_WORK_WITH_US
+}
 
 final descriptionValues = EnumValues({
   "Learn more about ...": Description.LEARN_MORE_ABOUT,
@@ -500,24 +532,24 @@ class Location {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-        id: json["id"],
-        image: json["image"],
-        name: json["name"],
-        phone: json["phone"] != null ? json["phone"] : "",
-        distance: json["distance"],
-        lat: json["lat"],
-        lng: json["lng"],
-      );
+    id: json["id"],
+    image: json["image"],
+    name: json["name"],
+    phone: json["phone"],
+    distance: json["distance"],
+    lat: json["lat"],
+    lng: json["lng"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "image": image,
-        "name": name,
-        "phone": phone,
-        "distance": distance,
-        "lat": lat,
-        "lng": lng,
-      };
+    "id": id,
+    "image": image,
+    "name": name,
+    "phone": phone,
+    "distance": distance,
+    "lat": lat,
+    "lng": lng,
+  };
 }
 
 class Reviews {
@@ -534,19 +566,18 @@ class Reviews {
   });
 
   factory Reviews.fromJson(Map<String, dynamic> json) => Reviews(
-        totalSize: json["total_size"],
-        limit: json["limit"],
-        offset: json["offset"],
-        data: List<ReviewsDatum>.from(
-            json["data"].map((x) => ReviewsDatum.fromJson(x))),
-      );
+    totalSize: json["total_size"],
+    limit: json["limit"],
+    offset: json["offset"],
+    data: List<ReviewsDatum>.from(json["data"].map((x) => ReviewsDatum.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "total_size": totalSize,
-        "limit": limit,
-        "offset": offset,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
+    "total_size": totalSize,
+    "limit": limit,
+    "offset": offset,
+    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+  };
 }
 
 class ReviewsDatum {
@@ -565,21 +596,20 @@ class ReviewsDatum {
   });
 
   factory ReviewsDatum.fromJson(Map<String, dynamic> json) => ReviewsDatum(
-        image: json["image"],
-        name: json["name"],
-        date: DateTime.parse(json["date"]),
-        content: json["content"],
-        rate: json["rate"],
-      );
+    image: json["image"],
+    name: json["name"],
+    date: DateTime.parse(json["date"]),
+    content: json["content"],
+    rate: json["rate"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "image": image,
-        "name": name,
-        "date":
-            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
-        "content": content,
-        "rate": rate,
-      };
+    "image": image,
+    "name": name,
+    "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+    "content": content,
+    "rate": rate,
+  };
 }
 
 class Platform {
@@ -598,20 +628,20 @@ class Platform {
   });
 
   factory Platform.fromJson(Map<String, dynamic> json) => Platform(
-        id: json["id"],
-        name: json["name"],
-        image: json["image"],
-        ranking: json["ranking"],
-        video: json["video"],
-      );
+    id: json["id"],
+    name: json["name"],
+    image: json["image"],
+    ranking: json["ranking"],
+    video: json["video"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "image": image,
-        "ranking": ranking,
-        "video": video,
-      };
+    "id": id,
+    "name": name,
+    "image": image,
+    "ranking": ranking,
+    "video": video,
+  };
 }
 
 class EnumValues<T> {

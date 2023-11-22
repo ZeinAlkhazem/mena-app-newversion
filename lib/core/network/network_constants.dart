@@ -67,7 +67,9 @@ const String getMyBlogsInfoEnd = '/blogs/my';
 const String getProviderBlogsInfoEnd = '/blogs/provider';
 const String getBlogsItemsEnd = '/blogs/all';
 const String getBlogDetailsEnd = '/blogs/details';
+const String likeBlogEnd = '/blogs/like';
 
+const String shareBlogEnd = '/blogs/share';
 /// feeds
 const String getFeedsEnd = '/feeds/get-all';
 const String getFeedsVideosEnd = '/feeds/get-all/videos';

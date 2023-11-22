@@ -10,6 +10,9 @@ import 'package:mena/modules/create_articles/create_article_screen.dart';
 import 'package:mena/modules/feeds_screen/blogs/widgets/blog_categories_section.dart';
 import 'package:mena/modules/feeds_screen/blogs/widgets/myBlogSimpleUserCard.dart';
 
+
+import 'package:share_plus/share_plus.dart';
+
 import '../../../core/constants/Colors.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
@@ -203,7 +206,7 @@ class _MyBlogsHomeState extends State<MyBlogsHome> {
               ),
             if (widget.myBlogsInfoModel.data.data.isNotEmpty)
               BlogsMyArticlesSection(
-                  articles: widget.myBlogsInfoModel.data.data),
+                  articles: widget.myBlogsInfoModel.data),
           ],
         ),
       ),

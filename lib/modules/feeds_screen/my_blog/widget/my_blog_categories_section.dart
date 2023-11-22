@@ -8,16 +8,20 @@ import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/blogs_info_model.dart';
-// import 'package:mena/models/api_model/my_blog_info_model.dart' ;
+
 import 'package:mena/models/local_models.dart';
-import 'package:mena/modules/create_articles/model/pubish_article_model.dart';
-import 'package:mena/modules/feeds_screen/blogs/blogs_articles_list.dart';
+
+
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
+import 'package:mena/modules/feeds_screen/my_blog/cubit/myBlog_cubit.dart';
+import 'package:mena/modules/feeds_screen/my_blog/cubit/myBlog_state.dart';
 
 import '../../../../models/api_model/my_blog_info_model.dart' as myblogModel;
+import '../../../../models/api_model/my_blog_info_model.dart';
 
-class BlogsCategoriesSection extends StatefulWidget {
-  const BlogsCategoriesSection({
+
+class MyBlogsCategoriesSection extends StatefulWidget {
+  const MyBlogsCategoriesSection({
     super.key,
     this.childs,
     this.fatherId,
@@ -32,20 +36,20 @@ class BlogsCategoriesSection extends StatefulWidget {
   final String? type;
   final String? providerId;
   @override
-  State<BlogsCategoriesSection> createState() => _BlogsCategoriesSectionState();
+  State<MyBlogsCategoriesSection> createState() => _MyBlogsCategoriesSectionState();
 }
 
-class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
+class _MyBlogsCategoriesSectionState extends State<MyBlogsCategoriesSection> {
   @override
   void initState() {
-    var feedCubit = FeedsCubit.get(context);
-    feedCubit.selectedSubs = {};
-    feedCubit.selectedSub = -1;
+    var myBlogCubit = MyBlogCubit.get(context);
+    myBlogCubit.selectedSubs = {};
+    myBlogCubit.selectedSub = -1;
 
     if(widget.isMyBlogEnd==true){
 
-      int temp=feedCubit.myBlogInfoModel!.data.data[0].categoryId;
-      for(MenaArticle item in feedCubit.myBlogInfoModel!.data.data){
+      int temp=myBlogCubit.myBlogsInfoModel!.data.data[0].categoryId;
+      for(MenaArticle item in myBlogCubit.myBlogsInfoModel!.data.data){
         if(item.categoryId!=temp){
           temp=-1000;
           return ;
@@ -54,7 +58,7 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
         }
       }
       if(temp!=-1000){
-        feedCubit
+        myBlogCubit
             .updateSelectedSubsMap(
             firstChildId:
             widget.fatherId!,
@@ -66,8 +70,8 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
     // widget.isMyBlogEnd==false ||
 
         widget.type =='articles'){
-      int temp=feedCubit.myBlogInfoModel!.data.data[0].categoryId;
-      for( MenaArticle item in feedCubit.myBlogInfoModel!.data.data){
+      int temp=myBlogCubit.myBlogsInfoModel!.data.data[0].categoryId;
+      for( MenaArticle item in myBlogCubit.myBlogsInfoModel!.data.data){
         if(item.categoryId!=temp){
           temp=-1000;
           return ;
@@ -76,7 +80,7 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
         }
       }
       if(temp!=-1000){
-        feedCubit
+        myBlogCubit
             .updateSelectedSubsMap(
             firstChildId:
             widget.fatherId!,
@@ -87,34 +91,16 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
     }
 
 
-    else{
-      int temp=feedCubit.blogsItemsModel!.data.data[0].categoryId;
-      for(MenaArticle item in feedCubit.blogsItemsModel!.data.data){
-        if(item.categoryId!=temp){
-          temp=-1000;
-          return ;
-        }else{
-          temp=item.categoryId;
-        }
-      }
-      if(temp!=-1000){
-        feedCubit
-            .updateSelectedSubsMap(
-            firstChildId:
-            widget.fatherId!,
-            selectedId:temp.toString(),
-            clear: (false));
-      }
-    }
+
 
 
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    var feedCubit = FeedsCubit.get(context);
+    var myBlogCubit = MyBlogCubit.get(context);
 
-    return BlocConsumer<FeedsCubit, FeedsState>(
+    return BlocConsumer<MyBlogCubit, MyBlogState>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -142,15 +128,15 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
                         child: SelectorButton(
                             customHeight: 31.sp,
                             title: 'ALL',
-                            isSelected: (feedCubit.selectedSubs
+                            isSelected: (myBlogCubit.selectedSubs
                                 .containsValue(
                                 (widget.childs![0]!.id * -1)
                                     .toString()) ||
-                                !feedCubit.selectedSubs
+                                !myBlogCubit.selectedSubs
                                     .containsKey(widget.fatherId!)),
                             onClick: () {
                               logg('current value = All');
-                              feedCubit
+                              myBlogCubit
                                   .updateSelectedSubsMap(
                                   firstChildId: widget.fatherId!,
                                   selectedId:
@@ -159,13 +145,8 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
                                   clear: false)
                                   .then((value) => {
 
-                                    widget.isMyBlogEnd == true ?
-                                    feedCubit.getMyBlogs(context):
-                                        widget.type == 'articles' ?
-                                        feedCubit.getProviderBlogs(context ,   providerId: widget.providerId )
-                                            :
+                                    myBlogCubit.getMyBlogs(context,withoutEmit: true)
 
-                                    feedCubit.getBlogs()
                               });
                             }),
                       ),
@@ -177,34 +158,24 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
                               onClickCallback: () {
                                 // logg('current Column index = ${i}');
                                 logg('current value = ${e.id}');
-                                log(feedCubit.selectedSubs
+                                log(myBlogCubit.selectedSubs
                                     .containsValue(e.id.toString())
                                     .toString());
-                                feedCubit
+                                myBlogCubit
                                     .updateSelectedSubsMap(
                                     firstChildId:
                                     widget.fatherId!,
                                     selectedId: e.id.toString(),
                                     clear: (false))
                                     .then((value) => {
-                                  widget.isMyBlogEnd == true ?
-                                  feedCubit.getMyBlogs(context ,
-                                      categoryId:  e.id.toString()
-                                  ):
-                                  widget.type == 'articles' ?
-                                  feedCubit.getProviderBlogs(
 
-                                      context ,categoryId:  e.id.toString(),
-                                    providerId: widget.providerId ,)
-                                      :
-                                  feedCubit.getBlogs(
-                                      categoryId:  e.id.toString()
+                                  myBlogCubit.getMyBlogs(context,categoryId:  e.id.toString(),withoutEmit: true
                                   )
                                 });
-                                log(feedCubit.selectedSubs
+                                log(myBlogCubit.selectedSubs
                                     .containsValue(e.id.toString())
                                     .toString());
-                                log(feedCubit.selectedSubs
+                                log(myBlogCubit.selectedSubs
                                     .toString());
 
                                 // updateColumnView(childs.firstWhere((element) => element!.id==e.id)!.childs);
@@ -212,7 +183,7 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
                                 // logg('selectedSubs: ${selectedSubs.toString()}');
                                 // emit(SelectedCatChanged());
                               },
-                              isSelected: feedCubit.selectedSubs
+                              isSelected: myBlogCubit.selectedSubs
                                   .containsValue(e.id.toString())))
                               .toList(),
                         ),
@@ -222,7 +193,7 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
                 ),
                 widget.childs!
                     .where((element) {
-                  return feedCubit.selectedSubs
+                  return myBlogCubit.selectedSubs
                       .containsValue(element!.id.toString());
                 })
                     .map((e) => e)
@@ -231,7 +202,7 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
                     ? SizedBox()
                     : widget.childs!
                     .firstWhere((element) =>
-                    feedCubit.selectedSubs.containsValue(
+                    myBlogCubit.selectedSubs.containsValue(
                         element!.id.toString()))!
                     .children ==
                     null
@@ -239,11 +210,11 @@ class _BlogsCategoriesSectionState extends State<BlogsCategoriesSection> {
                     : ChildsFilterHorizontalRows(
                   childs: widget.childs!
                       .firstWhere((element) =>
-                      feedCubit.selectedSubs.containsValue(
+                      myBlogCubit.selectedSubs.containsValue(
                           element!.id.toString()))!
                       .children,
                   fatherId: widget.childs!
-                      .where((element) => feedCubit.selectedSubs
+                      .where((element) => myBlogCubit.selectedSubs
                       .containsValue(
                       element!.id.toString()))
                       .map((e) => e)
@@ -308,8 +279,8 @@ class _ChildsFilterHorizontalRowsState
 
   @override
   Widget build(BuildContext context) {
-    var childsCubit = FeedsCubit.get(context);
-    return BlocConsumer<FeedsCubit, FeedsState>(
+    var childsCubit = MyBlogCubit.get(context);
+    return BlocConsumer<MyBlogCubit, MyBlogState>(
       listener: (context, state) {
         // TODO: implement listener
         // if (state is SelectedCatChanged) {
@@ -353,20 +324,12 @@ class _ChildsFilterHorizontalRowsState
                                   .toString(),
                               clear: false);
                           log("?//////////");
-                          widget.isMyBlogEnd ==true ?
+
                           childsCubit.getMyBlogs(
                             context,
-                              categoryId: widget.fatherId.toString()
-                          ):
-                          widget.type == 'articles' ?
-                          childsCubit.getProviderBlogs(
+                              categoryId: widget.fatherId.toString(),
+                            withoutEmit: true,
 
-
-                                context ,categoryId: widget.fatherId.toString(),
-                                providerId: widget.providerId ,)
-                              :
-                          childsCubit.getBlogs(
-                              categoryId: widget.fatherId.toString()
                           );
                           log("?//////////");
                         }),
@@ -386,21 +349,11 @@ class _ChildsFilterHorizontalRowsState
                                 selectedId: e.id.toString()!,
                                 clear: (false))
                                 .then((value) => {
-                              widget.isMyBlogEnd ==true ?
+
                               childsCubit.getMyBlogs(
                                   context,
-                                  categoryId: widget.fatherId.toString()
-                              ):
-                              widget.type == 'articles' ?
-                              childsCubit.getProviderBlogs(
-
-
-                                context ,categoryId: widget.fatherId.toString(),
-                                providerId: widget.providerId ,)
-
-                                  :
-                              childsCubit.getBlogs(
-                                  categoryId: e.id.toString()
+                                  categoryId: widget.fatherId.toString(),
+                                withoutEmit: true,
                               )
                             });
 

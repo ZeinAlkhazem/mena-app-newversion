@@ -521,6 +521,8 @@ class MainCubit extends Cubit<MainState> {
     ).then((value) {
       logg('user unfollowed...');
       logg(value.toString());
+
+
       emit(SuccessFollowingUserState());
     }).catchError((error) {
       logg('an error occurred');

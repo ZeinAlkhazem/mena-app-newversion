@@ -1,9 +1,12 @@
+// import 'dart:html';
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mena/core/constants/Colors.dart';
-
 // import 'package:flutter_super_html_viewer/flutter_super_html_viewer.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
@@ -24,23 +27,24 @@ import '../../../core/shared_widgets/shared_widgets.dart';
 import '../../platform_provider/provider_home/platform_provider_home.dart';
 import '../cubit/feeds_cubit.dart';
 
-class ArticleDetailsLayout extends StatefulWidget {
-  const ArticleDetailsLayout({Key? key, required this.menaArticleId})
-      : super(key: key);
+class MYArticleDetailsLayout extends StatefulWidget {
+  const MYArticleDetailsLayout({Key? key, required this.menaArticleId}) : super(key: key);
 
   // final MenaArticle menaArticle;
   final String menaArticleId;
 
   @override
-  State<ArticleDetailsLayout> createState() => _ArticleDetailsLayoutState();
+  State<MYArticleDetailsLayout> createState() => _MYArticleDetailsLayoutState();
 }
 
-class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
+class _MYArticleDetailsLayoutState extends State<MYArticleDetailsLayout> {
   @override
   void initState() {
     // TODO: implement initState
     var feedsCubit = FeedsCubit.get(context);
+
     feedsCubit.getBlogDetails(articleId: widget.menaArticleId.toString());
+
     super.initState();
   }
 
@@ -49,14 +53,18 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
     var feedsCubit = FeedsCubit.get(context);
     var mainCubit = MainCubit.get(context);
     User user = mainCubit.userInfoModel!.data.user;
+
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(
-        title: Text(prefs.getString('platformName')! + " " + 'Articles',
-            style: mainStyle(context, 23,
-                color: Color(0xff444444), weight: FontWeight.w700)),
+
+      appBar:
+      AppBar(
+        title:  Text(         prefs.getString('platformName')! + " "+'Articles',
+        
+          style: mainStyle(context, 23,
+                color: Color(0xff444444), weight: FontWeight.w700 ) ),
         titleSpacing: 00.0,
-        leading: GestureDetector(
+        leading:   GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
             height: 30.h,
@@ -75,6 +83,7 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
         toolbarOpacity: 0.8,
         backgroundColor: Colors.white,
         elevation: 0.00,
+
       ),
       // appBar: PreferredSize(
       //   preferredSize: Size.fromHeight(50.0.h),
@@ -208,6 +217,8 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
       // ),
 
       // bottomNavigationBar:
+
+      
       body: SafeArea(
         child: BlocConsumer<FeedsCubit, FeedsState>(
           listener: (context, state) {
@@ -218,48 +229,71 @@ class _ArticleDetailsLayoutState extends State<ArticleDetailsLayout> {
                 ? DefaultLoaderColor()
                 : feedsCubit.menaArticleDetails == null
                     ? SizedBox()
-                    : Column(
-                        children: [
-                          Padding(
+                    :
+      
+          Column(
+            
+              children: [
+      
+                Padding(
                             padding: EdgeInsets.all(defaultHorizontalPadding),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+      
+      
                                 DefaultImageFadeInOrSvg(
-                                  backGroundImageUrl:
-                                      feedsCubit.menaArticleDetails!.banner,
+                                  backGroundImageUrl:feedsCubit.menaArticleDetails!.banner,
                                   isBlog: false,
+      
                                   radius: 30,
                                   // borderColor: mainBlueColor,
                                 ),
+      
                                 heightBox(10.h),
+                                // SimpleUserCard(
+                                //   provider: feedsCubit.menaArticleDetails!.provider  ,
+                                //   currentLayout: 'Article details',
+                                // ),
                                 Text(
                                   feedsCubit.menaArticleDetails!.title,
                                   style: mainStyle(context, 14, isBold: true),
                                 ),
                                 heightBox(10.h),
-                                Html(
-                                    data:
-                                        feedsCubit.menaArticleDetails!.content,
-                                    onLinkTap: (url, _, __) async {
-                                      if (await canLaunch(url.toString())) {
-                                        await launch(
-                                          url.toString(),
-                                        );
-                                      } else {
-                                        throw 'Could not launch $url';
-                                      }
-                                    }),
+      
+                                Html( data: feedsCubit.menaArticleDetails!.content,
+      
+                                onLinkTap: (url, _, __) async{
+                                   if (await canLaunch(url.toString())) {
+                                      await launch(
+                                  url.toString()
+      
+                                  ,
+                            );
+                               } else {
+                            throw 'Could not launch $url';
+                                  }
+                                   }
+      
+                                 ),
+      
+      
+      
                               ],
                             ),
                           ),
-                          Spacer(),
-                          ArticleCard(
-                            article: feedsCubit.menaArticleDetails!,
-                            isShowImage: true,
-                          )
-                        ],
-                      );
+      
+      
+      
+            Spacer(),
+              ArticleCard(article: feedsCubit.menaArticleDetails!,
+                  isShowImage: true,
+                   isShowFollow: false,
+
+
+                )
+              ],
+            );
           },
         ),
       ),

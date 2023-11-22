@@ -92,27 +92,41 @@ class MenaArticle {
   int id;
   String banner;
   String title;
+  String slug;
   String content;
   int categoryId;
+  dynamic subCategoryId;
   int providerId;
   BlogBanner? category;
+  dynamic subCategory;
   User? provider;
   DateTime createdAt;
-  bool isMine;
   int? view;
+  String shareLink;
+  int sharesCount;
+  bool isMine;
+  bool isLiked;
+  int likesCount;
 
   MenaArticle({
     required this.id,
     required this.banner,
     required this.title,
+    required this.slug,
     required this.content,
     required this.categoryId,
+    required this.subCategoryId,
     required this.providerId,
-     this.category,
-    this.provider,
+   this.category,
+    required this.subCategory,
+   this.provider,
     required this.createdAt,
+      this.view,
+    required this.shareLink,
+    required this.sharesCount,
     required this.isMine,
-    this.view,
+    required this.isLiked,
+    required this.likesCount,
   });
 
   factory MenaArticle.fromJson(Map<String, dynamic> json) =>
@@ -120,6 +134,8 @@ class MenaArticle {
         id: json["id"],
         banner: json["banner"],
         title: json["title"],
+        slug: json["slug"],
+        likesCount: json['likes_count'],
         content: json["content"],
         categoryId: json["category_id"],
         providerId: json["provider_id"],
@@ -132,14 +148,19 @@ class MenaArticle {
         createdAt: DateTime.parse(json["created_at"]),
         isMine: json["is_mine"],
         view:  json['view'],
+        subCategoryId: json["sub_category_id"],
+        subCategory: json["sub_category"],
+        shareLink: json["share_link"],
+        sharesCount: json["shares_count"],
+        isLiked: json["is_liked"],
       );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "banner": banner,
     "title": title,
-
     "content": content,
+    "likes_count" :likesCount,
     "category_id": categoryId,
     "provider_id": providerId,
     "category": category?.toJson(),
@@ -147,5 +168,11 @@ class MenaArticle {
     "created_at": "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
     "is_mine": isMine,
     "view":view,
+    "slug": slug,
+    "sub_category_id": subCategoryId,
+    "sub_category": subCategory,
+    "share_link": shareLink,
+    "shares_count": sharesCount,
+    "is_liked": isLiked,
   };
 }

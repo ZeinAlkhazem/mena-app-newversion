@@ -28,7 +28,7 @@ void deleteBottomSheetDialog({required BuildContext context,required VoidCallbac
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             SizedBox(
-              height: 10.h,
+              height: 5.h,
             ),
             Container(
               height: 5.h,
@@ -42,13 +42,13 @@ void deleteBottomSheetDialog({required BuildContext context,required VoidCallbac
             ),
             Text(
               getTranslatedStrings(context).messengerDeleteMessageRequest,
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.center,
               style: mainStyle(
                 context,
-                12.sp,
-                weight: FontWeight.w700,
-                color: Colors.black,
-                fontFamily: AppFonts.openSansFont,
+                15.sp,
+                weight: FontWeight.w500,
+                color: Color(0xFF19191A),
+                fontFamily: AppFonts.interFont,
               ),
             ),
             SizedBox(
@@ -60,14 +60,13 @@ void deleteBottomSheetDialog({required BuildContext context,required VoidCallbac
             ),
             Text(
               getTranslatedStrings(context).messengerDeleteMessageMessage,
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.center,
               style: mainStyle(
                 context,
                 12.sp,
                 weight: FontWeight.w400,
-                // color: AppColors.grayGreenColor,
-                color: Color(0xff7F7F7F),
-                fontFamily: AppFonts.openSansFont,
+                color: Color(0xFF445154),
+                fontFamily: AppFonts.interFont,
               ),
             ),
             SizedBox(
@@ -84,18 +83,18 @@ void deleteBottomSheetDialog({required BuildContext context,required VoidCallbac
               child: DefaultButton(
                 onClick: btnDelete,
                 text: getTranslatedStrings(context).delete,
-                height: 0.06.sh,
-                width: 1.sw,
+                height: 40.h,
+                width: 281.w,
                 radius: 10.r,
                 backColor: AppColors.lineBlue,
                 borderColor: Colors.white,
                 customChild: Center(
                   child: Text(
                     getTranslatedStrings(context).delete,
-                    style: mainStyle(context, 12.sp,
+                    style: mainStyle(context, 14.sp,
                         color: Colors.white,
-                        fontFamily: AppFonts.openSansFont,
-                        weight: FontWeight.w700),
+                        fontFamily: AppFonts.interFont,
+                        weight: FontWeight.w500),
                   ),
                 ),
               ),

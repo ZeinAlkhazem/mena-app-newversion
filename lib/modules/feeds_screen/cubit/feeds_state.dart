@@ -56,6 +56,10 @@ class SuccessUpdatingLikeState extends FeedsState {}
 
 class ErrorUpdatingLikeState extends FeedsState {}
 
+
+class SuccessUpdatingShareState extends FeedsState {}
+
+class ErrorUpdatingShareState extends FeedsState {}
 class FeedAudienceUpdated extends FeedsState {}
 
 class GettingFeedsVideosState extends FeedsState {}
@@ -88,6 +92,9 @@ class SuccessAddingCommentState extends FeedsState {
 class ErrorAddingCommentState extends FeedsState {}
 
 class SelectedCatChanged extends FeedsState {}
+class FollowChanged extends FeedsState {}
+
+class SelectedCatChanged extends FeedsState {}
 
 class SelectCategory extends FeedsState {}
 
@@ -97,3 +104,4 @@ class GetStories extends FeedsState {
   final int length;
   GetStories({required this.length});
 }
+

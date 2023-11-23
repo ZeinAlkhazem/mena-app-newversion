@@ -27,6 +27,7 @@ dependencies:
   dartz: ^0.10.1
   dio: ^5.2.0
   dotted_border: ^2.0.0+1
+  dots_indicator: ^3.0.0
   dotted_line: ^3.2.2
   dropdown_button2: ^2.1.2
   easy_image_viewer: ^1.2.0
@@ -112,21 +113,19 @@ dependencies:
   table_calendar: ^3.0.9
   webview_flutter: ^4.2.2
   whiteboard: ^0.0.2
-
   timeago_flutter: ^3.6.0
 
   wolt_modal_sheet: ^0.1.4
+
+
+  locale_plus: ^1.4.1
+
   # stories_editor: ^0.2.2
   flutter_story_view: 
   video_editor_sdk: ^3.0.0
   photo_editor_sdk: ^3.0.0
-  # story_view: ^0.15.0
-
-
-
+  # story_view: ^0.15.0 
   
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -206,6 +205,10 @@ flutter:
     - family: PNfont
       fonts:
         - asset: assets/fonts/PN-Font.otf
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter.ttf
 
     - family: OpenSans
       fonts:

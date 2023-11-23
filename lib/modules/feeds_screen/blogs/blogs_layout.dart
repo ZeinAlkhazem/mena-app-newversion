@@ -10,20 +10,20 @@ import 'package:mena/modules/create_articles/create_article_screen.dart';
 import 'package:mena/modules/feeds_screen/blogs/widgets/blogItemHeader.dart';
 import 'package:mena/modules/feeds_screen/blogs/widgets/blog_action_bar.dart';
 import 'package:mena/modules/feeds_screen/blogs/widgets/blog_categories_section.dart';
+import 'package:mena/modules/feeds_screen/blogs/widgets/general_blog_action_bar.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
-import 'package:mena/modules/feeds_screen/feeds_screen.dart';
 
 import '../../../core/constants/Colors.dart';
 import '../../../core/responsive/responsive.dart';
 import '../../../core/shared_widgets/shared_widgets.dart';
 import '../../../main.dart';
 import '../../../models/api_model/blogs_info_model.dart';
-import '../../../models/api_model/blogs_items_model.dart';
+import '../../../models/api_model/blogs_items_model.dart' as blogItemModel;
 import '../../../models/api_model/home_section_model.dart';
-import '../widgets/feed_item_header.dart';
-import '../widgets/follow_user_button.dart';
+import '../../../models/api_model/my_blog_info_model.dart' as myBlogModel;
+import '../my_blog/widget/my_blog_action_bar.dart';
 import 'article_details_layout.dart';
-import 'blogs_articles_list.dart';
+import 'my_article_details_layout.dart';
 
 class BlogsLayout extends StatefulWidget {
   const BlogsLayout({Key? key}) : super(key: key);
@@ -41,7 +41,6 @@ class _BlogsLayoutState extends State<BlogsLayout> {
     feedsCubit.getBlogs();
     feedsCubit.getBlogsInfo(context);
 
-
     super.initState();
   }
 
@@ -52,14 +51,12 @@ class _BlogsLayoutState extends State<BlogsLayout> {
     User user = mainCubit.userInfoModel!.data.user;
 
     return Scaffold(
-      appBar:
-      AppBar(
-        title:  Text( prefs.getString('platformName').toString() + " "+'Blogs',
-         
-          style: mainStyle(context, 23,
-                color: Color(0xff444444), weight: FontWeight.w700 )),
+      appBar: AppBar(
+        title: Text(prefs.getString('platformName').toString() + " " + 'Blogs',
+            style: mainStyle(context, 23,
+                color: Color(0xff444444), weight: FontWeight.w700)),
         titleSpacing: 00.0,
-        leading:   GestureDetector(
+        leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
             height: 30.h,
@@ -73,7 +70,7 @@ class _BlogsLayoutState extends State<BlogsLayout> {
             ),
           ),
         ),
-                actions: [
+        actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: GestureDetector(
@@ -86,20 +83,17 @@ class _BlogsLayoutState extends State<BlogsLayout> {
                   child: SvgPicture.asset(
                     'assets/icons/search28.svg',
                     color: AppColors.blackColor,
-
                   ),
                 ),
               ),
             ),
           ),
         ],
-    
         centerTitle: true,
         toolbarHeight: 60.2,
         toolbarOpacity: 0.8,
         backgroundColor: Colors.white,
         elevation: 0.00,
-
       ),
       // PreferredSize(
       //   preferredSize: Size.fromHeight(56.0.h),
@@ -138,18 +132,17 @@ class _BlogsLayoutState extends State<BlogsLayout> {
         padding: EdgeInsets.only(bottom: 50),
         child: IconButton(
           iconSize: 50,
-          icon: Center(
-              child:
-              SvgPicture.asset("assets/icons/create_article.svg")
+          icon:
+              Center(child: SvgPicture.asset("assets/icons/create_article.svg")
 
-            // Image.asset(
-            //   'assets/icons/add.png',
-            //   height: 30,
-            // ),
-          ),
+                  // Image.asset(
+                  //   'assets/icons/add.png',
+                  //   height: 30,
+                  // ),
+                  ),
           onPressed: () {
-               navigateToWithoutNavBar(
-                      context, CreateArticleScreen(), 'routeName');
+            navigateToWithoutNavBar(
+                context, CreateArticleScreen(), 'routeName');
           },
         ),
       ),
@@ -161,11 +154,11 @@ class _BlogsLayoutState extends State<BlogsLayout> {
           return state is GettingBlogsInfoState
               ? DefaultLoaderColor()
               : feedsCubit.blogsInfoModel == null
-              ? SizedBox()
-              : BlogsHome(blogsInfoModel: feedsCubit.blogsInfoModel! ,
-
-               blogsItemsModel:    feedsCubit.blogsItemsModel!,
-          );
+                  ? SizedBox()
+                  : BlogsHome(
+                      blogsInfoModel: feedsCubit.blogsInfoModel!,
+                      blogsItemsModel: feedsCubit.blogsItemsModel!,
+                    );
         },
       ),
     );
@@ -173,14 +166,12 @@ class _BlogsLayoutState extends State<BlogsLayout> {
 }
 
 class BlogsHome extends StatelessWidget {
-  const BlogsHome({
-    super.key,
-    required this.blogsInfoModel,
-    required this.blogsItemsModel
-  });
+  const BlogsHome(
+      {super.key, required this.blogsInfoModel, required this.blogsItemsModel});
 
   final BlogsInfoModel blogsInfoModel;
-  final BlogsItemsModel blogsItemsModel;
+  final blogItemModel.BlogsItemsModel blogsItemsModel;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -190,10 +181,12 @@ class BlogsHome extends StatelessWidget {
             if (blogsInfoModel.data.banners.isNotEmpty)
               BannersSection(banners: blogsInfoModel.data.banners),
             if (blogsInfoModel.data.categories.isNotEmpty)
-              BlogsCategoriesSection(childs: blogsInfoModel.data.categories,fatherId: 2,),
-            if ( blogsItemsModel.data.articles.isNotEmpty)
-              BlogsTopArticlesSection(
-                  articles:  blogsItemsModel.data.articles),
+              BlogsCategoriesSection(
+                childs: blogsInfoModel.data.categories,
+                fatherId: 2,
+              ),
+            if (blogsItemsModel.data.data.isNotEmpty)
+              BlogsTopArticlesSection(articles: blogsItemsModel.data.data),
           ],
         ),
       ),
@@ -207,8 +200,8 @@ class BlogsTopArticlesSection extends StatelessWidget {
     required this.articles,
   });
 
-  final dynamic articles;
-  // final    List<DataDatum> articles;
+  // final dynamic articles;
+  final List<MenaArticle> articles;
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +219,7 @@ class BlogsTopArticlesSection extends StatelessWidget {
           ListView.separated(
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) =>
-                ArticleCard(article: articles[index] ,isShowName: false),
+                ArticleCard(article: articles[index], isShowName: false),
             separatorBuilder: (context, index) => heightBox(7.h),
             shrinkWrap: true,
             itemCount: articles.length,
@@ -236,7 +229,6 @@ class BlogsTopArticlesSection extends StatelessWidget {
     );
   }
 }
-
 
 class BlogsMyArticlesSection extends StatelessWidget {
   const BlogsMyArticlesSection({
@@ -244,8 +236,9 @@ class BlogsMyArticlesSection extends StatelessWidget {
     required this.articles,
   });
 
-  final dynamic articles;
-  // final    List<DataDatum> articles;
+  // final dynamic articles;
+
+  final myBlogModel.Data articles;
 
   @override
   Widget build(BuildContext context) {
@@ -262,28 +255,34 @@ class BlogsMyArticlesSection extends StatelessWidget {
           // heightBox(10.h),
           ListView.separated(
             physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) =>
-                ArticleCard(article: articles[index] ,isShowName: true, ),
+            itemBuilder: (context, index) => ArticleCard(
+                article: articles.data[index],
+                isShowName: true,
+                data: articles),
             separatorBuilder: (context, index) => heightBox(7.h),
             shrinkWrap: true,
-            itemCount: articles.length,
+            itemCount: articles.data.length,
           ),
         ],
       ),
     );
   }
 }
-class ArticleCard extends StatefulWidget {
-  const ArticleCard({
-    super.key,
-    required this.article,
-    this.isShowImage,
-    this.isShowName
-  });
 
-  final dynamic article;
-  final  bool? isShowImage;
-  final  bool? isShowName;
+class ArticleCard extends StatefulWidget {
+  const ArticleCard(
+      {super.key,
+      required this.article,
+      this.isShowImage,
+      this.isShowName,
+      this.data,
+      this.isShowFollow});
+
+  final MenaArticle article;
+  final bool? isShowImage;
+  final bool? isShowName;
+  final bool? isShowFollow;
+  final myBlogModel.Data? data;
 
   @override
   State<ArticleCard> createState() => _ArticleCardState();
@@ -292,113 +291,200 @@ class ArticleCard extends StatefulWidget {
 class _ArticleCardState extends State<ArticleCard> {
   @override
   Widget build(BuildContext context) {
-        var feedsCubit = FeedsCubit.get(context);
-    return GestureDetector(
-      onTap: () {
-
-        widget.isShowImage ==true ?
-        logg("djfyyyyyy") :
-
-        navigateToWithoutNavBar(
-            context,
-            ArticleDetailsLayout(
-              menaArticleId: widget.article.id.toString(),
-            ),
-            'routeName');
-      },
-      child: DefaultShadowedContainer(
-        childWidget: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              widget.isShowImage ==true ?
-              heightBox(0.h):
-              DefaultImageFadeInOrSvg(
-                backGroundImageUrl: widget.article.banner,
-                isBlog: true,
-                radius: 0,
-                // borderColor: mainBlueColor,
-              )     ,
-              heightBox(7.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        widget.isShowImage ==true ?
-                        heightBox(0.h):    Text(
-                          widget.article.title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: mainStyle(context, 14, isBold: true),
-                        ),
-                        heightBox(4.h),
-                     widget.isShowName == true ?
-                     SizedBox():
-                     Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BlogItemHeader(
-                              article: widget.article,
-                            ),
-
-
-                            widget.isShowImage ==true ?
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: GestureDetector(
-                                onTap: () {
-
-                 setState(() =>   feedsCubit. isFollow = ! feedsCubit. isFollow);
-                                },
-                                child: Container(
-                                  height: 40.h,
-                                  width: 30.w,
-                                  color: Colors.transparent,
-                                  child: Center(
-                                    child:
-                                    
-                                       feedsCubit. isFollow == true ?
-                          SvgPicture.asset(
-                            'assets/icons/follow.svg',
-                            width: 35.sp,
-                          ):
-                                     SvgPicture.asset(
-                                      'assets/icons/plus.svg',
-                                      height: 35,
-                                      color: mainBlueColor,
-                                    ),
+    var feedsCubit = FeedsCubit.get(context);
+    var mainCubit = MainCubit.get(context);
+    return DefaultShadowedContainer(
+      childWidget: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            widget.isShowImage == true
+                ? heightBox(0.h)
+                : GestureDetector(
+                    onTap: () {
+                      widget.isShowImage == true
+                          ? logg("djfyyyyyy")
+                          : widget.isShowName == true
+                              ? navigateToWithoutNavBar(
+                                  context,
+                                  MYArticleDetailsLayout(
+                                    menaArticleId:
+                                        widget.article.id.toString(),
                                   ),
-                                ),
-                              ),
-                            ):SizedBox(),
-                          ],
-                        )
-                        ,
-                        heightBox(12.h),
-                        BlogActionBar(article: widget.article),
-                        heightBox(10.h),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            getFormattedDate(widget.article.createdAt),
-                            style:
-                            mainStyle(context, 11, color: newDarkGreyColor),
-                          ),
-                        )
-                        // DefaultSoftButton(
-                        //   label: article.category.title ?? '',
-                        // ),
-                      ],
+                                  'routeName')
+                              : navigateToWithoutNavBar(
+                                  context,
+                                  ArticleDetailsLayout(
+                                    menaArticleId:
+                                        widget.article.id.toString(),
+                                  ),
+                                  'routeName');
+                    },
+                    child: DefaultImageFadeInOrSvg(
+                      backGroundImageUrl: widget.article.banner,
+                      isBlog: true,
+                      radius: 0,
+                      // borderColor: mainBlueColor,
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+            heightBox(7.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      widget.isShowImage == true
+                          ? heightBox(0.h)
+                          : Text(
+                              widget.article.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: mainStyle(context, 14, isBold: true),
+                            ),
+                      heightBox(4.h),
+                      widget.isShowName == true
+                          ? SizedBox()
+                          : Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                BlogItemHeader(
+                                  article: widget.article,
+                                ),
+                                widget.isShowImage == true
+                                    ? widget.isShowFollow == false
+                                        ? SizedBox()
+                                        : Padding(
+                                            padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                if (widget.article.provider!
+                                                    .isFollowing!) {
+                                                  /// unfollow
+                                                  mainCubit
+                                                      .unfollowUser(
+                                                          userId: widget
+                                                              .article
+                                                              .provider!
+                                                              .id
+                                                              .toString(),
+                                                          userType: widget
+                                                                  .article
+                                                                  .provider!
+                                                                  .roleName ??
+                                                              '')
+                                                      .then((value) {
+                                                    widget.article.provider!
+                                                        .isFollowing = false;
+
+                                                    FeedsCubit.get(context)
+                                                        .myBlogInfoModel
+                                                        ?.data
+                                                        .provider
+                                                        .isFollowing = false;
+                                                    FeedsCubit.get(context)
+                                                        .emit(
+                                                            FollowChanged());
+                                                  });
+                                                } else {
+                                                  /// follow
+                                                  mainCubit
+                                                      .followUser(
+                                                          userId: widget
+                                                              .article
+                                                              .provider!
+                                                              .id
+                                                              .toString(),
+                                                          userType: widget
+                                                                  .article
+                                                                  .provider!
+                                                                  .roleName ??
+                                                              '')
+                                                      .then((value) {
+                                                    widget.article.provider!
+                                                        .isFollowing = true;
+                                                    FeedsCubit.get(context)
+                                                        .myBlogInfoModel
+                                                        ?.data
+                                                        .provider
+                                                        .isFollowing = true;
+                                                    FeedsCubit.get(context)
+                                                        .emit(
+                                                            FollowChanged());
+                                                  });
+                                                }
+
+                                                setState(() => widget
+                                                        .article
+                                                        .provider!
+                                                        .isFollowing =
+                                                    !widget.article.provider!
+                                                        .isFollowing!);
+                                              },
+                                              child: Container(
+                                                height: 40.h,
+                                                width: 30.w,
+                                                color: Colors.transparent,
+                                                child: Center(
+                                                  child: widget
+                                                              .article
+                                                              .provider!
+                                                              .isFollowing ==
+                                                          true
+                                                      ? SvgPicture.asset(
+                                                          'assets/icons/follow.svg',
+                                                          width: 35.sp,
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          'assets/icons/plus.svg',
+                                                          height: 35,
+                                                          color:
+                                                              mainBlueColor,
+                                                        ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                    : SizedBox(),
+                              ],
+                            ),
+                      heightBox(12.h),
+                      widget.isShowName == false
+                          ? GeneralBlogActionBar(
+                              article: widget.article,
+                              isMyBlog: widget.isShowName)
+                          : widget.isShowFollow == false
+                              ? MyBlogActionBar(
+                                  article: widget.article,
+                                  // data: widget.data!,
+                                  isMyBlog: widget.isShowName)
+                              : BlogActionBar(
+                                  article: widget.article,
+                                  data: widget.data,
+                                  isMyBlog: widget.isShowName),
+                      heightBox(10.h),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          getFormattedDate(widget.article.createdAt),
+                          style:
+                              mainStyle(context, 11, color: newDarkGreyColor),
+                        ),
+                      )
+                      // DefaultSoftButton(
+                      //   label: article.category.title ?? '',
+                      // ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -480,23 +566,23 @@ class BannersSection extends StatelessWidget {
           // carouselController: carouselController,
           itemBuilder:
               (BuildContext context, int itemIndex, int pageViewIndex) =>
-              GestureDetector(
-                onTap: () {
-                  // navigateToWithoutNavBar(
-                  //     context,
-                  //     ArticleDetailsLayout(
-                  //       menaArticleId: banners[itemIndex].articleBlogId.toString(),
-                  //     ),
-                  //     'routeName');
-                },
-                child: DefaultImageFadeInOrSvg(
-                  backGroundImageUrl: banners[itemIndex].image,
-                  boxFit: BoxFit.cover,
-                  width: double.maxFinite,
-                  radius: 0,
-                  // borderColor: mainBlueColor,
-                ),
-              ),
+                  GestureDetector(
+            onTap: () {
+              // navigateToWithoutNavBar(
+              //     context,
+              //     ArticleDetailsLayout(
+              //       menaArticleId: banners[itemIndex].articleBlogId.toString(),
+              //     ),
+              //     'routeName');
+            },
+            child: DefaultImageFadeInOrSvg(
+              backGroundImageUrl: banners[itemIndex].image,
+              boxFit: BoxFit.cover,
+              width: double.maxFinite,
+              radius: 0,
+              // borderColor: mainBlueColor,
+            ),
+          ),
           options: CarouselOptions(
             autoPlay: false,
             reverse: false,

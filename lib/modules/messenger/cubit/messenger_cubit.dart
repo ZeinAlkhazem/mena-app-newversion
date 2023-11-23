@@ -33,6 +33,8 @@ class MessengerCubit extends Cubit<MessengerState> {
 
   List<Contact>? contacts;
 
+  List<ChatItem> requestedMessages = [];
+
   // bool expandChatTools=false;
   // bool isRecording=false;
   void updateAttachedFile(XFile? file) {
@@ -224,7 +226,7 @@ class MessengerCubit extends Cubit<MessengerState> {
       responseMsg = 'Successfully sent';
       emit(SuccessSendingMsgState());
     }).catchError((error) {
-      logg('an error occurred');
+      logg('an error occurred ---> send message');
       logg(error.toString());
       emit(ErrorSendingMsgState());
       responseMsg = 'an error occurred';
@@ -393,5 +395,25 @@ class MessengerCubit extends Cubit<MessengerState> {
       showSelected = true;
     }
     emit(ShowSelectedCheckBox());
+  }
+
+  void addMessageToList(bool isChecked, ChatItem item) {
+    if (requestedMessages.contains(item)) {
+      requestedMessages.remove(item);
+    } else {
+      requestedMessages.add(item);
+    }
+    emit(ShowSelectedCheckBox());
+  }
+
+  bool checkMessage(ChatItem item) {
+    bool status = false;
+    if (requestedMessages.contains(item)) {
+      status = true;
+    } else {
+      status = false;
+    }
+    emit(ShowSelectedCheckBox());
+    return status;
   }
 }

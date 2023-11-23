@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mena/core/functions/main_funcs.dart';
 
 import '../../../../../core/constants/Colors.dart';
 import '../../../../../core/constants/app_toasts.dart';
 import '../../../../../core/shared_widgets/shared_widgets.dart';
 import '../../../../../modules/home_screen/cubit/home_screen_cubit.dart';
+import '../../../market/presentation/widgets/search_box.dart';
 import '../cubit/healthcare_cubit.dart';
 import '../widgets/health_care_category.dart';
 import '../widgets/health_care_controll_appbar.dart';
-import '../widgets/health_care_search_controll.dart';
 import '../widgets/health_care_sub_category.dart';
 
 class HealthCareMarket extends StatefulWidget {
@@ -34,8 +35,9 @@ class _HealthCareMarketState extends State<HealthCareMarket> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 120.h),
+        preferredSize: Size(double.infinity, 80.h),
         child: AppBar(
+          backgroundColor: Colors.transparent,
           systemOverlayStyle: SystemUiOverlayStyle(
             // Status bar color
             statusBarColor: Colors.transparent,
@@ -45,32 +47,41 @@ class _HealthCareMarketState extends State<HealthCareMarket> {
                 Brightness.dark, // For Android (dark icons)
             statusBarBrightness: Brightness.light, // For iOS (dark icons)
           ),
-          automaticallyImplyLeading: false, // hides default back button
-          flexibleSpace: Container(
-            height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    AppColors.softBlue,
-                    AppColors.hardBlue,
-                  ]),
-            ),
-            child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  HealthCareControllAppbar(),
-                  HealthCareSearchControll(),
-                ],
+          automaticallyImplyLeading: false,
+          title: HealthCareControllAppbar(), // hides default back button
+          flexibleSpace: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(15.r)),
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        AppColors.softBlue,
+                        AppColors.hardBlue,
+                      ]),
+                ),
               ),
-            ),
+              Positioned(
+                bottom: -25.h,
+                left: 0,
+                right: 0,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: SearchBox(hint: "Search Products & Suppliers"),
+                ),
+              )
+            ],
           ),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.only(top: 40.h, left: 8, right: 8),
         child: BlocConsumer<HealthcareCubit, HealthcareState>(
           listener: (context, state) {
             if (state is HealthcareErrorState) {
@@ -83,34 +94,69 @@ class _HealthCareMarketState extends State<HealthCareMarket> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.w),
-                        child: Divider(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          const BoxShadow(
+                            color: Colors.black12,
+                          ),
+                          BoxShadow(
+                            color: Colors.grey.shade100,
+                            spreadRadius: -2.0,
+                            blurRadius: 2.0,
+                          ),
+                        ],
                       ),
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: state.healthcareCategories.length,
-                      itemBuilder: (context, index) => HealthCareCategoryWidget(
-                        healthCareCategory: state.healthcareCategories[index],
-                        onTap: () async {
-                          context.read<HealthcareCubit>().filterSubCategory(
-                              state.healthcareCategories[index]);
-                        },
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: state.healthcareCategories.length,
+                        itemBuilder: (context, index) =>
+                            HealthCareCategoryWidget(
+                          isSelected: state.healthcareCategories[index] ==
+                                  state.healthcareCategory
+                              ? true
+                              : false,
+                          healthCareCategory: state.healthcareCategories[index],
+                          onTap: () async {
+                            context.read<HealthcareCubit>().filterSubCategory(
+                                state.healthcareCategories[index]);
+                          },
+                        ),
                       ),
                     ),
                   ),
+                  widthBox(8.w),
                   Expanded(
-                    flex: 2,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.healthcareCategory.childs.length,
-                      itemBuilder: (context, index) => Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5.h),
-                        child: HealthCareSubCategory(
-                            healthcareSubCategory:
-                                state.healthcareCategory.childs[index]),
-                      ),
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 2,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child:
+                                Image.asset("assets/menamarket/image 3.png")),
+                        Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.healthcareCategory.childs.length,
+                            itemBuilder: (context, index) => Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5.h),
+                              child: HealthCareSubCategory(
+                                  healthcareSubCategory:
+                                      state.healthcareCategory.childs[index]),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],

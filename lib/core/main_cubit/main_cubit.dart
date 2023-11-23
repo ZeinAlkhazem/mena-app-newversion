@@ -16,11 +16,13 @@ import 'package:mena/modules/feeds_screen/blogs/add_articles.dart';
 import 'package:mena/modules/feeds_screen/post_a_feed.dart';
 // import 'package:mena/modules/messenger/widget/messenger_empty_widget.dart';
 import 'package:mena/modules/my_profile/cubit/profile_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../l10n/l10n.dart';
 import '../../models/api_model/config_model.dart';
 import '../../models/local_models.dart';
 import '../../models/my_models/country_model.dart';
 import '../../modules/feeds_screen/blogs/blogs_layout.dart';
+import '../../modules/initial_onboarding/initial_choose_lang.dart';
 import '../../modules/messenger/cubit/messenger_cubit.dart';
 import '../../modules/messenger/screens/messenger_get_start_page.dart';
 import '../../modules/messenger/screens/messenger_home_page.dart';
@@ -68,12 +70,39 @@ class MainCubit extends Cubit<MainState> {
   bool myActivitiesExpanded = false;
   bool aboutMenaExpanded = false;
   String selectedCountryAlpha3Code = '';
+  String selectedLanguage = '';
   UserInfoModel? userInfoModel;
   List<ItemWithTitleAndCallback> uncompletedSections = [];
   double completionPercentage = 0.0;
   List<MayyaCountry> mayyaCountries =
       MayyaCountryProvider.getCountriesData(countries: []);
+
+
+  String getLanguageName(Locale locale) {
+    switch (locale.languageCode) {
+      case 'ar':
+        return 'العربية';
+      case 'en':
+        return 'English';
+      case 'hi':
+        return 'हिन्दी';
+      case 'ru':
+        return 'русский';
+      case 'zh':
+        return '中國人';
+      case 'tr':
+        return 'Türkçe';
+      case 'es':
+        return 'española';
+      case 'fr':
+        return 'Français';
+      default:
+        return 'Unknown';
+    }
+  }
+
   String countrySearchQuery = '';
+  String languageSearchQuery = '';
   Locale? appLocale = L10n.all.firstWhere(
       (element) => element.languageCode == getCachedLocal().toString(),
       orElse: () => L10n.all[0]);
@@ -354,6 +383,12 @@ class MainCubit extends Cubit<MainState> {
     userInfoModel = null;
   }
 
+  Future<void> updateLanguage(String selectedLanguage, String langCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedLanguage', selectedLanguage);
+    // Store language code or perform any other necessary operations
+  }
+
   void calcCompletionPercentage() {
     uncompletedSections = [];
     int sectionsAllLength = 7;
@@ -521,6 +556,8 @@ class MainCubit extends Cubit<MainState> {
     ).then((value) {
       logg('user unfollowed...');
       logg(value.toString());
+
+
       emit(SuccessFollowingUserState());
     }).catchError((error) {
       logg('an error occurred');
@@ -546,6 +583,7 @@ class MainCubit extends Cubit<MainState> {
     }
   }
 
+
   Future<void> updateCountrySearchQuery(String query) async {
     countrySearchQuery = query;
     logg('updateCountrySearchQuery fn: $countrySearchQuery');
@@ -564,9 +602,64 @@ class MainCubit extends Cubit<MainState> {
     emit(CountrySearchQueryUpdated());
   }
 
+  // void updateLanguageSearchQuery(String query) async{
+  //   languageSearchQuery = query; // Assuming languageSearchQuery is a String variable in MainCubit
+  //   logg('updateLangaugeSearchQuery fn Zeus: $languageSearchQuery');
+  //   await Future.delayed(const Duration(milliseconds: 200));
+  //
+  //   if (languageSearchQuery == '') {
+  //     selectedLocalesInDashboard = L10n.all;
+  //     logg('test for search fn Zeus: $selectedLocalesInDashboard');
+  //   } else {
+  //     selectedLocalesInDashboard
+  //         .where((language) =>
+  //         getLanguageName(language)
+  //             .toLowerCase()
+  //             .contains(
+  //             languageSearchQuery.toLowerCase()))
+  //         .toList();
+  //     logg('test for search fn Zeus: $selectedLocalesInDashboard');
+  //     // selectedLocalesInDashboard = L10n.all
+  //     //     .where((element) =>
+  //     //     selectedLocalesIsoInDashboard.contains(element.languageCode))
+  //     //     .toList();
+  //   }
+  //   emit(LanguageSearchQueryUpdated());
+  // }
+  List<String> getLanguageNamesFromLocales(List<Locale> locales) {
+    return locales.map((locale) => getLanguageName(locale)).toList();
+  }
+
+  void updateLanguageSearchQuery(String query) {
+    languageSearchQuery = query.toLowerCase();
+    logg('updateLanguageSearchQuery fn Zeus: $languageSearchQuery');
+
+    if (languageSearchQuery.isEmpty) {
+      selectedLocalesInDashboard = L10n.all; // Assuming L10n.all contains all locales
+    } else {
+      List<String> languageNames = getLanguageNamesFromLocales(selectedLocalesInDashboard);
+
+      List<Locale> filteredLocales = [];
+      for (int i = 0; i < languageNames.length; i++) {
+        if (languageNames[i].toLowerCase().contains(languageSearchQuery)) {
+          filteredLocales.add(selectedLocalesInDashboard[i]);
+        }
+      }
+      selectedLocalesInDashboard = filteredLocales;
+    }
+
+    emit(LanguageSearchQueryUpdated());
+  }
+
+
   void updateSelectedCountry(String value) {
     selectedCountryAlpha3Code = value;
     emit(SelectedCountryUpdated());
+  }
+
+  void updateSelectedLanguage(String value) {
+    selectedLanguage = value;
+    emit(SelectedLanguageUpdated());
   }
 
   Future<void> medicalRecordExpandedToggle() async {
@@ -790,11 +883,12 @@ class MainCubit extends Cubit<MainState> {
       selectedLocalesIsoInDashboard = configModel!.data.languages
           .map((e) => e.code!.split('_')[0])
           .toList();
+      logg('test for search fn Zeus11: $selectedLocalesIsoInDashboard');
       selectedLocalesInDashboard = L10n.all
           .where((element) =>
               selectedLocalesIsoInDashboard.contains(element.languageCode))
           .toList();
-
+      logg('test for search fn Zeus1: $selectedLocalesInDashboard');
       /// save local db
       if (!kIsWeb) {
         await jsonStore.setItem('config', configModel!.toJson());
@@ -837,9 +931,9 @@ class MainCubit extends Cubit<MainState> {
       logg('selectedLocalesInDashboard: ${selectedLocalesInDashboard}');
       emit(DataLoadedSuccessState());
     }).catchError((error, stack) {
-      logg('an error occurred');
-      logg(error.toString());
-      logg(stack.toString());
+      logg('an error occurred -- start');
+      logg("# error  ${error.toString()}");
+      logg("# stack  ${stack.toString()}");
       emit(ErrorLoadingDataState());
     });
   }
@@ -911,5 +1005,7 @@ class MainCubit extends Cubit<MainState> {
   }
 
 }
+
+
 
 

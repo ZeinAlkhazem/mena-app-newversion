@@ -54,6 +54,7 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
   @override
   Widget build(BuildContext context) {
     var feedsCubit = FeedsCubit.get(context);
+    var mainCubit = MainCubit.get(context);
     return GestureDetector(
       onTap: widget.customCallback != null
           ? widget.customCallback
@@ -88,7 +89,23 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
                     onTap:
                     (){
                       if (widget.isInEdit) log(feedsCubit.isChangeIcon.toString() );
-                      setState(() =>   feedsCubit.isChangeIcon = ! feedsCubit.isChangeIcon);
+                      if ( widget.provider.provider.isFollowing!) {
+                        /// unfollow
+                        mainCubit.unfollowUser(userId:  widget.provider.provider!.id.toString(), userType: widget.provider.provider!.roleName ?? '')
+                            .then((value) {
+                          widget.provider..provider!.isFollowing = false;
+                        });
+                      } else {
+                        /// follow
+                        mainCubit.followUser(userId: widget.provider.provider!.id.toString(),
+                            userType:widget.provider.provider!.roleName ?? '')
+                            .then((value) {
+                          widget.provider.provider!.isFollowing = true;
+                        });
+                      }
+
+                      setState(() =>   widget.provider.provider!.isFollowing = !  widget.provider.provider!.isFollowing!);
+
                       log(feedsCubit.isChangeIcon.toString() );
 
                     },
@@ -111,7 +128,7 @@ class _MyBlogSimpleUserCardState extends State<MyBlogSimpleUserCard> {
                           backgroundColor: newLightGreyColor,
                           radius: 10.sp,
                           child:
-                          feedsCubit.isChangeIcon == true ?
+                          widget.provider.provider.isFollowing == true ?
                           SvgPicture.asset(
                             'assets/icons/follow.svg',
                             width: 16.sp,

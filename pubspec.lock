@@ -409,6 +409,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.3.3"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      sha256: "58b6a365744aa62aa1b70c4ea29e5106fbe064f5edaf7e9652e9b856edbfd9bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   dotted_border:
     dependency: "direct main"
     description:
@@ -1357,6 +1365,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  locale_plus:
+    dependency: "direct main"
+    description:
+      name: locale_plus
+      sha256: "493103e8dcc772fdb023464a825ebbd09965072affcf7581378125a1fca31824"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.1"
   logger:
     dependency: transitive
     description:

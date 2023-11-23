@@ -4,14 +4,17 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_story_view/models/story_item.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mena/models/api_model/blogs_items_model.dart';
 import 'package:mena/models/api_model/comments_model.dart';
 import 'package:mena/models/api_model/like_comment_model.dart';
 import 'package:mena/models/api_model/my_blog_info_model.dart';
+
 import 'package:mena/modules/feeds_screen/my_blog/cubit/myBlog_cubit.dart';
 import 'package:mena/modules/feeds_screen/my_blog/cubit/myBlog_state.dart';
+
 import 'package:meta/meta.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -23,10 +26,14 @@ import '../../../models/api_model/blogs_info_model.dart';
 import '../../../models/api_model/comment_response_feed.dart';
 import '../../../models/api_model/feeds_model.dart';
 import '../../../models/api_model/home_section_model.dart';
+
 import '../../../models/api_model/share_model.dart';
 import '../../home_screen/cubit/home_screen_cubit.dart';
 
 part 'feeds_state.dart';
+import 'package:mena/models/local_models.dart';
+import 'package:mena/modules/feeds_screen/post_a_feed.dart';
+import '../../create_articles/create_article_screen.dart';
 
 class FeedsCubit extends Cubit<FeedsState> {
   List<MenaFeed> menaFeedsList = [];
@@ -39,9 +46,9 @@ class FeedsCubit extends Cubit<FeedsState> {
   int menaProviderFeedsListOffset = 1;
   Map<int, String> selectedSubs = {};
   int selectedSub = -1;
-  bool isChangeIcon = false ;
+  bool isChangeIcon = false;
 
-  bool isFollow = false ;
+  bool isFollow = false;
   FeedsCubit() : super(FeedsInitial());
 
   static FeedsCubit get(context) => BlocProvider.of(context);
@@ -65,6 +72,56 @@ class FeedsCubit extends Cubit<FeedsState> {
   List<XFile> attachedReportFiles = [];
   List<dynamic> files = [];
   List<dynamic> reportFiles = [];
+  int categoryId = 0;
+  List categories = ["Feeds", "Clips", "Videos", "News"];
+  List<StoryItem> stories = [];
+  List<ItemWithTitleAndCallback> userActionItems(BuildContext context) {
+    List<ItemWithTitleAndCallback> list = [];
+
+    list = [
+      ItemWithTitleAndCallback(
+        title: 'Create Story',
+        thumbnailLink: 'assets/icons/story_add_outline_28 1.svg',
+        onClickCallback: () {
+          logg('dshjfjkh');
+          // navigateToWithoutNavBar(context, PostAFeedLayout(), 'routeName');
+        },
+      ),
+      ItemWithTitleAndCallback(
+        title: 'Create Post',
+        thumbnailLink: 'assets/icons/write_square_outline_28 1.svg',
+        onClickCallback: () {
+          logg('dshjfjkh');
+          navigateToWithoutNavBar(context, PostAFeedLayout(), 'routeName');
+        },
+      ),
+      ItemWithTitleAndCallback(
+        title: 'Record Clips',
+        thumbnailLink: 'assets/icons/video_add_square_outline_28 1.svg',
+        onClickCallback: () {
+          logg('create article');
+
+          navigateToWithoutNavBar(context, CreateArticleScreen(), 'routeName');
+        },
+      ),
+      ItemWithTitleAndCallback(
+        title: 'Upload Videos',
+        thumbnailLink: 'assets/icons/videocam_add_outline_24 1.svg',
+        onClickCallback: () {
+          logg('dshjfjkh');
+        },
+      ),
+      ItemWithTitleAndCallback(
+        title: 'Publish news',
+        thumbnailLink: 'assets/icons/newsfeed_outline_24 1.svg',
+        onClickCallback: () {
+          logg('dshjfjkh');
+        },
+      ),
+    ];
+
+    return list;
+  }
 
   void updateAttachedFile(XFile? xFile, {List<XFile>? xFiles}) {
     if (xFiles != null) {
@@ -235,7 +292,7 @@ class FeedsCubit extends Cubit<FeedsState> {
       logg('to send feed data: ' + toSendData.toString());
       formData = FormData.fromMap(toSendData);
       await MainDioHelper.postDataWithFormData(
-          url: feed == null ? addNewFeedEnd : updateFeedEnd, data: formData)
+              url: feed == null ? addNewFeedEnd : updateFeedEnd, data: formData)
           .then((value) {
         logg('Feed sent');
         logg(value.toString());
@@ -321,11 +378,13 @@ class FeedsCubit extends Cubit<FeedsState> {
       });
     }
   }
-  Future<void> getBlogsInfo(BuildContext context,{String? providerId}) async {
+
+
+  Future<void> getBlogsInfo(BuildContext context, {String? providerId}) async {
+
     // feedsModel = null;
     var homes = HomeScreenCubit.get(context);
     // User user = mainCubit.userInfoModel!.data.user;
-
 
     if (state is! GettingBlogsInfoState) {
       emit(GettingBlogsInfoState());
@@ -343,14 +402,11 @@ class FeedsCubit extends Cubit<FeedsState> {
 
       await MainDioHelper.getData(
         url: getBlogsInfoEnd,
-        query: {
-          'platform_id':homes.selectedHomePlatformId
-        },
-
+        query: {'platform_id': homes.selectedHomePlatformId},
       ).then((value) async {
         logg('Blogs info fetched...');
         logg(value.toString());
-         // await getBlogs();
+        // await getBlogs();
         // var response = FeedsModel.fromJson(value.data);
         // loginModel = response.data!;
         blogsInfoModel = BlogsInfoModel.fromJson(value.data);
@@ -364,7 +420,10 @@ class FeedsCubit extends Cubit<FeedsState> {
       });
     }
   }
-  Future<void> getMyBlogs(BuildContext context,{String? providerId, String? categoryId}) async {
+
+
+  Future<void> getMyBlogs(BuildContext context,
+      {String? providerId, String? categoryId}) async {
 
     var homes = HomeScreenCubit.get(context);
     if (state is! GettingMyBlogsInfoState) {
@@ -388,14 +447,10 @@ class FeedsCubit extends Cubit<FeedsState> {
       }
       await MainDioHelper.getData(
         url: endPoint,
-        query: {
-          'platform_id':homes.selectedHomePlatformId
-        },
-
+        query: {'platform_id': homes.selectedHomePlatformId},
       ).then((value) async {
         logg('My Blogs info fetched...');
         logg(value.toString());
-
 
         myBlogInfoModel = MyBlogInfoModel.fromJson(value.data);
         logg('My blogs info filled');
@@ -410,8 +465,10 @@ class FeedsCubit extends Cubit<FeedsState> {
   }
 
 
+  Future<void> getProviderBlogs(BuildContext context,
+      {String? providerId, String? categoryId}) async {
 
-  Future<void> getProviderBlogs(BuildContext context,{String? providerId, String? categoryId}) async {
+
 
     var homes = HomeScreenCubit.get(context);
     if (state is! GettingMyBlogsInfoState) {
@@ -429,20 +486,16 @@ class FeedsCubit extends Cubit<FeedsState> {
       logg('to send data: ${toSendData}');
       await getBlogsInfo(context);
 
-      String endPoint = getProviderBlogsInfoEnd +'/$providerId' ;
+      String endPoint = getProviderBlogsInfoEnd + '/$providerId';
       if (categoryId != null) {
         endPoint = endPoint + '/$categoryId';
       }
       await MainDioHelper.getData(
         url: endPoint,
-        query: {
-          'platform_id':homes.selectedHomePlatformId
-        },
-
+        query: {'platform_id': homes.selectedHomePlatformId},
       ).then((value) async {
         logg('Provider Blogs info fetched...');
         logg(value.toString());
-
 
         myBlogInfoModel = MyBlogInfoModel.fromJson(value.data);
         menablogsList +=   myBlogInfoModel!.data.data!;
@@ -456,6 +509,7 @@ class FeedsCubit extends Cubit<FeedsState> {
       });
     }
   }
+
   Future<void> getBlogDetails({String? articleId}) async {
     // feedsModel = null;
     menaArticleDetails = null;
@@ -721,7 +775,6 @@ class FeedsCubit extends Cubit<FeedsState> {
   //   });
   // }
 
-
   Future<void> updateSelectedSubsMap({
     required int firstChildId,
     required String selectedId,
@@ -732,7 +785,6 @@ class FeedsCubit extends Cubit<FeedsState> {
         'selectedId: $selectedId \n');
 
     if (clear) {
-
       // logg('clear');
       //
 
@@ -747,11 +799,11 @@ class FeedsCubit extends Cubit<FeedsState> {
         });
       }
     } else
-      // else
-      // if(selectedSubs.containsValue(selectedId)){
-      //   logg('selectedsubs contains value $selectedId');
-      //   selectedSubs.removeWhere((key, value) => value==selectedId);
-      // }
+    // else
+    // if(selectedSubs.containsValue(selectedId)){
+    //   logg('selectedsubs contains value $selectedId');
+    //   selectedSubs.removeWhere((key, value) => value==selectedId);
+    // }
     if (selectedSubs.containsValue(selectedId)) {
       selectedSubs.removeWhere((key, value) => selectedId == value);
       logg('already added');
@@ -1000,8 +1052,8 @@ class FeedsCubit extends Cubit<FeedsState> {
 
   Future<void> likeComment(
       {required String feedId,
-        required String commentId,
-        required bool isLikeOrDislike}) async {
+      required String commentId,
+      required bool isLikeOrDislike}) async {
     emit(UpdatingCommentLikeState());
     ////
     await MainDioHelper.postData(
@@ -1093,6 +1145,22 @@ class FeedsCubit extends Cubit<FeedsState> {
         emit(ErrorAddingCommentState());
       });
     }
+  }
+
+  selectCategory(int id) {
+    categoryId = id;
+    emit(SelectCategory());
+  }
+
+  addStory(StoryItem storyItem) {
+
+    stories.insert(0, storyItem);
+    emit(AddStory());
+  }
+
+  getStories() {
+    emit(GetStories(length: stories.length));
+    emit(FeedUpdated());
   }
 }
 

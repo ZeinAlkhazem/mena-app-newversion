@@ -268,6 +268,7 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
         child: MaterialApp(
           title: 'MENA Platform',
           navigatorKey: navigatorKey,
+          
 
           ///
           /// localization delegates

@@ -348,6 +348,7 @@ class _MainLayoutState extends State<MainLayout> {
                 : Padding(
                     padding: EdgeInsets.only(top: topScreenPadding),
                     child: SafeArea(
+                      top: mainCubit.isHeaderVisible ? true : false,
                       bottom: false,
                       child: Column(
                         children: [
@@ -484,8 +485,8 @@ class _MainLayoutState extends State<MainLayout> {
                               onItemSelected: (index) {
                                 if (index == 1) {
                                   mainCubit.changeHeaderVisibility(false);
-                                }else{
-                                   mainCubit.changeHeaderVisibility(true);
+                                } else {
+                                  mainCubit.changeHeaderVisibility(true);
                                 }
                               },
                               // onItemSelected: (index) {

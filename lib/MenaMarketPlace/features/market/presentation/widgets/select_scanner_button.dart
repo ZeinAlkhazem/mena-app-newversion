@@ -25,7 +25,7 @@ class SelectScanner extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          vertical: 16.h,
+          vertical: 13.h,
           horizontal: 6.w,
         ),
         child: Row(
@@ -34,7 +34,8 @@ class SelectScanner extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: Colors.black,
+              size: 18.sp,
+              color: Color(0xff343434),
             ),
             SizedBox(
               width: 14.w,
@@ -44,7 +45,7 @@ class SelectScanner extends StatelessWidget {
               style: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(
                     color: Colors.black,
                     fontSize: 16.sp,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w500,
                   ),
             )
           ],

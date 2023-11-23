@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import '../pages/scanner/scanner.dart';
 import 'select_scanner_button.dart';
 
 void selectScannerMode(
@@ -26,11 +26,12 @@ void selectScannerMode(
               controller: scrollController,
               child: Container(
                   // color: Colors.grey.shade300,
-                  padding: const EdgeInsets.all(20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Column(children: [
                     Container(
-                      width: 50,
-                      height: 6,
+                      width: 40,
+                      height: 2,
                       margin: const EdgeInsets.only(bottom: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(2.5),
@@ -38,14 +39,26 @@ void selectScannerMode(
                       ),
                     ),
                     SizedBox(
-                      height: 10.h,
+                      height: 30.h,
                     ),
                     SelectScanner(
                       icon: Icons.barcode_reader,
                       textLabel: 'Scan Barcode',
                       ontap: () async {
-                        await FlutterBarcodeScanner.scanBarcode(
-                            "#ff6666", "Cancel", true, ScanMode.BARCODE);
+                        Navigator.pop(context);
+                        // await FlutterBarcodeScanner.scanBarcode(
+                        //         "#ff6666", "Cancel", true, ScanMode.BARCODE)
+                        //     .then((value) {
+                        //   AppToasts.successToast(value);
+                        // });
+
+                        pushNewScreen(
+                          context,
+                          screen: Scanner(isBarcode: true),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
                       },
                     ),
                     SizedBox(
@@ -54,18 +67,29 @@ void selectScannerMode(
                     const Center(
                       child: Text(
                         'OR',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 12, fontFamily: "LatoBold"),
                       ),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     SelectScanner(
-                      icon: Icons.qr_code_scanner,
+                      icon: Icons.qr_code,
                       textLabel: 'Scan QRcode',
                       ontap: () async {
-                        await FlutterBarcodeScanner.scanBarcode(
-                            "#ff6666", "Cancel", true, ScanMode.QR);
+                        Navigator.pop(context);
+                        // await FlutterBarcodeScanner.scanBarcode(
+                        //         "#ff6666", "Cancel", true, ScanMode.QR)
+                        //     .then((value) {
+                        //   AppToasts.successToast(value);
+                        // });
+                        pushNewScreen(
+                          context,
+                          screen: Scanner(isBarcode: false),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
                       },
                     ),
                   ])));

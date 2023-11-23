@@ -16,34 +16,48 @@ class HealthCareSubCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      initiallyExpanded: true,
-      children: [
-        Wrap(
-          children: List.generate(
-            healthcareSubCategory.childs.length,
-            (index) => Padding(
-              padding: EdgeInsets.all(5.0.h),
-              child: SubSubCategory(
-                healthcareSubSubCategory: healthcareSubCategory.childs[index],
-                onTap: () {},
+    return Theme(
+      data: Theme.of(context).copyWith(
+        dividerColor: Colors.transparent,
+      ),
+      child: ListTileTheme(
+        contentPadding: EdgeInsets.all(0),
+        dense: true,
+        horizontalTitleGap: 0.0,
+        minLeadingWidth: 0,
+        child: ExpansionTile(
+          childrenPadding: EdgeInsets.all(0),
+          tilePadding: EdgeInsets.all(0),
+          initiallyExpanded: false,
+          children: [
+            Wrap(
+              children: List.generate(
+                healthcareSubCategory.childs.length,
+                (index) => Padding(
+                  padding: EdgeInsets.all(2.w),
+                  child: SubSubCategory(
+                    healthcareSubSubCategory:
+                        healthcareSubCategory.childs[index],
+                    onTap: () {},
+                  ),
+                ),
               ),
+            )
+          ],
+          title: Text(
+            healthcareSubCategory.name,
+            style: mainStyle(
+              context,
+              15.sp,
+              weight: FontWeight.w500,
+              fontFamily: "Roboto",
             ),
           ),
-        )
-      ],
-      title: Text(
-        healthcareSubCategory.name,
-        style: mainStyle(
-          context,
-          12.sp,
-          weight: FontWeight.w600,
-          fontFamily: "VisbyBold",
+          collapsedIconColor: AppColors.softBlue,
+          iconColor: AppColors.hardBlue,
+          onExpansionChanged: (value) async {},
         ),
       ),
-      collapsedIconColor: AppColors.softBlue,
-      iconColor: AppColors.hardBlue,
-      onExpansionChanged: (value) async {},
     );
   }
 }

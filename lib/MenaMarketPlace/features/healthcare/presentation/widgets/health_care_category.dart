@@ -9,10 +9,12 @@ import '../../domain/entities/healthcare_category.dart';
 
 class HealthCareCategoryWidget extends StatelessWidget {
   final VoidCallback onTap;
+  final bool isSelected;
   final HealthcareCategory healthCareCategory;
   const HealthCareCategoryWidget({
     Key? key,
     required this.onTap,
+    required this.isSelected,
     required this.healthCareCategory,
   }) : super(key: key);
 
@@ -20,27 +22,50 @@ class HealthCareCategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: onTap,
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.all(5.w),
-              height: 70.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.r),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15.r),
-                child:CachedNetworkImage(imageUrl: healthCareCategory.image , placeholder: (context, url) => DefaultLoaderGrey(),),
-              ),
-            ),
-            Text(
-              healthCareCategory.name,
-              textAlign: TextAlign.center,
-              style: mainStyle(context, 10.sp,
-                  fontFamily: "VisbyBold", weight: FontWeight.w800),
-            )
-          ],
-        ));
+        child: isSelected
+            ? Container(
+                width: 100.w,
+                height: 50.h,
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 10.h),
+                      width: 4.w,
+                      decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(2.r)),
+                    ),
+                    widthBox(2.w),
+                    Flexible(
+                      child: Text(
+                        healthCareCategory.name,
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        style: mainStyle(context, 10.sp,
+                            color: Colors.indigo,
+                            fontFamily: "Roboto",
+                            weight: FontWeight.w600),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            : Container(
+                alignment: Alignment.center,
+                width: 100.w,
+                height: 50.h,
+                child: Wrap(
+                  children: [
+                    Text(
+                      healthCareCategory.name,
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      style: mainStyle(context, 10.sp,
+                          fontFamily: "Roboto", weight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ));
   }
 }

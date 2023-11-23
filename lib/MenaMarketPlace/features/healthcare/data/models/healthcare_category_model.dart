@@ -11,8 +11,10 @@ class HealthcareCategoryModel extends HealthcareCategory {
         id: json['id'],
         image: json['image'],
         name: json['name'],
-        childs: List<HealthcareSubCategoryModel>.from((json['childs'] as List)
-            .map((e) => HealthcareSubCategoryModel.fromJson(e))));
+        childs: json['childs'] == null
+            ? []
+            : List<HealthcareSubCategoryModel>.from((json['childs'] as List)
+                .map((e) => HealthcareSubCategoryModel.fromJson(e))));
   }
 
   Map<String, dynamic> toJson() {
@@ -31,8 +33,9 @@ class HealthcareSubCategoryModel extends HealthcareSubCategory {
         id: json['id'],
         image: json['image'],
         name: json['name'],
-        childs: List<HealthcareSubSubCategoryModel>.from(
-            (json['childs'] as List)
+        childs: json['childs'] == null
+            ? []
+            : List<HealthcareSubSubCategoryModel>.from((json['childs'] as List)
                 .map((e) => HealthcareSubSubCategoryModel.fromJson(e))));
   }
   Map<String, dynamic> toJson() {

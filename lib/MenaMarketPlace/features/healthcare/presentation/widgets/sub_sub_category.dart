@@ -19,23 +19,28 @@ class SubSubCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: onTap,
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 30.r,
-              backgroundImage:CachedNetworkImageProvider(healthcareSubSubCategory.image),
-            ),
-            heightBox(5.h),
-            Text(
-              healthcareSubSubCategory.name,
-              textAlign: TextAlign.center,
-              style: mainStyle(
-                  context,
-                  fontFamily: "VisbyBold",
-                  8.sp,
-                  weight: FontWeight.w700),
-            )
-          ],
+        child: SizedBox(
+          width: 70.w,
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 24.r,
+                backgroundImage:
+                    CachedNetworkImageProvider(healthcareSubSubCategory.image),
+              ),
+              heightBox(5.h),
+              Text(
+                healthcareSubSubCategory.name,
+                textAlign: TextAlign.center,
+                softWrap: true,
+                style: mainStyle(
+                    context,
+                    fontFamily: "Roboto",
+                    8.sp,
+                    weight: FontWeight.w300),
+              )
+            ],
+          ),
         ));
   }
 }

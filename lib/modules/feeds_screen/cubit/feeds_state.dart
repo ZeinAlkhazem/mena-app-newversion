@@ -94,7 +94,6 @@ class ErrorAddingCommentState extends FeedsState {}
 class SelectedCatChanged extends FeedsState {}
 class FollowChanged extends FeedsState {}
 
-class SelectedCatChanged extends FeedsState {}
 
 class SelectCategory extends FeedsState {}
 

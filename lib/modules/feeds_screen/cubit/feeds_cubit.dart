@@ -29,11 +29,11 @@ import '../../../models/api_model/home_section_model.dart';
 
 import '../../../models/api_model/share_model.dart';
 import '../../home_screen/cubit/home_screen_cubit.dart';
-
-part 'feeds_state.dart';
 import 'package:mena/models/local_models.dart';
 import 'package:mena/modules/feeds_screen/post_a_feed.dart';
 import '../../create_articles/create_article_screen.dart';
+
+part 'feeds_state.dart';
 
 class FeedsCubit extends Cubit<FeedsState> {
   List<MenaFeed> menaFeedsList = [];

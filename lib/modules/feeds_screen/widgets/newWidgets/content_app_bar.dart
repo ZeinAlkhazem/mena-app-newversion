@@ -15,9 +15,9 @@ import '../../../../core/shared_widgets/shared_widgets.dart';
 import '../../../add_people_to_live/widget/live_bubble.dart';
 import '../../../auth_screens/sign_in_screen.dart';
 import '../../../main_layout/main_layout.dart';
-import '../../../messenger/cubit/messenger_cubit.dart';
-import '../../../messenger/screens/messenger_get_start_page.dart';
-import '../../../messenger/screens/messenger_home_page.dart';
+import '../../../messenger/chat/cubit/messenger_cubit.dart';
+import '../../../messenger/chat/screens/messenger_get_start_page.dart';
+import '../../../messenger/chat/screens/messenger_home_page.dart';
 import '../../../my_profile/my_profile.dart';
 
 class ContentAppBar extends StatelessWidget implements PreferredSizeWidget {

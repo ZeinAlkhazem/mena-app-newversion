@@ -37,7 +37,7 @@ class SubSubCategory extends StatelessWidget {
                     context,
                     fontFamily: "Roboto",
                     8.sp,
-                    weight: FontWeight.w400),
+                    weight: FontWeight.w300),
               )
             ],
           ),

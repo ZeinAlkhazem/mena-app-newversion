@@ -18,34 +18,41 @@ class HealthCareSubCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        initiallyExpanded: false,
-        children: [
-          Wrap(
-            children: List.generate(
-              healthcareSubCategory.childs.length,
-              (index) => Padding(
-                padding: EdgeInsets.all(5.0.h),
-                child: SubSubCategory(
-                  healthcareSubSubCategory: healthcareSubCategory.childs[index],
-                  onTap: () {},
+      child: ListTileTheme(
+        contentPadding: EdgeInsets.all(0),
+        dense: true,
+        horizontalTitleGap: 0.0,
+        minLeadingWidth: 0,
+        child: ExpansionTile(
+          initiallyExpanded: false,
+          children: [
+            Wrap(
+              children: List.generate(
+                healthcareSubCategory.childs.length,
+                (index) => Padding(
+                  padding: EdgeInsets.all(5.0.h),
+                  child: SubSubCategory(
+                    healthcareSubSubCategory:
+                        healthcareSubCategory.childs[index],
+                    onTap: () {},
+                  ),
                 ),
               ),
+            )
+          ],
+          title: Text(
+            healthcareSubCategory.name,
+            style: mainStyle(
+              context,
+              15.sp,
+              weight: FontWeight.w500,
+              fontFamily: "Roboto",
             ),
-          )
-        ],
-        title: Text(
-          healthcareSubCategory.name,
-          style: mainStyle(
-            context,
-            15.sp,
-            weight: FontWeight.w500,
-            fontFamily: "Roboto",
           ),
+          collapsedIconColor: AppColors.softBlue,
+          iconColor: AppColors.hardBlue,
+          onExpansionChanged: (value) async {},
         ),
-        collapsedIconColor: AppColors.softBlue,
-        iconColor: AppColors.hardBlue,
-        onExpansionChanged: (value) async {},
       ),
     );
   }

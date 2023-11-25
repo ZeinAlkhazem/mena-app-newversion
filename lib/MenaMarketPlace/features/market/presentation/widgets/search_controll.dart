@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mena/core/functions/main_funcs.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import '../../../../../core/constants/Colors.dart';
-import 'search_box.dart';
-import 'select_scanner_mode.dart';
 
 class SearchControll extends StatelessWidget {
   const SearchControll({

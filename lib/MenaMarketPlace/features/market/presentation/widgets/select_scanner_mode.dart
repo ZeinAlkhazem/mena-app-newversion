@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
+import '../pages/scanner/scanner.dart';
 import 'select_scanner_button.dart';
 
 void selectScannerMode(
@@ -41,11 +42,18 @@ void selectScannerMode(
                     SizedBox(
                       height: 30.h,
                     ),
-                    SelectScanner(icon: Icons.barcode_reader,
+                    SelectScanner(
+                      icon: Icons.barcode_reader,
                       textLabel: 'Scan Barcode',
                       ontap: () async {
-                        await FlutterBarcodeScanner.scanBarcode(
-                            "#ff6666", "Cancel", true, ScanMode.BARCODE);
+                          Navigator.pop(context);
+                        pushNewScreen(
+                          context,
+                          screen: Scanner(isBarcode: true),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
                       },
                     ),
                     SizedBox(
@@ -60,11 +68,18 @@ void selectScannerMode(
                     SizedBox(
                       height: 10.h,
                     ),
-                    SelectScanner(icon: Icons.qr_code,
+                    SelectScanner(
+                      icon: Icons.qr_code,
                       textLabel: 'Scan QRcode',
                       ontap: () async {
-                        await FlutterBarcodeScanner.scanBarcode(
-                            "#ff6666", "Cancel", true, ScanMode.QR);
+                        Navigator.pop(context);
+                        pushNewScreen(
+                          context,
+                          screen: Scanner(isBarcode: false),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
                       },
                     ),
                   ])));

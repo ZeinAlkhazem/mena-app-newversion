@@ -59,7 +59,10 @@ class _MarketScreenState extends State<MarketScreen> {
                       AppColors.hardBlue,
                     ]),
               )),
-          title: SearchBox(hint: "Search"),
+          title: Padding(
+            padding:  EdgeInsets.only(top:15.h),
+            child: SearchBox(hint: "Search"),
+          ),
           centerTitle: true,
         ),
       ),

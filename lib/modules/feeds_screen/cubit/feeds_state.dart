@@ -14,8 +14,11 @@ class ErrorGettingCommentsState extends FeedsState {}
 class GettingFeedsState extends FeedsState {}
 
 class GettingBlogsInfoState extends FeedsState {}
+
 class GettingMyBlogsInfoState extends FeedsState {}
+
 class GettingProviderBlogsInfoState extends FeedsState {}
+
 class GettingBlogDetailsState extends FeedsState {}
 
 class GettingBlogsItemsState extends FeedsState {}
@@ -70,7 +73,6 @@ class SendingFeedState extends FeedsState {}
 class SuccessSendingFeedState extends FeedsState {
   final MenaFeed? menaFeed;
   SuccessSendingFeedState({required this.menaFeed});
-
 }
 
 class NoDataToSendState extends FeedsState {}
@@ -88,5 +90,17 @@ class SuccessAddingCommentState extends FeedsState {
 }
 
 class ErrorAddingCommentState extends FeedsState {}
+
 class SelectedCatChanged extends FeedsState {}
 class FollowChanged extends FeedsState {}
+
+
+class SelectCategory extends FeedsState {}
+
+class AddStory extends FeedsState {}
+
+class GetStories extends FeedsState {
+  final int length;
+  GetStories({required this.length});
+}
+

@@ -137,7 +137,7 @@ class _HealthCareMarketState extends State<HealthCareMarket> {
                                 BoxShadow(
                                   color: Color(0x3F000000),
                                   blurRadius: 2,
-                                  offset: Offset(0, 2),
+                                  offset: Offset(0, 0.2),
                                   spreadRadius: 0,
                                 )
                               ],
@@ -148,12 +148,9 @@ class _HealthCareMarketState extends State<HealthCareMarket> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             itemCount: state.healthcareCategory.childs.length,
-                            itemBuilder: (context, index) => Padding(
-                              padding: EdgeInsets.symmetric(vertical: 5.h),
-                              child: HealthCareSubCategory(
-                                  healthcareSubCategory:
-                                      state.healthcareCategory.childs[index]),
-                            ),
+                            itemBuilder: (context, index) => HealthCareSubCategory(
+                                healthcareSubCategory:
+                                    state.healthcareCategory.childs[index]),
                           ),
                         ),
                       ],

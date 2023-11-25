@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lottie/lottie.dart';
+
 
 import 'package:mena/core/constants/Colors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../../../core/functions/main_funcs.dart';
+import '../../../../core/shared_widgets/shared_widgets.dart';
 import '../cubit/messenger_cubit.dart';
+import '../widget/archived_button_widget.dart';
 import '../widget/chat_user_item_widget.dart';
 import '../widget/my_store_widget.dart';
 
@@ -48,7 +50,9 @@ class _MessengerChatScreenState extends State<MessengerChatScreen> {
         listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
-      return messengerCubit.myMessagesModel == null
+      return
+
+        messengerCubit.myMessagesModel == null
           ? DefaultLoaderGrey()
           : messengerCubit.myMessagesModel!.data.myChats == null
               ? DefaultLoaderGrey()
@@ -137,35 +141,7 @@ class _MessengerChatScreenState extends State<MessengerChatScreen> {
                               ///
                               ///  Archive Section
                               ///
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 19.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 20.w,
-                                      width: 20.w,
-                                      child: SvgPicture.asset(
-                                        "$messengerAssets/icon_archived.svg",
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    Text(
-                                      getTranslatedStrings(context)
-                                          .messengerArchived,
-                                      style: mainStyle(context, 14.sp,
-                                          fontFamily: AppFonts.interFont,
-                                          weight: FontWeight.w600,
-                                          color: Color(0xFF19191A),
-                                          textHeight: 1.1),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              ArchivedButtonWidget(),
                               SizedBox(
                                 height: 10.h,
                               ),

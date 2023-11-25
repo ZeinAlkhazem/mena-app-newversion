@@ -44,7 +44,8 @@ import 'modules/feeds_screen/my_blog/cubit/myBlog_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
 import 'modules/initial_onboarding/initial_choose_lang.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
-import 'modules/messenger/cubit/messenger_cubit.dart';
+import 'modules/messenger/chat/cubit/messenger_cubit.dart';
+import 'modules/messenger/new_message/cubit/new_message_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
 import 'modules/nearby_screen/cubit/nearby_cubit.dart';
 import 'modules/platform_provider/cubit/provider_cubit.dart';
@@ -209,6 +210,7 @@ class MainAppProvider extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => MarketCubit()),
         BlocProvider(create: (BuildContext context) => CreateArticleCubit()),
         BlocProvider(create: (BuildContext context) => MyBlogCubit()),
+        BlocProvider(create: (BuildContext context) => NewMessageCubit()),
         // ChangeNotifierProvider(create: (context) => ErrorNotifier()),
         BlocProvider(
           create: (context) => di.sl<HealthcareCubit>(),

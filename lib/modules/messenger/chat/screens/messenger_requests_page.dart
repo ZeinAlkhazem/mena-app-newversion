@@ -7,14 +7,14 @@ import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/my_messages_model.dart';
-import 'package:mena/modules/messenger/dialogs/block_user_bottom_sheet_dialog.dart';
-import 'package:mena/modules/messenger/widget/chat_request_item_widget.dart';
-import 'package:mena/modules/messenger/widget/empty_new_message_widget.dart';
-import '../../../models/api_model/home_section_model.dart';
+
+import '../../../../models/api_model/home_section_model.dart';
+import '../../messenger_constant.dart';
 import '../cubit/messenger_cubit.dart';
 import '../dialogs/delete_bottom_sheet_dialog.dart';
-import '../messenger_constant.dart';
 import '../widget/back_button_widget.dart';
+import '../widget/chat_request_item_widget.dart';
+import '../widget/empty_new_message_widget.dart';
 import '../widget/icon_button_widget.dart';
 
 class MessengerRequestPage extends StatefulWidget {

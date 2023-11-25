@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mena/core/constants/constants.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 
-import '../../../core/constants/Colors.dart';
-import '../../../core/functions/main_funcs.dart';
+import '../../../../core/constants/Colors.dart';
+import '../../../../core/functions/main_funcs.dart';
+
 
 void deleteBottomSheetDialog({required BuildContext context,required VoidCallback btnDelete}) {
   showModalBottomSheet(

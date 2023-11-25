@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mena/modules/messenger/messenger_constant.dart';
-import 'package:mena/modules/messenger/widget/tab_item_widget.dart';
-
-import '../../../core/constants/Colors.dart';
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+import '../../../../core/constants/Colors.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../../core/functions/main_funcs.dart';
+import '../../../../core/shared_widgets/shared_widgets.dart';
+import '../../new_message/screens/messenger_primary_page.dart';
 import '../widget/back_button_widget.dart';
 import '../widget/icon_button_widget.dart';
 import '../widget/search_field_widget.dart';
 import 'messenger_my_contact_page.dart';
-import 'messenger_primary_page.dart';
 import 'messenger_requests_page.dart';
 
 class MessengerNewMessagePage extends StatefulWidget {
@@ -44,11 +40,11 @@ class _MessengerNewMessagePageState extends State<MessengerNewMessagePage>
           if (_tabController!.index == 0) {
             index = _tabController!.index;
           } else if (_tabController!.index == 1) {
-            navigateTo(
-              context,
-              MessengerMyContact(),
-            );
-            _tabController!.index = 0;
+            index = _tabController!.index;
+            // navigateTo(
+            //   context,
+            //   MessengerMyContact(),
+            // );
           } else if (_tabController!.index == 2) {
             navigateTo(context, MessengerRequestPage());
             _tabController!.index = 0;
@@ -194,7 +190,7 @@ class _MessengerNewMessagePageState extends State<MessengerNewMessagePage>
                   controller: _tabController,
                   children: [
                     MessengerPrimaryPage(),
-                    ComingSoonWidget(),
+                    MessengerMyContact(),
                     ComingSoonWidget(),
                   ],
                 ),

@@ -41,6 +41,7 @@ const String getChatMessagesEnd = '/chat/messages';
 const String getChatUsersEnd = '/users/all';
 const String getMyMessagesEnd = '/chat/get';
 const String getOnlineUsersEnd = '/chat/online';
+const String getPrimaryMessageEnd = '/chat/get';
 
 ///appointments
 const String getInsuranceProvidersListEnd = '/appointments/insurance_providers';

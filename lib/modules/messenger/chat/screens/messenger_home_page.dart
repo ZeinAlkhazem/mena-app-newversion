@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mena/modules/messenger/screens/messenger_new_message_page.dart';
-import 'package:mena/modules/messenger/widget/chat_user_item_widget.dart';
-import 'package:mena/modules/messenger/screens/messenger_chat_screen.dart';
-import 'package:mena/modules/messenger/widget/my_store_widget.dart';
-import 'package:mena/modules/messenger/widget/tab_item_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../core/constants/Colors.dart';
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/main_cubit/main_cubit.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+import '../../../../core/constants/Colors.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../../core/functions/main_funcs.dart';
+import '../../../../core/main_cubit/main_cubit.dart';
+import '../../../../core/shared_widgets/shared_widgets.dart';
 import '../cubit/messenger_cubit.dart';
 import '../widget/icon_button_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import 'messenger_chat_screen.dart';
+import 'messenger_new_message_page.dart';
 
 class MessengerHomePage extends StatefulWidget {
   const MessengerHomePage({super.key});

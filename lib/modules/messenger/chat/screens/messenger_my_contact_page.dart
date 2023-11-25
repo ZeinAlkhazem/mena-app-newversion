@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mena/modules/messenger/widget/contact_item_widget.dart';
-
-import '../../../core/constants/Colors.dart';
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
+import '../../../../core/constants/Colors.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../../core/functions/main_funcs.dart';
 import '../cubit/messenger_cubit.dart';
+import '../widget/contact_item_widget.dart';
 import '../widget/icon_button_widget.dart';
 
 class MessengerMyContact extends StatefulWidget {
@@ -36,52 +35,52 @@ class _MessengerMyContactState extends State<MessengerMyContact> {
       var messengerCubit = MessengerCubit.get(context);
       
       return Scaffold(
-        appBar: AppBar(
-          leading: InkWell(
-            onTap: () => Navigator.of(context).pop(),
-            child: Padding(
-              padding: EdgeInsets.all(8.w),
-              child: SvgPicture.asset(
-                "assets/icons/back.svg",
-                // fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          centerTitle: true,
-          title: Text(
-            getTranslatedStrings(context).messengerNewMessage,
-            style: mainStyle(context, 14.sp,
-                weight: FontWeight.w700,
-                fontFamily: AppFonts.openSansFont,
-                color: Colors.black),
-          ),
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-          ),
-          actions: [
-            IconButtonWidget(
-              iconUrl: "assets/icons/messenger/icon_new_call.svg",
-              btnClick: () {},
-              iconWidth: 35.w,
-              iconHeight: 30.h,
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {},
-              icon: Icon(
-                Icons.more_vert,
-                color: AppColors.iconsColor,
-                size: 30.h,
-              ),
-            ),
-          ],
-        ),
+        // appBar: AppBar(
+        //   leading: InkWell(
+        //     onTap: () => Navigator.of(context).pop(),
+        //     child: Padding(
+        //       padding: EdgeInsets.all(8.w),
+        //       child: SvgPicture.asset(
+        //         "assets/icons/back.svg",
+        //         // fit: BoxFit.contain,
+        //       ),
+        //     ),
+        //   ),
+        //   centerTitle: true,
+        //   title: Text(
+        //     getTranslatedStrings(context).messengerNewMessage,
+        //     style: mainStyle(context, 14.sp,
+        //         weight: FontWeight.w700,
+        //         fontFamily: AppFonts.openSansFont,
+        //         color: Colors.black),
+        //   ),
+        //   elevation: 0,
+        //   flexibleSpace: Container(
+        //     decoration: const BoxDecoration(
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        //   actions: [
+        //     IconButtonWidget(
+        //       iconUrl: "assets/icons/messenger/icon_new_call.svg",
+        //       btnClick: () {},
+        //       iconWidth: 35.w,
+        //       iconHeight: 30.h,
+        //     ),
+        //     SizedBox(
+        //       width: 5.w,
+        //     ),
+        //     IconButton(
+        //       padding: EdgeInsets.zero,
+        //       onPressed: () {},
+        //       icon: Icon(
+        //         Icons.more_vert,
+        //         color: AppColors.iconsColor,
+        //         size: 30.h,
+        //       ),
+        //     ),
+        //   ],
+        // ),
         body: Column(
           children: [
             Container(

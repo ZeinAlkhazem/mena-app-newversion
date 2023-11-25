@@ -15,7 +15,7 @@ import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/home_section_model.dart';
-import 'package:mena/modules/messenger/cubit/messenger_cubit.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,6 +31,8 @@ import '../../models/api_model/my_messages_model.dart';
 
 // import '../../models/api_model/register_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import 'chat/cubit/messenger_cubit.dart';
 
 class ChatLayout extends StatefulWidget {
   const ChatLayout({

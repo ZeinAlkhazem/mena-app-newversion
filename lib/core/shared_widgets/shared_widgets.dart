@@ -36,7 +36,7 @@ import '../../modules/create_live/widget/radius_20_container.dart';
 import '../../modules/feeds_screen/post_a_feed.dart';
 import '../../modules/live_screens/start_live_form.dart';
 import '../../modules/main_layout/main_layout.dart';
-import '../../modules/messenger/cubit/messenger_cubit.dart';
+import '../../modules/messenger/chat/cubit/messenger_cubit.dart';
 import '../../modules/messenger/messenger_layout.dart';
 import '../constants/constants.dart';
 import '../constants/validators.dart';

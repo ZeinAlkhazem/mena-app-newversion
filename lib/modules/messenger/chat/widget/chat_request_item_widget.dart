@@ -1,47 +1,49 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
-import 'package:mena/core/constants/Colors.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:mena/core/constants/constants.dart';
 
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/main_cubit/main_cubit.dart';
-import '../../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
-import '../../../models/api_model/home_section_model.dart';
-import '../../../models/api_model/my_messages_model.dart';
-import '../chat_layout.dart';
-import 'package:timeago_flutter/timeago_flutter.dart' as timeago;
+import '../../../../core/constants/Colors.dart';
+import '../../../../core/functions/main_funcs.dart';
+import '../../../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
+import '../../../../models/api_model/my_messages_model.dart';
+import '../screens/user_profile_request_page.dart';
 
-class ChatUserItemWidget extends StatelessWidget {
+class ChatRequestItemWidget extends StatelessWidget {
+  final bool showSelected;
+  final bool isChecked;
   final ChatItem chatItem;
-  final int? index;
-
-  const ChatUserItemWidget({
+  final Function(bool?)? checkFunction;
+  const ChatRequestItemWidget({
     super.key,
     required this.chatItem,
-    this.index,
+    required this.showSelected,
+    required this.isChecked,
+    required this.checkFunction,
   });
 
   @override
   Widget build(BuildContext context) {
     Color fontColor = Color(0xff979797);
-    // var date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(chatItem.createdAt.toString(), true);
-    // var local = date.toLocal().toString();
-    // log("# user :${chatItem.user!.fullName}");
-    // log("# time :$local");
-
-    return chatItem.user != null
-        ? GestureDetector(
+    return Row(
+      children: [
+        showSelected
+            ? Checkbox(
+                value:  isChecked,
+                activeColor: Color(0xFF2788E8),
+                shape: CircleBorder(),
+                onChanged:checkFunction)
+            : SizedBox(),
+        Expanded(
+          child: GestureDetector(
             onTap: () {
               logg('on click on chat user');
               navigateTo(
-                  context,
-                  ChatLayout(
-                    user: chatItem.user,
-                  ));
+                context,
+                UserProfileRequestPage(
+                  user:chatItem.user!,
+                ),
+              );
             },
             child: Container(
               color: Colors.transparent,
@@ -114,8 +116,9 @@ class ChatUserItemWidget extends StatelessWidget {
                         //       ),
                         //     ],
                         //   ),
-
+///
                         /// last message with user
+                        ///
                         Row(
                           children: [
                             chatItem.lastMessageFrom != chatItem.user!.fullName
@@ -138,7 +141,8 @@ class ChatUserItemWidget extends StatelessWidget {
                                   )
                                 : SizedBox(),
                             SizedBox(width: 2.5.w),
-                            checkMessageType(messageType:chatItem.messageType??"text" ),
+                            checkMessageType(
+                                messageType: chatItem.messageType ?? "text"),
                             // checkMessageType(
                             //     messageType: index == 1
                             //         ? "image"
@@ -157,7 +161,20 @@ class ChatUserItemWidget extends StatelessWidget {
                               ),
                             ),
                           ],
-                        )
+                        ),
+                        ///
+                        /// follower number
+                        ///
+                        Text(
+                          "2k followers ",
+                          maxLines: 1,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: mainStyle(context, 11.sp,
+                              fontFamily: AppFonts.interFont,
+                              weight: FontWeight.normal,
+                              color: fontColor),
+                        ),
                       ],
                     ),
                   ),
@@ -208,7 +225,106 @@ class ChatUserItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-          )
-        : SizedBox();
+          ),
+          // GestureDetector(
+          //   onTap: () {
+          //
+          //   },
+          //   child: Container(
+          //     color: Colors.transparent,
+          //     child: Row(
+          //       children: [
+          //         ProfileBubble(
+          //           isOnline: false,
+          //           pictureUrl: user.personalPicture,
+          //         ),
+          //         widthBox(7.w),
+          //         Expanded(
+          //           child: Column(
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               Row(
+          //                 crossAxisAlignment: CrossAxisAlignment.center,
+          //                 children: [
+          //                   Container(
+          //                     // color: Colors.red,
+          //                     constraints: BoxConstraints(maxWidth: 200.w),
+          //                     child: Text(
+          //                       getFormattedUserName(user),
+          //                       maxLines: 1,
+          //                       softWrap: true,
+          //                       overflow: TextOverflow.ellipsis,
+          //                       style: mainStyle(context, 14.sp,
+          //                           color: Color(0xFF19191A),
+          //                           fontFamily: AppFonts.interFont,
+          //                           weight: FontWeight.w500),
+          //                     ),
+          //                   ),
+          //                   (user.verified == '1')
+          //                       ? Padding(
+          //                           padding: const EdgeInsets.symmetric(
+          //                               horizontal: 4.0),
+          //                           child: Icon(
+          //                             Icons.verified,
+          //                             color: Color(0xff01BC62),
+          //                             size: 16.sp,
+          //                           ),
+          //                         )
+          //                       : SizedBox()
+          //                 ],
+          //               ),
+          //               SizedBox(
+          //                 height: 2.h,
+          //               ),
+          //
+          //               /// last message with user
+          //               Text(
+          //                 "last message with this user",
+          //                 maxLines: 1,
+          //                 softWrap: true,
+          //                 overflow: TextOverflow.ellipsis,
+          //                 style: mainStyle(context, 10.sp,
+          //                     fontFamily: AppFonts.openSansFont,
+          //                     weight: FontWeight.w400,
+          //                     color: AppColors.grayDarkColor),
+          //               ),
+          //               SizedBox(
+          //                 height: 2.h,
+          //               ),
+          //
+          //               /// followers number
+          //               Text(
+          //                 "120 " + getTranslatedStrings(context).follower,
+          //                 maxLines: 1,
+          //                 softWrap: true,
+          //                 overflow: TextOverflow.ellipsis,
+          //                 style: mainStyle(context, 10.sp,
+          //                     fontFamily: AppFonts.openSansFont,
+          //                     weight: FontWeight.w400,
+          //                     color: AppColors.lineGray),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         SizedBox(
+          //           width: 60.w,
+          //           child: Text(
+          //             "10/10/2023",
+          //             maxLines: 1,
+          //             softWrap: true,
+          //             overflow: TextOverflow.ellipsis,
+          //             style: mainStyle(context, 8.sp,
+          //                 fontFamily: AppFonts.openSansFont,
+          //                 weight: FontWeight.w400,
+          //                 color: AppColors.lineGray),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+        ),
+      ],
+    );
   }
 }

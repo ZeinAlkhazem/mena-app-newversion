@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/constants/Colors.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+import '../../../../core/constants/Colors.dart';
+import '../../../../core/functions/main_funcs.dart';
+import '../../../../core/shared_widgets/shared_widgets.dart';
 
 class UserStoryWidget extends StatelessWidget {
   const UserStoryWidget({super.key});

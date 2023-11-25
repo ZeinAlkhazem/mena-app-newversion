@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
-import 'package:mena/core/shared_widgets/shared_widgets.dart';
-import 'package:mena/models/api_model/chat_messages_model.dart';
-import 'package:mena/modules/messenger/dialogs/alert_bottom_sheet_dialog.dart';
-import 'package:mena/modules/messenger/dialogs/block_report_bottom_sheet_dialog.dart';
-import 'package:mena/modules/messenger/dialogs/block_user_bottom_sheet_dialog.dart';
-import 'package:mena/modules/messenger/widget/custom_button_widget.dart';
-import '../../../core/constants/Colors.dart';
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/attachments_grid.dart';
-import '../../../core/shared_widgets/attacment_gallery.dart';
-import '../../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
-import '../../../models/api_model/home_section_model.dart';
-import '../chat_layout.dart';
+
+import '../../../../core/constants/Colors.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../../core/functions/main_funcs.dart';
+import '../../../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
+import '../../../../models/api_model/home_section_model.dart';
+import '../dialogs/alert_bottom_sheet_dialog.dart';
+import '../dialogs/block_report_bottom_sheet_dialog.dart';
+import '../dialogs/block_user_bottom_sheet_dialog.dart';
 import '../dialogs/delete_bottom_sheet_dialog.dart';
 import '../widget/back_button_widget.dart';
+import '../widget/custom_button_widget.dart';
 
 class UserProfileRequestPage extends StatelessWidget {
   final User user;

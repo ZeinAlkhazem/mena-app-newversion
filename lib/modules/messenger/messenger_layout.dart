@@ -9,8 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
-import 'package:mena/modules/messenger/cubit/messenger_cubit.dart';
-import 'package:mena/modules/messenger/screens/messenger_get_start_page.dart';
+
 import 'package:mena/modules/messenger/users_to_start_chat.dart';
 
 import '../../core/constants/constants.dart';
@@ -19,6 +18,8 @@ import '../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
 import '../../models/api_model/home_section_model.dart';
 import '../../models/api_model/my_messages_model.dart';
 import '../../models/api_model/online_users.dart';
+import 'chat/cubit/messenger_cubit.dart';
+import 'chat/screens/messenger_get_start_page.dart';
 import 'chat_layout.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 class MessengerLayout extends StatefulWidget {

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../core/constants/Colors.dart';
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
-import '../../add_people_to_live/widget/live_bubble.dart';
+import '../../../../core/constants/Colors.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../../core/functions/main_funcs.dart';
+import '../../../../core/shared_widgets/shared_widgets.dart';
+
 
 void blockUserBottomSheetDialog(BuildContext context) {
   showModalBottomSheet(

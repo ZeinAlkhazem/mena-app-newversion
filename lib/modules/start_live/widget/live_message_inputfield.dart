@@ -1,8 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mena/core/constants/constants.dart';
 
-import '../../../core/functions/main_funcs.dart';
+// Package imports:
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+// Project imports:
+import 'package:mena/core/constants/constants.dart';
+import 'package:mena/core/functions/main_funcs.dart';
 import '../../../core/responsive/responsive.dart';
 
 class LiveMessageInputField extends StatelessWidget {

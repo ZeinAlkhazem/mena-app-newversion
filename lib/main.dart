@@ -285,83 +285,176 @@ class _MainMaterialAppState extends State<MainMaterialApp> {
       //   }
       // },
       child: ScreenUtilInit(
-        designSize: const Size(360, 770),
-        builder: (BuildContext context, Widget? child) {
-          return child!;
-        },
-        child: MaterialApp(
-          title: 'MENA Platform',
-          navigatorKey: navigatorKey,
-          
-
-          ///
-          /// localization delegates
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-
-          locale: _deviceLocale,
-          supportedLocales: L10n.all,
-          ///
-          routes: {
-            "/create_slot": (context) => PickAppointmentTypeInSlotLayout(),
+          designSize: const Size(360, 770),
+          builder: (BuildContext context, Widget? child) {
+            return child!;
           },
+          child: BlocConsumer<MainCubit, MainState>(listener: (context, state) {
+            // TODO: implement listener
+          }, builder: (context, state) {
+            return MaterialApp(
+              title: 'MENA Platform',
+              navigatorKey: navigatorKey,
 
-          ///
-          debugShowCheckedModeBanner: false,
+              ///
+              /// localization delegates
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
 
-          theme: Theme.of(context).copyWith(
-            appBarTheme: Theme.of(context)
-                .appBarTheme
-                .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
-            // drawerTheme: DrawerThemeData(
-            //   scrimColor: Colors.green,
-            //   shadowColor: Colors.blue,
-            //
-            // ),
-            textTheme: Theme.of(context).textTheme.apply(
+              locale:  mainCubit.appLocale,
+              supportedLocales: L10n.all,
+
+              ///
+              routes: {
+                "/create_slot": (context) => PickAppointmentTypeInSlotLayout(),
+              },
+
+              ///
+              debugShowCheckedModeBanner: false,
+
+              theme: Theme.of(context).copyWith(
+                appBarTheme: Theme.of(context)
+                    .appBarTheme
+                    .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+                // drawerTheme: DrawerThemeData(
+                //   scrimColor: Colors.green,
+                //   shadowColor: Colors.blue,
+                //
+                // ),
+                textTheme: Theme.of(context).textTheme.apply(
                   bodyColor: Colors.black,
                   displayColor: Colors.blue,
                   fontSizeFactor: 1,
                   fontSizeDelta: 1,
                   fontFamily:
 
-                      ///
-                      /// getCachedLocale is arabic? Tajawal else english Visby
-                      /// else another language add custom font family
-                      ///
-                      getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
+                  ///
+                  /// getCachedLocale is arabic? Tajawal else english Visby
+                  /// else another language add custom font family
+                  ///
+                  getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
                 ),
-            // useMaterial3: true,
-            // This is the theme of your application.
-            //xx
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or simply save your changes to "hot reload" in a Flutter IDE).
-            // Notice that the counter didn't reset back to zero; the application
-            // is not restarted.
-            // primarySwatch: Colors.blue,
-          ),
-          // builder: (ctx, widget) {
-          //   ScreenUtil.init(
-          //     ctx,
-          //     designSize: const Size(360, 770),
-          //     splitScreenMode: true
-          //     // width: 750, height: 1334, allowFontScaling: false
-          //   );
-          //   return widget!;
-          // },
-          // home: const MarketNavLayout(),
-          home: const SplashScreen(),
-          // home: const JobsLayout(),
-        ),
-      ),
+                // useMaterial3: true,
+                // This is the theme of your application.
+                //xx
+                // Try running your application with "flutter run". You'll see the
+                // application has a blue toolbar. Then, without quitting the app, try
+                // changing the primarySwatch below to Colors.green and then invoke
+                // "hot reload" (press "r" in the console where you ran "flutter run",
+                // or simply save your changes to "hot reload" in a Flutter IDE).
+                // Notice that the counter didn't reset back to zero; the application
+                // is not restarted.
+                // primarySwatch: Colors.blue,
+              ),
+              // builder: (ctx, widget) {
+              //   ScreenUtil.init(
+              //     ctx,
+              //     designSize: const Size(360, 770),
+              //     splitScreenMode: true
+              //     // width: 750, height: 1334, allowFontScaling: false
+              //   );
+              //   return widget!;
+              // },
+              // home: const MarketNavLayout(),
+              home: const SplashScreen(),
+              // home: const JobsLayout(),
+            );
+          })),
     );
+    //   Listener(
+    //   /// listener for un focus text form field on all application
+    //   // onPointerDown: (pointerEvent) {
+    //   //   FocusScopeNode currentFocus = FocusScope.of(context);
+    //   //   if (!currentFocus.hasPrimaryFocus) {
+    //   //     if(true) {
+    //   //       currentFocus.focusedChild?.unfocus();
+    //   //     }
+    //   //   }
+    //   // },
+    //   child: ScreenUtilInit(
+    //     designSize: const Size(360, 770),
+    //     builder: (BuildContext context, Widget? child) {
+    //       return child!;
+    //     },
+    //     child: MaterialApp(
+    //       title: 'MENA Platform',
+    //       navigatorKey: navigatorKey,
+    //
+    //
+    //       ///
+    //       /// localization delegates
+    //       localizationsDelegates: const [
+    //         AppLocalizations.delegate,
+    //         GlobalMaterialLocalizations.delegate,
+    //         GlobalWidgetsLocalizations.delegate,
+    //         GlobalCupertinoLocalizations.delegate,
+    //       ],
+    //
+    //       locale: _deviceLocale,
+    //       supportedLocales: L10n.all,
+    //       ///
+    //       routes: {
+    //         "/create_slot": (context) => PickAppointmentTypeInSlotLayout(),
+    //       },
+    //
+    //       ///
+    //       debugShowCheckedModeBanner: false,
+    //
+    //       theme: Theme.of(context).copyWith(
+    //         appBarTheme: Theme.of(context)
+    //             .appBarTheme
+    //             .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
+    //         // drawerTheme: DrawerThemeData(
+    //         //   scrimColor: Colors.green,
+    //         //   shadowColor: Colors.blue,
+    //         //
+    //         // ),
+    //         textTheme: Theme.of(context).textTheme.apply(
+    //               bodyColor: Colors.black,
+    //               displayColor: Colors.blue,
+    //               fontSizeFactor: 1,
+    //               fontSizeDelta: 1,
+    //               fontFamily:
+    //
+    //                   ///
+    //                   /// getCachedLocale is arabic? Tajawal else english Visby
+    //                   /// else another language add custom font family
+    //                   ///
+    //                   getCachedLocal() == 'en' ? 'Visby' : 'Tajawal',
+    //             ),
+    //         // useMaterial3: true,
+    //         // This is the theme of your application.
+    //         //xx
+    //         // Try running your application with "flutter run". You'll see the
+    //         // application has a blue toolbar. Then, without quitting the app, try
+    //         // changing the primarySwatch below to Colors.green and then invoke
+    //         // "hot reload" (press "r" in the console where you ran "flutter run",
+    //         // or simply save your changes to "hot reload" in a Flutter IDE).
+    //         // Notice that the counter didn't reset back to zero; the application
+    //         // is not restarted.
+    //         // primarySwatch: Colors.blue,
+    //       ),
+    //       // builder: (ctx, widget) {
+    //       //   ScreenUtil.init(
+    //       //     ctx,
+    //       //     designSize: const Size(360, 770),
+    //       //     splitScreenMode: true
+    //       //     // width: 750, height: 1334, allowFontScaling: false
+    //       //   );
+    //       //   return widget!;
+    //       // },
+    //       // home: const MarketNavLayout(),
+    //       home: const SplashScreen(),
+    //       // home: const JobsLayout(),
+    //     ),
+    //   ),
+    // );
+
+
     // ScreenUtilInit(
     //   designSize: const Size(360, 770),
     //   minTextAdapt: true,

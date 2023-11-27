@@ -85,7 +85,7 @@ class _CreateLivePageState extends State<CreateLivePage> {
         } else {
           // When count reaches zero, navigate to the next page
           MainCubit.get(context).socketInitial();
-          navigateToWithoutNavBar(context, StartLivePage(), '',
+          navigateToWithoutNavBar(context, StartLivePage(roomId: '',), '',
               onBackToScreen: () {
             logg('sdjkfhkjdsfn');
           });

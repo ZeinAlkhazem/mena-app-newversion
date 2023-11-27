@@ -145,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  build_config:
+    dependency: transitive
+    description:
+      name: build_config
+      sha256: bf80fcfb46a29945b423bd9aad884590fb1dc69b330a4d4700cac476af1708d1
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   cached_network_image:
     dependency: "direct main"
     description:
@@ -385,6 +393,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.10"
+  dependency_validator:
+    dependency: "direct main"
+    description:
+      name: dependency_validator
+      sha256: f727a5627aa405965fab4aef4f468e50a9b632ba0737fd2f98c932fec6d712b9
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.3"
   device_info_plus:
     dependency: transitive
     description:
@@ -997,6 +1013,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.6.4"
+  glob:
+    dependency: transitive
+    description:
+      name: glob
+      sha256: "0e7014b3b7d4dac1ca4d6114f82bf1782ee86745b9b42a92c9289c23d8a0ab63"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.2"
   google_api_headers:
     dependency: transitive
     description:
@@ -1245,6 +1269,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.3+1"
+  io:
+    dependency: transitive
+    description:
+      name: io
+      sha256: "2ec25704aba361659e10e3e5f5d672068d332fc8ac516421d483a11e5cbd061e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   js:
     dependency: transitive
     description:
@@ -1493,6 +1525,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1+1"
+  package_config:
+    dependency: transitive
+    description:
+      name: package_config
+      sha256: "1c5b77ccc91e4823a5af61ee74e6b972db1ef98c2ff5a18d3161c982a55448bd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   package_info_plus:
     dependency: "direct main"
     description:
@@ -1741,6 +1781,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  pubspec_parse:
+    dependency: transitive
+    description:
+      name: pubspec_parse
+      sha256: c63b2876e58e194e4b0828fcb080ad0e06d051cb607a6be51a9e084f47cb9367
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.3"
   pull_down_button:
     dependency: "direct main"
     description:
@@ -2218,6 +2266,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  very_good_analysis:
+    dependency: "direct main"
+    description:
+      name: very_good_analysis
+      sha256: "9ae7f3a3bd5764fb021b335ca28a34f040cd0ab6eec00a1b213b445dae58a4b8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   video_editor_sdk:
     dependency: "direct main"
     description:
@@ -2362,14 +2418,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.9.4"
-  whiteboard:
-    dependency: "direct main"
-    description:
-      name: whiteboard
-      sha256: "24f79ee731d6f48811d5b19f859302e176cae4d075af3a2d2d40f06b5f35ce6a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2"
   win32:
     dependency: transitive
     description:

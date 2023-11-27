@@ -1,9 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+// Project imports:
+import 'package:mena/core/constants/constants.dart';
+import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import '../../add_people_to_live/widget/add_people_card.dart';
 import '../../create_live/widget/radius_20_container.dart';
 

@@ -34,7 +34,7 @@ class CreateLiveCubit extends Cubit<CreateLiveState> {
   AutovalidateMode? resetPassAutoValidateMode = AutovalidateMode.disabled;
 
   onPressStarStreaming(context) {
-    navigateTo(context, const StartLivePage());
+    navigateTo(context, const StartLivePage(roomId: '',));
   }
 
   void toggleAutoValidate(bool val) {

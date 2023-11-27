@@ -1,9 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+// Project imports:
+import 'package:mena/core/constants/constants.dart';
+import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/core/shared_widgets/shared_widgets.dart';
 
 class CardCommentsItems extends StatelessWidget {
   const CardCommentsItems({super.key});

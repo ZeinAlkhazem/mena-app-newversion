@@ -1,8 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../core/functions/main_funcs.dart';
+// Project imports:
+import 'package:mena/core/functions/main_funcs.dart';
 
 class PausedLive extends StatelessWidget {
   const PausedLive({super.key});

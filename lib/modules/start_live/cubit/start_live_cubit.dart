@@ -1,25 +1,39 @@
+// ignore_for_file: avoid_print
+
+// Dart imports:
 import 'dart:developer';
 import 'dart:io';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:keyboard_emoji_picker/keyboard_emoji_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:m_toast/m_toast.dart';
+import 'package:share_plus/share_plus.dart';
+// ignore: library_prefixes
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+// Project imports:
+import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/network/dio_helper.dart';
 import 'package:mena/core/network/network_constants.dart';
+import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import 'package:mena/models/api_model/provider_model.dart';
-import 'package:share_plus/share_plus.dart';
-
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+import 'package:mena/modules/start_live/ser_sok.dart';
 import '../../live_ended/live_ended_page.dart';
 import '../widget/bottomsheet_report.dart';
 import '../widget/live_description.dart';
 import '../widget/view_description.dart';
+
+// ignore: library_prefixes
 
 part 'start_live_state.dart';
 
@@ -30,6 +44,35 @@ class StartLiveCubit extends Cubit<StartLiveState> {
 
   TextEditingController liveMessageText = TextEditingController();
   List<ProviderData>? providers;
+
+  IO.Socket? socket;
+  var logger = Logger();
+
+  Future<void> socketInitial(context) async {
+    var mainCubit = MainCubit.get(context);
+
+    SignallingService.instance.init(
+      websocketUrl: 'https://live.menaaii.com:3000',
+      transports: ['websocket'],
+      extraHeaders: {'foo': 'bar'},
+    );
+
+    socket = SignallingService.instance.socket;
+
+    socket!.onConnect((_) {
+      logger.wtf('Socket connection established');
+
+      if (mainCubit.userInfoModel != null) {
+        socket?.emit('join', [
+          {
+            'user_id': '${mainCubit.userInfoModel!.data.user.id}',
+            'type': mainCubit.isUserProvider() ? 'provider' : 'client',
+          },
+        ]);
+      }
+    });
+  }
+
   onPressStopLive(context) {
     showMyBottomSheet(
         context: context,
@@ -38,6 +81,8 @@ class StartLiveCubit extends Cubit<StartLiveState> {
           txetConfirm: "Finish",
           onClickCancel: () => Navigator.pop(context),
           onClickConfirm: () {
+            SignallingService.instance.socket.disconnected;
+
             Navigator.pop(context);
 
             navigateToAndFinish(context, const LiveEndedPage());
@@ -195,7 +240,7 @@ class StartLiveCubit extends Cubit<StartLiveState> {
         // goLiveModel = GoLiveModel.fromJson(value.data);
         emit(OnloadGetProviders());
       });
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print("gggggggggggggg ${e.response?.data}");
       print(e.response?.statusCode);
       print(e.response?.data);

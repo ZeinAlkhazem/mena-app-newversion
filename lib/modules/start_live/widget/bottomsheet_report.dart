@@ -1,11 +1,15 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../core/constants/constants.dart';
-import '../../../core/functions/main_funcs.dart';
-import '../../../core/shared_widgets/shared_widgets.dart';
+// Project imports:
+import 'package:mena/core/constants/constants.dart';
+import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/core/shared_widgets/shared_widgets.dart';
 import '../../create_live/widget/live_input_field.dart';
 import '../../create_live/widget/radius_20_container.dart';
 import '../cubit/start_live_cubit.dart';

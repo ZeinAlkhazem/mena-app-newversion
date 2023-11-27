@@ -1,7 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/constants/constants.dart';
+// Project imports:
+import 'package:mena/core/constants/constants.dart';
 import 'card_comments_items.dart';
 
 class CommentsLiveList extends StatelessWidget {

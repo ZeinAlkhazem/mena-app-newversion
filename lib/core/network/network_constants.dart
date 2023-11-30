@@ -1,5 +1,8 @@
 // const String baseUrl='https://test.menaplatforms.com/api/v1';
 const String baseUrl = 'https://menaaii.com/api/v1';
+const String chatUrl = 'https://messages.menaaii.com/api/v1';
+const String feedUrl = 'https://feed.menaaii.com/api/v1';
+const String marketUrl = 'https://market.menaaii.com/api/v1';
 
 // https://menaaii.com/api/v1/users/login
 ///config

@@ -129,7 +129,7 @@ class _MainLayoutState extends State<MainLayout> {
             fontSize: 11,
             fontWeight: FontWeight.w600,
             fontFamily: 'PNfont',
-            color: Color(0xff97A0A8)),
+            color: Color(0xff8f979f)),
         activeColorPrimary: Color(0xff97A0A8),
         inactiveColorPrimary: Color(0xff97A0A8),
         inactiveColorSecondary: Color(0xff97A0A8),
@@ -344,230 +344,233 @@ class _MainLayoutState extends State<MainLayout> {
           builder: (context, state) {
             return (MainCubit.get(context).userInfoModel == null &&
                     getCachedToken() != null)
-                ? SizedBox()
-                : Padding(
-                    padding: EdgeInsets.only(top: topScreenPadding),
-                    child: SafeArea(
-                      top: mainCubit.isHeaderVisible ? true : false,
-                      bottom: false,
-                      child: Column(
-                        children: [
-                          mainCubit.isHeaderVisible
-                              ? Padding(
-                                  padding: EdgeInsets.only(
-                                      // right: defaultHorizontalPadding,
-                                      left: defaultHorizontalPadding,
-                                      top: Responsive.isMobile(context)
-                                          ? defaultHorizontalPadding / 8
-                                          : defaultHorizontalPadding / 2),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 6.0, top: 5),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            logg('profile bubble clicked');
-                                            navigateToWithoutNavBar(
-                                                context,
-                                                getCachedToken() == null
-                                                    ? SignInScreen()
-                                                    : MyProfile(),
-                                                '');
-                                          },
-                                          child: getCachedToken() == null
-                                              ? SvgPicture.asset(
-                                                  'assets/svg/icons/profileFilled.svg',
-                                                  height: Responsive.isMobile(
-                                                          context)
-                                                      ? 30.w
-                                                      : 12.w,
-                                                )
-                                              : ProfileBubble(
-                                                  isOnline: true,
-                                                  customRingColor:
-                                                      Colors.transparent,
-                                                  pictureUrl: MainCubit.get(
-                                                                  context)
-                                                              .userInfoModel ==
-                                                          null
-                                                      ? ''
-                                                      : MainCubit.get(context)
-                                                          .userInfoModel!
-                                                          .data
-                                                          .user
-                                                          .personalPicture,
-                                                  onlyView: true,
-                                                  radius: Responsive.isMobile(
-                                                          context)
-                                                      ? 14.w
-                                                      : 5.w,
-                                                ),
-                                        ),
-                                        // widthBox(0.5.w),
-                                        Padding(
+                ? const SizedBox()
+                : SafeArea(
+                  top: mainCubit.isHeaderVisible ? true : false,
+                  bottom: false,
+                  child: Column(
+                    children: [
+                      if (mainCubit.isHeaderVisible) Padding(
+                              padding: EdgeInsets.only(
+                                  // right: defaultHorizontalPadding,
+                                  left: defaultHorizontalPadding,
+                                  top: Responsive.isMobile(context)
+                                      ? defaultHorizontalPadding / 8
+                                      : defaultHorizontalPadding / 2,),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 6, top: 5,),
+                                child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2.h),
+                                      child: Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              logg('profile bubble clicked');
+                                              navigateToWithoutNavBar(
+                                                  context,
+                                                  getCachedToken() == null
+                                                      ? const SignInScreen()
+                                                      : const MyProfile(),
+                                                  '',);
+                                            },
+                                            child: getCachedToken() == null
+                                                ? SvgPicture.asset(
+                                                    'assets/svg/icons/profileFilled.svg',
+                                                    height: Responsive.isMobile(
+                                                            context,)
+                                                        ? 30.w
+                                                        : 12.w,
+                                                  )
+                                                : ProfileBubble(
+                                                    isOnline: true,
+                                                    customRingColor:
+                                                        Colors.transparent,
+                                                    pictureUrl: MainCubit.get(
+                                                                    context)
+                                                                .userInfoModel ==
+                                                            null
+                                                        ? ''
+                                                        : MainCubit.get(context)
+                                                            .userInfoModel!
+                                                            .data
+                                                            .user
+                                                            .personalPicture,
+                                                    onlyView: true,
+                                                    radius: Responsive.isMobile(
+                                                            context)
+                                                        ? 14.w
+                                                        : 5.w,
+                                                  ),
+                                          ),
+                                          widthBox(6.w),
+                                           Padding(
+                                             padding:
+                                             EdgeInsets.only(top: 4.h),
+                                             child: const Text(
+                                               'Home',
+                                               style: TextStyle(
+                                                 fontSize: 23,
+                                                 fontWeight: FontWeight.w700,
+                                                 fontFamily: 'Tajawal',
+                                                 color: Color(0xff444444),
+                                               ),
+                                             ),
+                                           ),
+                                        ],
+                                      ),
+                                    ),
+                                    widthBox(110.w),
+
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 3),
+                                      child: MyPullDownButton(
+                                        svgHeight:
+                                            Responsive.isMobile(context)
+                                                ? 25.w
+                                                : 12.w,
+                                        customWidth: 0.485.sw,
+                                        customOffset: Offset(-30, 12),
+                                        customPosition:
+                                            PullDownMenuPosition.under,
+                                        customButtonWidget: Padding(
                                           padding:
-                                              const EdgeInsets.only(top: 3),
-                                          child: Text(
-                                            "Home",
-                                            style: TextStyle(
-                                              fontSize: 23.0,
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: 'Tajawal',
-                                              color: Color(0xff444444),
-                                            ),
+                                              const EdgeInsets.only(top: 2),
+                                          child: SvgPicture.asset(
+                                            'assets/new_icons/add_circle_outline_28.svg',
+                                            color: const Color(0xff2A87EA),
+                                            width: 28,
                                           ),
                                         ),
-                                        widthBox(110.w),
-
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 3),
-                                          child: MyPullDownButton(
-                                            svgHeight:
-                                                Responsive.isMobile(context)
-                                                    ? 25.w
-                                                    : 12.w,
-                                            customWidth: 0.485.sw,
-                                            customOffset: Offset(-30, 12),
-                                            customPosition:
-                                                PullDownMenuPosition.under,
-                                            customButtonWidget: Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 2),
-                                              child: SvgPicture.asset(
-                                                "assets/new_icons/add_circle_outline_28.svg",
-                                                color: Color(0xff2A87EA),
-                                                width: 28,
-                                              ),
-                                            ),
-                                            items: MainCubit.get(context)
-                                                .userActionItems(context),
-                                            svgLink:
-                                                "assets/new_icons/add_circle_outline_28.svg",
-                                          ),
-                                        ),
-
-                                        widthBox(4.w),
-                                        MessengerIconBubble(),
-                                        // widthBox(3.w),
-                                        AppBarIcons(
-                                          btnClick: () {},
-                                          icon:
-                                              'assets/new_icons/notifications_28.svg',
-                                          iconSize: 28,
-                                          width: 12,
-                                          top: 1,
-                                          bottom: 4,
-                                          // right: 3,
-                                        ),
-                                      ],
+                                        items: MainCubit.get(context)
+                                            .userActionItems(context),
+                                        svgLink:
+                                            'assets/new_icons/add_circle_outline_28.svg',
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : const SizedBox(),
-                          mainCubit.isHeaderVisible ? Divider() : SizedBox(),
-                          Expanded(
-                            child: PersistentTabView(
-                              context,
-                              navBarHeight: Responsive.isMobile(context)
-                                  ? kBottomNavigationBarHeight * 1
-                                  : kBottomNavigationBarHeight * 1.3,
-                              controller: _controller,
 
-                              // // floatingActionButton: Container(
-                              // //   c
-                              // // ),
-                              onItemSelected: (index) {
-                                if (index == 1||index==4) {
-                                  mainCubit.changeHeaderVisibility(false);
-                                } else {
-                                  mainCubit.changeHeaderVisibility(true);
-                                }
-                              },
-                              // onItemSelected: (index) {
-                              //   // mainCubit.changeHeaderVisibility(true);
-                              //   if (index == 2) {
-                              //     MainCubit.get(context).updateMenaViewedLogo(
-                              //         'assets/svg/icons/menalive.svg');
-                              //   } else if (index == 4) {
-                              //     /// feeds public
-                              //     MainCubit.get(context).updateMenaViewedLogo(
-                              //         'assets/svg/mena8.svg');
-                              //     //        FeedsCubit.get(context).getFeeds();
-                              //   } else {
-                              //     MainCubit.get(context).updateMenaViewedLogo(
-                              //         'assets/svg/mena8.svg');
-                              //   }
-                              // },
-                              screens: _buildScreens(),
-                              items: _navBarsItems(),
-                              confineInSafeArea: true,
-                              backgroundColor: Colors.white,
-                              handleAndroidBackButtonPress: true,
-                              resizeToAvoidBottomInset: true,
-                              stateManagement: true,
-                              hideNavigationBarWhenKeyboardShows: true,
-                              margin: const EdgeInsets.all(0.0),
-                              popActionScreens: PopActionScreensType.all,
-                              onWillPop: (context) async {
-                                await showDialog(
-                                  context: context!,
-                                  useSafeArea: true,
-                                  builder: (context) => Container(
-                                    ///
-                                    /// height:50.0,
-                                    /// width:50.0,
-                                    ///
-                                    ///
-                                    height: 50.0,
-                                    width: 50.0,
-                                    color: Colors.white,
-                                    child: ElevatedButton(
-                                      child: const Text("Close"),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
+                                    widthBox(4.w),
+                                    const MessengerIconBubble(),
+                                    // widthBox(3.w),
+                                    AppBarIcons(
+                                      btnClick: () {},
+                                      icon:
+                                          'assets/new_icons/notifications_28.svg',
+                                      iconSize: 28,
+                                      width: 12,
+                                      bottom: 4,
+                                      top: 2,
+                                      // right: 3,
                                     ),
-                                  ),
-                                );
-                                return false;
-                              },
-                              hideNavigationBar: _hideNavBar,
-                              decoration: NavBarDecoration(
-                                colorBehindNavBar: Colors.white,
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                    /// todo: test this
-                                    color: mainBlueColor,
-                                    // blurRadius: 0.001,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                              popAllScreensOnTapOfSelectedTab: true,
-                              itemAnimationProperties:
-                                  const ItemAnimationProperties(
-                                duration: Duration(milliseconds: 400),
-                                curve: Curves.ease,
+                            ) else const SizedBox(),
+                      if (mainCubit.isHeaderVisible)
+                        const Divider(color: Color(0xffdfe4e4)) else const SizedBox(),
+                      Expanded(
+                        child: PersistentTabView(
+                          context,
+                          navBarHeight: Responsive.isMobile(context)
+                              ? kBottomNavigationBarHeight * 1
+                              : kBottomNavigationBarHeight * 1.3,
+                          controller: _controller,
+
+                          // // floatingActionButton: Container(
+                          // //   c
+                          // // ),
+                          onItemSelected: (index) {
+                            if (index == 1||index==4) {
+                              mainCubit.changeHeaderVisibility(false);
+                            } else {
+                              mainCubit.changeHeaderVisibility(true);
+                            }
+                          },
+                          // onItemSelected: (index) {
+                          //   // mainCubit.changeHeaderVisibility(true);
+                          //   if (index == 2) {
+                          //     MainCubit.get(context).updateMenaViewedLogo(
+                          //         'assets/svg/icons/menalive.svg');
+                          //   } else if (index == 4) {
+                          //     /// feeds public
+                          //     MainCubit.get(context).updateMenaViewedLogo(
+                          //         'assets/svg/mena8.svg');
+                          //     //        FeedsCubit.get(context).getFeeds();
+                          //   } else {
+                          //     MainCubit.get(context).updateMenaViewedLogo(
+                          //         'assets/svg/mena8.svg');
+                          //   }
+                          // },
+                          screens: _buildScreens(),
+                          items: _navBarsItems(),
+                          confineInSafeArea: true,
+                          backgroundColor: Colors.white,
+                          handleAndroidBackButtonPress: true,
+                          resizeToAvoidBottomInset: true,
+                          stateManagement: true,
+                          hideNavigationBarWhenKeyboardShows: true,
+                          margin: const EdgeInsets.all(0.0),
+                          popActionScreens: PopActionScreensType.all,
+                          onWillPop: (context) async {
+                            await showDialog(
+                              context: context!,
+                              useSafeArea: true,
+                              builder: (context) => Container(
+                                ///
+                                /// height:50.0,
+                                /// width:50.0,
+                                ///
+                                ///
+                                height: 50.0,
+                                width: 50.0,
+                                color: Colors.white,
+                                child: ElevatedButton(
+                                  child: const Text("Close"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
                               ),
-                              screenTransitionAnimation:
-                                  const ScreenTransitionAnimation(
-                                // Screen transition animation on change of selected tab.
-                                animateTabTransition: false,
-                                curve: Curves.fastOutSlowIn,
-                                duration: Duration(milliseconds: 200),
+                            );
+                            return false;
+                          },
+                          hideNavigationBar: _hideNavBar,
+                          decoration: NavBarDecoration(
+                            colorBehindNavBar: Colors.white,
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                /// todo: test this
+                                color: mainBlueColor,
+                                // blurRadius: 0.001,
                               ),
-                              navBarStyle: NavBarStyle.style6,
-                            ),
+                            ],
                           ),
-                        ],
+                          popAllScreensOnTapOfSelectedTab: true,
+                          itemAnimationProperties:
+                              const ItemAnimationProperties(
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.ease,
+                          ),
+                          screenTransitionAnimation:
+                              const ScreenTransitionAnimation(
+                            // Screen transition animation on change of selected tab.
+                            animateTabTransition: false,
+                            curve: Curves.fastOutSlowIn,
+                            duration: Duration(milliseconds: 200),
+                          ),
+                          navBarStyle: NavBarStyle.style6,
+                        ),
                       ),
-                    ),
-                  );
+                    ],
+                  ),
+                );
           },
         ),
       ),
@@ -702,57 +705,6 @@ class NotificationIconBubble extends StatelessWidget {
   }
 }
 
-class AppBarIcons extends StatelessWidget {
-  final String icon;
-  final VoidCallback btnClick;
-  final double iconSize;
-  final double width;
-  final String title;
-  final double top;
-  final double bottom;
-  final double right;
-
-  const AppBarIcons(
-      {super.key,
-      required this.btnClick,
-      this.top = 1,
-      this.width = 7,
-      this.title = "",
-      this.bottom = 1,
-      this.right = 1,
-      this.iconSize = 39.0,
-      required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: btnClick,
-      child: Container(
-        padding: EdgeInsets.only(top: top, bottom: bottom, right: right),
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              icon,
-              width: iconSize,
-              fit: BoxFit.contain,
-              color: Color(0xff2788E8),
-            ),
-            widthBox(width),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: AppFonts.interFont,
-                  color: Color(0xFFE46258)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class NavBarIcons extends StatelessWidget {
   final String icon;

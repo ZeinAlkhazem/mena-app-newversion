@@ -1,38 +1,30 @@
-import 'dart:developer';
+// ignore_for_file: join_return_with_assignment
 
+import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_story_view/models/story_item.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mena/models/api_model/blogs_items_model.dart';
 import 'package:mena/models/api_model/comments_model.dart';
-import 'package:mena/models/api_model/like_comment_model.dart';
 import 'package:mena/models/api_model/my_blog_info_model.dart';
-
 import 'package:mena/modules/feeds_screen/my_blog/cubit/myBlog_cubit.dart';
 import 'package:mena/modules/feeds_screen/my_blog/cubit/myBlog_state.dart';
-
 import 'package:meta/meta.dart';
 import 'package:share_plus/share_plus.dart';
-
 import '../../../core/functions/main_funcs.dart';
-import '../../../core/main_cubit/main_cubit.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/network_constants.dart';
 import '../../../models/api_model/blogs_info_model.dart';
 import '../../../models/api_model/comment_response_feed.dart';
 import '../../../models/api_model/feeds_model.dart';
-import '../../../models/api_model/home_section_model.dart';
-
 import '../../../models/api_model/share_model.dart';
 import '../../home_screen/cubit/home_screen_cubit.dart';
 import 'package:mena/models/local_models.dart';
 import 'package:mena/modules/feeds_screen/post_a_feed.dart';
 import '../../create_articles/create_article_screen.dart';
-
 part 'feeds_state.dart';
 
 class FeedsCubit extends Cubit<FeedsState> {
@@ -65,7 +57,7 @@ class FeedsCubit extends Cubit<FeedsState> {
 
   List currentVideoPlaylist = ['1', '2'];
 
-  PickedLocationModel? pickedFeedLocation = null;
+  PickedLocationModel? pickedFeedLocation;
 
   bool preferredMuteVal = false;
   List<XFile> attachedFiles = [];
@@ -74,7 +66,7 @@ class FeedsCubit extends Cubit<FeedsState> {
   List<dynamic> reportFiles = [];
   int categoryId = 0;
   List categories = ["Feeds", "Clips", "Videos", "News"];
-  List<StoryItem> stories = [];
+  // List<StoryItem> stories = [];
   List<ItemWithTitleAndCallback> userActionItems(BuildContext context) {
     List<ItemWithTitleAndCallback> list = [];
 
@@ -1152,16 +1144,16 @@ class FeedsCubit extends Cubit<FeedsState> {
     emit(SelectCategory());
   }
 
-  addStory(StoryItem storyItem) {
-
-    stories.insert(0, storyItem);
-    emit(AddStory());
-  }
-
-  getStories() {
-    emit(GetStories(length: stories.length));
-    emit(FeedUpdated());
-  }
+  // addStory(StoryItem storyItem) {
+  //
+  //   stories.insert(0, storyItem);
+  //   emit(AddStory());
+  // }
+  //
+  // getStories() {
+  //   emit(GetStories(length: stories.length));
+  //   emit(FeedUpdated());
+  // }
 }
 
 class PickedLocationModel {

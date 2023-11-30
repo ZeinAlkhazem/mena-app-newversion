@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:ui' as ui;
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:locale_plus/locale_plus.dart';
 import 'package:mena/MenaMarketPlace/features/healthcare/presentation/cubit/healthcare_cubit.dart';
+import 'package:mena/MenaMarketPlace/features/market/presentation/cubit/market_cubit.dart';
+import 'package:mena/MenaMarketPlace/injection_container.dart' as di;
+import 'package:mena/core/bloc_observer.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 import 'package:mena/core/main_cubit/main_cubit.dart';
 import 'package:mena/core/shared_widgets/shared_widgets.dart';
@@ -21,15 +25,12 @@ import 'package:mena/modules/create_articles/cubit/create_article_cubit.dart';
 import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
 import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/splash_screen/splash_screen.dart';
+import 'package:mena/modules/tools/cubit/tools_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'MenaMarketPlace/features/market/presentation/cubit/market_cubit.dart';
-import 'MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
-
-import "MenaMarketPlace/injection_container.dart" as di;
-import 'core/bloc_observer.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
+import 'core/constants/Colors.dart';
 import 'core/constants/constants.dart';
 import 'core/network/dio_helper.dart';
 import 'firebase_options.dart';
@@ -42,7 +43,6 @@ import 'modules/complete_info_subscribe/cubit/complete_info_cubit.dart';
 import 'modules/create_live/cubit/create_live_cubit.dart';
 import 'modules/feeds_screen/my_blog/cubit/myBlog_cubit.dart';
 import 'modules/home_screen/cubit/home_screen_cubit.dart';
-import 'modules/initial_onboarding/initial_choose_lang.dart';
 import 'modules/meeting/cubit/meeting_cubit.dart';
 import 'modules/messenger/cubit/messenger_cubit.dart';
 import 'modules/my_profile/cubit/profile_cubit.dart';
@@ -50,8 +50,6 @@ import 'modules/nearby_screen/cubit/nearby_cubit.dart';
 import 'modules/platform_provider/cubit/provider_cubit.dart';
 import 'modules/promotions_screen/cubit/promotions_cubit.dart';
 import 'modules/start_live/cubit/start_live_cubit.dart';
-import 'modules/tools/cubit/tools_cubit.dart';
-import 'package:locale_plus/locale_plus.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -73,8 +71,8 @@ void main() async {
   final regionCode = await LocalePlus().getRegionCode();
   final languageCode = await LocalePlus().getLanguageCode();
   /// set status bar color
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    // statusBarColor: AppColors.iconsColor
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    // statusBarColor: AppColors.iconsColor,
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
     statusBarBrightness: Brightness.dark,
@@ -82,17 +80,18 @@ void main() async {
 
   // await initializeDateFormatting();
   prefs = await SharedPreferences.getInstance();
-  String selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
+  var selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
 
   // Get the default phone language and set it as the default language
-  Locale myLocale = WidgetsBinding.instance.window.locale;
+  final myLocale = WidgetsBinding.instance.window.locale;
   if (myLocale.languageCode == 'ar') {
     selectedLanguage = 'Arabic';
-    logg('my device language is : ${selectedLanguage}');
+    logg('my device language is : $selectedLanguage');
   } else {
     selectedLanguage =
         'English'; // You can set other default languages if needed
-    logg('my device language is : ${selectedLanguage}');
+    logg('my device language is '
+        '$selectedLanguage');
   }
   await prefs.setString('selectedLanguage', selectedLanguage);
 
@@ -628,7 +627,7 @@ class TestMaterialApp extends StatelessWidget {
         // is not restarted.
         // primarySwatch: Colors.blue,
       ),
-      home: Scaffold(body: const Text('test')),
+      home: const Scaffold(body: Text('test')),
       // home: const MainLayout(),
     );
   }

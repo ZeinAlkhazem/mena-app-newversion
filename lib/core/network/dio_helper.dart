@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-
-import '../cache/cache.dart';
-import '../functions/main_funcs.dart';
-import 'network_constants.dart';
+import 'package:mena/core/cache/cache.dart';
+import 'package:mena/core/functions/main_funcs.dart';
+import 'package:mena/core/network/network_constants.dart';
 
 class DioHelper {
   static Dio? dio;
@@ -14,7 +11,7 @@ class DioHelper {
     dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       receiveDataWhenStatusError: true,
-    ));
+    ),);
   }
 
   static Future<Response> getData({
@@ -94,8 +91,8 @@ class MainDioHelper {
       BaseOptions(
           baseUrl: baseUrl,
           receiveDataWhenStatusError: true,
-          connectTimeout: Duration(seconds: 60), // 60 seconds
-          receiveTimeout: Duration(seconds: 120)),
+          connectTimeout: const Duration(seconds: 60), // 60 seconds
+          receiveTimeout: const Duration(seconds: 120)),
     );
   }
 
@@ -105,8 +102,8 @@ class MainDioHelper {
     String lang = 'en',
     // String? token,
   }) async {
-    String? cachedLocal = getCachedLocal();
-    String? token = getCachedToken();
+    final cachedLocal = getCachedLocal();
+    final token = getCachedToken();
 
     if (cachedLocal == null) {
       lang = 'en';
@@ -124,7 +121,7 @@ class MainDioHelper {
 
     dio!.options.headers = {
       'lang': lang,
-      'Authorization': "Bearer $token",
+      'Authorization': 'Bearer $token',
       'lat': '${getCachedLat()}',
       'lng': '${getCachedLng()}',
       'Accept': 'application/json',
@@ -133,7 +130,7 @@ class MainDioHelper {
       url,
       queryParameters: query,
     );
-    log("# get data response :${response.data}");
+    log('# get data response :${response.data}');
     return response;
   }
 
@@ -143,7 +140,7 @@ class MainDioHelper {
     Map<String, dynamic>? query,
     String lang = 'en',
   }) async {
-    String? cachedLocal = getCachedLocal();
+    var cachedLocal = getCachedLocal();
 
     if (cachedLocal == null) {
       lang = 'en';
@@ -152,7 +149,7 @@ class MainDioHelper {
     } else {
       lang = 'en';
     }
-    String? token = getCachedToken();
+    var token = getCachedToken();
 
     ///
     logRequestedUrl('post method');
@@ -162,7 +159,7 @@ class MainDioHelper {
     logRequestedUrl('token: $token\n');
     dio!.options.headers = {
       'lang': lang,
-      'Authorization': token != null ? "Bearer $token" : token,
+      'Authorization': token != null ? 'Bearer $token' : token,
       'lat': '${getCachedLat()}',
       'lng': '${getCachedLng()}',
       'Accept': 'application/json',
@@ -208,7 +205,7 @@ class MainDioHelper {
     Map<String, dynamic>? query,
     String lang = 'en',
   }) async {
-    String? token = getCachedToken();
+    final token = getCachedToken();
     logRequestedUrl('postDataWithFormData method');
     logRequestedUrl('url: $baseUrl$url\n');
     logRequestedUrl('queryParameters: $query\n');
@@ -216,7 +213,7 @@ class MainDioHelper {
     logRequestedUrl('token: $token\n');
     dio!.options.headers = {
       'lang': lang,
-      'Authorization': token != null ? "Bearer $token" : null,
+      'Authorization': token != null ? 'Bearer $token' : null,
       'lat': '${getCachedLat()}',
       'lng': '${getCachedLng()}',
       'Accept': 'application/json',

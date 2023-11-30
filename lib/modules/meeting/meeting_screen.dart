@@ -79,7 +79,7 @@ class _MeetingPageState extends State<MeetingPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffF4F4F4),
+        backgroundColor:  Colors.white,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(65.0.h),
           child: defaultAppBarForMeeting(context),

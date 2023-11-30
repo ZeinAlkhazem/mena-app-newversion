@@ -240,6 +240,9 @@ class _MainLayoutState extends State<MainLayout> {
           context: context,
           builder: (context) {
             return AlertDialog(
+              backgroundColor: Colors.white,
+              shadowColor: Colors.white,
+              surfaceTintColor: Colors.white,
               title: const Text('Do you want to exit?'),
               actionsAlignment: MainAxisAlignment.spaceBetween,
               actions: [

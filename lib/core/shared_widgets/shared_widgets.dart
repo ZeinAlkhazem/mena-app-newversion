@@ -1212,7 +1212,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
         //   child: labelWidget,
         // ),
         // fillColor: fillColor ?? newLightGreyColor,
-        fillColor: error ? Color(0xffF2D5D5) : fillColor,
+        fillColor: error ? Color(0xffF2D5D5) : Color(0xffedf2f0),
         focusColor: widget.fillColor ?? newLightGreyColor,
 
         focusedErrorBorder: OutlineInputBorder(

@@ -312,8 +312,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             navigateToWithoutNavBar(context, JobsLayout(), 'routeName');
                           },
                           child: CircleAvatar(
+                            backgroundColor: const Color(0xff2788E8),
                             radius: 24.h,
-                            child: Text('Jobs'),
+                            child: Text('Jobs',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),),
                           ),
                         ),
                         widthBox(7.w),

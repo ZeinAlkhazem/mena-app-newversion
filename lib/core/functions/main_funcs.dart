@@ -518,7 +518,7 @@ Future<void> viewComingSoonAlertDialog(BuildContext context,
       context: context,
       useRootNavigator: false,
       barrierDismissible: true,
-      barrierColor: Colors.white.withOpacity(0),
+      barrierColor: Colors.transparent.withOpacity(0),
       // barrierDismissible: false,
       builder: (BuildContext context) => BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),

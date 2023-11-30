@@ -23,7 +23,7 @@ PreferredSize defaultAppBarForMeeting(
             child: Container(
               height: 30.h,
               width: 53.w,
-              color: Colors.transparent,
+              color: Colors.white,
               child: Center(
                 child: SvgPicture.asset(
                   'assets/live_icon/appbar_back.svg',

@@ -36,6 +36,7 @@ class _MeetingDashboardState extends State<MeetingDashboard> {
   Widget build(BuildContext context) {
     var liveCubit = LiveCubit.get(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56.0.h),
         child: DefaultBackTitleAppBar(

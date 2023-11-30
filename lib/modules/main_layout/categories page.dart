@@ -53,6 +53,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: Padding(
             padding: EdgeInsets.only(
               bottom: rainBowBarBottomPadding(context),

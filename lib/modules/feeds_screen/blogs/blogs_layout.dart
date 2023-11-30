@@ -129,17 +129,13 @@ class _BlogsLayoutState extends State<BlogsLayout> {
       //   ),
       // ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 50),
+        padding: EdgeInsets.only(bottom: 10),
         child: IconButton(
-          iconSize: 50,
+          iconSize: 10,
           icon:
-              Center(child: SvgPicture.asset("assets/icons/create_article.svg")
-
-                  // Image.asset(
-                  //   'assets/icons/add.png',
-                  //   height: 30,
-                  // ),
-                  ),
+              Container(
+                child: SvgPicture.asset("assets/icons/create_article.svg"),
+              ),
           onPressed: () {
             navigateToWithoutNavBar(
                 context, CreateArticleScreen(), 'routeName');

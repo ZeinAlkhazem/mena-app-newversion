@@ -19,6 +19,7 @@ class JoinMeetingLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     var liveCubit = LiveCubit.get(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56.0.h),
         child: DefaultBackTitleAppBar(
@@ -139,6 +140,9 @@ class JoinMeetingLayout extends StatelessWidget {
                     ),
                     heightBox(15.h),
                     DefaultInputField(
+                      fillColor: Color(0xffedf2f0),
+                      focusedBorderColor: mainBlueColor,
+                      unFocusedBorderColor: mainBlueColor,
                       label: liveCubit.selectedJoiningMethod == null
                           ? 'Select joining method'
                           : liveCubit.selectedJoiningMethod!.title,

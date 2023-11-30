@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../../../core/constants/constants.dart';
 import '../../../core/functions/main_funcs.dart';
 import '../../../core/network/dio_helper.dart';
@@ -33,8 +34,39 @@ class CreateLiveCubit extends Cubit<CreateLiveState> {
 
   AutovalidateMode? resetPassAutoValidateMode = AutovalidateMode.disabled;
 
-  onPressStarStreaming(context) {
-    navigateTo(context, const StartLivePage(roomId: '',));
+  Future<String?> fetchRoomID() async {
+    final url = Uri.parse('https://menaaii.com/api/v1/live/get-lives');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        final lives = jsonData['data']['lives'] as List<dynamic>;
+
+        if (lives.isNotEmpty) {
+          // Assuming you want to get the room ID from the first live data
+          final roomID = lives[0]['room_id'];
+          return roomID;
+        }
+      } else {
+        // Handle the API request failure (non-200 status code)
+        print('Failed to load data: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle any exceptions that might occur during the API call
+      print('Error fetching data: $error');
+    }
+
+    return null; // Return null if unable to fetch or extract room ID
+  }
+
+
+  onPressStarStreaming(context) async {
+    String? roomID = await fetchRoomID();
+    if (roomID != null) {
+      navigateTo(context, StartLivePage(roomId: roomID));
+    }
   }
 
   void toggleAutoValidate(bool val) {
@@ -227,6 +259,9 @@ class CreateLiveCubit extends Cubit<CreateLiveState> {
           },
         ));
   }
+
+
+
 
   Future<void> createLive() async {
     emit(CreatingLiveState());

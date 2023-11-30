@@ -1,20 +1,14 @@
 name: mena
-description: Mena platform
-
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
 version: 1.0.0+1
-
-environment:
-  sdk: ">=2.17.6 <3.0.0"
-
-dependency_overrides:
-  camera_android: ^0.10.8+13
-  intl: ^0.18.0
-dependencies:
+publish_to: none
+description: Mena platform
+environment: 
+  sdk: '>=2.17.6 <3.0.0'
+dependencies: 
   add_2_calendar: ^3.0.1
   audio_session: ^0.1.13
   audio_video_progress_bar: ^0.11.0
+  audioplayers: ^5.2.1
   bloc: ^8.1.0
   cached_network_image: ^3.2.1
   camera: ^0.9.7+1
@@ -25,30 +19,26 @@ dependencies:
   cupertino_icons: ^1.0.2
   custom_marker: ^1.0.0
   dartz: ^0.10.1
+  dependency_validator: ^3.2.3
   dio: ^5.2.0
-  dotted_border: ^2.0.0+1
   dots_indicator: ^3.0.0
+  dotted_border: ^2.0.0+1
   dotted_line: ^3.2.2
   dropdown_button2: ^2.1.2
   easy_image_viewer: ^1.2.0
   equatable: ^2.0.5
-  extended_text: ^11.1.0
+  extended_text: ^12.0.0
   figma_squircle: ^0.5.3
   file_picker: ^5.2.5
   firebase_core: ^2.4.1
   flick_video_player: ^0.5.0
-  flutter:
-    sdk: flutter
   flutter_bloc: ^8.1.1
   flutter_cache_manager: ^3.3.0
   flutter_contacts: ^1.1.7+1
-  flutter_cupertino_date_picker_fork: 1.0.7
   flutter_datetime_picker_plus: ^2.1.0
   flutter_holo_date_picker: ^1.1.3
-  flutter_html: null
+  flutter_html: any
   flutter_launcher_icons: ^0.11.0
-  flutter_localizations:
-    sdk: flutter
   flutter_rating_bar: ^4.0.1
   flutter_screenutil: ^5.9.0
   flutter_slidable: ^2.0.0
@@ -61,7 +51,7 @@ dependencies:
   fluttertoast: ^8.2.2
   geocoding: ^2.0.2
   geolocator: ^9.0.2
-  get: 
+  get: any
   get_it: ^7.6.4
   google_maps_flutter: ^2.2.1
   google_maps_place_picker_mb: ^3.0.1
@@ -74,35 +64,31 @@ dependencies:
   intl: ^0.18.1
   intl_phone_number_input: ^0.7.0+2
   json_store: ^2.0.0
-  audioplayers: ^5.2.1
-  syncfusion_flutter_sliders: ^21.2.10
-  percent_indicator: ^4.2.3
-  linear_progress_bar: ^1.1.0
-  scrollable_positioned_list: ^0.3.5
-  video_player: ^2.4.7
-  visibility_detector: ^0.3.3
-  multi_select_flutter: ^4.1.2
-  url_launcher: ^6.1.10
-  transparent_image: ^2.0.0
-  permission_handler: ^10.2.0
   just_audio: ^0.9.31
   keyboard_emoji_picker: ^1.0.1
   like_button: ^2.0.5
+  linear_progress_bar: ^1.1.0
+  locale_plus: ^1.4.1
   lottie: ^2.2.0
   m_toast: ^0.1.5
-  mobile_scanner: ^3.5.4
   map_launcher: ^2.5.0+1
+  mobile_scanner: ^3.5.4
+  multi_select_flutter: ^4.1.2
   outline_gradient_button: ^2.0.1+1
   package_info_plus: ^3.1.2
   page_transition: ^2.0.9
   path_provider: ^2.0.11
+  percent_indicator: ^4.2.3
+  permission_handler: ^10.2.0
   persistent_bottom_nav_bar_v2: ^4.2.4
   pin_code_fields: ^7.4.0
   preload_page_view: ^0.2.0
+  pubspec_dependency_sorter: ^1.0.3
   pull_down_button: ^0.1.0-beta.6
   pull_to_refresh: ^2.0.0
-  quill_html_editor: null
+  quill_html_editor: any
   screen_recorder: ^0.2.0
+  scrollable_positioned_list: ^0.3.5
   share_plus: ^6.0.0
   shared_preferences: ^2.0.15
   socket_io_client: ^2.0.3+1
@@ -110,42 +96,37 @@ dependencies:
   sqflite: ^2.1.0
   staggered_grid_view_flutter: ^0.0.4
   syncfusion_flutter_pdfviewer: ^21.1.38
+  syncfusion_flutter_sliders: ^21.2.10
   table_calendar: ^3.0.9
-  webview_flutter: ^4.2.2
   timeago_flutter: ^3.6.0
+  transparent_image: ^2.0.0
+  url_launcher: ^6.1.10
   very_good_analysis: ^5.1.0
-  dependency_validator: ^3.2.3
+  video_player: ^2.4.7
+  visibility_detector: ^0.3.3
+  webview_flutter: ^4.2.2
   wolt_modal_sheet: ^0.1.4
-
-
-  locale_plus: ^1.4.1
-
-  # stories_editor: ^0.2.2
-  flutter_story_view: 
-  video_editor_sdk: ^3.0.0
-  photo_editor_sdk: ^3.0.0
-  # story_view: ^0.15.0 
-  
-dev_dependencies:
-  flutter_test:
+  flutter: 
     sdk: flutter
-#  flutter_launcher_icons: "^0.10.0"
-flutter_icons:
-  android: "launcher_icon"
+  flutter_localizations: 
+    sdk: flutter
+dev_dependencies: 
+  flutter_test: 
+    sdk: flutter
+dependency_overrides: 
+  camera_android: ^0.10.8+13
+  intl: ^0.18.0
+flutter_icons: 
+  android: launcher_icon
+  image_path: assets/images/mena.png
+  flutter_lints: ^2.0.0
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/images/mena.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
-  #generators
+  min_sdk_android: 21
   hive_generator: null
   build_runner: null
-
-  flutter_lints: ^2.0.0
-
-flutter:
-  uses-material-design: true
-  generate: true
-  assets:
+flutter: 
+  assets: 
     - assets/
     - assets/allNewDesign/
     - assets/menamarket/
@@ -167,75 +148,98 @@ flutter:
     - assets/new_icons/large/png/
     - assets/new_icons/small/png/
     - assets/fonts/
-
-
-  fonts:
-    - family: Tajawal
-      fonts:
-        - asset: assets/fonts/Tajawal-Regular.ttf
-
-    - family: Visby
-      fonts:
-        - asset: assets/fonts/visby-cufonfonts/VisbyLight.otf
-
-    - family: VisbyBold
-      fonts:
-        - asset: assets/fonts/visby-cufonfonts/VisbyBold.otf
-
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/roboto/Roboto-Regular.ttf
-
-    - family: RobotoBold
-      fonts:
-        - asset: assets/fonts/roboto/Roboto-Bold.ttf
-
-    - family: Crimson
-      fonts:
-        - asset: assets/fonts/crimson/CrimsonPro-VariableFont_wght.ttf
-
-    - family: Lato
-      fonts:
-        - asset: assets/fonts/lato/Lato-Regular.ttf
-
-    - family: LatoBold
-      fonts:
-        - asset: assets/fonts/lato/Lato-Bold.ttf
-
-    - family: PNfont
-      fonts:
-        - asset: assets/fonts/PN-Font.otf
-
-    - family: Inter
-      fonts:
-        - asset: assets/fonts/inter/Inter.ttf
-
-    - family: OpenSans
-      fonts:
-        - asset: assets/fonts/open_sans/OpenSans-ExtraBold.ttf
+  fonts: 
+    - 
+      family: Tajawal
+      fonts: 
+        - 
+          asset: assets/fonts/Tajawal-Regular.ttf
+    - 
+      family: Visby
+      fonts: 
+        - 
+          asset: assets/fonts/visby-cufonfonts/VisbyLight.otf
+    - 
+      family: VisbyBold
+      fonts: 
+        - 
+          asset: assets/fonts/visby-cufonfonts/VisbyBold.otf
+    - 
+      family: Roboto
+      fonts: 
+        - 
+          asset: assets/fonts/roboto/Roboto-Regular.ttf
+    - 
+      family: RobotoBold
+      fonts: 
+        - 
+          asset: assets/fonts/roboto/Roboto-Bold.ttf
+    - 
+      family: Crimson
+      fonts: 
+        - 
+          asset: assets/fonts/crimson/CrimsonPro-VariableFont_wght.ttf
+    - 
+      family: Lato
+      fonts: 
+        - 
+          asset: assets/fonts/lato/Lato-Regular.ttf
+    - 
+      family: LatoBold
+      fonts: 
+        - 
+          asset: assets/fonts/lato/Lato-Bold.ttf
+    - 
+      family: PNfont
+      fonts: 
+        - 
+          asset: assets/fonts/PN-Font.otf
+    - 
+      family: Inter
+      fonts: 
+        - 
+          asset: assets/fonts/inter/Inter.ttf
+    - 
+      family: OpenSans
+      fonts: 
+        - 
+          asset: assets/fonts/open_sans/OpenSans-ExtraBold.ttf
           weight: 800
-        - asset: assets/fonts/open_sans/OpenSans-Bold.ttf
+        - 
+          asset: assets/fonts/open_sans/OpenSans-Bold.ttf
           weight: 700
-        - asset: assets/fonts/open_sans/OpenSans-SemiBold.ttf
+        - 
+          asset: assets/fonts/open_sans/OpenSans-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/open_sans/OpenSans-Medium.ttf
+        - 
+          asset: assets/fonts/open_sans/OpenSans-Medium.ttf
           weight: 500
-        - asset: assets/fonts/open_sans/OpenSans-Regular.ttf
+        - 
+          asset: assets/fonts/open_sans/OpenSans-Regular.ttf
           weight: 400
-        - asset: assets/fonts/open_sans/OpenSans-Light.ttf
+        - 
+          asset: assets/fonts/open_sans/OpenSans-Light.ttf
           weight: 200
-
-    - family: Inter
-      fonts:
-        - asset: assets/fonts/inter/Inter-ExtraBold.ttf
+    - 
+      family: Inter
+      fonts: 
+        - 
+          asset: assets/fonts/inter/Inter-ExtraBold.ttf
           weight: 800
-        - asset: assets/fonts/inter/Inter-Bold.ttf
+        - 
+          asset: assets/fonts/inter/Inter-Bold.ttf
           weight: 700
-        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+        - 
+          asset: assets/fonts/inter/Inter-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/inter/Inter-Medium.ttf
+        - 
+          asset: assets/fonts/inter/Inter-Medium.ttf
           weight: 500
-        - asset: assets/fonts/inter/Inter-Regular.ttf
+        - 
+          asset: assets/fonts/inter/Inter-Regular.ttf
           weight: 400
-        - asset: assets/fonts/inter/Inter-Light.ttf
+        - 
+          asset: assets/fonts/inter/Inter-Light.ttf
           weight: 200
+  uses-material-design: true
+  generate: true

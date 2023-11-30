@@ -423,7 +423,7 @@ class _PopupWidgetUpComingState extends State<PopupWidgetUpComing> {
             child: SingleChildScrollView(
               child: Container(
                 width: 330,
-                height: 500,
+                height: 510,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   color: Color(0xffFFFFFF),
@@ -1459,17 +1459,22 @@ class _PopupWidgetAirState extends State<PopupWidgetAir> {
                         ],
                       ),
                       Divider(color: Color(0xff97A0A8),),
-                      Padding(
-                        padding: const EdgeInsets.only(right:252.0,top: 5),
-                        child: Text(
-                          'Pollen',
-                          style: TextStyle(
-                            color: Color(0xff050505),
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Tajawal',
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Pollen',
+                              style: TextStyle(
+                                color: Color(0xff050505),
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                       heightBox(14.h),
                       Row(
@@ -2101,7 +2106,7 @@ class _PopupWidgetSummaryState extends State<PopupWidgetSummary> {
               child: SingleChildScrollView(
                 child: Container(
                   width: 330,
-                  height: 500,
+                  height: 520,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: Color(0xffFFFFFF),

@@ -16,6 +16,8 @@ import 'package:mena/modules/live_screens/live_cubit/live_cubit.dart';
 import 'package:mena/modules/live_screens/live_screen.dart';
 import 'package:mena/modules/live_screens/start_live_form.dart';
 import 'package:mena/modules/start_live/start_live_page.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CreateLivePage extends StatefulWidget {
   const CreateLivePage({super.key});
@@ -76,7 +78,35 @@ class _CreateLivePageState extends State<CreateLivePage> {
     }
   }
 
-  void startCountdown() {
+  Future<String?> fetchRoomID() async {
+    final url = Uri.parse('https://menaaii.com/api/v1/live/get-lives');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        final lives = jsonData['data']['lives'] as List<dynamic>;
+
+        if (lives.isNotEmpty) {
+          // Assuming you want to get the room ID from the first live data
+          final roomID = lives[0]['room_id'];
+          return roomID;
+        }
+      } else {
+        // Handle the API request failure (non-200 status code)
+        print('Failed to load data: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle any exceptions that might occur during the API call
+      print('Error fetching data: $error');
+    }
+
+    return null; // Return null if unable to fetch or extract room ID
+  }
+
+  Future<void> startCountdown() async {
+    String? roomID = await fetchRoomID();
     // Create a periodic timer that fires every second
     Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -85,10 +115,11 @@ class _CreateLivePageState extends State<CreateLivePage> {
         } else {
           // When count reaches zero, navigate to the next page
           MainCubit.get(context).socketInitial();
-          navigateToWithoutNavBar(context, StartLivePage(roomId: '',), '',
+          if (roomID != null) {
+          navigateToWithoutNavBar(context, StartLivePage(roomId: roomID,), '',
               onBackToScreen: () {
             logg('sdjkfhkjdsfn');
-          });
+          });}
           timer.cancel(); // Cancel the timer
         }
       });

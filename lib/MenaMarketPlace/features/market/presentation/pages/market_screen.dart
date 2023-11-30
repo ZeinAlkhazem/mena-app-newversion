@@ -58,14 +58,14 @@ class _MarketScreenState extends State<MarketScreen> {
                       AppColors.softBlue,
                       AppColors.hardBlue,
                     ]),
-              )),
+              ),
+          ),
           title: Padding(
             padding:  EdgeInsets.only(top:15.h),
             child: SearchBox(hint: "Search"),
           ),
           centerTitle: true,
-        ),
-      ),
+        ), ),
       body: Column(
         children: [
           heightBox(13.h),
@@ -74,11 +74,11 @@ class _MarketScreenState extends State<MarketScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ButtonWithLabel(
-                btnIcon: "assets/menamarket/market_circle_fill_yellow_20.svg",
-                label: "$platformName\nMarket",
+                btnIcon: 'assets/menamarket/market_circle_fill_yellow_20.svg',
+                label: '$platformName\nMarket',
                 onTap: () async {
-                  navigateToWithoutNavBar(
-                      context, HealthCareMarket(), 'routeName');
+                  await navigateToWithoutNavBar(
+                      context, const HealthCareMarket(), 'routeName');
                 },
               ),
               ButtonWithLabel(

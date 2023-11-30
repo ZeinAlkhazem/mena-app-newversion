@@ -38,6 +38,10 @@ import '../../modules/live_screens/start_live_form.dart';
 import '../../modules/main_layout/main_layout.dart';
 import '../../modules/messenger/cubit/messenger_cubit.dart';
 import '../../modules/messenger/messenger_layout.dart';
+import '../../modules/messenger/screens/messenger_get_start_page.dart';
+import '../../modules/messenger/screens/messenger_home_page.dart';
+import '../../modules/my_profile/my_profile.dart';
+import '../constants/Colors.dart';
 import '../constants/constants.dart';
 import '../constants/validators.dart';
 import '../functions/main_funcs.dart';
@@ -645,8 +649,8 @@ class RainbowRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: rainBowBarHeight,
-      child: Row(
-        children: const [
+      child: const Row(
+        children: [
           ExpandedColoredContainer(color: Color(0xffD50000)),
           ExpandedColoredContainer(color: Color(0xffFADB3A)),
           ExpandedColoredContainer(color: Color(0xff388E3C)),
@@ -678,14 +682,14 @@ class ExpandedColoredContainer extends StatelessWidget {
 }
 
 class SearchBarWidget extends StatelessWidget {
-  const SearchBarWidget({Key? key, this.onFieldChanged}) : super(key: key);
+  const SearchBarWidget({super.key, this.onFieldChanged});
 
   final Function(String)? onFieldChanged;
 
   @override
   Widget build(BuildContext context) {
     ///
-    var localizationStrings = AppLocalizations.of(context);
+    final localizationStrings = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
@@ -693,20 +697,15 @@ class SearchBarWidget extends StatelessWidget {
         children: [
           Expanded(
               child: DefaultInputField(
-            // label: '',
             label: localizationStrings!.search,
-            // labelWidget: Text(
-            //   localizationStrings!.search,
-            //   style: mainStyle(context, 13, color: newDarkGreyColor, weight: FontWeight.w700),
-            // ),
             onFieldChanged: onFieldChanged,
             customHintText: 'Search by country name',
             suffixIcon: SvgPicture.asset(
               'assets/svg/search.svg',
               width: 20.w,
             ),
-          )),
-          // SvgPicture.asset('assets/svg/search.svg'),
+          ),
+          ),
         ],
       ),
     );
@@ -714,7 +713,7 @@ class SearchBarWidget extends StatelessWidget {
 }
 
 class SearchBar1 extends StatelessWidget {
-  const SearchBar1({Key? key, this.onFieldChanged, this.hintText}) : super(key: key);
+  const SearchBar1({super.key, this.onFieldChanged, this.hintText});
 
   final Function(String)? onFieldChanged;
   final String? hintText;
@@ -722,7 +721,7 @@ class SearchBar1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ///
-    var localizationStrings = AppLocalizations.of(context);
+    final localizationStrings = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
@@ -730,7 +729,7 @@ class SearchBar1 extends StatelessWidget {
         children: [
           Expanded(
               child: DefaultInputField(
-                fillColor: Color(0xfff2f3f5),
+                fillColor: const Color(0xfff2f3f5),
                 unFocusedBorderColor: Colors.transparent,
                 focusedBorderColor: Colors.transparent,
                 borderRadius: 24.r,
@@ -739,7 +738,7 @@ class SearchBar1 extends StatelessWidget {
                 customHintText: hintText,
                 prefixWidget: SvgPicture.asset(
                   'assets/new_icons/search_20.svg',
-                  color: Color(0xff979797),
+                  color: const Color(0xff979797),
                   height: 23.h,
                   width: 23.w,
                 ),
@@ -753,11 +752,11 @@ class SearchBar1 extends StatelessWidget {
 
 class IconLabelInputWidget extends StatelessWidget {
   const IconLabelInputWidget({
-    Key? key,
+    super.key,
     this.svgAssetLink,
     // this.customColor,
     required this.labelText,
-  }) : super(key: key);
+  });
 
   final String? svgAssetLink;
   final String labelText;
@@ -767,35 +766,28 @@ class IconLabelInputWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: customColor,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // svgAssetLink == null ? SizedBox() : widthBox(defaultHorizontalPadding * 1),
-            svgAssetLink == null
-                ? SizedBox()
-                : SizedBox(
+      padding: EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (svgAssetLink == null) const SizedBox() else SizedBox(
+                  width: 18.sp,
+                  height: 18.sp,
+                  child: SvgPicture.asset(
+                    svgAssetLink!,
                     width: 18.sp,
+                    color: newDarkGreyColor,
                     height: 18.sp,
-                    child: SvgPicture.asset(
-                      svgAssetLink!,
-                      width: 18.sp,
-                      color: newDarkGreyColor,
-                      height: 18.sp,
-                    ),
                   ),
-            widthBox(5.w),
-            Text(
-              labelText,
-              style: mainStyle(context, 12,
-                  color: newDarkGreyColor, weight: FontWeight.w700),
-            ),
-          ],
-        ),
+                ),
+          widthBox(5.w),
+          Text(
+            labelText,
+            style: mainStyle(context, 12,
+                color: newDarkGreyColor, weight: FontWeight.w700),
+          ),
+        ],
       ),
     );
   }
@@ -1068,9 +1060,8 @@ class _PhotoViewWithZoomContainerState
 ///
 class DefaultInputField extends StatefulWidget {
   const DefaultInputField({
-    Key? key,
+    super.key,
     this.label,
-    // this.labelWidget,
     this.asyncValidator,
     this.suffixIcon,
     this.obscureText,
@@ -1098,7 +1089,7 @@ class DefaultInputField extends StatefulWidget {
     this.labelTextStyle,
     this.hasError1 = false,
     this.errorIconAsset,
-  }) : super(key: key);
+  });
 
   final String? errorIconAsset;
   final Future<bool?> Function(String?)? asyncValidator;
@@ -1283,7 +1274,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
 
 class DefaultInputField29 extends StatefulWidget {
   const DefaultInputField29({
-    Key? key,
+    super.key,
     this.label,
     this.asyncValidator,
     this.suffixIcon,
@@ -1312,7 +1303,7 @@ class DefaultInputField29 extends StatefulWidget {
     this.hasError1 = false,
     this.errorIconAsset,
     this.obscureText,
-  }) : super(key: key);
+  });
 
   final String? errorIconAsset;
   final Future<bool> Function(String?)? asyncValidator;
@@ -1391,30 +1382,30 @@ class _DefaultInputField29State extends State<DefaultInputField29> {
         errorMaxLines: 3,
         isDense: true,
         filled: true,
-        errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.w700),
+        errorStyle: const TextStyle(color: Colors.red, fontWeight: FontWeight.w700),
         hintText: widget.customHintText ?? widget.label ?? '...',
         floatingLabelAlignment: widget.floatingLabelAlignment,
         floatingLabelBehavior:
             widget.floatingLabelBehavior ?? FloatingLabelBehavior.never,
-        hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+        hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
         contentPadding: widget.edgeInsetsGeometry ??
-            EdgeInsets.symmetric(
+            const EdgeInsets.symmetric(
               vertical: 15,
-              horizontal: 10.0,
+              horizontal: 10,
             ),
         border: const OutlineInputBorder(),
         suffixIcon: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: widget.suffixIcon,
         ),
         prefixIcon: widget.prefixWidget != null
             ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: widget.prefixWidget,
               )
             : null,
-        suffixIconConstraints: BoxConstraints(maxHeight: 60, maxWidth: 60),
-        labelStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+        suffixIconConstraints: const BoxConstraints(maxHeight: 60, maxWidth: 60),
+        labelStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
         label: Text(widget.label ?? ''),
         fillColor: error ? Color(0xffF2D5D5) : fillColor,
         focusColor: widget.fillColor ?? Colors.grey,
@@ -1737,7 +1728,7 @@ class DefaultButton1 extends StatelessWidget {
 
 class DefaultButtonUserName extends StatelessWidget {
   const DefaultButtonUserName({
-    Key? key,
+    super.key,
     required this.text,
     required this.onClick,
     required this.validator,
@@ -1753,7 +1744,7 @@ class DefaultButtonUserName extends StatelessWidget {
     this.withoutPadding = false,
     this.isEnabled = true,
     this.isLoading = false,
-  }) : super(key: key);
+  });
   final String text;
   final Function() onClick;
   final Function() validator;
@@ -1876,16 +1867,6 @@ class _ButtonWithLoaderState extends State<ButtonWithLoader> {
     );
   }
 }
-// Stack(
-// alignment: Alignment.center,
-// children: [
-// Text(widget.text, style: TextStyle(fontSize: 16.0)),
-// if (widget.isLoading)
-// CircularProgressIndicator(
-// valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-// ),
-// ],
-// ),
 
 class DefaultLoaderGrey extends StatelessWidget {
   const DefaultLoaderGrey({Key? key, this.customHeight}) : super(key: key);
@@ -3721,13 +3702,13 @@ class DefaultOnlyLogoAppbar extends StatelessWidget {
 
 class DefaultOnlyLogoAppbar1 extends StatelessWidget {
   const DefaultOnlyLogoAppbar1({
-    Key? key,
+    super.key,
     this.withBack = false,
     this.title,
     this.suffix,
     this.logo,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final Function()? onTap;
   final String? logo;
@@ -3739,9 +3720,8 @@ class DefaultOnlyLogoAppbar1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             widthBox(defaultHorizontalPadding),
             if (withBack)
@@ -3754,7 +3734,7 @@ class DefaultOnlyLogoAppbar1 extends StatelessWidget {
                   child: Center(
                     child: SvgPicture.asset(
                       logo ?? 'assets/new_icons/back.svg',
-                      color: Color(0xff4273B8),
+                      color: const Color(0xff4273B8),
                     ),
                   ),
                 ),
@@ -3764,7 +3744,7 @@ class DefaultOnlyLogoAppbar1 extends StatelessWidget {
             Expanded(
               child: Text(
                 title ?? '',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'PNfont',
@@ -3772,7 +3752,7 @@ class DefaultOnlyLogoAppbar1 extends StatelessWidget {
                 ),
               ),
             ),
-            suffix ?? SizedBox()
+            suffix ?? const SizedBox(),
           ],
         ),
       ),
@@ -4240,4 +4220,155 @@ Future<void> showMessageDialog(
       ),
     ),
   );
+}
+
+
+class AppBarIcons extends StatelessWidget {
+  final String icon;
+  final VoidCallback btnClick;
+  final double iconSize;
+  final double width;
+  final String title;
+  final double top;
+  final double bottom;
+  final double right;
+  final double left;
+
+  const AppBarIcons(
+      {super.key,
+        required this.btnClick,
+        this.top = 1,
+        this.width = 7,
+        this.title ='',
+        this.bottom = 1,
+        this.right = 1,
+        this.left = 0.1,
+        this.iconSize = 39.0,
+        required this.icon,});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: btnClick,
+      child: Container(
+        padding: EdgeInsets.only(top: top, bottom: bottom, right: right, left: left),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              icon,
+              width: iconSize,
+              fit: BoxFit.contain,
+              color: const Color(0xff2788E8),
+            ),
+            widthBox(width),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: AppFonts.interFont,
+                  color: const Color(0xFFE46258)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AppBarUpdated extends StatelessWidget {
+  final String title;
+  final bool withThree;
+  final double top;
+  final bool withBack;
+  final bool withProfileBubble;
+  final Widget? icon1;
+  final Widget? icon2;
+  final Widget? icon3;
+  const AppBarUpdated({
+    super.key,
+    this.top = 1,
+    this.withBack = false,
+    this.withProfileBubble = false,
+    this.icon1,
+    this.icon2,
+    this.icon3,
+    this.withThree = false,
+    this.title ='',});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10.h),
+      padding: EdgeInsets.only(top: 25.h, left: defaultHorizontalPadding),
+      child: Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 2.h),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    logg('profile bubble clicked');
+                    navigateToWithoutNavBar(
+                        context,
+                        getCachedToken() == null ? const SignInScreen() : const MyProfile(),
+                        '');
+                  },
+                  child: getCachedToken() == null
+                      ? SvgPicture.asset(
+                    'assets/svg/icons/profileFilled.svg',
+                    height: Responsive.isMobile(context) ? 30.w : 12.w,
+                  )
+                      :
+                  ProfileBubble(
+                    isOnline: true,
+                    customRingColor: Colors.transparent,
+                    pictureUrl: MainCubit.get(context).userInfoModel == null
+                        ? ''
+                        : MainCubit.get(context)
+                        .userInfoModel!
+                        .data
+                        .user
+                        .personalPicture,
+                    onlyView: true,
+                    radius: Responsive.isMobile(context) ? 14.w : 5.w,
+                  ),
+                ),
+                widthBox(6.w),
+                Padding(
+                  padding:
+                  EdgeInsets.only(top: 4.h),
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Tajawal',
+                      color: Color(0xff444444),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          if (icon1 != null) ...[
+            icon1!,
+          ],
+          if (icon2 != null) ...[
+            widthBox(4),
+            icon2!,
+          ],
+          if (icon3 != null) ...[
+            widthBox(4),
+            icon3!,
+          ],
+        ],
+      ),
+
+      // leadingWidth: 90,
+    );
+  }
 }

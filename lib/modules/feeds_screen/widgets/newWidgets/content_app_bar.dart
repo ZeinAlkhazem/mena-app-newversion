@@ -25,111 +25,175 @@ class ContentAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // backgroundColor: Colors.white,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () {
-                logg('profile bubble clicked');
-                navigateToWithoutNavBar(
-                    context,
-                    getCachedToken() == null ? SignInScreen() : MyProfile(),
-                    '');
-              },
-              child: getCachedToken() == null
-                  ? SvgPicture.asset(
-                      'assets/svg/icons/profileFilled.svg',
-                      height: Responsive.isMobile(context) ? 30.w : 12.w,
-                    )
-                  :
-                   ProfileImage(
-                      isOnline: true,
-                      customRingColor: Colors.transparent,
-                      pictureUrl: MainCubit.get(context).userInfoModel == null
-                          ? ''
-                          : MainCubit.get(context)
-                              .userInfoModel!
-                              .data
-                              .user
-                              .personalPicture,
-                      onlyView: true,
-                      radius: Responsive.isMobile(context) ? 14.w : 5.w,
-                    ),
-            ),
-          ),
-          Text(
-            "ContentBlend",
-            style: TextStyle(
-              color: Color(0xFF444444),
-              fontSize: 22,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w500,
-              // height: 0.03,
-            ),
-          ),
-          Spacer(),
-          AppBarIcons(
-            btnClick: () {
-              if (getCachedToken() == null) {
-                viewMessengerLoginAlertDialog(context);
-              } else if (MessengerCubit.get(context)
-                  .myMessagesModel!
-                  .data
-                  .myChats!
-                  .isEmpty) {
-                navigateToWithoutNavBar(
-                    context, const MessengerGetStartPage(), '');
-              } else {
-                navigateToWithoutNavBar(context, const MessengerHomePage(), '');
-              }
-            },
-            icon: 'assets/new_icons/message_outline_28.svg',
-            iconSize: 28,
-            // width: 12,
-            top: 1,
-            bottom: 4,
-            // right: 3,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, bottom: 3),
-            child: PullDown(
-              svgHeight: Responsive.isMobile(context) ? 25.w : 12.w,
-              customWidth: 0.485.sw,
-              customOffset: Offset(-30, 12),
-              customPosition: PullDownMenuPosition.under,
-              customButtonWidget: Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: SvgPicture.asset(
-                  "assets/new_icons/add_circle_outline_28.svg",
-                  color: Color(0xff2A87EA),
-                  width: 28,
-                ),
-              ),
-              items: FeedsCubit.get(context).userActionItems(context),
-              svgLink: "assets/new_icons/add_circle_outline_28.svg",
-            ),
-          ),
-          AppBarIcons(
-            btnClick: () {},
-            icon: 'assets/icons/search_20 3.svg',
-            iconSize: 28,
-            width: 12,
-            top: 1,
-            bottom: 4,
-            // right: 3,
-          ),
-        ],
+    return AppBarUpdated(
+      title: 'ContentBlend',
+      icon1: AppBarIcons(
+        btnClick: () {
+          if (getCachedToken() == null) {
+            viewMessengerLoginAlertDialog(context);
+          } else if (MessengerCubit.get(context)
+              .myMessagesModel!
+              .data
+              .myChats!
+              .isEmpty) {
+            navigateToWithoutNavBar(
+                context, const MessengerGetStartPage(), '');
+          } else {
+            navigateToWithoutNavBar(context, const MessengerHomePage(), '');
+          }
+        },
+        icon: 'assets/new_icons/message_outline_28.svg',
+        iconSize: 28,
+        // width: 12,
+        top: 1,
+        bottom: 4,
+        right: 5,
       ),
-
-      // leadingWidth: 90,
+      icon2: Padding(
+        padding: const EdgeInsets.only(right: 12, bottom: 3),
+        child: PullDown(
+          svgHeight: Responsive.isMobile(context) ? 25.w : 12.w,
+          customWidth: 0.485.sw,
+          customOffset: Offset(-30, 12),
+          customPosition: PullDownMenuPosition.under,
+          customButtonWidget: Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: SvgPicture.asset(
+              'assets/new_icons/add_circle_outline_28.svg',
+              color: Color(0xff2A87EA),
+              width: 28,
+            ),
+          ),
+          items: FeedsCubit.get(context).userActionItems(context),
+          svgLink: 'assets/new_icons/add_circle_outline_28.svg',
+        ),
+      ),
+      icon3: AppBarIcons(
+        btnClick: () {},
+        icon: 'assets/icons/search_20 3.svg',
+        iconSize: 28,
+        width: 12,
+        top: 1,
+        bottom: 4,
+        // left: 3,
+      ),
     );
+    //   Container(
+    //  margin: EdgeInsets.only(top: 10.h),
+    //   padding: EdgeInsets.only(top: 25.h, left: defaultHorizontalPadding),
+    //   child: Row(
+    //     children: [
+    //       Padding(
+    //         padding: EdgeInsets.only(top: 2.h),
+    //         child: Row(
+    //           children: [
+    //             GestureDetector(
+    //               onTap: () {
+    //                 logg('profile bubble clicked');
+    //                 navigateToWithoutNavBar(
+    //                     context,
+    //                     getCachedToken() == null ? SignInScreen() : MyProfile(),
+    //                     '');
+    //               },
+    //               child: getCachedToken() == null
+    //                   ? SvgPicture.asset(
+    //                       'assets/svg/icons/profileFilled.svg',
+    //                       height: Responsive.isMobile(context) ? 30.w : 12.w,
+    //                     )
+    //                   :
+    //                    ProfileImage(
+    //                       isOnline: true,
+    //                       customRingColor: Colors.transparent,
+    //                       pictureUrl: MainCubit.get(context).userInfoModel == null
+    //                           ? ''
+    //                           : MainCubit.get(context)
+    //                               .userInfoModel!
+    //                               .data
+    //                               .user
+    //                               .personalPicture,
+    //                       onlyView: true,
+    //                       radius: Responsive.isMobile(context) ? 14.w : 5.w,
+    //                     ),
+    //             ),
+    //             widthBox(6.w),
+    //             Padding(
+    //               padding:
+    //               EdgeInsets.only(top: 4.h),
+    //               child: const Text(
+    //                 'ContentBlend',
+    //                 style: TextStyle(
+    //                   fontSize: 23,
+    //                   fontWeight: FontWeight.w700,
+    //                   fontFamily: 'Tajawal',
+    //                   color: Color(0xff444444),
+    //                 ),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       const Spacer(),
+    //       AppBarIcons(
+    //         btnClick: () {
+    //           if (getCachedToken() == null) {
+    //             viewMessengerLoginAlertDialog(context);
+    //           } else if (MessengerCubit.get(context)
+    //               .myMessagesModel!
+    //               .data
+    //               .myChats!
+    //               .isEmpty) {
+    //             navigateToWithoutNavBar(
+    //                 context, const MessengerGetStartPage(), '');
+    //           } else {
+    //             navigateToWithoutNavBar(context, const MessengerHomePage(), '');
+    //           }
+    //         },
+    //         icon: 'assets/new_icons/message_outline_28.svg',
+    //         iconSize: 28,
+    //         // width: 12,
+    //         top: 1,
+    //         bottom: 4,
+    //         right: 5,
+    //       ),
+    //       widthBox(4.w),
+    //       Padding(
+    //         padding: const EdgeInsets.only(right: 12, bottom: 3),
+    //         child: PullDown(
+    //           svgHeight: Responsive.isMobile(context) ? 25.w : 12.w,
+    //           customWidth: 0.485.sw,
+    //           customOffset: Offset(-30, 12),
+    //           customPosition: PullDownMenuPosition.under,
+    //           customButtonWidget: Padding(
+    //             padding: const EdgeInsets.only(top: 2),
+    //             child: SvgPicture.asset(
+    //               'assets/new_icons/add_circle_outline_28.svg',
+    //               color: Color(0xff2A87EA),
+    //               width: 28,
+    //             ),
+    //           ),
+    //           items: FeedsCubit.get(context).userActionItems(context),
+    //           svgLink: 'assets/new_icons/add_circle_outline_28.svg',
+    //         ),
+    //       ),
+    //       widthBox(4.w),
+    //       AppBarIcons(
+    //         btnClick: () {},
+    //         icon: 'assets/icons/search_20 3.svg',
+    //         iconSize: 28,
+    //         width: 12,
+    //         top: 1,
+    //         bottom: 4,
+    //         // left: 3,
+    //       ),
+    //     ],
+    //   ),
+    //
+    //   // leadingWidth: 90,
+    // );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 

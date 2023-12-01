@@ -8,6 +8,7 @@ class AppColors {
   static Color backgroundColor = const Color(0xFFf8f9fb);
   static Color darkBlue = const Color(0xFF999B9D);
   static Color white =  Colors.white;
+  static Color blue =  Colors.blue;
   static Color textRed = const Color(0xFFE72B1C);
   static Color lineBlue = const Color(0xFF0077FF);
   static Color softBlue = const Color(0xFF4480c2);

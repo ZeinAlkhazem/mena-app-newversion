@@ -3,7 +3,7 @@ version: 1.0.0+1
 publish_to: none
 description: Mena platform
 environment: 
-  sdk: '>=2.17.6 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 dependencies: 
   add_2_calendar: ^3.0.1
   audio_session: ^0.1.13

@@ -3,7 +3,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://artifactory.img.ly/artifactory/imgly" }
+        // maven { url "https://artifactory.img.ly/artifactory/imgly" }
     }
 
     dependencies {
@@ -12,7 +12,7 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.14'
         // END: FlutterFire Configuration
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'ly.img.android.sdk:plugin:10.8.1'
+        // classpath 'ly.img.android.sdk:plugin:10.8.1'
         
     }
 }
@@ -21,7 +21,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://artifactory.img.ly/artifactory/imgly' }
+        // maven { url 'https://artifactory.img.ly/artifactory/imgly' }
     }
 }
 

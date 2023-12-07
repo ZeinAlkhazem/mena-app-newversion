@@ -14,6 +14,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:locale_plus/locale_plus.dart';
 import 'package:mena/MenaMarketPlace/features/healthcare/presentation/cubit/healthcare_cubit.dart';
 import 'package:mena/MenaMarketPlace/features/market/presentation/cubit/market_cubit.dart';
+import 'package:mena/MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
 import 'package:mena/MenaMarketPlace/injection_container.dart' as di;
 import 'package:mena/core/bloc_observer.dart';
 import 'package:mena/core/functions/main_funcs.dart';
@@ -28,6 +29,7 @@ import 'package:mena/modules/splash_screen/splash_screen.dart';
 import 'package:mena/modules/tools/cubit/tools_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'MenaMarketPlace/features/healthcare/presentation/pages/market_item_screen.dart';
 import 'core/cache/cache.dart';
 import 'core/cache/sqflite/sqf_helper.dart';
 import 'core/constants/Colors.dart';

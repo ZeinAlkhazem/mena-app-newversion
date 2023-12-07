@@ -12,9 +12,17 @@ class MarketInitial extends MarketState {}
 
 class MarketChangeCaroselIndexState extends MarketState {
   final int index;
-  MarketChangeCaroselIndexState({
+ const MarketChangeCaroselIndexState({
     required this.index,
   });
     @override
   List<Object> get props => [index];
+}
+class MarketChangeProductViewState extends MarketState {
+  final String type;
+const  MarketChangeProductViewState({
+    required this.type,
+  });
+    @override
+  List<Object> get props => [type];
 }

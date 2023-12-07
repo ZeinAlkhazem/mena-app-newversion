@@ -110,6 +110,7 @@ class MainCubit extends Cubit<MainState> {
 
   ///
   bool isHeaderVisible = true;
+  bool isDarkStatusBar = true;
   bool? firstRun =
       getCachedFirstApplicationRun(); //initial values(lang and location) saved?
 
@@ -681,6 +682,13 @@ class MainCubit extends Cubit<MainState> {
     if (isHeaderVisible == status) {
     } else {
       isHeaderVisible = status;
+      emit(HeaderVisibilityChanged());
+    }
+  }
+  void changeStatusBarBrightness(bool status) {
+    if (isDarkStatusBar == status) {
+    } else {
+      isDarkStatusBar = status;
       emit(HeaderVisibilityChanged());
     }
   }

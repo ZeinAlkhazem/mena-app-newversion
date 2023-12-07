@@ -4,27 +4,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mena/core/constants/Colors.dart';
 import 'package:mena/core/functions/main_funcs.dart';
 
-import '../../domain/entities/healthcare_category.dart';
-import 'sub_sub_category.dart';
+import 'package:mena/MenaMarketPlace/features/healthcare/domain/entities/healthcare_category.dart';
+import 'package:mena/MenaMarketPlace/features/healthcare/presentation/widgets/sub_sub_category.dart';
 
 class HealthCareSubCategory extends StatelessWidget {
   final HealthcareSubCategory healthcareSubCategory;
   const HealthCareSubCategory({
-    Key? key,
+    super.key,
     required this.healthcareSubCategory,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ListTileTheme(
-        contentPadding: EdgeInsets.all(0),
+        contentPadding: const EdgeInsets.all(0),
         dense: true,
-        horizontalTitleGap: 0.0,
+        horizontalTitleGap: 0,
         minLeadingWidth: 0,
         child: ExpansionTile(
-          initiallyExpanded: false,
           children: [
             Wrap(
               children: List.generate(
@@ -38,15 +37,15 @@ class HealthCareSubCategory extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
           title: Text(
             healthcareSubCategory.name,
-            style: mainStyle(
-              context,
-              15.sp,
-              weight: FontWeight.w500,
-              fontFamily: "Roboto",
+            style: const TextStyle(
+              color: Color(0xFF444444),
+              fontSize: 15,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w500,
             ),
           ),
           collapsedIconColor: AppColors.softBlue,

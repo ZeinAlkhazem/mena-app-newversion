@@ -53,6 +53,7 @@ dependencies:
   geolocator: ^9.0.2
   get: any
   get_it: ^7.6.4
+  group_button: ^5.3.3
   google_maps_flutter: ^2.2.1
   google_maps_place_picker_mb: ^3.0.1
   hive: ^2.2.3

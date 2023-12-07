@@ -3,21 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../../core/constants/Colors.dart';
-import 'select_scanner_mode.dart';
+import 'package:mena/core/constants/Colors.dart';
+import 'package:mena/MenaMarketPlace/features/market/presentation/widgets/select_scanner_mode.dart';
 
 class SearchBox extends StatelessWidget {
-  
   final String hint;
   const SearchBox({
-    Key? key,
-    
+    super.key,
     required this.hint,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController? searchController = TextEditingController();
+    final searchController = TextEditingController();
     return TextFormField(
       controller: searchController,
       keyboardType: TextInputType.text,
@@ -25,14 +23,19 @@ class SearchBox extends StatelessWidget {
         errorMaxLines: 3,
         isDense: true,
         filled: true,
-        errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.w700),
+        errorStyle:
+            const TextStyle(color: Colors.red, fontWeight: FontWeight.w700),
         hintText: hint,
-        hintStyle: TextStyle(
-            color: Colors.grey.shade500,
-            fontWeight: FontWeight.w900,
-            fontSize: 12),
+        hintStyle: const TextStyle(
+          color: Color(0xFF979797),
+          fontSize: 14,
+          fontFamily: 'Inter',
+          fontWeight: FontWeight.w400,
+          height: 0.07,
+          letterSpacing: -0.14,
+        ),
         border: const OutlineInputBorder(),
-        contentPadding: EdgeInsets.all(10),
+        contentPadding: const EdgeInsets.all(10),
         suffixIcon: Padding(
           padding: EdgeInsets.all(8.w),
           child: InkWell(
@@ -42,8 +45,8 @@ class SearchBox extends StatelessWidget {
               );
             },
             child: SvgPicture.asset(
-              "assets/menamarket/qr_code_outline_28.svg",
-              color: AppColors.grayColor,
+              'assets/menamarket/qr_code_outline_28.svg',
+              color: const Color(0xff979797),
             ),
           ),
         ),
@@ -52,43 +55,42 @@ class SearchBox extends StatelessWidget {
         prefixIcon: Padding(
           padding: EdgeInsets.all(8.w),
           child: SvgPicture.asset(
-            "assets/menamarket/search_outline_56.svg",
+            'assets/menamarket/search_outline_56.svg',
             width: 30.w,
-            color: Colors.grey.shade500,
+            color: const Color(0xff979797),
             height: 30.w,
-            fit: BoxFit.contain,
           ),
         ),
-        fillColor: Color(0xfff2f2f2),
+        fillColor: const Color(0xfff2f2f2),
         focusColor: Colors.grey,
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red, width: 1),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red, width: 1),
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xff0077FF), width: 1.0),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xff0077FF)),
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xff999B9D), width: 1),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xff999B9D)),
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xff999B9D), width: 1),
+        disabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xff999B9D)),
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            Radius.circular(10),
           ),
         ),
       ),

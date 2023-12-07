@@ -26,30 +26,30 @@ import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
-import '../../MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
-import '../../core/constants/constants.dart';
-import '../../core/shared_widgets/mena_shared_widgets/custom_containers.dart';
-import '../../core/shared_widgets/shared_widgets.dart';
-import '../../models/local_models.dart';
-import '../auth_screens/cubit/auth_cubit.dart';
-import '../auth_screens/cubit/auth_state.dart';
-import '../auth_screens/sign_in_screen.dart';
-import '../feeds_screen/cubit/feeds_cubit.dart';
-import '../home_screen/home_screen.dart';
-import '../live_screens/live_main_layout.dart';
-import '../live_screens/meetings/meetings_layout.dart';
-import '../messenger/cubit/messenger_cubit.dart';
-import '../messenger/messenger_layout.dart';
-import '../my_profile/my_profile.dart';
-import '../my_profile/my_profile.dart';
-import '../my_profile/my_profile.dart';
-import '../my_profile/my_profile.dart';
-import '../my_profile/my_profile.dart';
-import '../splash_screen/route_engine.dart';
+import 'package:mena/MenaMarketPlace/features/market/presentation/pages/market_screen.dart';
+import 'package:mena/core/constants/constants.dart';
+import 'package:mena/core/shared_widgets/mena_shared_widgets/custom_containers.dart';
+import 'package:mena/core/shared_widgets/shared_widgets.dart';
+import 'package:mena/models/local_models.dart';
+import 'package:mena/modules/auth_screens/cubit/auth_cubit.dart';
+import 'package:mena/modules/auth_screens/cubit/auth_state.dart';
+import 'package:mena/modules/auth_screens/sign_in_screen.dart';
+import 'package:mena/modules/feeds_screen/cubit/feeds_cubit.dart';
+import 'package:mena/modules/home_screen/home_screen.dart';
+import 'package:mena/modules/live_screens/live_main_layout.dart';
+import 'package:mena/modules/live_screens/meetings/meetings_layout.dart';
+import 'package:mena/modules/messenger/cubit/messenger_cubit.dart';
+import 'package:mena/modules/messenger/messenger_layout.dart';
+import 'package:mena/modules/my_profile/my_profile.dart';
+import 'package:mena/modules/my_profile/my_profile.dart';
+import 'package:mena/modules/my_profile/my_profile.dart';
+import 'package:mena/modules/my_profile/my_profile.dart';
+import 'package:mena/modules/my_profile/my_profile.dart';
+import 'package:mena/modules/splash_screen/route_engine.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class MainLayout extends StatefulWidget {
-  const MainLayout({Key? key}) : super(key: key);
+  const MainLayout({super.key});
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -63,9 +63,9 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 0);
+    _controller = PersistentTabController();
     _hideNavBar = false;
-    var messengerCubit = MessengerCubit.get(context);
+    final messengerCubit = MessengerCubit.get(context);
     messengerCubit
       ..fetchMyMessages()
       ..fetchOnlineUsers();
@@ -102,7 +102,7 @@ class _MainLayoutState extends State<MainLayout> {
         inHome: true,
         isMyFeeds: false,
         user: null,
-      )
+      ),
     ];
     // return const [
     //   HomeScreen(),
@@ -125,14 +125,15 @@ class _MainLayoutState extends State<MainLayout> {
           height: 26,
         ),
         title: getTranslatedStrings(context).home,
-        textStyle: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PNfont',
-            color: Color(0xff8f979f)),
-        activeColorPrimary: Color(0xff97A0A8),
-        inactiveColorPrimary: Color(0xff97A0A8),
-        inactiveColorSecondary: Color(0xff97A0A8),
+        textStyle: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'PNfont',
+          color: Color(0xff8f979f),
+        ),
+        activeColorPrimary: const Color(0xff97A0A8),
+        inactiveColorPrimary: const Color(0xff97A0A8),
+        inactiveColorSecondary: const Color(0xff97A0A8),
       ),
       PersistentBottomNavBarItem(
         icon: Padding(
@@ -150,14 +151,15 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ),
         title: getTranslatedStrings(context).deals,
-        textStyle: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PNfont',
-            color: Color(0xff97A0A8)),
-        activeColorPrimary: Color(0xff97A0A8),
-        inactiveColorPrimary: Color(0xff97A0A8),
-        inactiveColorSecondary: Color(0xff97A0A8),
+        textStyle: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'PNfont',
+          color: Color(0xff97A0A8),
+        ),
+        activeColorPrimary: const Color(0xff97A0A8),
+        inactiveColorPrimary: const Color(0xff97A0A8),
+        inactiveColorSecondary: const Color(0xff97A0A8),
       ),
       PersistentBottomNavBarItem(
         icon: Padding(
@@ -176,14 +178,15 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ),
         title: getTranslatedStrings(context).live,
-        textStyle: TextStyle(
-            fontSize: 11.0,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PNfont',
-            color: Color(0xff97A0A8)),
-        activeColorPrimary: Color(0xff97A0A8),
-        inactiveColorPrimary: Color(0xff97A0A8),
-        inactiveColorSecondary: Color(0xff97A0A8),
+        textStyle: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'PNfont',
+          color: Color(0xff97A0A8),
+        ),
+        activeColorPrimary: const Color(0xff97A0A8),
+        inactiveColorPrimary: const Color(0xff97A0A8),
+        inactiveColorSecondary: const Color(0xff97A0A8),
       ),
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
@@ -197,14 +200,15 @@ class _MainLayoutState extends State<MainLayout> {
           // height: 28.h,
         ),
         title: getTranslatedStrings(context).meetings,
-        textStyle: TextStyle(
-            fontSize: 11.0,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PNfont',
-            color: Color(0xff97A0A8)),
-        activeColorPrimary: Color(0xff97A0A8),
-        inactiveColorPrimary: Color(0xff97A0A8),
-        inactiveColorSecondary: Color(0xff97A0A8),
+        textStyle: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'PNfont',
+          color: Color(0xff97A0A8),
+        ),
+        activeColorPrimary: const Color(0xff97A0A8),
+        inactiveColorPrimary: const Color(0xff97A0A8),
+        inactiveColorSecondary: const Color(0xff97A0A8),
       ),
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
@@ -216,23 +220,24 @@ class _MainLayoutState extends State<MainLayout> {
           height: 26,
         ),
         title: getTranslatedStrings(context).feeds,
-        textStyle: TextStyle(
-            fontSize: 11.0,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PNfont',
-            color: Color(0xff97A0A8)),
-        activeColorPrimary: Color(0xff97A0A8),
-        inactiveColorPrimary: Color(0xff97A0A8),
-        inactiveColorSecondary: Color(0xff97A0A8),
+        textStyle: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'PNfont',
+          color: Color(0xff97A0A8),
+        ),
+        activeColorPrimary: const Color(0xff97A0A8),
+        inactiveColorPrimary: const Color(0xff97A0A8),
+        inactiveColorSecondary: const Color(0xff97A0A8),
       ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    var mainCubit = MainCubit.get(context);
-    var homeCubit = HomeScreenCubit.get(context);
-    var messengerCubit = MessengerCubit.get(context);
+    final mainCubit = MainCubit.get(context);
+    final homeCubit = HomeScreenCubit.get(context);
+    final messengerCubit = MessengerCubit.get(context);
 
     return WillPopScope(
       onWillPop: () async {
@@ -266,106 +271,116 @@ class _MainLayoutState extends State<MainLayout> {
         );
         return shouldPop!;
       },
-      child: Scaffold(
-        // appBar: AppBar(),
-        backgroundColor: Color(0xffFBFDFB),
-        // floatingActionButton: FloatingActionButton(
-        //   // onPressed: (){
-        //   //   MainCubit.get(context).updateMenaViewedLogo('assets/svg/icons/menalive.svg');
-        //   // },
-        // ),
-        key: myScaffoldKey,
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: ()async{
-        //     var userBox = await Hive.openBox('userBox');
-        //     UserInfoModel test=
-        //     UserInfoModel.fromJson( userBox.get('userModel'));
-        //     // await userBox.close();
-        //     logg('yefghjdksmf: ${test.data.user.fullName}');
-        //   },
-        // ),
-        // appBar: AppBar(
-        //   flexibleSpace: Container(
-        //     color: Colors.white,
-        //   ),
-        //   elevation: 0.1,
-        //   leadingWidth: 50.w,
-        //   leading:  Padding(
-        //     padding:  EdgeInsets.symmetric(horizontal: defaultHorizontalPadding*2),
-        //     child: Row(
-        //       children: [
-        //         SvgPicture.asset('assets/svg/mena8.svg',width: 0.4.sw,)
-        //       ],
-        //     ),
-        //   ),
-        // ),
+      child: BlocBuilder<MainCubit, MainState>(
+        builder: (context, state) {
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarIconBrightness: mainCubit.isDarkStatusBar
+                  ? Brightness.dark
+                  : Brightness.light,
+            ),
+            child: Scaffold(
+              // appBar: AppBar(),
+              backgroundColor: const Color(0xffFBFDFB),
+              // floatingActionButton: FloatingActionButton(
+              //   // onPressed: (){
+              //   //   MainCubit.get(context).updateMenaViewedLogo('assets/svg/icons/menalive.svg');
+              //   // },
+              // ),
+              key: myScaffoldKey,
+              // floatingActionButton: FloatingActionButton(
+              //   onPressed: ()async{
+              //     var userBox = await Hive.openBox('userBox');
+              //     UserInfoModel test=
+              //     UserInfoModel.fromJson( userBox.get('userModel'));
+              //     // await userBox.close();
+              //     logg('yefghjdksmf: ${test.data.user.fullName}');
+              //   },
+              // ),
+              // appBar: AppBar(
+              //   flexibleSpace: Container(
+              //     color: Colors.white,
+              //   ),
+              //   elevation: 0.1,
+              //   leadingWidth: 50.w,
+              //   leading:  Padding(
+              //     padding:  EdgeInsets.symmetric(horizontal: defaultHorizontalPadding*2),
+              //     child: Row(
+              //       children: [
+              //         SvgPicture.asset('assets/svg/mena8.svg',width: 0.4.sw,)
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
-        ///
-        ///  change to getCachedToken()==null
-        ///
-        ///
+              ///
+              ///  change to getCachedToken()==null
+              ///
+              ///
 
-        // drawer: getCachedToken() == null ? const GuestDrawer() : const UserProfileDrawer(),
-        endDrawer: BlocConsumer<HomeScreenCubit, HomeScreenState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            return FloatingPickPlatformsDrawer(
-              buttons: mainCubit.configModel!.data.platforms
-                  .map(
-                    (e) => SelectorButtonModel(
-                      title: e.name!,
-                      image: e.image,
-                      onClickCallback: () async {
-                        log("hhhh");
-                        myScaffoldKey.currentState?.closeEndDrawer();
-                        homeCubit.changeSelectedHomePlatform(e.id.toString());
-                        await prefs.setString(
-                            'platformName', e.name.toString());
-                      },
-                      isSelected: homeCubit.selectedHomePlatformId == e.id,
-                    ),
-                  )
-                  .toList(),
-            );
-          },
-        ),
-        endDrawerEnableOpenDragGesture: false,
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: (){
-        //     scaffoldKey.currentState?.openEndDrawer();
-        //
-        //   },
-        // ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-        drawerScrimColor: Colors.white.withOpacity(0.2),
-        body: BlocConsumer<MainCubit, MainState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            return (MainCubit.get(context).userInfoModel == null &&
-                    getCachedToken() != null)
-                ? const SizedBox()
-                : SafeArea(
-                  top: mainCubit.isHeaderVisible ? true : false,
-                  bottom: false,
-                  child: Column(
-                    children: [
-                      if (mainCubit.isHeaderVisible) Padding(
+              // drawer: getCachedToken() == null ? const GuestDrawer() : const UserProfileDrawer(),
+              endDrawer: BlocConsumer<HomeScreenCubit, HomeScreenState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  return FloatingPickPlatformsDrawer(
+                    buttons: mainCubit.configModel!.data.platforms
+                        .map(
+                          (e) => SelectorButtonModel(
+                            title: e.name!,
+                            image: e.image,
+                            onClickCallback: () async {
+                              log('hhhh');
+                              myScaffoldKey.currentState?.closeEndDrawer();
+                              await homeCubit
+                                  .changeSelectedHomePlatform(e.id.toString());
+                              await prefs.setString(
+                                'platformName',
+                                e.name.toString(),
+                              );
+                            },
+                            isSelected:
+                                homeCubit.selectedHomePlatformId == e.id,
+                          ),
+                        )
+                        .toList(),
+                  );
+                },
+              ),
+              endDrawerEnableOpenDragGesture: false,
+              // floatingActionButton: FloatingActionButton(
+              //   onPressed: (){
+              //     scaffoldKey.currentState?.openEndDrawer();
+              //
+              //   },
+              // ),
+              // floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+              drawerScrimColor: Colors.white.withOpacity(0.2),
+              body: (MainCubit.get(context).userInfoModel == null &&
+                      getCachedToken() != null)
+                  ? const SizedBox()
+                  : SafeArea(
+                      top: mainCubit.isHeaderVisible ? true : false,
+                      bottom: false,
+                      child: Column(
+                        children: [
+                          if (mainCubit.isHeaderVisible)
+                            Padding(
                               padding: EdgeInsets.only(
-                                  // right: defaultHorizontalPadding,
-                                  left: defaultHorizontalPadding,
-                                  top: Responsive.isMobile(context)
-                                      ? defaultHorizontalPadding / 8
-                                      : defaultHorizontalPadding / 2,),
+                                // right: defaultHorizontalPadding,
+                                left: defaultHorizontalPadding,
+                                top: Responsive.isMobile(context)
+                                    ? defaultHorizontalPadding / 8
+                                    : defaultHorizontalPadding / 2,
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    bottom: 6, top: 5,),
+                                  bottom: 6,
+                                  top: 5,
+                                ),
                                 child: Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -377,17 +392,19 @@ class _MainLayoutState extends State<MainLayout> {
                                             onTap: () {
                                               logg('profile bubble clicked');
                                               navigateToWithoutNavBar(
-                                                  context,
-                                                  getCachedToken() == null
-                                                      ? const SignInScreen()
-                                                      : const MyProfile(),
-                                                  '',);
+                                                context,
+                                                getCachedToken() == null
+                                                    ? const SignInScreen()
+                                                    : const MyProfile(),
+                                                '',
+                                              );
                                             },
                                             child: getCachedToken() == null
                                                 ? SvgPicture.asset(
                                                     'assets/svg/icons/profileFilled.svg',
                                                     height: Responsive.isMobile(
-                                                            context,)
+                                                      context,
+                                                    )
                                                         ? 30.w
                                                         : 12.w,
                                                   )
@@ -396,8 +413,8 @@ class _MainLayoutState extends State<MainLayout> {
                                                     customRingColor:
                                                         Colors.transparent,
                                                     pictureUrl: MainCubit.get(
-                                                                    context)
-                                                                .userInfoModel ==
+                                                              context,
+                                                            ).userInfoModel ==
                                                             null
                                                         ? ''
                                                         : MainCubit.get(context)
@@ -405,42 +422,39 @@ class _MainLayoutState extends State<MainLayout> {
                                                             .data
                                                             .user
                                                             .personalPicture,
-                                                    onlyView: true,
                                                     radius: Responsive.isMobile(
-                                                            context)
+                                                      context,
+                                                    )
                                                         ? 14.w
                                                         : 5.w,
                                                   ),
                                           ),
                                           widthBox(6.w),
-                                           Padding(
-                                             padding:
-                                             EdgeInsets.only(top: 4.h),
-                                             child: const Text(
-                                               'Home',
-                                               style: TextStyle(
-                                                 fontSize: 23,
-                                                 fontWeight: FontWeight.w700,
-                                                 fontFamily: 'Tajawal',
-                                                 color: Color(0xff444444),
-                                               ),
-                                             ),
-                                           ),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 4.h),
+                                            child: const Text(
+                                              'Home',
+                                              style: TextStyle(
+                                                fontSize: 23,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Tajawal',
+                                                color: Color(0xff444444),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
                                     widthBox(110.w),
 
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 3),
+                                      padding: const EdgeInsets.only(bottom: 3),
                                       child: MyPullDownButton(
-                                        svgHeight:
-                                            Responsive.isMobile(context)
-                                                ? 25.w
-                                                : 12.w,
+                                        svgHeight: Responsive.isMobile(context)
+                                            ? 25.w
+                                            : 12.w,
                                         customWidth: 0.485.sw,
-                                        customOffset: Offset(-30, 12),
+                                        customOffset: const Offset(-30, 12),
                                         customPosition:
                                             PullDownMenuPosition.under,
                                         customButtonWidget: Padding(
@@ -475,107 +489,108 @@ class _MainLayoutState extends State<MainLayout> {
                                   ],
                                 ),
                               ),
-                            ) else const SizedBox(),
-                      if (mainCubit.isHeaderVisible)
-                        const Divider(color: Color(0xffdfe4e4)) else const SizedBox(),
-                      Expanded(
-                        child: PersistentTabView(
-                          context,
-                          navBarHeight: Responsive.isMobile(context)
-                              ? kBottomNavigationBarHeight * 1
-                              : kBottomNavigationBarHeight * 1.3,
-                          controller: _controller,
+                            )
+                          else
+                            const SizedBox(),
+                          if (mainCubit.isHeaderVisible)
+                            const Divider(color: Color(0xffdfe4e4))
+                          else
+                            const SizedBox(),
+                          Expanded(
+                            child: PersistentTabView(
+                              context,
+                              navBarHeight: Responsive.isMobile(context)
+                                  ? kBottomNavigationBarHeight * 1
+                                  : kBottomNavigationBarHeight * 1.3,
+                              controller: _controller,
 
-                          // // floatingActionButton: Container(
-                          // //   c
-                          // // ),
-                          onItemSelected: (index) {
-                            if (index == 1||index==4) {
-                              mainCubit.changeHeaderVisibility(false);
-                            } else {
-                              mainCubit.changeHeaderVisibility(true);
-                            }
-                          },
-                          // onItemSelected: (index) {
-                          //   // mainCubit.changeHeaderVisibility(true);
-                          //   if (index == 2) {
-                          //     MainCubit.get(context).updateMenaViewedLogo(
-                          //         'assets/svg/icons/menalive.svg');
-                          //   } else if (index == 4) {
-                          //     /// feeds public
-                          //     MainCubit.get(context).updateMenaViewedLogo(
-                          //         'assets/svg/mena8.svg');
-                          //     //        FeedsCubit.get(context).getFeeds();
-                          //   } else {
-                          //     MainCubit.get(context).updateMenaViewedLogo(
-                          //         'assets/svg/mena8.svg');
-                          //   }
-                          // },
-                          screens: _buildScreens(),
-                          items: _navBarsItems(),
-                          confineInSafeArea: true,
-                          backgroundColor: Colors.white,
-                          handleAndroidBackButtonPress: true,
-                          resizeToAvoidBottomInset: true,
-                          stateManagement: true,
-                          hideNavigationBarWhenKeyboardShows: true,
-                          margin: const EdgeInsets.all(0.0),
-                          popActionScreens: PopActionScreensType.all,
-                          onWillPop: (context) async {
-                            await showDialog(
-                              context: context!,
-                              useSafeArea: true,
-                              builder: (context) => Container(
-                                ///
-                                /// height:50.0,
-                                /// width:50.0,
-                                ///
-                                ///
-                                height: 50.0,
-                                width: 50.0,
-                                color: Colors.white,
-                                child: ElevatedButton(
-                                  child: const Text("Close"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
+                              // // floatingActionButton: Container(
+                              // //   c
+                              // // ),
+                              onItemSelected: (index) {
+                                if (index == 1) {
+                                  mainCubit
+                                    ..changeHeaderVisibility(false)
+                                    ..changeStatusBarBrightness(false);
+                                } else if (index == 4) {
+                                  mainCubit
+                                    ..changeHeaderVisibility(false)
+                                    ..changeStatusBarBrightness(true);
+                                } else {
+                                  mainCubit
+                                    ..changeHeaderVisibility(true)
+                                    ..changeStatusBarBrightness(true);
+                                }
+                              },
+                              // onItemSelected: (index) {
+                              //   // mainCubit.changeHeaderVisibility(true);
+                              //   if (index == 2) {
+                              //     MainCubit.get(context).updateMenaViewedLogo(
+                              //         'assets/svg/icons/menalive.svg');
+                              //   } else if (index == 4) {
+                              //     /// feeds public
+                              //     MainCubit.get(context).updateMenaViewedLogo(
+                              //         'assets/svg/mena8.svg');
+                              //     //        FeedsCubit.get(context).getFeeds();
+                              //   } else {
+                              //     MainCubit.get(context).updateMenaViewedLogo(
+                              //         'assets/svg/mena8.svg');
+                              //   }
+                              // },
+                              screens: _buildScreens(),
+                              items: _navBarsItems(),
+                              onWillPop: (context) async {
+                                await showDialog(
+                                  context: context!,
+                                  useSafeArea: true,
+                                  builder: (context) => Container(
+                                    ///
+                                    /// height:50.0,
+                                    /// width:50.0,
+                                    ///
+                                    ///
+                                    height: 50,
+                                    width: 50,
+                                    color: Colors.white,
+                                    child: ElevatedButton(
+                                      child: const Text('Close'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
+                                );
+                                return false;
+                              },
+                              hideNavigationBar: _hideNavBar,
+                              decoration: NavBarDecoration(
+                                colorBehindNavBar: Colors.white,
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    /// todo: test this
+                                    color: mainBlueColor,
+                                    // blurRadius: 0.001,
+                                  ),
+                                ],
                               ),
-                            );
-                            return false;
-                          },
-                          hideNavigationBar: _hideNavBar,
-                          decoration: NavBarDecoration(
-                            colorBehindNavBar: Colors.white,
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                /// todo: test this
-                                color: mainBlueColor,
-                                // blurRadius: 0.001,
+                              itemAnimationProperties:
+                                  const ItemAnimationProperties(
+                                duration: Duration(milliseconds: 400),
+                                curve: Curves.ease,
                               ),
-                            ],
+                              screenTransitionAnimation:
+                                  const ScreenTransitionAnimation(
+                                curve: Curves.fastOutSlowIn,
+                              ),
+                              navBarStyle: NavBarStyle.style6,
+                            ),
                           ),
-                          popAllScreensOnTapOfSelectedTab: true,
-                          itemAnimationProperties:
-                              const ItemAnimationProperties(
-                            duration: Duration(milliseconds: 400),
-                            curve: Curves.ease,
-                          ),
-                          screenTransitionAnimation:
-                              const ScreenTransitionAnimation(
-                            // Screen transition animation on change of selected tab.
-                            animateTabTransition: false,
-                            curve: Curves.fastOutSlowIn,
-                            duration: Duration(milliseconds: 200),
-                          ),
-                          navBarStyle: NavBarStyle.style6,
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-          },
-        ),
+                    ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -588,8 +603,8 @@ class MessengerIconBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var mainCubit = MainCubit.get(context);
-    bool hasMessages = mainCubit.countersModel != null &&
+    final mainCubit = MainCubit.get(context);
+    final hasMessages = mainCubit.countersModel != null &&
         mainCubit.countersModel!.data.messages > 0;
     return GestureDetector(
       onTap: () {
@@ -625,13 +640,19 @@ class MessengerIconBubble extends StatelessWidget {
                           .myChats!
                           .isEmpty) {
                         navigateToWithoutNavBar(
-                            context, const MessengerGetStartPage(), '');
+                          context,
+                          const MessengerGetStartPage(),
+                          '',
+                        );
                       } else {
                         navigateToWithoutNavBar(
-                            context, const MessengerHomePage(), '');
+                          context,
+                          const MessengerHomePage(),
+                          '',
+                        );
                       }
                     },
-                    icon: "assets/new_icons/message_outline_28.svg",
+                    icon: 'assets/new_icons/message_outline_28.svg',
                     iconSize: 28,
                     bottom: 3,
                     // top: 3,
@@ -642,9 +663,10 @@ class MessengerIconBubble extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: NotificationCounterBubble(
-                    counter: mainCubit.countersModel == null
-                        ? '0'
-                        : mainCubit.countersModel!.data.messages.toString()),
+                  counter: mainCubit.countersModel == null
+                      ? '0'
+                      : mainCubit.countersModel!.data.messages.toString(),
+                ),
               ),
             ],
           );
@@ -691,13 +713,14 @@ class NotificationIconBubble extends StatelessWidget {
                 Align(
                   alignment: Alignment.topRight,
                   child: NotificationCounterBubble(
-                      counter: MainCubit.get(context).countersModel == null
-                          ? '0'
-                          : MainCubit.get(context)
-                              .countersModel!
-                              .data
-                              .notifications
-                              .toString()),
+                    counter: MainCubit.get(context).countersModel == null
+                        ? '0'
+                        : MainCubit.get(context)
+                            .countersModel!
+                            .data
+                            .notifications
+                            .toString(),
+                  ),
                 ),
               ],
             );
@@ -707,7 +730,6 @@ class NotificationIconBubble extends StatelessWidget {
     );
   }
 }
-
 
 class NavBarIcons extends StatelessWidget {
   final String icon;
@@ -719,16 +741,17 @@ class NavBarIcons extends StatelessWidget {
   final double bottom;
   final double right;
 
-  const NavBarIcons(
-      {super.key,
-      required this.btnClick,
-      this.top = 1,
-      this.height = 1,
-      this.title = "",
-      this.bottom = 1,
-      this.right = 1,
-      this.iconSize = 39.0,
-      required this.icon});
+  const NavBarIcons({
+    super.key,
+    required this.btnClick,
+    this.top = 1,
+    this.height = 1,
+    this.title = '',
+    this.bottom = 1,
+    this.right = 1,
+    this.iconSize = 39.0,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -741,16 +764,16 @@ class NavBarIcons extends StatelessWidget {
             SvgPicture.asset(
               icon,
               width: iconSize,
-              fit: BoxFit.contain,
             ),
             heightBox(height.h),
             Text(
               title,
-              style: TextStyle(
-                  fontSize: 13.0,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'PNfont',
-                  color: Color(0xff999B9D)),
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'PNfont',
+                color: Color(0xff999B9D),
+              ),
             ),
           ],
         ),
